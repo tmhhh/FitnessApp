@@ -1,0 +1,23 @@
+.card {
+  border-radius: 10px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 20px;
+  &_image {
+    height: 100%;
+  }
+  &_body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  &_name {
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+  }
+  &_price {
+    font-style: italic;
+    color: #fff;
+  }
+}

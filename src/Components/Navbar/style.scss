@@ -1,0 +1,38 @@
+$white_smoke: rgba(238, 238, 238, 0.638);
+.nav_bar {
+  background-color: #000000;
+  color: #eee;
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  &_link {
+    margin-right: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &_item {
+    padding: 8px 16px;
+    &:nth-child(3) {
+      border-right: 2px solid $white_smoke !important;
+    }
+  }
+  &_item a {
+    // line-height: 16px;
+    text-decoration: none;
+    color: $white_smoke !important;
+    font-size: 16px;
+    font-weight: 700;
+    &:hover {
+      color: white !important;
+    }
+  }
+  &_logo {
+    margin-left: 48px;
+  }
+}

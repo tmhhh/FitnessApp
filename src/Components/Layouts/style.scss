@@ -1,0 +1,45 @@
+.banner {
+  height: calc(100vh - 60px);
+
+  //   height: calc(100% - 60px);
+  //   height: calc(736.67px - 60px);
+  position: relative;
+  top: 60px;
+  margin-bottom: 100px;
+  width: 100%;
+  &_image {
+    width: 100%;
+    height: 100%;
+    // filter: grayscale(100%);
+    filter: brightness(30%);
+    object-fit: cover;
+  }
+  &_title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font: 100;
+    transform: translate(-50%);
+  }
+  &_main_title {
+    font-size: 40px;
+    font-weight: 900;
+    color: #ffffff;
+    text-align: center;
+  }
+  &_sub_title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 300;
+    color: #ffffff;
+  }
+}
+.shop_section {
+  &_title {
+    text-align: center;
+    color: #101010;
+    font-size: 56px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+}

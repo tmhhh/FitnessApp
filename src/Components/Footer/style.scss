@@ -1,0 +1,26 @@
+.footer {
+  height: 300px;
+  width: 100%;
+  background-color: black;
+  //   background-image: url("https://i.pinimg.com/originals/fc/98/0b/fc980b6ec648175e3c8ac9e9f1ed57f2.jpg");
+  display: flex;
+  justify-content: space-around;
+  color: #fff;
+  align-items: center;
+  &_info {
+    display: flex;
+    flex-direction: column;
+    font-size: 28px;
+    font-weight: 900;
+    &_details {
+      //  line-height: 28px;
+      display: flex;
+      align-items: center;
+    }
+    &_details span {
+      margin: 5px 5px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+  }
+}
