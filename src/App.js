@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./Components/Layouts/Home";
+import HomePage from "./Components/Pages/HomePage";
+import TrainingPage from "./Components/Pages/TrainingPage";
+import NutritionPage from "./Components/Pages/NutritionPage";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 
@@ -9,7 +11,9 @@ export default function App() {
     <>
       <Router>
         <Switch>
-          <Route path="/" component={Home} />
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/training" component={TrainingPage} />
+          <Route exact path="/nutrition" component={NutritionPage} />
         </Switch>
       </Router>
     </>

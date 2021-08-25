@@ -5,7 +5,7 @@
   //   height: calc(736.67px - 60px);
   position: relative;
   top: 60px;
-  margin-bottom: 100px;
+  margin-bottom: 60px;
   width: 100%;
   &_image {
     width: 100%;
@@ -32,14 +32,5 @@
     font-size: 20px;
     font-weight: 300;
     color: #ffffff;
-  }
-}
-.shop_section {
-  &_title {
-    text-align: center;
-    color: #101010;
-    font-size: 56px;
-    font-weight: 900;
-    margin-bottom: 20px;
   }
 }

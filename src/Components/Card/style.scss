@@ -2,9 +2,14 @@
   border-radius: 10px;
   cursor: pointer;
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    filter: brightness(30%);
+  }
   &_image {
     height: 100%;
+    filter: brightness(80%);
   }
   &_body {
     position: absolute;
@@ -19,5 +24,20 @@
   &_price {
     font-style: italic;
     color: #fff;
+  }
+  &_tag {
+    z-index: 10;
+    padding: 5px 2px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    width: 80px;
+    // height: 17px !important;
+    // line-height: 17px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: black;
   }
 }

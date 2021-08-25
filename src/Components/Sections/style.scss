@@ -1,0 +1,44 @@
+@mixin style_section_title {
+  text-align: center;
+  color: #101010;
+  font-size: 56px;
+  font-weight: 900;
+  margin-bottom: 40px;
+}
+
+.introduce_section {
+  padding-top: 40px;
+  background-color: black;
+  color: #fff;
+  width: 100%;
+  &_title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+  &_image {
+    text-align: center;
+  }
+  &_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.row {
+  margin-bottom: 40px;
+}
+.shop_section {
+  margin-bottom: 20px;
+  &_title {
+    @include style_section_title();
+  }
+}
+
+.program_section {
+  // height: 400px;
+  &_title {
+    @include style_section_title();
+  }
+}

@@ -2,7 +2,7 @@ import React from "react";
 import "./style.scss";
 export default function Footer() {
   return (
-    <footer className="footer">
+    <footer className="footer container-fluid">
       <div className="footer_info">
         <div className="footer_info_title">Company</div>
         <div className="footer_info_details">
@@ -34,7 +34,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer_info">
-        <div className="footer_info_title"></div>
+        <div className="footer_info_title">Address</div>
         <div className="footer_info_details">
           <ion-icon name="navigate-outline"></ion-icon>
           <span>1 Vo Van Ngan, tp Thu Duc</span>

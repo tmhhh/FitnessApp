@@ -1,17 +1,29 @@
 .footer {
+  position: relative;
   height: 300px;
   width: 100%;
-  background-color: black;
-  //   background-image: url("https://i.pinimg.com/originals/fc/98/0b/fc980b6ec648175e3c8ac9e9f1ed57f2.jpg");
+  position: relative;
+
+  background-image: url("https://dfd5gcc6b7vw5.cloudfront.net/assets/thenx-footer-24e7f3e5fe00928e95944891a14955366b4f613552ef83a87a0703bb8fe0464a.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  overflow: hidden;
   display: flex;
   justify-content: space-around;
   color: #fff;
-  align-items: center;
+
+  align-items: flex-start;
+  margin-top: 40px;
   &_info {
+    margin-top: 40px;
     display: flex;
     flex-direction: column;
     font-size: 28px;
     font-weight: 900;
+    color: #fff;
+    position: relative;
     &_details {
       //  line-height: 28px;
       display: flex;
@@ -22,5 +34,14 @@
       font-size: 17px;
       font-weight: 600;
     }
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 7, 0.65);
   }
 }
