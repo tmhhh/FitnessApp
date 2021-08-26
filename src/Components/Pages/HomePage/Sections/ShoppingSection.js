@@ -1,8 +1,10 @@
 import React from "react";
 import "./style.scss";
 import { Col, Row, Button } from "react-bootstrap";
-import ShoppingCard from "../Card/ShoppingCard";
+import ShoppingCard from "../../../Card/ShoppingCard";
+import { useHistory } from "react-router";
 export default function ShoppingSection() {
+  const history = useHistory();
   return (
     <>
       <div className="shop_section container">
@@ -19,6 +21,7 @@ export default function ShoppingSection() {
           </Col>
         </Row>
         <Button
+          onClick={() => history.push("/shopping")}
           style={{
             fontSize: "18.88px",
             padding: "12px 48px",

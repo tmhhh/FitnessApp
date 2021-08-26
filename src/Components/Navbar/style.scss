@@ -1,15 +1,19 @@
-$white_smoke: rgba(238, 238, 238, 0.638);
+@import "../../assets/constants.scss";
+
 .nav_bar {
   background-color: #000000;
   color: #eee;
   padding: 10px 0;
   position: fixed;
   top: 0;
+
   left: 0;
   z-index: 10;
   width: 100%;
   display: flex;
+
   justify-content: space-between;
+
   &_link {
     margin-right: 48px;
     display: flex;

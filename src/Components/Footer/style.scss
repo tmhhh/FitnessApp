@@ -1,3 +1,4 @@
+@import "../../assets/constants.scss";
 .footer {
   position: relative;
   height: 300px;
@@ -16,6 +17,7 @@
 
   align-items: flex-start;
   margin-top: 40px;
+
   &_info {
     margin-top: 40px;
     display: flex;

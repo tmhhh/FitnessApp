@@ -1,0 +1,41 @@
+@import "../../assets/constants.scss";
+
+.side_bar {
+  display: flex;
+  flex-direction: column;
+
+  height: 500px;
+  border-radius: 5px;
+}
+.product_type {
+  margin: 20px 0;
+  &_title {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 15px;
+    border-top: 1px solid black;
+    & i {
+      cursor: pointer;
+    }
+  }
+  & p {
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+}
+.other_products {
+  &_title {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 15px;
+    border-top: 1px solid black;
+  }
+  &_item {
+    cursor: pointer;
+    margin-bottom: 10px;
+    font-size: 18px;
+  }
+}

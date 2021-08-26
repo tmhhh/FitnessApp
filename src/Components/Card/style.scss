@@ -25,6 +25,37 @@
     font-style: italic;
     color: #fff;
   }
+}
+
+.exercise_card {
+  height: 200px;
+  border-radius: 15px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 40px;
+  transition: all 0.25s ease-in-out;
+  &:hover {
+    filter: brightness(30%);
+  }
+  &_image {
+    height: 100%;
+    filter: brightness(80%);
+    object-fit: cover;
+  }
+  &_body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+  &_name {
+    color: #fff;
+    font-weight: 900;
+    font-size: 20px;
+  }
+  &_like {
+    font-style: italic;
+    color: #fff;
+  }
   &_tag {
     z-index: 10;
     padding: 5px 2px;

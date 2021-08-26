@@ -1,0 +1,68 @@
+$default_margin: 40px;
+@mixin style_section_title {
+  text-align: center;
+  color: #101010;
+  font-size: 32px;
+  font-weight: 900;
+  margin: $default_margin 0;
+  line-height: 35px;
+}
+@mixin style_section_title_underline {
+  content: "";
+  background-color: black;
+  height: 2px;
+  width: 50%;
+  display: block;
+  margin: 0 auto;
+}
+.introduce_section {
+  padding: 40px 0;
+  background-color: black;
+  color: #fff;
+  width: 100%;
+  &_title {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+    margin-bottom: 20px;
+    &::before {
+      @include style_section_title_underline();
+    }
+  }
+  &_image {
+    text-align: center;
+  }
+  &_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.shop_section {
+  &_title {
+    @include style_section_title();
+    &::before {
+      @include style_section_title_underline();
+    }
+  }
+}
+
+.program_section {
+  // height: 400px;
+  &_title {
+    @include style_section_title();
+    &::before {
+      @include style_section_title_underline();
+    }
+  }
+}
+
+.technique_section {
+  &_title {
+    @include style_section_title();
+    &::before {
+      @include style_section_title_underline();
+    }
+  }
+}
