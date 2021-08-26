@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useState, useRef, useContext } from "react";
 import "./style.scss";
+import { NutritionContext } from "../../Contexts/NutritionContext";
 export default function SearchBar() {
-  const handleOnChange = () => {};
+  const { nutriSearching } = useContext(NutritionContext);
+  const [input, setInput] = useState("");
+  const timerRef = useRef(null);
+  const handleOnChange = (e) => {
+    setInput(e.target.value);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      nutriSearching(e.target.value);
+    }, 500);
+  };
   return (
     <div className="search_bar_container">
       <input
+        value={input}
         onChange={handleOnChange}
         className="search_bar"
         type="text"

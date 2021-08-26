@@ -1,0 +1,42 @@
+GET https://wger.de/api/v2/exerciseimage/345/thumbnails/
+content-type: application/json
+Authorization:"Token 87f642d980b8935f1b65fe9e8ba102424c025bc8"
+Accept:application/json
+
+###
+GET https://wger.de/api/v2/exerciseinfo/345
+Authorization:"Token 87f642d980b8935f1b65fe9e8ba102424c025bc8"
+Accept:application/json
+Accept:text/html
+
+###
+GET  https://wger.de/api/v2/exerciseimage/?is_main=True
+Authorization:"Token 87f642d980b8935f1b65fe9e8ba102424c025bc8"
+Accept:application/json
+Accept:text/html
+
+###
+GET https://wger.de/api/v2/workout/110/canonical_representation
+Authorization:"Token 87f642d980b8935f1b65fe9e8ba102424c025bc8"
+Accept:application/json
+
+
+
+###
+POST https://api.nutritionix.com/v1_1/search
+# Authorization: "Bearer abasdoapd"
+Content-Type: application/json
+
+{
+  "appId":"3c2bab19",
+  "appKey":"f3d22d4a367731bcde59e1f915b4804f",
+  "query":"Chicken breast",  
+  "fields": [
+     "images_front_full_url",
+    "item_name",
+     "brand_name",
+     "nf_calories",
+     "nf_sodium",
+     "item_type"
+   ]
+}   
