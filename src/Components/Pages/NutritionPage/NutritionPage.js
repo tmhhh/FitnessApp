@@ -1,20 +1,15 @@
 import React, { useContext } from "react";
-import Navbar from "../../Navbar/Navbar";
+import { Col, Row, Spinner } from "react-bootstrap";
+import { NutritionContext } from "../../../Contexts/NutritionContext";
 import Footer from "../../Footer/Footer";
+import Navbar from "../../Navbar/Navbar";
 import SearchBar from "../../SearchBar/SearchBar";
-
 import "./style.scss";
-import { Spinner } from "react-bootstrap";
-import NutritionContextProvider, {
-  NutritionContext,
-} from "../../../Contexts/NutritionContext";
-import { Row, Col } from "react-bootstrap";
-import { IndexedSourceMapConsumer } from "webpack-sources/node_modules/source-map";
+
 export default function NutritionPage() {
   const { nutriState } = useContext(NutritionContext);
   return (
     <>
-      {/* <NutritionContextProvider> */}
       <Navbar />
       <div className="nutrition_section">
         <SearchBar />

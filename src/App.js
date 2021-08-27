@@ -17,9 +17,9 @@ export default function App() {
         <Switch>
           <NutritionContextProvider>
             <Route exact path="/" component={HomePage} />
-            {/* <Route exact path="/training" component={TrainingPage} /> */}
+            <Route exact path="/training" component={TrainingPage} />
             <Route exact path="/nutrition" component={NutritionPage} />
-            {/* <Route exact path="/programs" component={ProgramPage} /> */}
+            <Route exact path="/programs" component={ProgramPage} />
             <Route exact path="/shop" component={ShoppingPage} />
           </NutritionContextProvider>
         </Switch>
