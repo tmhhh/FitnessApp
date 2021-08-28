@@ -7,10 +7,13 @@ export default function SearchBar() {
   const timerRef = useRef(null);
   const handleOnChange = (e) => {
     setInput(e.target.value);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      nutriSearching(e.target.value);
-    }, 500);
+    if (e.target.value.trim(" ") !== "") {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        console.log("send");
+        nutriSearching(e.target.value);
+      }, 500);
+    }
   };
   return (
     <div className="search_bar_container">

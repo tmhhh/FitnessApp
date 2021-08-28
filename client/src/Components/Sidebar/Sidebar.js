@@ -6,7 +6,7 @@ export default function Sidebar() {
       <div className="product_type">
         <h3 className="product_type_title">
           FILTER
-          <i class="fas fa-chevron-down"></i>
+          <i className="fas fa-chevron-down"></i>
         </h3>
         <p>Protein</p>
         <p>PreWorkout</p>
@@ -16,7 +16,7 @@ export default function Sidebar() {
       </div>
       <div className="other_products">
         <h3 className="other_products_title">
-          CATEGORY<i class="fas fa-list"></i>
+          CATEGORY<i className="fas fa-list"></i>
         </h3>
         <p className="other_products_item">Supplements</p>
         <p className="other_products_item">Clothes</p>

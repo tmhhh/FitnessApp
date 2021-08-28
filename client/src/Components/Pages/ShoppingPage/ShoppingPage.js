@@ -49,6 +49,8 @@ export default function ShoppingPage() {
                     }}
                   />
                 </Col>
+              </Row>
+              <Row>
                 <Col lg={4}>
                   <Product
                     info={{
@@ -80,18 +82,24 @@ export default function ShoppingPage() {
             </div>
           </Col>
         </Row>
+        <Pagination
+          style={{
+            position: "relative",
+            top: "20px",
+            left: "50%",
+            width: "200px",
+          }}
+        >
+          <Pagination.Prev />
+          <Pagination.Item active>{1} </Pagination.Item>
+          <Pagination.Item>{2}</Pagination.Item>
+
+          <Pagination.Item disabled>{3}</Pagination.Item>
+
+          <Pagination.Next />
+        </Pagination>
       </div>
-      <Pagination
-        style={{ position: "relative", left: "50%", marginTop: "60px" }}
-      >
-        <Pagination.Prev />
-        <Pagination.Item active>{1} </Pagination.Item>
-        <Pagination.Item>{2}</Pagination.Item>
 
-        <Pagination.Item disabled>{3}</Pagination.Item>
-
-        <Pagination.Next />
-      </Pagination>
       <Footer />
     </>
   );

@@ -8,7 +8,7 @@ export const NUTRI_API_URL =
 export const NUTRI_API_CONFIG = (params) => {
   return {
     method: "GET",
-    url: "https://edamam-food-and-grocery-database.p.rapidapi.com/parserb",
+    url: "https://edamam-food-and-grocery-database.p.rapidapi.com/parser",
     params: { ingr: params.toString() },
     headers: {
       "x-rapidapi-host": "edamam-food-and-grocery-database.p.rapidapi.com",

@@ -21,7 +21,7 @@ export default function NutritionContextProvider({ children }) {
         payload: { isLoading: false, listFoods: res.data.hints },
       });
     } catch (error) {
-      console.log(error);
+      console.log({ error });
       dispatch({ type: "SET_NUTRI_FAIL", payload: {} });
     }
   };

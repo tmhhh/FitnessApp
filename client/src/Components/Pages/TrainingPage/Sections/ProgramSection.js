@@ -1,5 +1,5 @@
 import React from "react";
-import ExerciseCard from "../Card/ExerciseCard";
+import ExerciseCard from "../../../Card/ExerciseCard";
 import { Button } from "react-bootstrap";
 import { Col, Row } from "react-bootstrap";
 

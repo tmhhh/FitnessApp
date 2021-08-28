@@ -1,8 +1,10 @@
-.card {
+.shopping_card {
   border-radius: 10px;
   cursor: pointer;
   position: relative;
   margin-bottom: 40px;
+  // width: 33.33%;
+  height: 400px;
   transition: all 0.25s ease-in-out;
   &:hover {
     filter: brightness(30%);
@@ -25,50 +27,87 @@
     font-style: italic;
     color: #fff;
   }
-}
-
-.exercise_card {
-  height: 200px;
-  border-radius: 15px;
-  cursor: pointer;
-  position: relative;
-  margin-bottom: 40px;
-  transition: all 0.25s ease-in-out;
-  &:hover {
-    filter: brightness(30%);
-  }
-  &_image {
-    height: 100%;
-    filter: brightness(80%);
-    object-fit: cover;
-  }
-  &_body {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
-  &_name {
-    color: #fff;
-    font-weight: 900;
-    font-size: 20px;
-  }
-  &_like {
-    font-style: italic;
-    color: #fff;
-  }
   &_tag {
     z-index: 10;
-    padding: 5px 2px;
+    padding: 10px 2px;
     color: #fff;
     font-size: 12px;
     font-weight: 700;
     text-align: center;
-    width: 80px;
+    width: 100px;
     // height: 17px !important;
     // line-height: 17px;
     position: absolute;
     top: 10px;
     left: 10px;
     background-color: black;
+  }
+}
+
+.exercise_card {
+  //S1
+  // height: 1px;
+  // min-height: 293px;
+
+  //S2
+  display: flex;
+  flex-direction: column;
+  max-width: 293px;
+  // height: 1px;
+  min-height: 293px;
+
+  border-radius: 10px;
+
+  position: relative;
+  margin-bottom: 40px;
+  overflow: hidden;
+  margin-right: 10px;
+  &:hover {
+    & .exercise_card_image {
+      filter: brightness(30%);
+    }
+    & .exercise_card_body {
+      right: 50%;
+      bottom: 50%;
+      transform: translate(50%, 50%);
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  &_image {
+    // height: 100%;
+    // width: 100%;
+    flex: 1;
+    filter: brightness(70%);
+    object-fit: cover;
+    transition: all 0.25s linear;
+  }
+
+  &_body {
+    position: absolute;
+    padding: 0 !important;
+    right: 0;
+    bottom: 0;
+
+    // display: none;
+    visibility: hidden;
+    opacity: 0;
+    text-align: center;
+    width: 100%;
+    color: #fff;
+
+    font-weight: 700;
+    font-size: 15px !important;
+    transition: all 0.5s linear;
+  }
+
+  &_icon {
+    cursor: pointer;
+
+    font-size: 20px;
+  }
+  &_name {
+    margin-bottom: 10px;
   }
 }

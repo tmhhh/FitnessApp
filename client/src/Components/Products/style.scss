@@ -1,29 +1,75 @@
 @import "../../assets/constants.scss";
 
 .product {
-  transition: all 0.5 ease;
+  transition: all 0.5 linear;
   cursor: pointer;
-  // height: 155px !important;
-  height: 155px !important;
-  border: none !important;
+  border-radius: 20px;
+
   text-align: center;
+  height: 300px;
   min-height: 250px;
+  width: 100%;
   margin: 60px 0;
-  &:hover {
-    filter: brightness(30%);
-  }
+
+  padding: 20px 20px;
+  background-color: #fbfbfd;
+  // box-shadow: 0 10px #485461;
+  // &:hover {
+  //   // filter: brightness(30%);
+  // }
   &_image {
-    // border-bottom: 1px solid black;
     object-fit: contain;
     height: 100%;
+    // width: 100%;
   }
   &_name {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 300;
+    color: black;
   }
   &_price {
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 800;
-    color: $blue_primary;
+    color: orange;
   }
+
+  // &_icon_container {
+  //   width: 100%;
+  //   display: flex;
+  //   justify-content: center;
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   & i {
+  //     margin: 10px 10px;
+  //     font-size: 20px;
+  //     color: paleturquoise;
+  //   }
+  // }
 }
+// .product {
+//   transition: all 0.5 ease;
+//   cursor: pointer;
+//   height: 155px !important;
+//   border: none !important;
+//   text-align: center;
+//   min-height: 250px;
+//   margin: 60px 0;
+//   &:hover {
+//     filter: brightness(30%);
+//   }
+//   &_image {
+//     // border-bottom: 1px solid black;
+//     object-fit: contain;
+//     height: 100%;
+//   }
+//   &_name {
+//     font-size: 20px;
+//     font-weight: 700;
+//   }
+//   &_price {
+//     font-size: 20px;
+//     font-weight: 800;
+//     color: $blue_primary;
+//   }
+// }
