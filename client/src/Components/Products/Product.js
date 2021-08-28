@@ -3,7 +3,7 @@ import "./style.scss";
 export default function Product({ info: { name, price, img } }) {
   return (
     <div className="product">
-      <img className="product_image" src={img} />
+      <img className="product_image" src={img} alt={name} />
       <div>
         <p className="product_name">{name}</p>
         <p className="product_price">{price}</p>

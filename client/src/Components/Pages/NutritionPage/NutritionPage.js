@@ -1,13 +1,11 @@
 import React, { Fragment, useContext } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { NutritionContext } from "../../../Contexts/NutritionContext";
-
-import Footer from "../../Footer/Footer";
+import NutritionLayout from "../../Layouts/NutritionLayout";
 import Navbar from "../../Navbar/Navbar";
 import SearchBar from "../../SearchBar/SearchBar";
 import "./style.scss";
 
-import NutritionLayout from "../../Layouts/NutritionLayout";
 export default function NutritionPage() {
   const { nutriState } = useContext(NutritionContext);
   return (
