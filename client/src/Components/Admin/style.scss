@@ -1,0 +1,41 @@
+.admin-sidebar {
+  position: fixed;
+  width: 250px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  min-height: 100vh !important;
+  box-shadow: 5px 0 15px rgba(145, 145, 145, 0.589);
+  background-color: white;
+
+  .list-group-item {
+    border: none;
+    border-radius: 5px;
+    transition: all 0.4s;
+    margin-top: 20px;
+  }
+  .sidebar-active {
+    color: white;
+    font-weight: bold;
+    background-color: black;
+    box-shadow: 0 5px 15px rgb(51, 51, 51);
+  }
+}
+
+.admin-container {
+  .admin-content {
+    .admin-content-title {
+      width: fit-content;
+      padding: 15px;
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 5px 20px rgb(163, 163, 163);
+    }
+  }
+}
+.myButton {
+  transition: all 0.4s;
+  &:hover {
+    box-shadow: 0 5px 10px rgb(51, 51, 51);
+  }
+}
