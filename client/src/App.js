@@ -10,12 +10,15 @@ import "./App.scss";
 
 import NutritionContextProvider from "./Contexts/NutritionContext";
 import AuthPage from "./Components/Pages/AuthPage/AuthPage";
+import ProductDetailPage from "./Components/Pages/ProductDetailPage/ProductDetailPage";
 export default function App() {
   return (
     <>
       <Router>
         <Switch>
           <NutritionContextProvider>
+            <Route exact path="/productDetail" component={ProductDetailPage} />
+
             <Route exact path="/" component={HomePage} />
             <Route
               expact

@@ -1,0 +1,11 @@
+###
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+Authorization: Bearer eaasdada
+
+{
+
+    "user":"tmh"
+}
+
+###

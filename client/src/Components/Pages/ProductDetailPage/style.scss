@@ -1,0 +1,110 @@
+$marginBottom: 35px;
+@import "../../../assets/constants.scss";
+.product_info {
+  &_container {
+    margin: 60px 0 $marginBottom 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    display: flex;
+    // background-color: #e9e7e5;
+
+    justify-content: space-around;
+  }
+  &_image {
+    width: calc(100% / 5);
+    height: 50%;
+    align-self: center;
+    transform: translateY(-25%);
+    & img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+  &_details {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: calc(100% / 3);
+
+    // background-color: #e9e7e5;
+    border-radius: 5px;
+  }
+  &_type {
+    font-size: 15px;
+    font-weight: 300;
+    color: #999;
+    margin-bottom: $marginBottom;
+    text-align: left;
+  }
+  &_name {
+    font-size: 25px;
+    font-weight: 700;
+    color: black;
+    margin-bottom: $marginBottom;
+    text-align: left;
+  }
+  &_price {
+    font-size: 25px;
+    font-weight: 700;
+    color: $primary_blue;
+    margin-bottom: $marginBottom;
+  }
+  &_des {
+    font-size: 17px;
+    font-weight: 300;
+    color: #999;
+    margin-bottom: $marginBottom;
+  }
+  &_action {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    & i {
+      font-size: 25px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+    & button {
+      flex-grow: 1;
+      cursor: pointer;
+    }
+  }
+}
+
+.product_related {
+  // background-color: #e9e7e5;
+  width: 33.33%;
+  height: calc(100%-60px);
+  &_title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  &_info {
+    width: calc(100% - 20px);
+    margin: $marginBottom 0 $marginBottom 20px;
+    display: flex;
+    border-bottom: 5px solid $white_smoke;
+
+    &_image {
+      width: 20%;
+      // flex-shrink: 0;
+      & img {
+        width: 100%;
+      }
+    }
+    &_details {
+      flex-grow: 1;
+    }
+    &_price {
+      font-weight: 700;
+      color: $primary_blue;
+    }
+    &_name {
+      font-weight: 700;
+      font-size: 15px;
+    }
+  }
+}
