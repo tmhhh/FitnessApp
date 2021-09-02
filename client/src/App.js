@@ -11,6 +11,7 @@ import "./App.scss";
 import NutritionContextProvider from "./Contexts/NutritionContext";
 import AuthPage from "./Components/Pages/AuthPage/AuthPage";
 import ProductDetailPage from "./Components/Pages/ProductDetailPage/ProductDetailPage";
+import CheckoutPage from "./Components/Pages/CheckoutPage/CheckoutPage";
 export default function App() {
   return (
     <>
@@ -18,6 +19,7 @@ export default function App() {
         <Switch>
           <NutritionContextProvider>
             <Route exact path="/productDetail" component={ProductDetailPage} />
+            <Route exact path="/checkout" component={CheckoutPage} />
 
             <Route exact path="/" component={HomePage} />
             <Route
