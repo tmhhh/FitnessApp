@@ -1,27 +1,48 @@
 const userModel = require("../models/user.model");
 const argon2 = require("argon2");
-const { v4: uuidv4 } = require("uuid");
-
+const jwt = require("jsonwebtoken");
 module.exports = {
+  userVerify: async (req, res) => {
+    try {
+      const user = await userModel.findById(req.userID).select("-userPassword");
+      console.log(user);
+      return res.status(200).json({ isSuccess: true, user });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ isSuccess: false, error: err });
+    }
+  },
   userLogin: async (req, res) => {
     try {
-      const userName = req.body.userName.toString();
-      const checkUsername = await userModel.find({ userName }).exec();
-      if (checkUsername.length <= 0)
+      const userNameID = req.body.userNameID.toString();
+      const user = await userModel.find({ userNameID });
+      if (user.length <= 0)
         return res.status(403).json({
           isSuccess: false,
           error: "Username or password is not correct",
         });
       const verifiedPassword = await argon2.verify(
-        checkUsername[0].userPassword,
+        user[0].userPassword,
         req.body.userPassword
       );
       if (!verifiedPassword)
-        return res.status(400).json({
+        return res.status(403).json({
           isSuccess: false,
           error: "Username or password is not correct ",
         });
-      return res.status(200).json({ isSuccess: true, user: checkUsername[0] });
+      //GENERATE ACCESS TOKEN
+      const accessToken = jwt.sign(
+        {
+          userID: user[0]._id.toString(),
+        },
+        process.env.ACCESS_TOKEN_SECRET_KEY
+      );
+      console.log(accessToken);
+      user[0] = user[0].toObject();
+      delete user[0].userPassword;
+      return res
+        .status(200)
+        .json({ isSuccess: true, user: user[0], accessToken });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ isSuccess: false, error: err });
@@ -29,19 +50,21 @@ module.exports = {
   },
   userRegister: async (req, res) => {
     try {
-      const userName = req.body.userName.toString();
-      const checkUsername = await userModel.find({ userName }).exec();
-      if (checkUsername.length > 0)
+      const userNameID = req.body.userNameID.toString();
+      const user = await userModel.find({ userNameID });
+      if (user.length > 0)
         return res
-          .status(403)
-          .json({ isSuccess: false, error: "Username has already token" });
+          .status(400)
+          .json({ isSuccess: false, error: "Username has already taken" });
       const hashedPassword = await argon2.hash(req.body.userPassword);
-      const userInfo = {
-        userID: uuidv4(),
-        userName,
-        userPassword: hashedPassword,
-      };
-      const newUser = await userModel.create(userInfo);
+      const newUser = await userModel
+        .create({
+          userNameID,
+          userName: req.body.userName.toString(),
+          userImage: req.body.userImage,
+          userPassword: hashedPassword,
+        })
+        .select("-userPassword");
       return res.status(200).json({ isSuccess: true, user: newUser });
     } catch (err) {
       console.log(err);

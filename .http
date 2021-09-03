@@ -4,8 +4,30 @@ Content-Type: application/json
 Authorization: Bearer eaasdada
 
 {
-
-    "user":"tmh"
+ 
+    "userNameID":"tmh",
+    "userPassword":"1"
 }
 
 ###
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+    "userNameID":"tmh",
+    "userPassword":"1",
+    "userName":"Hoang",
+    "userImage":"abc"
+}
+###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
+###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc2NzV9.EH-_qxEbxiw-HynQR2yuod-U-gAquSArVYuelBM1KHg
+###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc0ODh9.3OFeTRj-Bc7rYqSm6bXZHEcDrvVA0yHfe8QnaOQlljE
+GET http://localhost:4000/api/auth/verify
+Content-Type: application/json
+# Authorization: Bearer aaeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
+
+{
+ 
+    "userNameID":"tmh",
+    "userPassword":"1"
+}
