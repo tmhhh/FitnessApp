@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useReducer } from "react";
 import { NUTRI_API_CONFIG } from "../assets/constants";
-import NutritionReducer from "../Components/Reducers/NutritionReducer";
+import NutritionReducer from "./reducers/NutritionReducer";
 export const NutritionContext = React.createContext();
 export default function NutritionContextProvider({ children }) {
   const [nutriState, dispatch] = useReducer(NutritionReducer, {

@@ -37,7 +37,6 @@ module.exports = {
         },
         process.env.ACCESS_TOKEN_SECRET_KEY
       );
-      console.log(accessToken);
       user[0] = user[0].toObject();
       delete user[0].userPassword;
       return res

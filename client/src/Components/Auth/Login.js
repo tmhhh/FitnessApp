@@ -2,21 +2,50 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { Link } from "react-router-dom";
+import axiosClient from "../../api/axiosClient";
 import AuthLayout from "../Layouts/AuthLayout";
 import "./style.scss";
-
+import { useDispatch, useSelector } from "react-redux";
+import { authApi } from "../../api/authApi";
+import authSlice from "../../redux/slices/authSlice";
+import { useHistory } from "react-router-dom";
 function Login() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const authSelector = useSelector((state) => state.authReducer.userInfo);
   const [input, setInput] = useState({
-    username: "",
-    password: "",
+    userNameID: "",
+    userPassword: "",
   }); //INPUT CHANGE
   const handleInputOnChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   //LOGIN
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
+    console.log(authSelector);
+
+    const userNameID = input.userNameID.trim(" ");
+    const userPassword = input.userPassword.trim(" ");
+
+    if (userNameID === "" || userPassword === "") return;
+
+    try {
+      console.log(userNameID, userPassword);
+      const res = await authApi.userLogin(userNameID, userPassword);
+      localStorage.setItem("USER_TOKEN", res.data.accessToken);
+      dispatch(
+        authSlice.actions.setAuth({
+          isLoading: false,
+          isAuthenticated: true,
+          userInfo: res.data.user,
+        })
+      );
+      history.push("/");
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <>
@@ -27,8 +56,8 @@ function Login() {
             <Form.Control
               onChange={handleInputOnChange}
               type="text"
-              name="username"
-              value={input.username}
+              name="userNameID"
+              value={input.userNameID}
               placeholder="Enter username"
             />
           </Form.Group>
@@ -38,8 +67,8 @@ function Login() {
             <Form.Control
               onChange={handleInputOnChange}
               type="password"
-              name="password"
-              value={input.password}
+              name="userPassword"
+              value={input.userPassword}
               placeholder="Password"
             />
           </Form.Group>
