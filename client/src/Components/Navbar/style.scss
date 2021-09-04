@@ -26,6 +26,10 @@
     &:nth-child(3) {
       border-right: 2px solid $white_smoke !important;
     }
+    &:last-of-type {
+      text-align: center;
+      width: 81px;
+    }
   }
   &_item a {
     // line-height: 16px;
