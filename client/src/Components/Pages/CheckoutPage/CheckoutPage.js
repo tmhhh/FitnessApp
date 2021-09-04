@@ -3,15 +3,17 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import "./style.scss";
-
+import imgSrc from "../../../assets/img/best_bcaa.png";
+import imgSrc2 from "../../../assets/img/best_aminos.png";
+import imgSrc3 from "../../../assets/img/best_creatine.png";
 export default function CheckoutPage() {
   return (
     <>
       <Navbar />
       <div className="main_container">
         <div className="checkout_container">
-          <Link to="/shopping" className="redirect_button">
-            <i class="fas fa-long-arrow-alt-left"></i>Back
+          <Link to="/shopping">
+            <i class="fas fa-long-arrow-alt-left"></i>
           </Link>
           <div className="dynamic_checkout">
             <p className="dynamic_checkout_title">Express Checkout</p>
@@ -40,8 +42,8 @@ export default function CheckoutPage() {
             <input type="checkbox" />
             <span>Keep me up to date on news and offers</span>
             <div className="shipping_label">Shipping Address</div>
-            <input type="text" placeholder="FirstName" />
-            <input type="text" placeholder="LastName" />
+            <input type="text" placeholder="FirstName" id="txtFirstname" />
+            <input type="text" placeholder="LastName" id="txtLastname" />
             <input type="text" placeholder="Address" />
             <input type="text" placeholder="City" />
             <input type="text" placeholder="Phone" />
@@ -52,30 +54,21 @@ export default function CheckoutPage() {
           <div className="added_products">
             <div className="added_product">
               <div className="added_product_image">
-                <img
-                  src="https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-bcaa-shredded-25serv-watermelon-ice-WEB_400x.jpg?v=1619791489"
-                  alt="name"
-                />
+                <img src={imgSrc} alt="name" />
               </div>
               <div className="added_product_name">BEST BCAA</div>
               <div className="added_product_price">$30</div>
             </div>
             <div className="added_product">
               <div className="added_product_image">
-                <img
-                  src="https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-bcaa-shredded-25serv-watermelon-ice-WEB_400x.jpg?v=1619791489"
-                  alt="name"
-                />
+                <img src={imgSrc2} alt="name" />
               </div>
               <div className="added_product_name">BEST BCAA</div>
               <div className="added_product_price">$30</div>
             </div>
             <div className="added_product">
               <div className="added_product_image">
-                <img
-                  src="https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-bcaa-shredded-25serv-watermelon-ice-WEB_400x.jpg?v=1619791489"
-                  alt="name"
-                />
+                <img src={imgSrc3} alt="name" />
               </div>
               <div className="added_product_name">BEST BCAA</div>
               <div className="added_product_price">$30</div>

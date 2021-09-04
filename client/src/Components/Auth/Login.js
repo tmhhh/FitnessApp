@@ -9,14 +9,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../../api/authApi";
 import authSlice from "../../redux/slices/authSlice";
 import { useHistory } from "react-router-dom";
-function Login() {
+function Login({ authForm: { isShown }, setAuthForm }) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const authSelector = useSelector((state) => state.authReducer.userInfo);
+  const authSelector = useSelector((state) => state.authReducer);
   const [input, setInput] = useState({
     userNameID: "",
     userPassword: "",
-  }); //INPUT CHANGE
+  });
+
+  //INPUT CHANGE
   const handleInputOnChange = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
@@ -49,43 +51,56 @@ function Login() {
   };
   return (
     <>
-      <AuthLayout>
-        <Form className="auth-form" onSubmit={handleOnSubmit}>
-          <Form.Group className="mb-3" controlId="formBasicUsername">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              onChange={handleInputOnChange}
-              type="text"
-              name="userNameID"
-              value={input.userNameID}
-              placeholder="Enter username"
-            />
-          </Form.Group>
+      {/* <AuthLayout> */}
+      <Form
+        className={isShown === true ? "auth_form form_active" : "auth_form"}
+        onSubmit={handleOnSubmit}
+      >
+        <Form.Group className="mb-3" controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            onChange={handleInputOnChange}
+            type="text"
+            name="userNameID"
+            value={input.userNameID}
+            placeholder="Enter username"
+          />
+        </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              onChange={handleInputOnChange}
-              type="password"
-              name="userPassword"
-              value={input.userPassword}
-              placeholder="Password"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Remember me" />
-          </Form.Group>
-          <div className="form-footer">
-            <Form.Text className="text-muted">
-              Don't have an account ? Register <Link to="/register">here </Link>{" "}
-              !!!
-            </Form.Text>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </div>
-        </Form>
-      </AuthLayout>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            onChange={handleInputOnChange}
+            type="password"
+            name="userPassword"
+            value={input.userPassword}
+            placeholder="Password"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check type="checkbox" label="Remember me" />
+        </Form.Group>
+        <div className="form_footer">
+          <Form.Text className="text-muted">
+            Don't have an account ? Register{" "}
+            <Link
+              onClick={() =>
+                setAuthForm({
+                  type: "register",
+                  isShown: true,
+                })
+              }
+            >
+              here{" "}
+            </Link>{" "}
+            !!!
+          </Form.Text>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </div>
+      </Form>
+      {/* </AuthLayout> */}
     </>
   );
 }

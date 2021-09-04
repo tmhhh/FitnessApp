@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+// createThunkAsync
 const authSlice = createSlice({
   name: "auth",
   initialState: {

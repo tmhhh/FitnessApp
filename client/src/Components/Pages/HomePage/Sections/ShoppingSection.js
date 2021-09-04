@@ -3,6 +3,7 @@ import "./style.scss";
 import { Col, Row, Button } from "react-bootstrap";
 import ShoppingCard from "../../../Card/ShoppingCard";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 export default function ShoppingSection() {
   const history = useHistory();
   return (
@@ -29,19 +30,40 @@ export default function ShoppingSection() {
             />
           </Col>
         </Row>
-        <Button
+        {/* <Button
           onClick={() => history.push("/shopping")}
           style={{
             fontSize: "18.88px",
             padding: "12px 48px",
             display: "block",
-            margin: "auto",
+            margin: "20px auto",
           }}
           variant="dark"
         >
           {" "}
           View All
-        </Button>
+        </Button> */}
+        <Link
+          style={{
+            display: "block",
+            textDecoration: "none",
+            width: "100px",
+            margin: "0 auto 30px auto",
+          }}
+          to="/shopping"
+        >
+          <i
+            style={{
+              fontSize: "18.88px",
+              padding: "15px 15px",
+              borderRadius: "50%",
+              backgroundColor: "black",
+              color: "white",
+            }}
+            className="fa fa-arrow-right"
+            aria-hidden="true"
+          ></i>
+        </Link>
       </div>
     </>
   );

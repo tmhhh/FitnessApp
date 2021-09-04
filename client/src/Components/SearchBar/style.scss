@@ -3,7 +3,7 @@
 .search_bar {
   &:focus {
     outline: none;
-    box-shadow: 3px 3px black;
+    box-shadow: 0px 0px 10px 0px black;
   }
   &_container {
     text-align: center;
@@ -30,5 +30,5 @@
 
   border-style: none;
   border-radius: 5px;
-  background: $white_smoke;
+  background: #ebeaef;
 }

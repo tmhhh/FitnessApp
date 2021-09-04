@@ -10,7 +10,7 @@ export default function Banner() {
       />
       <div className="banner_title">
         <p className="banner_main_title">The World Of Fitness</p>
-        <div className="banner_sub_title">Better Day By Dat</div>
+        <div className="banner_sub_title">Better Day By Day</div>
       </div>
     </div>
   );

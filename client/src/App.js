@@ -9,7 +9,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 
 import NutritionContextProvider from "./Contexts/NutritionContext";
-import AuthPage from "./Components/Pages/AuthPage/AuthPage";
 import ProductDetailPage from "./Components/Pages/ProductDetailPage/ProductDetailPage";
 import CheckoutPage from "./Components/Pages/CheckoutPage/CheckoutPage";
 export default function App() {
@@ -22,19 +21,10 @@ export default function App() {
             <Route exact path="/checkout" component={CheckoutPage} />
 
             <Route exact path="/" component={HomePage} />
-            <Route
-              expact
-              path="/register"
-              component={() => <AuthPage type="register" />}
-            />
-            <Route
-              expact
-              path="/login"
-              component={() => <AuthPage type="login" />}
-            />
+
             <Route exact path="/training" component={TrainingPage} />
             <Route exact path="/nutrition" component={NutritionPage} />
-            <Route exact path="/shop" component={ShoppingPage} />
+            <Route exact path="/shopping" component={ShoppingPage} />
           </NutritionContextProvider>
         </Switch>
       </Router>

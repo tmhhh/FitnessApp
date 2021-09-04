@@ -1,12 +1,18 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import Navbar from "../../Navbar/Navbar";
-import Product from "../../Products/Product";
+import ProductCard from "../../Card/ProductCard";
 
 import "./style.scss";
 import Sidebar from "../../Sidebar/Sidebar";
 import Footer from "../../Footer/Footer";
 import SearchBar from "../../SearchBar/SearchBar";
+import imgSrc from "../../../assets/img/best_bcaa.png";
+import imgSrc2 from "../../../assets/img/best_aminos.png";
+import imgSrc3 from "../../../assets/img/best_creatine.png";
+import imgSrc4 from "../../../assets/img/best_protein.png";
+import imgSrc5 from "../../../assets/img/iso_hd.png";
+import imgSrc6 from "../../../assets/img/vegan_protein.png";
 
 import { Pagination } from "react-bootstrap";
 export default function ShoppingPage() {
@@ -23,58 +29,64 @@ export default function ShoppingPage() {
               <SearchBar />
               <Row>
                 <Col lg={4}>
-                  <Product
+                  <ProductCard
                     info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-bcaa-shredded-25serv-watermelon-ice-WEB_400x.jpg?v=1619791489",
+                      img: imgSrc,
                       name: "BEST BCAA SHREDDED",
-                      price: "30$",
+                      price: "$30",
+                      type: "Supplement",
                     }}
                   />
                 </Col>
                 <Col lg={4}>
-                  <Product
+                  <ProductCard
                     info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/ISO-HD_5LBS_CNC---PSL-3000x3000-compressor_400x.jpg?v=1619802031",
-                      name: "ISO HD ",
-                      price: "50$",
+                      img: imgSrc2,
+                      name: "ISO HD",
+                      price: "$50",
+                      type: "Supplement",
                     }}
                   />
                 </Col>
                 <Col lg={4}>
-                  <Product
+                  <ProductCard
                     info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-protein-vanilla-swirl-72-serv-WEB_400x.jpg?v=1619801437",
+                      img: imgSrc3,
                       name: "BEST PROTEIN",
-                      price: "50$",
+                      price: "$50",
+                      type: "Supplement",
                     }}
                   />
                 </Col>
               </Row>
               <Row>
                 <Col lg={4}>
-                  <Product
+                  <ProductCard
                     info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/VEGAN-PROTEIN-25-Servs-Vanilla_3000x3000-COMPRESSED_400x.jpg?v=1619804132",
+                      img: imgSrc4,
                       name: "VEGAN PROTEIN",
-                      price: "42$",
+                      price: "$42",
+                      type: "Supplement",
                     }}
                   />
                 </Col>
                 <Col lg={4}>
-                  <Product
+                  <ProductCard
                     info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-aminos-fruit-punch-25serv_3000x3000-WEB_400x.jpg?v=1619799310",
+                      img: imgSrc5,
                       name: "BEST AMINO ACID",
-                      price: "27$",
+                      price: "$27",
+                      type: "Supplement",
                     }}
                   />
                 </Col>
                 <Col lg={4}>
-                  <Product
+                  <ProductCard
                     info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/BEST-CREATINE-50-Serv-Watermelon-Cooler-3000x3000-WEB_400x.jpg?v=1619792044",
+                      img: imgSrc6,
                       name: "BEST CREATINE",
-                      price: "29.99$",
+                      price: "$29.99",
+                      type: "Supplement",
                     }}
                   />
                 </Col>
@@ -88,6 +100,7 @@ export default function ShoppingPage() {
             top: "20px",
             left: "50%",
             width: "200px",
+            marginBottom: "50px",
           }}
         >
           <Pagination.Prev />
