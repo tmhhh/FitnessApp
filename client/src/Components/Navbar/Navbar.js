@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
-import { NavLink, useHistory, Link } from "react-router-dom";
-import "./style.scss";
+import { NavLink, useHistory } from "react-router-dom";
 import AuthForm from "../Auth/AuthForm";
+import "./style.scss";
 export default function Navbar() {
   const history = useHistory();
   const [authForm, setAuthForm] = useState({
@@ -37,9 +37,9 @@ export default function Navbar() {
             <NavLink to="/shopping">SHOP</NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
-            <Link onClick={handleShowAuthForm}>
+            <a href="#bca" onClick={handleShowAuthForm}>
               {authForm.isShown === false ? "LOGIN" : "X"}
-            </Link>
+            </a>
           </Nav.Item>
           <AuthForm authForm={authForm} setAuthForm={setAuthForm} />
         </div>

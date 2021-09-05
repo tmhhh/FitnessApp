@@ -7,7 +7,7 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(express.static("./public"));
 mongoose
   .connect(process.env.MONGO_DB_URI, {
     useNewUrlParser: true,

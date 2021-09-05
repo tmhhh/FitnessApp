@@ -1,21 +1,35 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-import Navbar from "../../Navbar/Navbar";
+import React, { useCallback, useEffect } from "react";
+import { Col, Pagination, Row, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import prodApi from "../../../api/prodApi";
+import prodSlice from "../../../redux/slices/prodSlice";
 import ProductCard from "../../Card/ProductCard";
-
-import "./style.scss";
-import Sidebar from "../../Sidebar/Sidebar";
 import Footer from "../../Footer/Footer";
+import Navbar from "../../Navbar/Navbar";
 import SearchBar from "../../SearchBar/SearchBar";
-import imgSrc from "../../../assets/img/best_bcaa.png";
-import imgSrc2 from "../../../assets/img/best_aminos.png";
-import imgSrc3 from "../../../assets/img/best_creatine.png";
-import imgSrc4 from "../../../assets/img/best_protein.png";
-import imgSrc5 from "../../../assets/img/iso_hd.png";
-import imgSrc6 from "../../../assets/img/vegan_protein.png";
+import Sidebar from "../../Sidebar/Sidebar";
+import "./style.scss";
 
-import { Pagination } from "react-bootstrap";
 export default function ShoppingPage() {
+  const prodSelector = useSelector((state) => state.prodReducer);
+  // { listProducts, isLoading }
+
+  const dispatch = useDispatch();
+  //GET PRODUCTS
+  const getProducts = useCallback(async () => {
+    try {
+      const res = await prodApi.getAllProducts();
+      console.log(res.data);
+      if (res.data.isSuccess)
+        return dispatch(prodSlice.actions.getProducts(res.data.listProducts));
+    } catch (err) {
+      console.log(err);
+      // return dispatch(prod)
+    }
+  }, [dispatch]);
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
   return (
     <>
       <Navbar />
@@ -25,71 +39,35 @@ export default function ShoppingPage() {
             <Sidebar />
           </Col>
           <Col lg={9}>
+            <SearchBar />
             <div className="product_container">
-              <SearchBar />
               <Row>
-                <Col lg={4}>
-                  <ProductCard
-                    info={{
-                      img: imgSrc,
-                      name: "BEST BCAA SHREDDED",
-                      price: "$30",
-                      type: "Supplement",
+                {prodSelector.isLoading ? (
+                  <Spinner
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      // transform: "translate(-50%,-50%)",
                     }}
+                    animation="border"
+                    variant="info"
                   />
-                </Col>
-                <Col lg={4}>
-                  <ProductCard
-                    info={{
-                      img: imgSrc2,
-                      name: "ISO HD",
-                      price: "$50",
-                      type: "Supplement",
-                    }}
-                  />
-                </Col>
-                <Col lg={4}>
-                  <ProductCard
-                    info={{
-                      img: imgSrc3,
-                      name: "BEST PROTEIN",
-                      price: "$50",
-                      type: "Supplement",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col lg={4}>
-                  <ProductCard
-                    info={{
-                      img: imgSrc4,
-                      name: "VEGAN PROTEIN",
-                      price: "$42",
-                      type: "Supplement",
-                    }}
-                  />
-                </Col>
-                <Col lg={4}>
-                  <ProductCard
-                    info={{
-                      img: imgSrc5,
-                      name: "BEST AMINO ACID",
-                      price: "$27",
-                      type: "Supplement",
-                    }}
-                  />
-                </Col>
-                <Col lg={4}>
-                  <ProductCard
-                    info={{
-                      img: imgSrc6,
-                      name: "BEST CREATINE",
-                      price: "$29.99",
-                      type: "Supplement",
-                    }}
-                  />
-                </Col>
+                ) : (
+                  prodSelector.listProducts.map((prod) => (
+                    <Col lg={4} key={prod._id}>
+                      <ProductCard
+                        // info={{
+                        //   img: prod.prodImage,
+                        //   name: prod.prodName,
+                        //   price: prod.prodPrice,
+                        //   type: prod.prodType,
+                        // }}
+                        {...prod}
+                      />
+                    </Col>
+                  ))
+                )}
               </Row>
             </div>
           </Col>

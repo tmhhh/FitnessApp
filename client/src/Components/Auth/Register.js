@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
-import AuthLayout from "../Layouts/AuthLayout";
 import "./style.scss";
 
 function Register({ setAuthForm, authForm: { isShown } }) {
@@ -62,7 +60,8 @@ function Register({ setAuthForm, authForm: { isShown } }) {
       <div className="form_footer">
         <Form.Text className="text-muted">
           Already have an account ? Login{" "}
-          <Link
+          <a
+            href="###"
             onClick={() =>
               setAuthForm({
                 type: "login",
@@ -71,7 +70,7 @@ function Register({ setAuthForm, authForm: { isShown } }) {
             }
           >
             here{" "}
-          </Link>
+          </a>
           !!!
         </Form.Text>
         <Button variant="primary" type="submit">

@@ -1,11 +1,11 @@
 import React from "react";
-import "./style.scss";
-import { Col, Row, Button } from "react-bootstrap";
-import ShoppingCard from "../../../Card/ShoppingCard";
-import { useHistory } from "react-router";
+import { Col, Row } from "react-bootstrap";
+// import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import ShoppingCard from "../../../Card/ShoppingCard";
+import "./style.scss";
 export default function ShoppingSection() {
-  const history = useHistory();
+  // const history = useHistory();
   return (
     <>
       <div className="shop_section container">

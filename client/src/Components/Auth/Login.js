@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
-import axiosClient from "../../api/axiosClient";
-import AuthLayout from "../Layouts/AuthLayout";
-import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../../api/authApi";
 import authSlice from "../../redux/slices/authSlice";
-import { useHistory } from "react-router-dom";
+import "./style.scss";
 function Login({ authForm: { isShown }, setAuthForm }) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const authSelector = useSelector((state) => state.authReducer);
   const [input, setInput] = useState({
@@ -44,7 +39,6 @@ function Login({ authForm: { isShown }, setAuthForm }) {
           userInfo: res.data.user,
         })
       );
-      history.push("/");
     } catch (err) {
       console.log(err);
     }
@@ -83,7 +77,8 @@ function Login({ authForm: { isShown }, setAuthForm }) {
         <div className="form_footer">
           <Form.Text className="text-muted">
             Don't have an account ? Register{" "}
-            <Link
+            <a
+              href="###"
               onClick={() =>
                 setAuthForm({
                   type: "register",
@@ -92,7 +87,7 @@ function Login({ authForm: { isShown }, setAuthForm }) {
               }
             >
               here{" "}
-            </Link>{" "}
+            </a>{" "}
             !!!
           </Form.Text>
           <Button variant="primary" type="submit">

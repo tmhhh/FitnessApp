@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import "./style.scss";
-import imgSrc from "../../../assets/img/best_bcaa.png";
-import imgSrc2 from "../../../assets/img/best_aminos.png";
-import imgSrc3 from "../../../assets/img/best_creatine.png";
 export default function CheckoutPage() {
+  const [cart, setCart] = useState([]);
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("USER_CART")));
+  }, []);
   return (
     <>
       <Navbar />
@@ -52,27 +53,17 @@ export default function CheckoutPage() {
         </div>
         <div className="shopping_cart_container">
           <div className="added_products">
-            <div className="added_product">
-              <div className="added_product_image">
-                <img src={imgSrc} alt="name" />
-              </div>
-              <div className="added_product_name">BEST BCAA</div>
-              <div className="added_product_price">$30</div>
-            </div>
-            <div className="added_product">
-              <div className="added_product_image">
-                <img src={imgSrc2} alt="name" />
-              </div>
-              <div className="added_product_name">BEST BCAA</div>
-              <div className="added_product_price">$30</div>
-            </div>
-            <div className="added_product">
-              <div className="added_product_image">
-                <img src={imgSrc3} alt="name" />
-              </div>
-              <div className="added_product_name">BEST BCAA</div>
-              <div className="added_product_price">$30</div>
-            </div>
+            {cart
+              ? cart.map((prod) => (
+                  <div key={prod._id} className="added_product">
+                    <div className="added_product_image">
+                      <img src={prod.prodImage} alt="name" />
+                    </div>
+                    <div className="added_product_name">{prod.prodName}</div>
+                    <div className="added_product_price">{prod.prodPrice}</div>
+                  </div>
+                ))
+              : null}
           </div>
           <div className="discount_container">
             <input type="text" placeholder="Discount Code" />
