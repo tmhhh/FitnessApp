@@ -1,14 +1,16 @@
 import React from "react";
 import { Image, Table, Button } from "react-bootstrap";
 
-const list = [
+export const list = [
   {
     id: 1,
-    image:
-      "https://clothing-app-server.herokuapp.com/images/product/denim-jacket.jpg",
-    name: "Whey",
-    weight: "2 lbs",
-    date: "moi",
+    name: "huyle",
+    price: 1,
+    quantity: 1,
+    category: "",
+    description: "Hello my friend",
+    thumbnailFile: "",
+    imagesFile: [],
   },
   {
     id: 2,
@@ -20,7 +22,7 @@ const list = [
   },
 ];
 
-export default function ListTable() {
+export default function ListTable({ updateModalShow }) {
   return (
     <>
       <Table striped bordered hover className="text-center align-middle">
@@ -34,7 +36,7 @@ export default function ListTable() {
         </thead>
         <tbody>
           {list.map((item) => (
-            <tr>
+            <tr key={item.id}>
               {Object.entries(item).map((field) =>
                 field[0] === "image" ? (
                   <td>
@@ -49,7 +51,12 @@ export default function ListTable() {
                 )
               )}
               <td>
-                <Button variant="warning" className="myButton">
+                <Button
+                  variant="warning"
+                  className="myButton"
+                  itemID={item.id}
+                  onClick={updateModalShow}
+                >
                   🛠
                 </Button>
                 <Button variant="danger" className="myButton ms-2">
