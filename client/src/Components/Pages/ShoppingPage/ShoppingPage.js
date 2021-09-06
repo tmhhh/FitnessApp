@@ -21,7 +21,12 @@ export default function ShoppingPage() {
       const res = await prodApi.getAllProducts();
       console.log(res.data);
       if (res.data.isSuccess)
-        return dispatch(prodSlice.actions.getProducts(res.data.listProducts));
+        return dispatch(
+          prodSlice.actions.getProducts({
+            prodLoading: false,
+            listProducts: res.data.listProducts,
+          })
+        );
     } catch (err) {
       console.log(err);
       // return dispatch(prod)
@@ -42,7 +47,7 @@ export default function ShoppingPage() {
             <SearchBar />
             <div className="product_container">
               <Row>
-                {prodSelector.isLoading ? (
+                {prodSelector.prodLoading ? (
                   <Spinner
                     style={{
                       position: "absolute",

@@ -34,7 +34,7 @@ function Login({ authForm: { isShown }, setAuthForm }) {
       localStorage.setItem("USER_TOKEN", res.data.accessToken);
       dispatch(
         authSlice.actions.setAuth({
-          isLoading: false,
+          authLoading: false,
           isAuthenticated: true,
           userInfo: res.data.user,
         })

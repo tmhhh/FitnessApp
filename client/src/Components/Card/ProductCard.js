@@ -1,29 +1,33 @@
 import React from "react";
 import "./style.scss";
 import { useHistory } from "react-router";
-
+import cartApi from "../../api/cartApi";
+import cartSlice from "../../redux/slices/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 export default function Product(props) {
+  const dispatch = useDispatch();
+
   const { prodName, prodType, prodPrice, prodImage } = props;
   const history = useHistory();
-  const checkProductExist = (id, cart) => {
-    return cart.findIndex(
-      (product) => product._id.toString() === id.toString()
-    );
-  };
+  // const checkProductExist = (id, cart) => {
+  //   return cart.findIndex(
+  //     (product) => product._id.toString() === id.toString()
+  //   );
+  // };
   const handleAddToCart = async () => {
-    let addedProduct = props;
-    let newCart = [];
-    let userOldCart = localStorage.getItem("USER_CART");
-    if (userOldCart) {
-      userOldCart = JSON.parse(userOldCart);
-      const index = checkProductExist(addedProduct._id, userOldCart);
-      console.log(index);
-      if (index >= 0) {
-        userOldCart[index].quan += 1;
-        newCart = userOldCart;
-      } else newCart = [addedProduct, ...userOldCart];
-    } else newCart.push(addedProduct);
-    localStorage.setItem("USER_CART", JSON.stringify(newCart));
+    try {
+      const { _id } = props;
+      const res = await cartApi.addToCart(_id);
+      if (res.data.isSuccess)
+        dispatch(
+          cartSlice.actions.setCart({
+            cartLoading: false,
+            userCart: res.data.userCart,
+          })
+        );
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="product_card">

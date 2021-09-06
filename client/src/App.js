@@ -16,16 +16,16 @@ export default function App() {
     <>
       <Router>
         <Switch>
-          <NutritionContextProvider>
+          <Route exact path="/" component={HomePage} />
+          {/* <NutritionContextProvider>
             <Route exact path="/productDetail" component={ProductDetailPage} />
             <Route exact path="/checkout" component={CheckoutPage} />
 
-            <Route exact path="/" component={HomePage} />
 
             <Route exact path="/training" component={TrainingPage} />
             <Route exact path="/nutrition" component={NutritionPage} />
             <Route exact path="/shopping" component={ShoppingPage} />
-          </NutritionContextProvider>
+          </NutritionContextProvider> */}
         </Switch>
       </Router>
     </>

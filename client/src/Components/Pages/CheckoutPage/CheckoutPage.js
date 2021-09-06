@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Navbar from "../../Navbar/Navbar";
 import "./style.scss";
+import { Spinner } from "react-bootstrap";
 export default function CheckoutPage() {
-  const [cart, setCart] = useState([]);
-  useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("USER_CART")));
-  }, []);
+  const { cartLoading, userCart } = useSelector((state) => state.cartReducer);
+  // useEffect(() => {
+  //   setCart(JSON.parse(localStorage.getItem("USER_CART")));
+  // }, []);
   return (
     <>
       <Navbar />
       <div className="main_container">
         <div className="checkout_container">
           <Link to="/shopping">
-            <i class="fas fa-long-arrow-alt-left"></i>
+            <i className="fas fa-long-arrow-alt-left"></i>
           </Link>
           <div className="dynamic_checkout">
             <p className="dynamic_checkout_title">Express Checkout</p>
@@ -53,17 +55,28 @@ export default function CheckoutPage() {
         </div>
         <div className="shopping_cart_container">
           <div className="added_products">
-            {cart
-              ? cart.map((prod) => (
-                  <div key={prod._id} className="added_product">
-                    <div className="added_product_image">
-                      <img src={prod.prodImage} alt="name" />
-                    </div>
-                    <div className="added_product_name">{prod.prodName}</div>
-                    <div className="added_product_price">{prod.prodPrice}</div>
+            {!cartLoading ? (
+              userCart.map((prod) => (
+                <div key={prod._id} className="added_product">
+                  <div className="added_product_image">
+                    <img src={prod.prodImage} alt="name" />
                   </div>
-                ))
-              : null}
+                  <div className="added_product_name">{prod.prodName}</div>
+                  <div className="added_product_price">{prod.prodPrice}</div>
+                </div>
+              ))
+            ) : (
+              <Spinner
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  // transform: "translate(-50%,-50%)",
+                }}
+                animation="border"
+                variant="info"
+              />
+            )}
           </div>
           <div className="discount_container">
             <input type="text" placeholder="Discount Code" />
