@@ -3,8 +3,23 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 const cors = require("cors");
 const mongoose = require("mongoose");
+const expressSession = require("express-session");
 require("dotenv").config();
-app.use(cors());
+
+app.use(
+  expressSession({
+    secret: process.env.SESSION_SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 2000000, httpOnly: true },
+  })
+);
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));

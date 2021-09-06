@@ -31,3 +31,12 @@ Content-Type: application/json
     "userNameID":"tmh",
     "userPassword":"1"
 }
+
+
+###
+DELETE http://localhost:4000/api/products
+Content-Type: application/json
+
+{
+    "id":234
+}
