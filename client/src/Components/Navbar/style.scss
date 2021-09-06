@@ -19,11 +19,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    position: relative;
   }
   &_item {
     padding: 8px 16px;
     &:nth-child(3) {
       border-right: 2px solid $white_smoke !important;
+    }
+    &:last-of-type {
+      text-align: center;
+      width: 81px;
     }
   }
   &_item a {

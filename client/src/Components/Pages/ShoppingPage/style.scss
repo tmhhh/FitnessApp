@@ -1,9 +1,11 @@
 .product_container {
+  position: relative;
+  min-height: calc(100vh - 60px);
   width: 100%;
 }
 .shopping_page_container {
   // width: 100%;
   min-height: 100vh;
   margin-top: 60px;
-  background-color: #fff !important;
+  // background-color: #ebeaef;
 }

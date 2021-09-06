@@ -1,15 +1,35 @@
-import React from "react";
-import { Row, Col } from "react-bootstrap";
-import Navbar from "../../Navbar/Navbar";
-import Product from "../../Products/Product";
-
-import "./style.scss";
-import Sidebar from "../../Sidebar/Sidebar";
+import React, { useCallback, useEffect } from "react";
+import { Col, Pagination, Row, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import prodApi from "../../../api/prodApi";
+import prodSlice from "../../../redux/slices/prodSlice";
+import ProductCard from "../../Card/ProductCard";
 import Footer from "../../Footer/Footer";
+import Navbar from "../../Navbar/Navbar";
 import SearchBar from "../../SearchBar/SearchBar";
+import Sidebar from "../../Sidebar/Sidebar";
+import "./style.scss";
 
-import { Pagination } from "react-bootstrap";
 export default function ShoppingPage() {
+  const prodSelector = useSelector((state) => state.prodReducer);
+  // { listProducts, isLoading }
+
+  const dispatch = useDispatch();
+  //GET PRODUCTS
+  const getProducts = useCallback(async () => {
+    try {
+      const res = await prodApi.getAllProducts();
+      console.log(res.data);
+      if (res.data.isSuccess)
+        return dispatch(prodSlice.actions.getProducts(res.data.listProducts));
+    } catch (err) {
+      console.log(err);
+      // return dispatch(prod)
+    }
+  }, [dispatch]);
+  useEffect(() => {
+    getProducts();
+  }, [getProducts]);
   return (
     <>
       <Navbar />
@@ -19,65 +39,35 @@ export default function ShoppingPage() {
             <Sidebar />
           </Col>
           <Col lg={9}>
+            <SearchBar />
             <div className="product_container">
-              <SearchBar />
               <Row>
-                <Col lg={4}>
-                  <Product
-                    info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-bcaa-shredded-25serv-watermelon-ice-WEB_400x.jpg?v=1619791489",
-                      name: "BEST BCAA SHREDDED",
-                      price: "30$",
+                {prodSelector.isLoading ? (
+                  <Spinner
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      // transform: "translate(-50%,-50%)",
                     }}
+                    animation="border"
+                    variant="info"
                   />
-                </Col>
-                <Col lg={4}>
-                  <Product
-                    info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/ISO-HD_5LBS_CNC---PSL-3000x3000-compressor_400x.jpg?v=1619802031",
-                      name: "ISO HD ",
-                      price: "50$",
-                    }}
-                  />
-                </Col>
-                <Col lg={4}>
-                  <Product
-                    info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-protein-vanilla-swirl-72-serv-WEB_400x.jpg?v=1619801437",
-                      name: "BEST PROTEIN",
-                      price: "50$",
-                    }}
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col lg={4}>
-                  <Product
-                    info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/VEGAN-PROTEIN-25-Servs-Vanilla_3000x3000-COMPRESSED_400x.jpg?v=1619804132",
-                      name: "VEGAN PROTEIN",
-                      price: "42$",
-                    }}
-                  />
-                </Col>
-                <Col lg={4}>
-                  <Product
-                    info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/best-aminos-fruit-punch-25serv_3000x3000-WEB_400x.jpg?v=1619799310",
-                      name: "BEST AMINO ACID",
-                      price: "27$",
-                    }}
-                  />
-                </Col>
-                <Col lg={4}>
-                  <Product
-                    info={{
-                      img: "https://cdn.shopify.com/s/files/1/0561/9761/1672/products/BEST-CREATINE-50-Serv-Watermelon-Cooler-3000x3000-WEB_400x.jpg?v=1619792044",
-                      name: "BEST CREATINE",
-                      price: "29.99$",
-                    }}
-                  />
-                </Col>
+                ) : (
+                  prodSelector.listProducts.map((prod) => (
+                    <Col lg={4} key={prod._id}>
+                      <ProductCard
+                        // info={{
+                        //   img: prod.prodImage,
+                        //   name: prod.prodName,
+                        //   price: prod.prodPrice,
+                        //   type: prod.prodType,
+                        // }}
+                        {...prod}
+                      />
+                    </Col>
+                  ))
+                )}
               </Row>
             </div>
           </Col>
@@ -88,6 +78,7 @@ export default function ShoppingPage() {
             top: "20px",
             left: "50%",
             width: "200px",
+            marginBottom: "50px",
           }}
         >
           <Pagination.Prev />
