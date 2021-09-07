@@ -10,7 +10,8 @@ import Navbar from "../Components/Navbar/Navbar";
 import Footer from "../Components/Footer/Footer";
 
 import AdminPage from "../Components/Admin/AdminPage";
-
+import CheckoutPage from "../Components/Pages/CheckoutPage/CheckoutPage"
+import ProductDetail from "../Components/Pages/ProductDetailPage/ProductDetailPage"
 export default function MainRouter() {
   const location = useLocation();
   return (
@@ -19,11 +20,13 @@ export default function MainRouter() {
       <Switch>
         <Route path="/admin" component={AdminPage} />
         <Route exact path="/" component={HomePage} />
-      
+        <Route exact path="/checkout" component={CheckoutPage} />
+        <Route exact path="/proDetail/:id" component={ProductDetail} />
         <Route exact path="/training" component={TrainingPage} />
         <Route exact path="/nutrition" component={NutritionPage} />
         <Route exact path="/shopping" component={ShoppingPage} />
-      </Switch>
+        <Route render={()=><div>NOT FOUND !!!</div>}/> 
+     </Switch>
       {!location.pathname.startsWith("/admin") && <Footer />}
     </>
   );

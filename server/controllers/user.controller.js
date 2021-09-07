@@ -56,14 +56,12 @@ module.exports = {
           .status(400)
           .json({ isSuccess: false, error: "Username has already taken" });
       const hashedPassword = await argon2.hash(req.body.userPassword);
-      const newUser = await userModel
-        .create({
-          userNameID,
-          userName: req.body.userName.toString(),
-          userImage: req.body.userImage,
-          userPassword: hashedPassword,
-        })
-        .select("-userPassword");
+      const newUser = await userModel.create({
+        userNameID,
+        userName: req.body.userName.toString(),
+        userImage: req.body.userImage,
+        userPassword: hashedPassword,
+      });
       return res.status(200).json({ isSuccess: true, user: newUser });
     } catch (err) {
       console.log(err);

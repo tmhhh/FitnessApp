@@ -4,12 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import prodApi from "../../../api/prodApi";
 import prodSlice from "../../../redux/slices/prodSlice";
 import ProductCard from "../../Card/ProductCard";
-import Footer from "../../Footer/Footer";
-import Navbar from "../../Navbar/Navbar";
 import SearchBar from "../../SearchBar/SearchBar";
 import Sidebar from "../../Sidebar/Sidebar";
 import "./style.scss";
-
 export default function ShoppingPage() {
   const prodSelector = useSelector((state) => state.prodReducer);
   // { listProducts, isLoading }
@@ -19,7 +16,6 @@ export default function ShoppingPage() {
   const getProducts = useCallback(async () => {
     try {
       const res = await prodApi.getAllProducts();
-      console.log(res.data);
       if (res.data.isSuccess)
         return dispatch(
           prodSlice.actions.getProducts({
@@ -37,7 +33,6 @@ export default function ShoppingPage() {
   }, [getProducts]);
   return (
     <>
-      <Navbar />
       <div className="container shopping_page_container">
         <Row>
           <Col lg={3}>
@@ -95,8 +90,6 @@ export default function ShoppingPage() {
           <Pagination.Next />
         </Pagination>
       </div>
-
-      <Footer />
     </>
   );
 }

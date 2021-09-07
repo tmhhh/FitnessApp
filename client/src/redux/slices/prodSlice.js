@@ -4,6 +4,9 @@ const prodSlice = createSlice({
   name: "product",
   initialState: { prodLoading: true, listProducts: [] },
   reducers: {
+    pendingProducts: (state, action) => {
+      return { ...state, prodLoading: true };
+    },
     getProducts: (state, action) => {
       const { payload } = action;
       return {

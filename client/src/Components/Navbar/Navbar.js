@@ -31,7 +31,7 @@ export default function Navbar() {
             <NavLink to="/training">TRAINING</NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
-            <NavLink to="/nutrition">NUTRITION</NavLink>
+            <NavLink to="/checkout">NUTRITION</NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
             <NavLink to="/shopping">SHOP</NavLink>

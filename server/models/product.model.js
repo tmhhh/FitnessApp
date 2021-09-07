@@ -2,11 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Products = new Schema({
   prodName: { type: String, required: true },
-  prodType: { type: String, required: true },
-  prodDes: { type: String, required: true },
-  prodPrice: { type: String, required: true },
-  prodStar: { type: Number, default: 1 },
-  prodImage: { type: String, required: true },
-  prodQuan: { type: Number, default: 1 },
+  prodCategory: { type: String, required: true },
+  prodDescription: { type: String, required: false },
+  prodPrice: { type: Number, required: true },
+  prodRating: {
+    num_of_reviewers: { type: String, default: 0 },
+    star: { type: Number, default: 0 },
+  },
+  prodThumbnail: { type: String, required: true },
+  prodImages: [{ type: String }],
+  prodQuantity: { type: Number, default: 1 },
 });
 module.exports = mongoose.model("Products", Products);

@@ -1,38 +1,66 @@
 const productModel = require("../models/product.model");
-const checkIdExist = (listProducts, id) => {
-  console.log(listProducts);
-  console.log(id);
-  return listProducts.findIndex((prod) => prod._id === id);
+const userModel = require("../models/user.model");
+
+const handleUserCart = async (userID, product) => {
+  try {
+    //GET USER CART BY USER ID
+    const user = await userModel
+      .findById(userID)
+      .populate("userCart.product")
+      .select("-userPassword")
+      .lean();
+    let newCart = [];
+
+    //CHECK IF PRODUCT ALREADY HAS IN USER CART
+    let foundProduct = user.userCart.find((e) => {
+      if (e.product._id.toString() === product._id.toString()) {
+        e.quantity += 1;
+        return e;
+      }
+    });
+    //// IF EXIST UPDATE  QUANTITY
+    if (foundProduct)
+      newCart = user.userCart.map((e) => {
+        if (e.product._id === product._id) return foundProduct;
+        return e;
+      });
+    /// ELSE ADD NEW TO CART
+    else newCart = [...user.userCart, { product, quantity: 1 }];
+
+    //UPDATE TO DB
+    const updatedCart = await userModel
+      .findOneAndUpdate({ _id: userID }, { userCart: newCart }, { new: true })
+      .populate("userCart.product");
+    console.log(updatedCart);
+    return updatedCart.userCart;
+  } catch (error) {
+    console.log("catch1");
+    console.log(error);
+    return Promise.reject(error);
+  }
 };
+
 module.exports = {
   addingToCart: async (req, res) => {
-    console.log(req);
-    
-    req.session.userCart = req.query.prodID;
+    try {
+      const { prodID } = req.body;
+      if (!prodID) return res.status(400).json({ isSuccess: false });
 
-    // console.log(req);
-    // try {
-    //   const { prodID } = req.query;
-    //   if (!prodID) return res.status(400).json({ isSuccess: false });
-    //   let foundProd = await productModel.findById(prodID).select("-prodQuan");
-    //   foundProd = foundProd.toObject();
-    //   foundProd.quantity = 1;
-    //   if (!req.session.userCart) {
-    //     console.log("if");
-    //     req.session.userCart = [foundProd];
-    //   } else {
-    //     console.log("else");
-    //     const index = checkIdExist(req.session.userCart, prodID);
-    //     console.log(index);
-    //     if (index > 0) req.session.userCart[index].quantity += 1;
-    //     else req.session.userCart = [...req.session.userCart, foundProd];
-    //   }
-    //   //   console.log(req.session.userCart);
-    //   res.status(200).json({ isSuccess: true, useCart: req.session.userCart });
-    //   // console.log(foundProd);
-    // } catch (error) {
-    //   console.log(error);
-    //   return res.status(500).json({ isSuccess: false, error });
-    // }
+      //CHECK IF ID IS VALID
+      let foundProd = await productModel.findById(prodID);
+      if (!foundProd)
+        return res
+          .status(403)
+          .json({ isSuccess: false, Error: "Product not found !!!" });
+
+      /// HANDLE ADD TO CART THEN RETURN UPDATED CART
+      const updatedCart = await handleUserCart(req.userID, foundProd);
+
+      res.status(200).json({ isSuccess: true, updatedCart });
+    } catch (error) {
+      console.log("catch2");
+      console.log(error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
   },
 };
