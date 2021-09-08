@@ -20,9 +20,8 @@ export default function SearchBar() {
         if (e.target.value.trim(" ") !== "") {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
-            console.log("send");
             nutriSearching(e.target.value);
-          }, 500);
+          }, 2000);
         }
       } else if (location.pathname === "/shopping") {
         if (e.target.value !== "") {

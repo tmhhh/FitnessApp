@@ -5,12 +5,16 @@ import { Link } from "react-router-dom";
 import "./style.scss";
 import { Spinner } from "react-bootstrap";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import { cartTotalPrice } from "../../../utils/calculate";
+
 export default function CheckoutPage() {
   const { cartLoading, userCart } = useSelector((state) => state.cartReducer);
   const { isAuthenticated } = useSelector((state) => state.authReducer);
   const [cart, setCart] = useState([]);
+  const totalPrice = cartTotalPrice(userCart);
   useEffect(() => {
-    setCart(JSON.parse(localStorage.getItem("USER_CART")));
+    if (localStorage.getItem("USER_CART"))
+      setCart(JSON.parse(localStorage.getItem("USER_CART")));
   }, []);
   return (
     <>
@@ -62,16 +66,22 @@ export default function CheckoutPage() {
                     <div key={e.product._id} className="added_product">
                       <div className="added_product_image">
                         <img src={e.product.prodThumbnail} alt="name" />
+                        <div className="added_product_info_quantity">
+                          {e.quantity}
+                        </div>
                       </div>
-                      <div className="added_product_name">
-                        {e.product.prodName}
+                      <div className="added_product_info">
+                        <div className="added_product_info_name">
+                          {e.product.prodName}
+                        </div>
                       </div>
                       <div className="added_product_price">
                         {formatCurrency(e.product.prodPrice)}
                       </div>
                     </div>
                   ))
-                : cart.map((prod) => (
+                : cart.length > 0 &&
+                  cart.map((prod) => (
                     <div key={prod._id} className="added_product">
                       <div className="added_product_image">
                         <img src={prod.prodThumbnail} alt="name" />
@@ -96,11 +106,11 @@ export default function CheckoutPage() {
           </div>
           <div className="discount_container">
             <input type="text" placeholder="Discount Code" />
-            <button type="submit">Apply</button>
+            <button>Apply</button>
           </div>
           <div className="order_summary">
             <p className="order_summary_total">Total</p>
-            <p className="order_summary_price">{formatCurrency(30)}</p>
+            <p className="order_summary_price">{formatCurrency(totalPrice)}</p>
           </div>
         </div>
       </div>

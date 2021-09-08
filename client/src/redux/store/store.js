@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "../slices/authSlice";
-import prodSlice from "../slices/prodSlice";
 import cartSlice from "../slices/cartSlice";
+import prodSlice from "../slices/prodSlice";
 
 //ROOT
 const rootReducer = {
@@ -13,4 +13,5 @@ const rootReducer = {
 const store = configureStore({
   reducer: rootReducer,
 });
+
 export default store;

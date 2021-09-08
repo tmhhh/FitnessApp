@@ -1,5 +1,5 @@
-import axiosClient from "./axiosClient";
 import { BASE_API_URL } from "../assets/constants";
+import axiosClient from "./axiosClient";
 export const authApi = {
   userLogin: (userNameID, userPassword) => {
     return axiosClient.post(BASE_API_URL + "/auth/login", {
@@ -8,4 +8,7 @@ export const authApi = {
     });
   },
   userRegister: () => {},
+  loadUser: () => {
+    return axiosClient.get(BASE_API_URL + "/auth/verify");
+  },
 };

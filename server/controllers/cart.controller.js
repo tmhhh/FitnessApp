@@ -1,7 +1,7 @@
 const productModel = require("../models/product.model");
 const userModel = require("../models/user.model");
 
-const handleUserCart = async (userID, product) => {
+const handleUserCart = async (userID, productID) => {
   try {
     //GET USER CART BY USER ID
     const user = await userModel
@@ -13,7 +13,7 @@ const handleUserCart = async (userID, product) => {
 
     //CHECK IF PRODUCT ALREADY HAS IN USER CART
     let foundProduct = user.userCart.find((e) => {
-      if (e.product._id.toString() === product._id.toString()) {
+      if (e.product._id.toString() === productID.toString()) {
         e.quantity += 1;
         return e;
       }
@@ -21,17 +21,17 @@ const handleUserCart = async (userID, product) => {
     //// IF EXIST UPDATE  QUANTITY
     if (foundProduct)
       newCart = user.userCart.map((e) => {
-        if (e.product._id === product._id) return foundProduct;
+        if (e.product._id === productID) return foundProduct;
         return e;
       });
     /// ELSE ADD NEW TO CART
-    else newCart = [...user.userCart, { product, quantity: 1 }];
+    else newCart = [...user.userCart, { product: productID, quantity: 1 }];
 
     //UPDATE TO DB
     const updatedCart = await userModel
       .findOneAndUpdate({ _id: userID }, { userCart: newCart }, { new: true })
       .populate("userCart.product");
-    console.log(updatedCart);
+    console.log(updatedCart.userCart);
     return updatedCart.userCart;
   } catch (error) {
     console.log("catch1");
@@ -39,7 +39,6 @@ const handleUserCart = async (userID, product) => {
     return Promise.reject(error);
   }
 };
-
 module.exports = {
   addingToCart: async (req, res) => {
     try {
@@ -54,7 +53,7 @@ module.exports = {
           .json({ isSuccess: false, Error: "Product not found !!!" });
 
       /// HANDLE ADD TO CART THEN RETURN UPDATED CART
-      const updatedCart = await handleUserCart(req.userID, foundProd);
+      const updatedCart = await handleUserCart(req.userID, prodID);
 
       res.status(200).json({ isSuccess: true, updatedCart });
     } catch (error) {

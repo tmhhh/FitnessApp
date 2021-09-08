@@ -40,3 +40,16 @@ Content-Type: application/json
 {
     "id":234
 }
+
+
+
+###
+GET http://localhost:4000/api/products/search?prodName=
+
+###
+PUT http://localhost:4000/api/cart/add
+Content-Type:application/json
+
+{
+"prodID":"1"
+}

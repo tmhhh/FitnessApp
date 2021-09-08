@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../../api/authApi";
 import authSlice from "../../redux/slices/authSlice";
+import cartSlice from "../../redux/slices/cartSlice";
 import "./style.scss";
 function Login({ authForm: { isShown }, setAuthForm }) {
   const dispatch = useDispatch();
@@ -32,6 +33,13 @@ function Login({ authForm: { isShown }, setAuthForm }) {
       console.log(userNameID, userPassword);
       const res = await authApi.userLogin(userNameID, userPassword);
       localStorage.setItem("USER_TOKEN", res.data.accessToken);
+      dispatch(
+        cartSlice.actions.setCart({
+          userCart: res.data.user.userCart,
+          cartLoading: false,
+        })
+      );
+      delete res.data.user.userCart;
       dispatch(
         authSlice.actions.setAuth({
           authLoading: false,
