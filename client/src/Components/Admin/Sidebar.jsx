@@ -23,7 +23,7 @@ export default function Sidebar({ url }) {
             className="list-group-item list-group-item-action py-2   "
           >
             <span className="me-3">📦</span>
-            <span>Manage products</span>
+            <span>Products</span>
           </NavLink>
           <NavLink
             to={`${url}/user`}
@@ -31,7 +31,7 @@ export default function Sidebar({ url }) {
             className="list-group-item list-group-item-action py-2  "
           >
             <span className="me-3">🧑‍💻</span>
-            <span>Manage users</span>
+            <span>Users</span>
           </NavLink>
           <NavLink
             to={`${url}/review`}
