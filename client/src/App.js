@@ -7,12 +7,16 @@ import "./App.scss";
 
 import ContextProvider from "./Contexts";
 import MainRouter from "./Router/Router";
+import LoadingLayer from "./Components/Common/LoadingLayer";
+import { useSelector } from "react-redux";
 
 export default function App() {
+  const loading = useSelector((state) => state.prodReducer.prodLoading);
   return (
     <>
       <ContextProvider>
         <Router>
+          <LoadingLayer show={loading} />
           <MainRouter />
         </Router>
       </ContextProvider>

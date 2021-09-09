@@ -37,6 +37,9 @@ export default function Navbar() {
             <NavLink to="/shopping">SHOP</NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
+            <NavLink to="/admin">Admin</NavLink>
+          </Nav.Item>
+          <Nav.Item className="nav_bar_item">
             <a href="#bca" onClick={handleShowAuthForm}>
               {authForm.isShown === false ? "LOGIN" : "X"}
             </a>

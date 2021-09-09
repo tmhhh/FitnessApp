@@ -10,4 +10,7 @@ router.use("/products", require("./product.route"));
 //@@CART
 router.use("/cart", require("./cart.route"));
 
+//@@ADMIN
+router.use("/admin", require("../Admin/router"));
+
 module.exports = router;

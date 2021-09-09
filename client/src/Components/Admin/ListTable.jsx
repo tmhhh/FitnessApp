@@ -1,28 +1,28 @@
 import React from "react";
 import { Image, Table, Button } from "react-bootstrap";
 
-export const list = [
-  {
-    id: 1,
-    name: "huyle",
-    price: 1,
-    quantity: 1,
-    category: "",
-    description: "Hello my friend",
-    thumbnailFile: "",
-    imagesFile: [],
-  },
-  {
-    id: 2,
-    image:
-      "https://clothing-app-server.herokuapp.com/images/product/kaki-jacket.jpg",
-    name: "Mass",
-    weight: "5 lbs",
-    date: "cu",
-  },
-];
+// export const list = [
+//   {
+//     id: 1,
+//     name: "huyle",
+//     price: 1,
+//     quantity: 1,
+//     category: "",
+//     description: "Hello my friend",
+//     thumbnailFile: "",
+//     imagesFile: [],
+//   },
+//   {
+//     id: 2,
+//     image:
+//       "https://clothing-app-server.herokuapp.com/images/product/kaki-jacket.jpg",
+//     name: "Mass",
+//     weight: "5 lbs",
+//     date: "cu",
+//   },
+// ];
 
-export default function ListTable({ updateModalShow }) {
+export default function ListTable({ list, updateModalShow }) {
   return (
     <>
       <Table striped bordered hover className="text-center align-middle">
@@ -36,9 +36,9 @@ export default function ListTable({ updateModalShow }) {
         </thead>
         <tbody>
           {list.map((item) => (
-            <tr key={item.id}>
+            <tr key={item._id}>
               {Object.entries(item).map((field) =>
-                field[0] === "image" ? (
+                field[0] === "prodThumbnail" ? (
                   <td>
                     <Image
                       src={field[1]}
@@ -47,9 +47,12 @@ export default function ListTable({ updateModalShow }) {
                     />
                   </td>
                 ) : (
-                  <td>{field[1]}</td>
+                  <td>
+                    {field[0] === "prodRating" ? field[1].star : field[1]}
+                  </td>
                 )
               )}
+              {/*field[0] is field name && 1 is field value*/}
               <td>
                 <Button
                   variant="warning"

@@ -7,7 +7,7 @@ export default function AdminRoute({ path }) {
     <>
       <Switch>
         <Route exact path={path} component={() => <div>Dashboard</div>} />
-        <Route exact path={path + "/products"} component={ProductSide} />
+        <Route exact path={path + "/product"} component={ProductSide} />
         {/* 
         <Route exact path={path + "/users"} component={<div>Users</div>} />
         <Route exact path={path + "/reviews"} component={<div>Reviews</div>} />

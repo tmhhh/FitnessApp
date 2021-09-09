@@ -1,11 +1,13 @@
 import { FastField, Form, Formik } from "formik";
 import React from "react";
-import { Col, Row } from "react-bootstrap";
+import { Col, Image, Row } from "react-bootstrap";
 import InputField from "../Common/InputField";
 import SelectField from "../Common/SelectField";
+import Thumbnail from "../Common/Thumbnail";
 
 export default function NewItemForm(props) {
   const { innerRef, onSubmit, initialValues, validationSchema } = props;
+
   return (
     <>
       <Formik
@@ -16,10 +18,11 @@ export default function NewItemForm(props) {
         innerRef={innerRef}
       >
         {(formikProps) => {
+          const { values } = formikProps;
           return (
             <Form>
               <FastField
-                name="name"
+                name="prodName"
                 label="Product name"
                 placeholder="Input the product's name"
                 required
@@ -29,7 +32,7 @@ export default function NewItemForm(props) {
                 <Col>
                   {" "}
                   <FastField
-                    name="price"
+                    name="prodPrice"
                     label="Price"
                     placeholder=" Price"
                     type="number"
@@ -40,7 +43,7 @@ export default function NewItemForm(props) {
                 <Col>
                   {" "}
                   <FastField
-                    name="quantity"
+                    name="prodQuantity"
                     label="Quantity"
                     placeholder="Quantity"
                     min={1}
@@ -51,13 +54,13 @@ export default function NewItemForm(props) {
                 </Col>
               </Row>
               <FastField
-                name="category"
+                name="prodCategory"
                 label="Category"
                 component={SelectField}
               />
               <FastField
                 asType="textarea"
-                name="description"
+                name="prodDescription"
                 label="Product description"
                 placeholder="Description"
                 component={InputField}
@@ -68,6 +71,35 @@ export default function NewItemForm(props) {
                 type="file"
                 component={InputField}
               />
+              {/* {values._id ? (
+                <>
+                  {values.prodThumbnail && (
+                    <Thumbnail url={values.prodThumbnail} />
+                  )}
+                </>
+              ) : (
+                <>
+                  {values.thumbnailFile && (
+                    <div className="d-flex justify-content-center">
+                      <Thumbnail
+                        url={URL.createObjectURL(values.thumbnailFile)}
+                      />
+                    </div>
+                  )}
+                </>
+              )} */}
+              <div className="d-flex justify-content-center">
+                {values.thumbnailFile === undefined ? (
+                  <Thumbnail url={values.prodThumbnail} />
+                ) : (
+                  <Thumbnail
+                    url={
+                      values.thumbnailFile &&
+                      URL.createObjectURL(values.thumbnailFile)
+                    }
+                  />
+                )}
+              </div>
               <FastField
                 name="images"
                 label="Product Images"
@@ -75,6 +107,25 @@ export default function NewItemForm(props) {
                 multiple
                 component={InputField}
               />
+              {values.imagesFile === undefined ? (
+                <div className="d-flex justify-content-center">
+                  {values.prodImages &&
+                    Array.from(values.prodImages).map((url) => (
+                      <div key={url}>
+                        <Thumbnail url={url} />
+                      </div>
+                    ))}
+                </div>
+              ) : (
+                <div className="d-flex justify-content-center">
+                  {values.imagesFile &&
+                    Array.from(values.imagesFile).map((file) => (
+                      <div key={file.name}>
+                        <Thumbnail url={URL.createObjectURL(file)} />
+                      </div>
+                    ))}
+                </div>
+              )}
             </Form>
           );
         }}
