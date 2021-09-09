@@ -8,11 +8,13 @@ const cartSlice = createSlice({
   },
   reducers: {
     setCart: (state, action) => {
-      const { payload } = action;
+      const {
+        payload: { userCart, cartLoading },
+      } = action;
       return {
         ...state,
-        cartLoading: payload.cartLoading,
-        userCart: payload.userCart,
+        cartLoading: cartLoading,
+        userCart: [...userCart],
       };
     },
   },

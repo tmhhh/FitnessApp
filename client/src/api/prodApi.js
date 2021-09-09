@@ -13,5 +13,9 @@ const prodApi = {
   deleteProduct: (id) => {
     return axiosClient.delete(BASE_API_URL + `/products/${id}`);
   },
+
+
+  searchProducts: (prodName) =>
+    axiosClient.get(BASE_API_URL + `/products/search?prodName=${prodName}`),
 };
 export default prodApi;

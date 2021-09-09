@@ -4,7 +4,10 @@ const jwt = require("jsonwebtoken");
 module.exports = {
   userVerify: async (req, res) => {
     try {
-      const user = await userModel.findById(req.userID).select("-userPassword");
+      const user = await userModel
+        .findById(req.userID)
+        .populate("userCart.product")
+        .select("-userPassword");
       console.log(user);
       return res.status(200).json({ isSuccess: true, user });
     } catch (err) {
@@ -15,7 +18,9 @@ module.exports = {
   userLogin: async (req, res) => {
     try {
       const userNameID = req.body.userNameID.toString();
-      const user = await userModel.find({ userNameID });
+      const user = await userModel
+        .find({ userNameID })
+        .populate("userCart.product");
       if (user.length <= 0)
         return res.status(403).json({
           isSuccess: false,
@@ -56,14 +61,12 @@ module.exports = {
           .status(400)
           .json({ isSuccess: false, error: "Username has already taken" });
       const hashedPassword = await argon2.hash(req.body.userPassword);
-      const newUser = await userModel
-        .create({
-          userNameID,
-          userName: req.body.userName.toString(),
-          userImage: req.body.userImage,
-          userPassword: hashedPassword,
-        })
-        .select("-userPassword");
+      const newUser = await userModel.create({
+        userNameID,
+        userName: req.body.userName.toString(),
+        userImage: req.body.userImage,
+        userPassword: hashedPassword,
+      });
       return res.status(200).json({ isSuccess: true, user: newUser });
     } catch (err) {
       console.log(err);

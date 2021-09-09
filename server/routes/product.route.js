@@ -23,4 +23,5 @@ router.put(
 );
 router.delete("/:id", productCtl.delete);
 
+router.get("/search", productCtl.searchProducts);
 module.exports = router;

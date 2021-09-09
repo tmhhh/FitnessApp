@@ -34,6 +34,9 @@ const prodSlice = createSlice({
   name: "product",
   initialState: { prodLoading: false, listProducts: [] },
   reducers: {
+    pendingProducts: (state, action) => {
+      return { ...state, prodLoading: true };
+    },
     getProducts: (state, action) => {
       const { payload } = action;
       return {

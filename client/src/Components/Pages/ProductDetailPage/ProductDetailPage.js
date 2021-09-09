@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import Navbar from "../../Navbar/Navbar";
-import "./style.scss";
 import imgSrc from "../../../assets/img/best_bcaa.png";
 import imgSrc4 from "../../../assets/img/best_protein.png";
 import imgSrc5 from "../../../assets/img/iso_hd.png";
 import imgSrc6 from "../../../assets/img/vegan_protein.png";
-import Footer from "../../Footer/Footer";
+import "./style.scss";
 function ProductDetailPage(props) {
   const [quantity, setQuantity] = useState(1);
   return (
     <>
-      <Navbar />
       <div className="product_info_container">
         <div className="product_info_image">
           <img src={imgSrc} alt="abc" />
@@ -90,8 +87,6 @@ function ProductDetailPage(props) {
           </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

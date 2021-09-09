@@ -1,19 +1,24 @@
 @import "../../../assets/constants.scss";
 @mixin input_style() {
-  color: $white_smoke;
+  color: $primary_black;
   font-weight: 600;
   font-size: 15px;
   border-radius: 6px;
-  padding: 5px 0 5px 5px;
+  padding: 5px 0 5px 15px;
   height: 60px;
-  background-color: #1a1a1a;
+  border-style: none;
+  background-color: white;
 }
 .main_container {
   display: flex;
   width: 100%;
   min-height: 100%;
-  background-color: #000000;
-  color: #fff;
+  // background-color: $white_smoke  ;
+  background-color: #d9d9d9;
+  background-image: linear-gradient(315deg, #d9d9d9 0%, #f6f2f2 74%);
+  // background-image: linear-gradient(315deg, #9dc5c3 0%, #5e5c5c 74%);
+
+  color: $primary_black;
 
   margin-top: 60px;
 }
@@ -22,9 +27,15 @@
   width: calc(100% / 12 * 5);
   display: flex;
   flex-direction: column;
-  border-left: 1px solid $white_smoke;
 
   padding-top: 70px;
+  &::before {
+    position: absolute;
+    content: "";
+    height: 70%;
+    width: 1px;
+    background-color: $primary_black;
+  }
 }
 .added_products {
   margin: 0 0 40px 30px;
@@ -33,17 +44,24 @@
 
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid $white_smoke;
+  border-bottom: 1px solid $primary_black;
   width: calc(100% -30px);
+
+  max-height: 300px;
+  overflow-y: auto;
 }
 .added_product {
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  background-color: white;
+  padding: 10px 0;
+  box-shadow: 0 5px 15px rgb(83, 83, 83);
 
   margin-top: 30px;
   &_image {
+    position: relative;
     width: 64px;
     height: 64px;
     & img {
@@ -53,9 +71,25 @@
       width: 100%;
     }
   }
-  &_name {
+  &_info {
     font-size: 14px;
     font-weight: 500;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &_quantity {
+      transform: translateY(-25%);
+      position: absolute;
+      top: 0;
+      font-size: 10px;
+      font-weight: 700;
+      right: 0px;
+      padding: 8px 8px;
+      background-color: #0d6efd;
+      color: white;
+      border-radius: 50%;
+    }
   }
   &_price {
     margin-left: auto;
@@ -68,17 +102,18 @@
   width: calc(100% -30px);
   display: flex;
   margin: 0 0 40px 30px;
-  border-bottom: 1px solid $white_smoke;
+  border-bottom: 1px solid $primary_black;
   padding-bottom: 20px;
   & input[type="text"] {
     @include input_style();
     flex-grow: 1;
   }
   & button {
+    border-style: none;
     height: 60px;
     width: 100px;
-    background-color: #1a1a1a;
-    color: $white_smoke;
+    background-color: #0d6efd;
+    color: white;
 
     margin: 0 5px;
     border-radius: 6px;
@@ -94,6 +129,7 @@
   justify-content: space-between;
   &_total {
     font-size: 20px;
+    font-weight: 700;
   }
   &_price {
     font-size: 24px;
@@ -111,9 +147,10 @@
     position: relative;
     top: -50px;
     font-size: 30px;
-    color: $white_smoke;
+    color: #0d6efd;
+    transition: all 0.5s linear;
     &:hover {
-      color: white;
+      transform: scale(1.2);
     }
   }
 }
@@ -127,7 +164,7 @@
   &_title {
     font-style: 14px;
     font-weight: 200;
-    color: $white_smoke;
+    color: $primary_black;
     display: flex;
     align-items: center;
 
@@ -137,19 +174,19 @@
     &::before {
       margin-right: 10px;
       content: "";
-      height: 2px;
+      height: 1px;
       width: 30%;
       flex: 1;
 
-      background-color: $white_smoke;
+      background-color: $primary_black;
     }
 
     &::after {
       margin-left: 10px;
 
-      background-color: $white_smoke;
+      background-color: $primary_black;
       content: "";
-      height: 2px;
+      height: 1px;
       flex: 1;
     }
   }
@@ -174,23 +211,23 @@
     display: flex;
     align-items: center;
     text-transform: uppercase;
-    color: $white_smoke;
+    color: $primary_black;
     &::before {
       margin-right: 10px;
       content: "";
-      height: 2px;
+      height: 1px;
       width: 30%;
       flex: 1;
 
-      background-color: $white_smoke;
+      background-color: $primary_black;
     }
 
     &::after {
       margin-left: 10px;
 
-      background-color: $white_smoke;
+      background-color: $primary_black;
       content: "";
-      height: 2px;
+      height: 1px;
       flex: 1;
     }
   }
@@ -213,7 +250,7 @@
   & input[type="checkbox"] {
     width: 20px;
     height: 20px;
-    background-color: #1a1a1a;
+    background-color: white;
     margin-right: 20px;
     margin-bottom: 20px;
   }
@@ -243,4 +280,11 @@
   display: inline-block;
   position: relative;
   left: 310px;
+}
+
+input[type="text"] {
+  &:focus {
+    box-shadow: 0 5px 15px rgb(83, 83, 83);
+    outline: none;
+  }
 }

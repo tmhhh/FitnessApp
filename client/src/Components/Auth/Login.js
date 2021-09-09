@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { Context } from "../../Contexts";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../../api/authApi";
 import authSlice from "../../redux/slices/authSlice";
+import cartSlice from "../../redux/slices/cartSlice";
 import "./style.scss";
 function Login({ authForm: { isShown }, setAuthForm }) {
+  const { setToast } = useContext(Context);
+
   const dispatch = useDispatch();
   const authSelector = useSelector((state) => state.authReducer);
   const [input, setInput] = useState({
@@ -29,9 +33,32 @@ function Login({ authForm: { isShown }, setAuthForm }) {
     if (userNameID === "" || userPassword === "") return;
 
     try {
+      setToast({
+        toastShow: true,
+        title: "Login ...",
+        content: "Please wait a second",
+        icon: "👀",
+        bg: "info",
+      });
       console.log(userNameID, userPassword);
       const res = await authApi.userLogin(userNameID, userPassword);
+      if (res.data.isSuccess) {
+        setToast({
+          toastShow: true,
+          title: "Login successfully !!!",
+          content: "Welcome back !!!",
+          icon: "✔",
+          bg: "success",
+        });
+      }
       localStorage.setItem("USER_TOKEN", res.data.accessToken);
+      dispatch(
+        cartSlice.actions.setCart({
+          userCart: res.data.user.userCart,
+          cartLoading: false,
+        })
+      );
+      delete res.data.user.userCart;
       dispatch(
         authSlice.actions.setAuth({
           authLoading: false,
@@ -41,6 +68,13 @@ function Login({ authForm: { isShown }, setAuthForm }) {
       );
     } catch (err) {
       console.log(err);
+      setToast({
+        toastShow: true,
+        title: "Failed to login !!!",
+        content: "Username or password is incorrect !!!",
+        icon: "❌",
+        bg: "danger",
+      });
     }
   };
   return (

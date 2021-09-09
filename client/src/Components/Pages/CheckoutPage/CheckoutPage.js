@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Navbar from "../../Navbar/Navbar";
+import { cartTotalPrice } from "../../../utils/calculate";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import "./style.scss";
-import { Spinner } from "react-bootstrap";
+
 export default function CheckoutPage() {
-  const { cartLoading, userCart } = useSelector((state) => state.cartReducer);
-  // useEffect(() => {
-  //   setCart(JSON.parse(localStorage.getItem("USER_CART")));
-  // }, []);
+  const { userCart } = useSelector((state) => state.cartReducer);
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
+  const [cart, setCart] = useState([]);
+  const totalPrice = cartTotalPrice(userCart);
+  useEffect(() => {
+    if (localStorage.getItem("USER_CART"))
+      setCart(JSON.parse(localStorage.getItem("USER_CART")));
+  }, []);
   return (
     <>
-      <Navbar />
       <div className="main_container">
         <div className="checkout_container">
           <Link to="/shopping">
@@ -55,36 +59,57 @@ export default function CheckoutPage() {
         </div>
         <div className="shopping_cart_container">
           <div className="added_products">
-            {!cartLoading ? (
-              userCart.map((prod) => (
-                <div key={prod._id} className="added_product">
-                  <div className="added_product_image">
-                    <img src={prod.prodImage} alt="name" />
-                  </div>
-                  <div className="added_product_name">{prod.prodName}</div>
-                  <div className="added_product_price">{prod.prodPrice}</div>
-                </div>
-              ))
-            ) : (
-              <Spinner
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  // transform: "translate(-50%,-50%)",
-                }}
-                animation="border"
-                variant="info"
-              />
-            )}
+            {
+              isAuthenticated
+                ? userCart.map((e) => (
+                    <div key={e.product._id} className="added_product">
+                      <div className="added_product_image">
+                        <img src={e.product.prodThumbnail} alt="name" />
+                        <div className="added_product_info_quantity">
+                          {e.quantity}
+                        </div>
+                      </div>
+                      <div className="added_product_info">
+                        <div className="added_product_info_name">
+                          {e.product.prodName}
+                        </div>
+                      </div>
+                      <div className="added_product_price">
+                        {formatCurrency(e.product.prodPrice)}
+                      </div>
+                    </div>
+                  ))
+                : cart.length > 0 &&
+                  cart.map((prod) => (
+                    <div key={prod._id} className="added_product">
+                      <div className="added_product_image">
+                        <img src={prod.prodThumbnail} alt="name" />
+                      </div>
+                      <div className="added_product_name">{prod.prodName}</div>
+                      <div className="added_product_price">
+                        {formatCurrency(prod.prodPrice)}
+                      </div>
+                    </div>
+                  ))
+              // <Spinner
+              //   style={{
+              //     position: "absolute",
+              //     top: "50%",
+              //     left: "50%",
+              //     // transform: "translate(-50%,-50%)",
+              //   }}
+              //   animation="border"
+              //   variant="info"
+              // />
+            }
           </div>
           <div className="discount_container">
             <input type="text" placeholder="Discount Code" />
-            <button type="submit">Apply</button>
+            <button>Apply</button>
           </div>
           <div className="order_summary">
             <p className="order_summary_total">Total</p>
-            <p className="order_summary_price">$30</p>
+            <p className="order_summary_price">{formatCurrency(totalPrice)}</p>
           </div>
         </div>
       </div>

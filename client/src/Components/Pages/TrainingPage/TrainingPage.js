@@ -1,16 +1,11 @@
 import React from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import ExerciseCard from "../../Card/ExerciseCard";
-import Footer from "../../Footer/Footer";
-import Navbar from "../../Navbar/Navbar";
-
 import "./style.scss";
 
 export default function Training() {
   return (
     <>
-      <Navbar />
-
       <div style={{ marginTop: "100px" }} className="container">
         <Tabs
           defaultActiveKey="Chest"
@@ -126,7 +121,6 @@ export default function Training() {
           </Tab>
         </Tabs>
       </div>
-      <Footer />
     </>
   );
 }
