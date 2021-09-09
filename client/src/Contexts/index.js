@@ -1,15 +1,21 @@
 import axios from "axios";
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { NUTRI_API_CONFIG } from "../assets/constants";
 import NutritionReducer from "./reducers/NutritionReducer";
 import { useDispatch } from "react-redux";
 import cartSlice from "../redux/slices/cartSlice";
 import authSlice from "../redux/slices/authSlice";
 import { authApi } from "../api/authApi";
-export const NutritionContext = React.createContext();
-export default function NutritionContextProvider({ children }) {
+export const Context = React.createContext();
+export default function ContextProvider({ children }) {
   const dispatch = useDispatch();
-
+  const [toast, setToast] = useState({
+    toastShow: false,
+    title: "",
+    content: "",
+    icon: "",
+    bg: "",
+  });
   const [nutriState, nutriDispatch] = useReducer(NutritionReducer, {
     listFood: [],
     isLoading: false,
@@ -60,10 +66,6 @@ export default function NutritionContextProvider({ children }) {
     loadUser();
   }, []);
 
-  const contextData = { nutriSearching, nutriState };
-  return (
-    <NutritionContext.Provider value={contextData}>
-      {children}
-    </NutritionContext.Provider>
-  );
+  const contextData = { nutriSearching, nutriState, toast, setToast };
+  return <Context.Provider value={contextData}>{children}</Context.Provider>;
 }

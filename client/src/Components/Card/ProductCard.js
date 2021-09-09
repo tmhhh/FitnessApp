@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./style.scss";
 import { useHistory } from "react-router";
 import cartApi from "../../api/cartApi";
 import cartSlice from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/formatCurrency";
-
+import { Context } from "../../Contexts";
 export default function Product(props) {
+  const { setToast } = useContext(Context);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -25,9 +26,22 @@ export default function Product(props) {
   // ADD TO CART
   const handleAddToCart = async () => {
     try {
+      setToast({
+        toastShow: true,
+        title: "Adding ...",
+        content: "Please wait a second",
+        icon: "👀",
+        bg: "info",
+      });
       if (isAuthenticated) {
         const res = await cartApi.addToCart(_id);
-        console.log(res.data.u);
+        setToast({
+          toastShow: true,
+          title: "Adding successfully !!!",
+          content: "You can check it in your personal cart !!!",
+          icon: "✔",
+          bg: "success",
+        });
         dispatch(
           cartSlice.actions.setCart({
             cartLoading: false,
@@ -60,6 +74,13 @@ export default function Product(props) {
       }
     } catch (error) {
       console.log(error);
+      setToast({
+        toastShow: true,
+        title: "Failed to add to cart !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
     }
   };
   return (
@@ -78,8 +99,9 @@ export default function Product(props) {
         <p className="product_card_price">{formatCurrency(prodPrice)}</p>
       </div>
       <div className="product_card_actions">
-        <i onClick={handleAddToCart} className="fas fa-cart-plus"></i>
-        {/* <i class="far fa-heart"></i> */}
+        <i onClick={handleAddToCart}>🛒</i>
+        <i>🤍</i>
+        {/* <i class="fas fa-heart"></i> */}
       </div>
     </div>
   );

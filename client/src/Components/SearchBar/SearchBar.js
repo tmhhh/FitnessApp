@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext } from "react";
 import "./style.scss";
-import { NutritionContext } from "../../Contexts/NutritionContext";
+import { Context } from "../../Contexts";
 import { useLocation } from "react-router";
 import prodApi from "../../api/prodApi";
 import prodSlice from "../../redux/slices/prodSlice";
@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 export default function SearchBar() {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { nutriSearching } = useContext(NutritionContext);
+  const { nutriSearching } = useContext(Context);
   const [input, setInput] = useState("");
   const timerRef = useRef(null);
 

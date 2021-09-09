@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Card } from "react-bootstrap";
 import { useHistory } from "react-router";
 import "./style.scss";
+
 export default function ShoppingCard({ img, tag }) {
   const history = useHistory();
   const handleOnClick = () => {

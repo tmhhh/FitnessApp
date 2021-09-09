@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import "./style.scss";
-import { Spinner } from "react-bootstrap";
-import { formatCurrency } from "../../../utils/formatCurrency";
 import { cartTotalPrice } from "../../../utils/calculate";
+import { formatCurrency } from "../../../utils/formatCurrency";
+import "./style.scss";
 
 export default function CheckoutPage() {
-  const { cartLoading, userCart } = useSelector((state) => state.cartReducer);
+  const { userCart } = useSelector((state) => state.cartReducer);
   const { isAuthenticated } = useSelector((state) => state.authReducer);
   const [cart, setCart] = useState([]);
   const totalPrice = cartTotalPrice(userCart);

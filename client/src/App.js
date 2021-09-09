@@ -3,18 +3,19 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
+// import Toast from "./Components/Common/Toast";
 
-import NutritionContextProvider from "./Contexts/NutritionContext";
+import ContextProvider from "./Contexts";
 import MainRouter from "./Router/Router";
 
 export default function App() {
   return (
     <>
-      <NutritionContextProvider>
+      <ContextProvider>
         <Router>
           <MainRouter />
         </Router>
-      </NutritionContextProvider>
+      </ContextProvider>
     </>
   );
 }
