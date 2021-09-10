@@ -11,3 +11,4 @@ export const NUTRI_API_CONFIG = (params) => {
 };
 
 export const BASE_API_URL = `http://localhost:4000/api`;
+export const PROD_IMAGE_BASE_URL = `http://localhost:4000/img/products/`;

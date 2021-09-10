@@ -1,12 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import Login from "./Login";
 import Register from "./Register";
+import { Context } from "../../Contexts";
 
 export default function AuthForm(props) {
-  const {
-    authForm: { type },
-  } = props;
-  return (
-    <>{type === "login" ? <Login {...props} /> : <Register {...props} />}</>
-  );
+  const { authForm, setAuthForm } = useContext(Context);
+  const { type } = authForm;
+  return <>{type === "login" ? <Login /> : <Register />}</>;
 }

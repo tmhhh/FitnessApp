@@ -7,11 +7,19 @@ import { authApi } from "../../api/authApi";
 import authSlice from "../../redux/slices/authSlice";
 import cartSlice from "../../redux/slices/cartSlice";
 import "./style.scss";
-function Login({ authForm: { isShown }, setAuthForm }) {
+function Login() {
+  const dispatch = useDispatch();
+  // TOAST
   const { setToast } = useContext(Context);
 
-  const dispatch = useDispatch();
+  //AUTH FORM
+  const { authForm, setAuthForm } = useContext(Context);
+  const { isShown } = authForm;
+
+  //AUTH DATA
   const authSelector = useSelector((state) => state.authReducer);
+
+  //INPUT
   const [input, setInput] = useState({
     userNameID: "",
     userPassword: "",
@@ -43,6 +51,7 @@ function Login({ authForm: { isShown }, setAuthForm }) {
       console.log(userNameID, userPassword);
       const res = await authApi.userLogin(userNameID, userPassword);
       if (res.data.isSuccess) {
+        setAuthForm({ ...authForm, isShown: false });
         setToast({
           toastShow: true,
           title: "Login successfully !!!",
@@ -50,22 +59,22 @@ function Login({ authForm: { isShown }, setAuthForm }) {
           icon: "✔",
           bg: "success",
         });
+        localStorage.setItem("USER_TOKEN", res.data.accessToken);
+        dispatch(
+          cartSlice.actions.setCart({
+            userCart: res.data.user.userCart,
+            cartLoading: false,
+          })
+        );
+        delete res.data.user.userCart;
+        dispatch(
+          authSlice.actions.setAuth({
+            authLoading: false,
+            isAuthenticated: true,
+            userInfo: res.data.user,
+          })
+        );
       }
-      localStorage.setItem("USER_TOKEN", res.data.accessToken);
-      dispatch(
-        cartSlice.actions.setCart({
-          userCart: res.data.user.userCart,
-          cartLoading: false,
-        })
-      );
-      delete res.data.user.userCart;
-      dispatch(
-        authSlice.actions.setAuth({
-          authLoading: false,
-          isAuthenticated: true,
-          userInfo: res.data.user,
-        })
-      );
     } catch (err) {
       console.log(err);
       setToast({

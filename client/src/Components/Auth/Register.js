@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import "./style.scss";
-
-function Register({ setAuthForm, authForm: { isShown } }) {
+import { Context } from "../../Contexts";
+function Register() {
   const [input, setInput] = useState({
     username: "",
     password: "",
     rePassword: "",
   });
+  //AUTH FORM
+  const { authForm, setAuthForm } = useContext(Context);
+  const { isShown } = authForm;
 
   //
   const handleInputOnChange = (e) => {

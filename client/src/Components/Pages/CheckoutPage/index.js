@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { cartTotalPrice } from "../../../utils/calculate";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import "./style.scss";
-
+import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
+import cartSlice from "../../../redux/slices/cartSlice";
 export default function CheckoutPage() {
+  const dispatch = useDispatch();
   const { userCart } = useSelector((state) => state.cartReducer);
   const { isAuthenticated } = useSelector((state) => state.authReducer);
-  const [cart, setCart] = useState([]);
   const totalPrice = cartTotalPrice(userCart);
   useEffect(() => {
-    if (localStorage.getItem("USER_CART"))
-      setCart(JSON.parse(localStorage.getItem("USER_CART")));
-  }, []);
+    if (!isAuthenticated) {
+      if (localStorage.getItem("USER_CART")) {
+        const localCart = JSON.parse(localStorage.getItem("USER_CART"));
+        dispatch(
+          cartSlice.actions.setCart({ cartLoading: false, userCart: localCart })
+        );
+      }
+    }
+  });
   return (
     <>
       <div className="checkout_main_container">
@@ -60,37 +67,46 @@ export default function CheckoutPage() {
         <div className="shopping_cart_container">
           <div className="added_products">
             {
-              isAuthenticated
-                ? userCart.map((e) => (
-                    <div key={e.product._id} className="added_product">
-                      <div className="added_product_image">
-                        <img src={e.product.prodThumbnail} alt="name" />
-                        <div className="added_product_info_quantity">
-                          {e.quantity}
-                        </div>
-                      </div>
-                      <div className="added_product_info">
-                        <div className="added_product_info_name">
-                          {e.product.prodName}
-                        </div>
-                      </div>
-                      <div className="added_product_price">
-                        {formatCurrency(e.product.prodPrice)}
+              // isAuthenticated?
+              userCart.length > 0 &&
+                userCart.map((e) => (
+                  <div key={e.product._id} className="added_product">
+                    <div className="added_product_image">
+                      <img
+                        src={`${PROD_IMAGE_BASE_URL}${e.product.prodThumbnail}`}
+                        alt="name"
+                      />
+                      <div className="added_product_info_quantity">
+                        {e.quantity}
                       </div>
                     </div>
-                  ))
-                : cart.length > 0 &&
-                  cart.map((prod) => (
-                    <div key={prod._id} className="added_product">
-                      <div className="added_product_image">
-                        <img src={prod.prodThumbnail} alt="name" />
-                      </div>
-                      <div className="added_product_name">{prod.prodName}</div>
-                      <div className="added_product_price">
-                        {formatCurrency(prod.prodPrice)}
+                    <div className="added_product_info">
+                      <div className="added_product_info_name">
+                        {e.product.prodName}
                       </div>
                     </div>
-                  ))
+                    <div className="added_product_price">
+                      {formatCurrency(e.product.prodPrice)}
+                    </div>
+                  </div>
+                ))
+
+              // : userCart.length > 0
+              // ? userCart.map((prod) => (
+              //     <div key={prod._id} className="added_product">
+              //       <div className="added_product_image">
+              //         <img
+              //           src={`${PROD_IMAGE_BASE_URL}${prod.prodThumbnail}`}
+              //           alt="name"
+              //         />
+              //       </div>
+              //       <div className="added_product_name">{prod.prodName}</div>
+              //       <div className="added_product_price">
+              //         {formatCurrency(prod.prodPrice)}
+              //       </div>
+              //     </div>
+              //   ))
+              // : null
               // <Spinner
               //   style={{
               //     position: "absolute",

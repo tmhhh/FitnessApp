@@ -56,15 +56,7 @@ export default function ShoppingPage() {
                 ) : (
                   prodSelector.listProducts.map((prod) => (
                     <Col lg={4} key={prod._id}>
-                      <ProductCard
-                        // info={{
-                        //   img: prod.prodImage,
-                        //   name: prod.prodName,
-                        //   price: prod.prodPrice,
-                        //   type: prod.prodType,
-                        // }}
-                        {...prod}
-                      />
+                      <ProductCard {...prod} />
                     </Col>
                   ))
                 )}

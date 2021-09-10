@@ -5,6 +5,7 @@ import cartApi from "../../api/cartApi";
 import cartSlice from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { formatCurrency } from "../../utils/formatCurrency";
+import { PROD_IMAGE_BASE_URL } from "../../assets/constants";
 import { Context } from "../../Contexts";
 export default function Product(props) {
   const { setToast } = useContext(Context);
@@ -20,7 +21,7 @@ export default function Product(props) {
 
   //CHECK IF PRODUCT EXIST IN CART
   const checkExist = (cart, prodID) => {
-    return cart.find((e) => e._id === prodID);
+    return cart.find((e) => e.product._id === prodID);
   };
 
   // ADD TO CART
@@ -50,11 +51,13 @@ export default function Product(props) {
         );
       } else {
         const addedProduct = {
-          _id,
-          prodName,
-          prodPrice,
-          prodThumbnail,
-          prodType,
+          product: {
+            _id,
+            prodName,
+            prodPrice,
+            prodThumbnail,
+            prodType,
+          },
           quantity: 1,
         };
         let newCart = [];
@@ -70,6 +73,13 @@ export default function Product(props) {
             newCart = [...userCart];
           } else newCart = [...userCart, addedProduct];
           localStorage.setItem("USER_CART", JSON.stringify(newCart));
+          setToast({
+            toastShow: true,
+            title: "Adding successfully !!!",
+            content: "You can check it in your personal cart !!!",
+            icon: "✔",
+            bg: "success",
+          });
         }
       }
     } catch (error) {
@@ -87,7 +97,7 @@ export default function Product(props) {
     <div className="product_card">
       <img
         className="product_card_image"
-        src={prodThumbnail}
+        src={`${PROD_IMAGE_BASE_URL}${prodThumbnail}`}
         alt={prodName}
         onClick={() => {
           history.push("/productDetail");
