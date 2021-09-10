@@ -66,6 +66,14 @@ export default function Navbar() {
                 title={userInfo.userName}
                 autoClose
               >
+                {userInfo.userType === 1 && (
+                  <Dropdown.Item className=" dropdown_item">
+                    <Link to="/admin">
+                      <i class="fas fa-users-cog"></i> Dashboard
+                    </Link>
+                  </Dropdown.Item>
+                )}
+
                 <Dropdown.Item className=" dropdown_item">
                   <Link to="/profile">
                     <i className="far fa-id-badge"></i> Profile

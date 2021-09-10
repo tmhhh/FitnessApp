@@ -6,6 +6,7 @@ const Users = new Schema({
   userName: { type: String, required: true },
   userPassword: { type: String, required: true },
   userImage: { type: String, default: null },
+  userType: { type: Number, default: 0 },
   userCart: [
     {
       _id: false,

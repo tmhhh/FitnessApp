@@ -1,7 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { Context } from "../../../Contexts";
-import NutritionLayout from "../../Layouts/NutritionLayout";
+import NutritionContainer from "../../Containers/NutritionContainer";
 import SearchBar from "../../Common/SearchBar";
 import "./style.scss";
 
@@ -9,7 +9,7 @@ export default function NutritionPage() {
   const { nutriState } = useContext(Context);
   return (
     <>
-      <NutritionLayout>
+      <NutritionContainer>
         {nutriState.isLoading ? (
           <div className="nutrition_section none_active">
             <SearchBar />
@@ -90,7 +90,7 @@ export default function NutritionPage() {
             <SearchBar />
           </div>
         )}
-      </NutritionLayout>
+      </NutritionContainer>
     </>
   );
 }

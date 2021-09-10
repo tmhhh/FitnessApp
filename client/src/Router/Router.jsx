@@ -13,13 +13,14 @@ import AdminPage from "../Components/Admin/AdminPage";
 import CheckoutPage from "../Components/Pages/CheckoutPage";
 import ProductDetail from "../Components/Pages/ProductDetailPage";
 import NotiToast from "../Components/Common/Toast";
+import ProtectedRoute from "../Components/Routing/ProtectedRoute";
 export default function MainRouter() {
   const location = useLocation();
   return (
     <>
       <Navbar />
       <Switch>
-        <Route path="/admin" component={AdminPage} />
+        <ProtectedRoute path="/admin" component={AdminPage} />
         <Route exact path="/" component={HomePage} />
         <Route exact path="/checkout" component={CheckoutPage} />
         <Route exact path="/proDetail/:id" component={ProductDetail} />
