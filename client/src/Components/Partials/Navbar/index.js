@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Nav } from "react-bootstrap";
 import { NavLink, useHistory } from "react-router-dom";
-import AuthForm from "../Auth/AuthForm";
+import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
 export default function Navbar() {
   const history = useHistory();

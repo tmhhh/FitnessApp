@@ -1,5 +1,5 @@
 import React from "react";
-import Banner from "../../Banner/Banner";
+import Banner from "../../Partials/Banner";
 import IntroduceSection from "./Sections/IntroduceSection";
 import ShoppingSection from "./Sections/ShoppingSection";
 export default function Home() {

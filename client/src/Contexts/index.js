@@ -64,7 +64,7 @@ export default function ContextProvider({ children }) {
       }
     };
     loadUser();
-  }, []);
+  }, [dispatch]);
 
   const contextData = { nutriSearching, nutriState, toast, setToast };
   return <Context.Provider value={contextData}>{children}</Context.Provider>;

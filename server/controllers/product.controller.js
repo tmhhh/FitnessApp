@@ -58,6 +58,8 @@ module.exports = {
       return res
         .status(500)
         .json({ isSuccess: false, error: "Internal Server Error" });
+    }
+  },
   searchProducts: async (req, res) => {
     try {
       const { prodName } = req.query;

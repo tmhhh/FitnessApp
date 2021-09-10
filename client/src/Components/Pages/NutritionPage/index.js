@@ -2,15 +2,13 @@ import React, { Fragment, useContext } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { Context } from "../../../Contexts";
 import NutritionLayout from "../../Layouts/NutritionLayout";
-import Navbar from "../../Navbar/Navbar";
-import SearchBar from "../../SearchBar/SearchBar";
+import SearchBar from "../../Common/SearchBar";
 import "./style.scss";
 
 export default function NutritionPage() {
   const { nutriState } = useContext(Context);
   return (
     <>
-      <Navbar />
       <NutritionLayout>
         {nutriState.isLoading ? (
           <div className="nutrition_section none_active">

@@ -1,17 +1,17 @@
 import React from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
-import HomePage from "../Components/Pages/HomePage/HomePage";
-import TrainingPage from "../Components/Pages/TrainingPage/TrainingPage";
+import HomePage from "../Components/Pages/HomePage";
+import TrainingPage from "../Components/Pages/TrainingPage";
 
-import NutritionPage from "../Components/Pages/NutritionPage/NutritionPage";
-import ShoppingPage from "../Components/Pages/ShoppingPage/ShoppingPage";
+import NutritionPage from "../Components/Pages/NutritionPage";
+import ShoppingPage from "../Components/Pages/ShoppingPage";
 
-import Navbar from "../Components/Navbar/Navbar";
-import Footer from "../Components/Footer/Footer";
+import Navbar from "../Components/Partials/Navbar";
+import Footer from "../Components/Partials/Footer";
 
 import AdminPage from "../Components/Admin/AdminPage";
-import CheckoutPage from "../Components/Pages/CheckoutPage/CheckoutPage";
-import ProductDetail from "../Components/Pages/ProductDetailPage/ProductDetailPage";
+import CheckoutPage from "../Components/Pages/CheckoutPage";
+import ProductDetail from "../Components/Pages/ProductDetailPage";
 import NotiToast from "../Components/Common/Toast";
 export default function MainRouter() {
   const location = useLocation();

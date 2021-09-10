@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import prodApi from "../../../api/prodApi";
 import prodSlice from "../../../redux/slices/prodSlice";
 import ProductCard from "../../Card/ProductCard";
-import SearchBar from "../../SearchBar/SearchBar";
-import Sidebar from "../../Sidebar/Sidebar";
+import SearchBar from "../../Common/SearchBar";
+import Sidebar from "../../Partials/Sidebar";
 import "./style.scss";
 export default function ShoppingPage() {
   const prodSelector = useSelector((state) => state.prodReducer);

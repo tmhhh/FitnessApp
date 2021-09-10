@@ -2,14 +2,21 @@
 @mixin input_style() {
   color: $primary_black;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 13px;
   border-radius: 6px;
-  padding: 5px 0 5px 15px;
+  padding: 3px 0 3px 13px;
   height: 60px;
   border-style: none;
   background-color: white;
 }
-.main_container {
+.checkout_main_container {
+  & input[type="text"] {
+    box-shadow: 0 3px 13px rgb(83, 83, 83);
+    &:focus {
+      outline: none;
+      box-shadow: 0 3px 13px rgb(4, 4, 4);
+    }
+  }
   display: flex;
   width: 100%;
   min-height: 100%;
@@ -33,7 +40,7 @@
     position: absolute;
     content: "";
     height: 70%;
-    width: 1px;
+    width: 3px;
     background-color: $primary_black;
   }
 }
@@ -44,7 +51,7 @@
 
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid $primary_black;
+  border-bottom: 3px solid $primary_black;
   width: calc(100% -30px);
 
   max-height: 300px;
@@ -57,7 +64,7 @@
   align-items: center;
   background-color: white;
   padding: 10px 0;
-  box-shadow: 0 5px 15px rgb(83, 83, 83);
+  box-shadow: 0 3px 13px rgb(83, 83, 83);
 
   margin-top: 30px;
   &_image {
@@ -102,7 +109,7 @@
   width: calc(100% -30px);
   display: flex;
   margin: 0 0 40px 30px;
-  border-bottom: 1px solid $primary_black;
+  border-bottom: 3px solid $primary_black;
   padding-bottom: 20px;
   & input[type="text"] {
     @include input_style();
@@ -115,7 +122,7 @@
     background-color: #0d6efd;
     color: white;
 
-    margin: 0 5px;
+    margin: 0 3px;
     border-radius: 6px;
     font-weight: 600;
   }
@@ -143,6 +150,7 @@
   flex-direction: column;
   margin-left: 100px;
   margin-right: 100px;
+
   & i {
     position: relative;
     top: -50px;
@@ -174,7 +182,7 @@
     &::before {
       margin-right: 10px;
       content: "";
-      height: 1px;
+      height: 3px;
       width: 30%;
       flex: 1;
 
@@ -186,7 +194,7 @@
 
       background-color: $primary_black;
       content: "";
-      height: 1px;
+      height: 3px;
       flex: 1;
     }
   }
@@ -215,7 +223,7 @@
     &::before {
       margin-right: 10px;
       content: "";
-      height: 1px;
+      height: 3px;
       width: 30%;
       flex: 1;
 
@@ -227,7 +235,7 @@
 
       background-color: $primary_black;
       content: "";
-      height: 1px;
+      height: 3px;
       flex: 1;
     }
   }
@@ -269,7 +277,7 @@
 .contact_label,
 .login_label,
 .shipping_label {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 600;
   margin-bottom: 20px;
 }
@@ -280,11 +288,4 @@
   display: inline-block;
   position: relative;
   left: 310px;
-}
-
-input[type="text"] {
-  &:focus {
-    box-shadow: 0 5px 15px rgb(83, 83, 83);
-    outline: none;
-  }
 }

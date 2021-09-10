@@ -17,7 +17,7 @@ export default function CheckoutPage() {
   }, []);
   return (
     <>
-      <div className="main_container">
+      <div className="checkout_main_container">
         <div className="checkout_container">
           <Link to="/shopping">
             <i className="fas fa-long-arrow-alt-left"></i>

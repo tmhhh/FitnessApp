@@ -1,9 +1,9 @@
 import React, { useState, useRef, useContext } from "react";
 import "./style.scss";
-import { Context } from "../../Contexts";
+import { Context } from "../../../Contexts";
 import { useLocation } from "react-router";
-import prodApi from "../../api/prodApi";
-import prodSlice from "../../redux/slices/prodSlice";
+import prodApi from "../../../api/prodApi";
+import prodSlice from "../../../redux/slices/prodSlice";
 import { useDispatch } from "react-redux";
 export default function SearchBar() {
   const location = useLocation();
