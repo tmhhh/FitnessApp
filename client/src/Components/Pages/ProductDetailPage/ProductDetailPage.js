@@ -4,6 +4,7 @@ import imgSrc from "../../../assets/img/best_bcaa.png";
 import imgSrc4 from "../../../assets/img/best_protein.png";
 import imgSrc5 from "../../../assets/img/iso_hd.png";
 import imgSrc6 from "../../../assets/img/vegan_protein.png";
+import ReviewSection from "../../Review/ReviewSection";
 import "./style.scss";
 function ProductDetailPage(props) {
   const [quantity, setQuantity] = useState(1);
@@ -87,6 +88,7 @@ function ProductDetailPage(props) {
           </div>
         </div>
       </div>
+      <ReviewSection />
     </>
   );
 }
