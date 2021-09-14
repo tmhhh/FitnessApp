@@ -107,11 +107,10 @@
 }
 .discount_container {
   width: calc(100% -30px);
-  display: flex;
   margin: 0 0 40px 30px;
   border-bottom: 3px solid $primary_black;
   padding-bottom: 20px;
-  & input[type="text"] {
+  & .discount_input {
     @include input_style();
     flex-grow: 1;
   }

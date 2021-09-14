@@ -1,36 +1,13 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
 import { Col, Pagination, Row, Spinner } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import prodApi from "../../../api/prodApi";
-import prodSlice from "../../../redux/slices/prodSlice";
+import { useSelector } from "react-redux";
 import ProductCard from "../../Card/ProductCard";
 import SearchBar from "../../Common/SearchBar";
 import Sidebar from "../../Partials/Sidebar";
 import "./style.scss";
+
 export default function ShoppingPage() {
   const prodSelector = useSelector((state) => state.prodReducer);
-  // { listProducts, isLoading }
-
-  const dispatch = useDispatch();
-  //GET PRODUCTS
-  const getProducts = useCallback(async () => {
-    try {
-      const res = await prodApi.getAllProducts();
-      if (res.data.isSuccess)
-        return dispatch(
-          prodSlice.actions.getProducts({
-            prodLoading: false,
-            listProducts: res.data.listProducts,
-          })
-        );
-    } catch (err) {
-      console.log(err);
-      // return dispatch(prod)
-    }
-  }, [dispatch]);
-  useEffect(() => {
-    getProducts();
-  }, [getProducts]);
   return (
     <>
       <div className="container shopping_page_container">

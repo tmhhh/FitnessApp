@@ -32,7 +32,7 @@ export const deleteProduct = createAsyncThunk(
 
 const prodSlice = createSlice({
   name: "product",
-  initialState: { prodLoading: false, listProducts: [] },
+  initialState: { prodLoading: true, listProducts: [] },
   reducers: {
     pendingProducts: (state, action) => {
       return { ...state, prodLoading: true };

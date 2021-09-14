@@ -1,27 +1,80 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import vouApi from "../../../api/vouApi";
+import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
+import { Context } from "../../../Contexts";
 import { cartTotalPrice } from "../../../utils/calculate";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import CheckoutModal from "./CheckoutModal";
+import DiscountForm from "./DiscountForm";
 import "./style.scss";
-import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
-import cartSlice from "../../../redux/slices/cartSlice";
 export default function CheckoutPage() {
   const dispatch = useDispatch();
+  const { setToast } = useContext(Context);
   const { userCart } = useSelector((state) => state.cartReducer);
-  const { isAuthenticated } = useSelector((state) => state.authReducer);
-  const totalPrice = cartTotalPrice(userCart);
+  // const { isAuthenticated } = useSelector((state) => state.authReducer);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const usedDiscountRef = useRef(false);
+  const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    if (!isAuthenticated) {
-      if (localStorage.getItem("USER_CART")) {
-        const localCart = JSON.parse(localStorage.getItem("USER_CART"));
-        dispatch(
-          cartSlice.actions.setCart({ cartLoading: false, userCart: localCart })
-        );
+    setTotalPrice(cartTotalPrice(userCart));
+  }, [userCart]);
+
+  //HANDLE MODAL
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  ///SUBMIT VOUCHER
+  const handleSubmitVoucher = async ({ vouCode }) => {
+    if (usedDiscountRef.current)
+      return setToast({
+        toastShow: true,
+        title: "You have already used before !!!",
+        content: "Please try again next time !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+    setToast({
+      toastShow: true,
+      title: "Checking ...",
+      content: "Please wait a second",
+      icon: "👀",
+      bg: "info",
+    });
+    try {
+      const res = await vouApi.verifyVoucher(vouCode);
+
+      if (res.data.isSuccess) {
+        usedDiscountRef.current = true;
+        setTotalPrice((totalPrice) => {
+          const newPrice =
+            totalPrice - (totalPrice * res.data.voucher.vouDiscount) / 100;
+          return newPrice;
+        });
+        setToast({
+          toastShow: true,
+          title: "Your code is valid !!!",
+          content: "Happy shopping :)",
+          icon: "✔",
+          bg: "success",
+        });
+        // usedDiscountRef.current = true;
+
+        return;
       }
+    } catch (error) {
+      console.log({ error });
+      setToast({
+        toastShow: true,
+        title: "Code is invalid !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
     }
-  });
+  };
   return (
     <>
       <div className="checkout_main_container">
@@ -61,35 +114,37 @@ export default function CheckoutPage() {
             <input type="text" placeholder="Address" />
             <input type="text" placeholder="City" />
             <input type="text" placeholder="Phone" />
-            <Button variant="primary">Confirm</Button>
+            <Button onClick={handleShowModal} variant="primary">
+              Confirm
+            </Button>
           </form>
         </div>
         <div className="shopping_cart_container">
           <div className="added_products">
             {
               // isAuthenticated?
-              userCart.length > 0 &&
-                userCart.map((e) => (
-                  <div key={e.product._id} className="added_product">
-                    <div className="added_product_image">
-                      <img
-                        src={`${PROD_IMAGE_BASE_URL}${e.product.prodThumbnail}`}
-                        alt="name"
-                      />
-                      <div className="added_product_info_quantity">
-                        {e.quantity}
-                      </div>
-                    </div>
-                    <div className="added_product_info">
-                      <div className="added_product_info_name">
-                        {e.product.prodName}
-                      </div>
-                    </div>
-                    <div className="added_product_price">
-                      {formatCurrency(e.product.prodPrice)}
+              // userCart.length > 0 &&
+              userCart.map((e) => (
+                <div key={e.product._id} className="added_product">
+                  <div className="added_product_image">
+                    <img
+                      src={`${PROD_IMAGE_BASE_URL}${e.product.prodThumbnail}`}
+                      alt="name"
+                    />
+                    <div className="added_product_info_quantity">
+                      {e.quantity}
                     </div>
                   </div>
-                ))
+                  <div className="added_product_info">
+                    <div className="added_product_info_name">
+                      {e.product.prodName}
+                    </div>
+                  </div>
+                  <div className="added_product_price">
+                    {formatCurrency(e.product.prodPrice)}
+                  </div>
+                </div>
+              ))
 
               // : userCart.length > 0
               // ? userCart.map((prod) => (
@@ -120,8 +175,10 @@ export default function CheckoutPage() {
             }
           </div>
           <div className="discount_container">
-            <input type="text" placeholder="Discount Code" />
-            <button>Apply</button>
+            <DiscountForm
+              disabled={usedDiscountRef.current ? true : false}
+              handleSubmitVoucher={handleSubmitVoucher}
+            />
           </div>
           <div className="order_summary">
             <p className="order_summary_total">Total</p>
@@ -129,6 +186,10 @@ export default function CheckoutPage() {
           </div>
         </div>
       </div>
+      <CheckoutModal
+        showModal={showModal}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   );
 }

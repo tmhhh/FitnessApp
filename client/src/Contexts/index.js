@@ -1,11 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useReducer, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useReducer, useState, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../api/authApi";
 import { NUTRI_API_CONFIG } from "../assets/constants";
 import authSlice from "../redux/slices/authSlice";
 import cartSlice from "../redux/slices/cartSlice";
 import NutritionReducer from "./reducers/NutritionReducer";
+import prodApi from "../api/prodApi";
+import prodSlice from "../redux/slices/prodSlice";
+import cartApi from "../api/cartApi";
+import { getAllCate } from "../redux/slices/cateSlice";
+
+//CONTEXT
 export const Context = React.createContext();
 export default function ContextProvider({ children }) {
   const dispatch = useDispatch();
@@ -22,11 +28,17 @@ export default function ContextProvider({ children }) {
     icon: "",
     bg: "",
   });
+
+  //
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
+
+  //
   const [nutriState, nutriDispatch] = useReducer(NutritionReducer, {
     listFood: [],
     isLoading: false,
   });
 
+  //SEARCHING NUTRITION
   const nutriSearching = async (foodName) => {
     try {
       nutriDispatch({
@@ -44,11 +56,21 @@ export default function ContextProvider({ children }) {
     }
   };
 
-  // LOAD USER
-  const loadUser = async () => {
+  // LOAD USER DATA
+  const loadUser = useCallback(async () => {
     try {
-      if (!localStorage.getItem("USER_TOKEN"))
+      if (!localStorage.getItem("USER_TOKEN")) {
+        if (localStorage.getItem("USER_CART")) {
+          const localCart = JSON.parse(localStorage.getItem("USER_CART"));
+          dispatch(
+            cartSlice.actions.setCart({
+              cartLoading: false,
+              userCart: localCart,
+            })
+          );
+        }
         return dispatch(authSlice.actions.setAuthFailed());
+      }
       const res = await authApi.loadUser();
       if (res.data.isSuccess)
         dispatch(
@@ -70,14 +92,123 @@ export default function ContextProvider({ children }) {
       localStorage.removeItem("USER_TOKEN");
       dispatch(authSlice.actions.setAuthFailed());
     }
-  };
+  }, [dispatch]);
 
-  //LOAD USER AFTER REFRRESHING
+  // //GET PRODUCTS
+  const getProducts = useCallback(async () => {
+    try {
+      const res = await prodApi.getAllProducts();
+      if (res.data.isSuccess)
+        return dispatch(
+          prodSlice.actions.getProducts({
+            prodLoading: false,
+            listProducts: res.data.listProducts,
+          })
+        );
+    } catch (err) {
+      console.log(err);
+      // return dispatch(prod)
+    }
+  }, [dispatch]);
+
+  //GET CATE
+  const getCate = useCallback(async () => {
+    try {
+      dispatch(getAllCate());
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch]);
+  //LOAD USER , PRODUCTS , CATE AFTER REFRESHING
   useEffect(() => {
     loadUser();
-  }, [loadUser]);
+    getProducts();
+    getCate();
+  }, [loadUser, getProducts, getCate]);
 
+  //CHECK IF PRODUCT EXIST IN CART
+  const checkExist = (cart, prodID) => {
+    return cart.find((e) => e.product._id === prodID);
+  };
+
+  //ADD TO CART
+  const addToCart = async ({
+    _id,
+    prodName,
+    prodPrice,
+    prodThumbnail,
+    prodType,
+  }) => {
+    console.log("hi");
+    try {
+      setToast({
+        toastShow: true,
+        title: "Adding ...",
+        content: "Please wait a second",
+        icon: "👀",
+        bg: "info",
+      });
+      if (isAuthenticated) {
+        const res = await cartApi.addToCart(_id);
+        setToast({
+          toastShow: true,
+          title: "Adding successfully !!!",
+          content: "You can check it in your personal cart !!!",
+          icon: "✔",
+          bg: "success",
+        });
+        dispatch(
+          cartSlice.actions.setCart({
+            cartLoading: false,
+            userCart: res.data.updatedCart,
+          })
+        );
+      } else {
+        const addedProduct = {
+          product: {
+            _id,
+            prodName,
+            prodPrice,
+            prodThumbnail,
+            prodType,
+          },
+          quantity: 1,
+        };
+        let newCart = [];
+        let userCart = localStorage.getItem("USER_CART");
+        if (!userCart) {
+          newCart.push(addedProduct);
+          localStorage.setItem("USER_CART", JSON.stringify(newCart));
+        } else {
+          userCart = JSON.parse(userCart);
+          const updatedProduct = checkExist(userCart, _id);
+          if (updatedProduct) {
+            updatedProduct.quantity += 1;
+            newCart = [...userCart];
+          } else newCart = [...userCart, addedProduct];
+          localStorage.setItem("USER_CART", JSON.stringify(newCart));
+          setToast({
+            toastShow: true,
+            title: "Adding successfully !!!",
+            content: "You can check it in your personal cart !!!",
+            icon: "✔",
+            bg: "success",
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setToast({
+        toastShow: true,
+        title: "Failed to add to cart !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+    }
+  };
   const contextData = {
+    addToCart,
     nutriSearching,
     nutriState,
     toast,

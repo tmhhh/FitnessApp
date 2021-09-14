@@ -1,7 +1,8 @@
 import React from "react";
 import { Image, Table, Button } from "react-bootstrap";
 import Thumbnail from "../Common/Thumbnail";
-
+import { PROD_IMAGE_BASE_URL } from "../../assets/constants";
+import { formatCurrency } from "../../utils/formatCurrency";
 export default function ListTable({
   productList,
   updateModalShow,
@@ -25,11 +26,13 @@ export default function ListTable({
           {productList.map((item) => (
             <tr key={item._id}>
               <td>
-                <Thumbnail url={item.prodThumbnail} />
+                <Thumbnail
+                  url={`${PROD_IMAGE_BASE_URL}${item.prodThumbnail}`}
+                />
               </td>
               <td>{item.prodName}</td>
               <td>{item.prodCategory}</td>
-              <td>{item.prodPrice}</td>
+              <td>{formatCurrency(item.prodPrice)}</td>
               <td>{item.prodQuantity}</td>
               <td>{item.prodRating.star}</td>
               <td>

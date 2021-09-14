@@ -23,7 +23,7 @@ export default function MainRouter() {
         <ProtectedRoute path="/admin" component={AdminPage} />
         <Route exact path="/" component={HomePage} />
         <Route exact path="/checkout" component={CheckoutPage} />
-        <Route exact path="/proDetail/:id" component={ProductDetail} />
+        <Route exact path="/product/:id" component={ProductDetail} />
         <Route exact path="/training" component={TrainingPage} />
         <Route exact path="/nutrition" component={NutritionPage} />
         <Route exact path="/shopping" component={ShoppingPage} />

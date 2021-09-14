@@ -1,27 +1,6 @@
 import React from "react";
 import { Image, Table, Button } from "react-bootstrap";
 
-// export const list = [
-//   {
-//     id: 1,
-//     name: "huyle",
-//     price: 1,
-//     quantity: 1,
-//     category: "",
-//     description: "Hello my friend",
-//     thumbnailFile: "",
-//     imagesFile: [],
-//   },
-//   {
-//     id: 2,
-//     image:
-//       "https://clothing-app-server.herokuapp.com/images/product/kaki-jacket.jpg",
-//     name: "Mass",
-//     weight: "5 lbs",
-//     date: "cu",
-//   },
-// ];
-
 export default function ListTable({ list, updateModalShow }) {
   return (
     <>

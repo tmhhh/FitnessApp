@@ -1,3 +1,7 @@
+
+###
+GET http://localhost:4000/api/products/search?prodName=
+
 ###
 POST http://localhost:4000/api/auth/login
 Content-Type: application/json
@@ -19,12 +23,11 @@ Content-Type: application/json
     "userName":"Hoang",
     "userImage":"abc"
 }
-###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
-###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc2NzV9.EH-_qxEbxiw-HynQR2yuod-U-gAquSArVYuelBM1KHg
-###eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc0ODh9.3OFeTRj-Bc7rYqSm6bXZHEcDrvVA0yHfe8QnaOQlljE
+
+###
 GET http://localhost:4000/api/auth/verify
 Content-Type: application/json
-# Authorization: Bearer aaeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
+ Authorization: Bearer aaeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
 
 {
  
@@ -44,7 +47,37 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:4000/api/products/search?prodName=
+GET  http://localhost:4000/api/products/search
+Content-Type: application/json
+
+{
+    "id":111
+}
+###
+POST  http://localhost:4000/api/products/search
+Content-Type: application/json
+
+{
+    "id":111
+}
+###
+DELETE  http://localhost:4000/api/products/search
+Content-Type: application/json
+
+{
+    "id":111
+}
+###
+PUT  http://localhost:4000/api/products/search
+Content-Type: application/json
+
+{
+    "id":111
+}
+
+
+
+
 
 ###
 PUT http://localhost:4000/api/cart/add
@@ -53,3 +86,17 @@ Content-Type:application/json
 {
 "prodID":"1"
 }
+
+###
+POST http://localhost:4000/api/admin/category/add
+Content-Type:application/json
+
+{
+    "cateType":"Cloth",
+    "cateFilter":[{"filterName":"Shirt"},{"filterName":"Paint"},{"filterName":"Cap"}]
+   
+}
+
+#  "cateFilter":[{"filterName":"Whey Protein"},
+#     {"filterName":"BCAA","filterName":"Aminos"},
+#     {"filterName":"Mass"}]

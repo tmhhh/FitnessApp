@@ -1,97 +1,23 @@
 import React, { useContext } from "react";
-import "./style.scss";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import cartApi from "../../api/cartApi";
-import cartSlice from "../../redux/slices/cartSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { formatCurrency } from "../../utils/formatCurrency";
 import { PROD_IMAGE_BASE_URL } from "../../assets/constants";
 import { Context } from "../../Contexts";
+import { formatCurrency } from "../../utils/formatCurrency";
+import "./style.scss";
+
 export default function Product(props) {
-  const { setToast } = useContext(Context);
+  const { addToCart } = useContext(Context);
   const dispatch = useDispatch();
   const history = useHistory();
 
   //
 
-  const { isAuthenticated, userInfo } = useSelector(
-    (state) => state.authReducer
-  );
   const { prodName, prodType, prodPrice, prodThumbnail, _id } = props;
 
-  //CHECK IF PRODUCT EXIST IN CART
-  const checkExist = (cart, prodID) => {
-    return cart.find((e) => e.product._id === prodID);
-  };
-
   // ADD TO CART
-  const handleAddToCart = async () => {
-    try {
-      setToast({
-        toastShow: true,
-        title: "Adding ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
-      if (isAuthenticated) {
-        const res = await cartApi.addToCart(_id);
-        setToast({
-          toastShow: true,
-          title: "Adding successfully !!!",
-          content: "You can check it in your personal cart !!!",
-          icon: "✔",
-          bg: "success",
-        });
-        dispatch(
-          cartSlice.actions.setCart({
-            cartLoading: false,
-            userCart: res.data.updatedCart,
-          })
-        );
-      } else {
-        const addedProduct = {
-          product: {
-            _id,
-            prodName,
-            prodPrice,
-            prodThumbnail,
-            prodType,
-          },
-          quantity: 1,
-        };
-        let newCart = [];
-        let userCart = localStorage.getItem("USER_CART");
-        if (!userCart) {
-          newCart.push(addedProduct);
-          localStorage.setItem("USER_CART", JSON.stringify(newCart));
-        } else {
-          userCart = JSON.parse(userCart);
-          const updatedProduct = checkExist(userCart, _id);
-          if (updatedProduct) {
-            updatedProduct.quantity += 1;
-            newCart = [...userCart];
-          } else newCart = [...userCart, addedProduct];
-          localStorage.setItem("USER_CART", JSON.stringify(newCart));
-          setToast({
-            toastShow: true,
-            title: "Adding successfully !!!",
-            content: "You can check it in your personal cart !!!",
-            icon: "✔",
-            bg: "success",
-          });
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      setToast({
-        toastShow: true,
-        title: "Failed to add to cart !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
-    }
+  const handleAddToCart = () => {
+    addToCart(props);
   };
   return (
     <div className="product_card">
@@ -100,7 +26,7 @@ export default function Product(props) {
         src={`${PROD_IMAGE_BASE_URL}${prodThumbnail}`}
         alt={prodName}
         onClick={() => {
-          history.push("/productDetail");
+          history.push(`/product/${props._id}`);
         }}
       />
       <div className="product_card_content">

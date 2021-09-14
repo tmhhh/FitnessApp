@@ -24,4 +24,7 @@ router.put(
 router.delete("/:id", productCtl.delete);
 
 router.get("/search", productCtl.searchProducts);
+// router.post("/search", productCtl.searchProducts);
+// router.put("/search", productCtl.searchProducts);
+// router.delete("/search", productCtl.searchProducts);
 module.exports = router;

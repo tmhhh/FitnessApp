@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Nav, Dropdown, DropdownButton } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Dropdown, DropdownButton, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Context } from "../../../Contexts";
@@ -69,7 +69,7 @@ export default function Navbar() {
                 {userInfo.userType === 1 && (
                   <Dropdown.Item className=" dropdown_item">
                     <Link to="/admin">
-                      <i class="fas fa-users-cog"></i> Dashboard
+                      <i className="fas fa-users-cog"></i> Dashboard
                     </Link>
                   </Dropdown.Item>
                 )}
@@ -87,7 +87,8 @@ export default function Navbar() {
 
                 <Dropdown.Item className=" dropdown_item">
                   <p>
-                    <i className="far fa-user"></i> Type
+                    <i className="far fa-user"></i> Type:{" "}
+                    {userInfo.userType === 0 ? "User" : "Admin"}
                   </p>
                 </Dropdown.Item>
 

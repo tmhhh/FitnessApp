@@ -1,0 +1,29 @@
+@import "../../../assets/constants.scss";
+
+.voucher {
+  &_container {
+    width: 100%;
+    height: calc(100vh - 60px);
+    position: relative;
+  }
+
+  &_form {
+    padding: 20px;
+    background-color: $white_smoke;
+    box-shadow: 0 5px 15px black;
+    width: 40%;
+    min-height: 70%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    & .form-label {
+      width: 45% !important;
+    }
+    &_title {
+      text-align: center;
+      font-size: 20px;
+      font-weight: 700;
+    }
+  }
+}

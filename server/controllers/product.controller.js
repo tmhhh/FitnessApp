@@ -61,9 +61,11 @@ module.exports = {
     }
   },
   searchProducts: async (req, res) => {
+    console.log("body" + req.body.prodName);
+    console.log("query" + req.query.prodName);
+
     try {
       const { prodName } = req.query;
-      console.log(prodName);
       const foundProd = await productModel.find({
         prodName: { $regex: ".*" + prodName.toUpperCase() + ".*" },
       });

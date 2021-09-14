@@ -140,11 +140,9 @@ export default function ProductSide() {
         <h2 className="admin-content-title">Manage Product</h2>
         <div className="d-flex justify-content-between mt-5">
           <Button variant="dark" className="myButton" onClick={newModalShow}>
-            {" "}
             🆕 New item
           </Button>
           <Button variant="success" className="myButton" color="light">
-            {" "}
             🧩 Categories
           </Button>
         </div>

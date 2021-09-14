@@ -3,8 +3,8 @@ import { Form } from "react-bootstrap";
 
 export default function InputField(props) {
   const {
-    field,
-    form,
+    field, // formik
+    form, // formik
     type,
     label,
     placeholder,
@@ -27,16 +27,20 @@ export default function InputField(props) {
 
   return (
     <>
-      <Form.Group className="mb-3">
+      <Form.Group className="mb-4 mt-4">
         <div className={`${type === "number" && "d-flex align-items-center "}`}>
           {label && (
-            <Form.Label>
+            <Form.Label
+              className={type === "number" && "flex-shrink-0"}
+              htmlFor={name}
+            >
               {label}
               {required && " * "} :
             </Form.Label>
           )}
           <Form.Control
             {...field}
+            id={name}
             onChange={type === "file" ? onFileChange : onChange}
             as={asType}
             type={type}
@@ -44,15 +48,19 @@ export default function InputField(props) {
             disabled={disabled}
             defaultValue={defaultValue}
             min={min}
-            className={type === "number" && "w-50 ms-2"}
+            className={type === "number" && "flex-grow-1 ms-2"}
             multiple={multiple}
-            isValid={touched[name] && !error}
+            isValid={touched[name] && !errors[name]}
             isInvalid={error}
           />
         </div>
-        {error && (
-          <Form.Text style={{ color: "red" }}>{errors[name]} 💢</Form.Text>
-        )}
+        {error ? (
+          <Form.Text
+            style={{ color: "red", textAlign: "right", display: "block" }}
+          >
+            {errors[name]} 💢
+          </Form.Text>
+        ) : null}
       </Form.Group>
     </>
   );
