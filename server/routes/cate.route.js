@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const cateCtl = require("../controllers/cate.controller");
+const verifyUser = require("../middlewares/verifyToken.mdw");
+const verifyAdmin = require("../middlewares/verifyAdmin");
 router.get("/", cateCtl.getAllCate);
-router.post("/add", cateCtl.addingCate);
+router.post("/add", verifyUser, verifyAdmin, cateCtl.addingCate);
+router.put("/update", verifyUser, verifyAdmin, cateCtl.updatingCate);
+router.delete("/delete/:cateID", verifyUser, verifyAdmin, cateCtl.deletingCate);
 module.exports = router;

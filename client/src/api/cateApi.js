@@ -4,15 +4,19 @@ const cateApi = {
   getCategories: () => {
     return axiosClient.get(BASE_API_URL + "/admin/category");
   },
-  //   addProduct: (body) => {
-  //     return axiosClient.post(BASE_API_URL + "/products", body);
-  //   },
-  //   editProduct: (id, body) => {
-  //     return axiosClient.put(BASE_API_URL + `/products/${id}`, body);
-  //   },
-  //   deleteProduct: (id) => {
-  //     return axiosClient.delete(BASE_API_URL + `/products/${id}`);
-  //   },
+  addingCate: (newCate) => {
+    return axiosClient.post(BASE_API_URL + "/admin/category/add", newCate);
+  },
+  deletingCate: (cateID) => {
+    return axiosClient.delete(
+      BASE_API_URL + `/admin/category/delete/${cateID}`
+    );
+  },
+  updatingCate: (updatingCate) => {
+    return axiosClient.put(BASE_API_URL + `/admin/category/update`, {
+      updatingCate,
+    });
+  },
 };
 
 export default cateApi;

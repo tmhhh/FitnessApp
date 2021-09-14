@@ -12,29 +12,15 @@ export default function SelectField(props) {
     required,
     defaultValue,
     min,
-    options,
   } = props;
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
   const error = errors[name] && touched[name];
 
-  //HANDLE ON BLUR
-  const handleOnBlur = (e) => {
-    console.log(e);
-    const even = {
-      target: {
-        name,
-        touched: e,
-      },
-    };
-    onBlur(even);
-  };
   return (
     <>
       <Form.Group
-        className={`mb-4 mt-4 ${
-          type === "number" && "d-flex align-items-center "
-        }`}
+        className={`mb-3 ${type === "number" && "d-flex align-items-center "}`}
       >
         {label && (
           <Form.Label>
@@ -44,24 +30,18 @@ export default function SelectField(props) {
         )}
         <Form.Select
           {...field}
-          // onBlur={() => console.log("blur")}
           defaultValue={defaultValue}
-          isValid={!errors[name] && touched[name]}
+          isValid={touched[name] && !error}
           isInvalid={error}
-          placeholder={placeholder}
         >
-          <option value="">Open this select menu</option>
-          {options.map((e) => (
-            <option key={e._id} value={e._id}>
-              {e.cateType}
-            </option>
-          ))}
+          <option value={""}>Open this select menu</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
         </Form.Select>
-        {error && (
-          <Form.Control.Feedback style={{ textAlign: "right" }} type="invalid">
-            {errors[name]} 💢
-          </Form.Control.Feedback>
-        )}
+        <Form.Control.Feedback type="invalid">
+          {errors[name]} 💢
+        </Form.Control.Feedback>
       </Form.Group>
     </>
   );

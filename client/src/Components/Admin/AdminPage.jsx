@@ -7,6 +7,7 @@ import "./style.scss";
 
 export default function AdminPage() {
   let { path, url } = useRouteMatch();
+  // console.log({ path, url });
   return (
     <>
       <Sidebar url={url} />

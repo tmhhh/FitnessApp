@@ -1,10 +1,10 @@
-import { FastField, Field, Form, Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import { nanoid } from "nanoid";
 import { Button } from "react-bootstrap";
 import * as yup from "yup";
 import DatePickerField from "../../../Common/DatePickerField";
 import InputField from "../../../Common/InputField";
-import SelectField from "../../../Common/SelectField";
+import SelectField from "../CateField";
 export default function VoucherForm({ listCate, handleAddVoucher }) {
   const date = new Date().toLocaleDateString();
 
@@ -43,7 +43,6 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
       validationSchema={validationSchema}
     >
       {(formikProps) => {
-        const { errors, touched } = formikProps;
         // console.log({ errors }, { touched });
         //HANDLE GENERATE CODE
         const handleGenerateCode = () => {

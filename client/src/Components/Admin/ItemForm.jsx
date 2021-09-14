@@ -1,6 +1,6 @@
 import { FastField, Form, Formik } from "formik";
 import React from "react";
-import { Col, Image, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import InputField from "../Common/InputField";
 import SelectField from "../Common/SelectField";
 import Thumbnail from "../Common/Thumbnail";

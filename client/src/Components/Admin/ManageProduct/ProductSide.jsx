@@ -1,17 +1,19 @@
+import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
-import ProductTable from "../ProductTable";
-import ItemForm from "../ItemForm";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import * as yup from "yup";
 import {
   addProduct,
-  editProduct,
   deleteProduct,
+  editProduct,
 } from "../../../redux/slices/prodSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
-
-export default function ProductSide() {
+import ItemForm from "../ItemForm";
+import ProductTable from "../ProductTable";
+export default function ProductSide(props) {
+  console.log({ props });
+  const history = useHistory();
   const dispatch = useDispatch();
   const listProducts = useSelector((state) => state.prodReducer.listProducts);
   const [newModal, setNewModal] = useState(false);
@@ -142,7 +144,12 @@ export default function ProductSide() {
           <Button variant="dark" className="myButton" onClick={newModalShow}>
             🆕 New item
           </Button>
-          <Button variant="success" className="myButton" color="light">
+          <Button
+            onClick={() => history.push("/admin/category")}
+            variant="success"
+            className="myButton"
+            color="light"
+          >
             🧩 Categories
           </Button>
         </div>
