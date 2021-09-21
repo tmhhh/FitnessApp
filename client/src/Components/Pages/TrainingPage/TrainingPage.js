@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tab, Tabs } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { getPosts } from "../../../redux/slices/postSlice";
 import ExerciseCard from "../../Card/ExerciseCard";
+import PostContainer from "../../Post/PostContainer";
 import "./style.scss";
 
 export default function Training() {
+  const dispatch = useDispatch();
+  const listPost = useSelector((state) => state.postReducer.listPost);
+  const history = useHistory();
+  useEffect(() => {
+    (async () => {
+      await dispatch(getPosts());
+    })();
+  }, [dispatch]);
   return (
     <>
       <div style={{ marginTop: "100px" }} className="container">
@@ -120,6 +132,16 @@ export default function Training() {
             </div>
           </Tab>
         </Tabs>
+        <button
+          className="button3D p-3"
+          style={{ width: "fit-content", border: "3px solid black" }}
+          onClick={() => {
+            history.push("/create-post");
+          }}
+        >
+          Write your posts ⚡
+        </button>
+        <PostContainer listPost={listPost} />
       </div>
     </>
   );

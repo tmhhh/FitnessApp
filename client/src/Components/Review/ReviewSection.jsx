@@ -2,7 +2,7 @@ import React from "react";
 import Review from "./Review";
 import "./style.scss";
 
-export default function ReviewSection() {
+export default function ReviewSection({ listReview }) {
   return (
     <section id="testimonials">
       <div className="testimonial-heading">
@@ -11,7 +11,7 @@ export default function ReviewSection() {
       </div>
 
       <div className="testimonial-box-container">
-        {[...Array(9)].map((review, index) => (
+        {listReview.map((review, index) => (
           <Review key={index} review={review} />
         ))}
       </div>

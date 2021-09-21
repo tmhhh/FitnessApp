@@ -13,6 +13,8 @@ import AdminPage from "../Components/Admin/AdminPage";
 import CheckoutPage from "../Components/Pages/CheckoutPage/CheckoutPage";
 import ProductDetail from "../Components/Pages/ProductDetailPage/ProductDetailPage";
 import NotiToast from "../Components/Common/Toast";
+import Post from "../Components/Post/Post";
+import NewPostPage from "../Components/Pages/PostPage/NewPostPage";
 export default function MainRouter() {
   const location = useLocation();
   return (
@@ -26,6 +28,8 @@ export default function MainRouter() {
         <Route exact path="/training" component={TrainingPage} />
         <Route exact path="/nutrition" component={NutritionPage} />
         <Route exact path="/shopping" component={ShoppingPage} />
+        <Route exact path="/post/:postId" component={Post} />
+        <Route exact path="/create-post" component={NewPostPage} />
         <Route render={() => <div>NOT FOUND !!!</div>} />
       </Switch>
       <NotiToast />

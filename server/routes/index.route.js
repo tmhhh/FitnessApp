@@ -16,4 +16,7 @@ router.use("/cart", require("./cart.route"));
 //@@ADMIN
 router.use("/admin", require("../Admin/router"));
 
+//@@POST
+router.use("/post", require("./post.route"));
+
 module.exports = router;

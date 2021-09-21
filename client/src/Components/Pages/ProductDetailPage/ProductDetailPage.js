@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router";
 import imgSrc from "../../../assets/img/best_bcaa.png";
 import imgSrc4 from "../../../assets/img/best_protein.png";
 import imgSrc5 from "../../../assets/img/iso_hd.png";
 import imgSrc6 from "../../../assets/img/vegan_protein.png";
+import { getReview } from "../../../redux/slices/reviewSlice";
 import ReviewSection from "../../Review/ReviewSection";
 import "./style.scss";
 function ProductDetailPage(props) {
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
+  const listReview = useSelector((state) => state.reviewReducer.listReview);
+  const productId = useParams().id;
+  useEffect(() => {
+    (async () => {
+      await dispatch(getReview(productId));
+    })();
+  }, [productId, dispatch]);
   return (
     <>
       <div className="product_info_container">
@@ -88,7 +99,9 @@ function ProductDetailPage(props) {
           </div>
         </div>
       </div>
-      <ReviewSection />
+
+      {/* Review section */}
+      <ReviewSection listReview={listReview} />
     </>
   );
 }

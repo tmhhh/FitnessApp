@@ -1,13 +1,13 @@
 const productModel = require("../models/product.model");
-const reviewModel = require("../models/review.model");
+const postModel = require("../models/post.model");
 module.exports = {
-  getByProductId: async (req, res) => {
+  getByHashtag: async (req, res) => {
     try {
-      const productId = req.query.productId;
-      const listReview = await reviewModel
-        .find({ of_product: productId })
+      const hashtag = req.query.hashtag;
+      const listPost = await postModel
+        .find({ hashtag: { $in: hashtag } })
         .populate("user");
-      return res.status(200).json({ isSuccess: true, listReview });
+      return res.status(200).json({ isSuccess: true, listpost });
     } catch (error) {
       console.log(error);
       return res
@@ -15,32 +15,27 @@ module.exports = {
         .json({ isSuccess: false, error: "Internal Server Error" });
     }
   },
-  create: async (req, res) => {
-    const { productId, content, rating } = req.body;
+  get: async (req, res) => {
     try {
-      //Add new review
-      const review = new reviewModel({
-        user: req.userID,
-        of_product: productId,
-        content: content,
-        rating: +rating,
+      const listPost = await postModel.find({}).populate("author");
+      return res.status(200).json({ isSuccess: true, listPost });
+    } catch (err) {
+      return res.status(500).json({ isSuccess: false, error: err });
+    }
+  },
+  create: async (req, res) => {
+    const { title, content, hashtag } = req.body;
+    try {
+      //Add new post
+      const post = new postModel({
+        title,
+        hashtag,
+        content,
+        thumbnail: req.file ? req.file.filename : "default-post.png",
+        author: req.userID,
       });
-      await review.save();
-
-      //Add rating
-      const product = await productModel.findById(productId);
-      let {
-        prodRating: { num_of_reviewers, star },
-      } = product;
-      const newRating = {
-        prodRating: {
-          num_of_reviewers: num_of_reviewers + 1,
-          star: (num_of_reviewers * star + +rating) / (num_of_reviewers + 1),
-        },
-      };
-      await productModel.updateOne({ _id: productId }, newRating);
-
-      return res.status(200).json({ isSuccess: true, review });
+      await post.save();
+      return res.status(200).json({ isSuccess: true, post });
     } catch (error) {
       console.log(error);
       return res
@@ -50,8 +45,8 @@ module.exports = {
   },
   update: async (req, res) => {
     try {
-      const review = { ...req.body };
-      await reviewModel.updateOne({ _id: req.params.id }, review);
+      const post = { ...req.body };
+      await postModel.updateOne({ _id: req.params.id }, post);
       return res.status(200).json({ isSuccess: true });
     } catch (err) {
       return res
@@ -61,7 +56,7 @@ module.exports = {
   },
   delete: async (req, res) => {
     try {
-      await reviewModel.deleteOne({ _id: req.params.id });
+      await postModel.deleteOne({ _id: req.params.id });
       return res.status(200).json({ isSuccess: true });
     } catch (err) {
       return res
@@ -71,11 +66,11 @@ module.exports = {
   },
   like: async (req, res) => {
     try {
-      const reviewId = req.params.id;
-      const review = await reviewModel.findById(reviewId);
+      const postId = req.params.id;
+      const post = await postModel.findById(postId);
       const {
         like: { count, people },
-      } = review;
+      } = post;
       if (people.indexOf(req.userID) < 0) {
         const change = {
           like: {
@@ -83,7 +78,7 @@ module.exports = {
             people: [...people, req.userID],
           },
         };
-        await reviewModel.updateOne({ _id: reviewId }, change);
+        await postModel.updateOne({ _id: postId }, change);
       }
       return res.status(200).json({ isSuccess: true });
     } catch (err) {
