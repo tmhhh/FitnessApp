@@ -71,23 +71,7 @@ export default function NewItemForm(props) {
                 type="file"
                 component={InputField}
               />
-              {/* {values._id ? (
-                <>
-                  {values.prodThumbnail && (
-                    <Thumbnail url={values.prodThumbnail} />
-                  )}
-                </>
-              ) : (
-                <>
-                  {values.thumbnailFile && (
-                    <div className="d-flex justify-content-center">
-                      <Thumbnail
-                        url={URL.createObjectURL(values.thumbnailFile)}
-                      />
-                    </div>
-                  )}
-                </>
-              )} */}
+
               <div className="d-flex justify-content-center">
                 {values.thumbnailFile === undefined ? (
                   <Thumbnail url={values.prodThumbnail} />

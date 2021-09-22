@@ -7,8 +7,6 @@ module.exports = {
         .find()
         .populate("prodCategory.cateName")
         .lean();
-      // console.log(listProducts[0].prodCategory);
-      // console.log(listProducts[0].prodCategory.cateName.cateFilter);
       for (const prod of listProducts) {
         for (const filter of prod.prodCategory.cateName.cateFilter) {
           if (

@@ -7,6 +7,9 @@ router.use("/auth", require("./auth.route"));
 //@@PRODUCT
 router.use("/products", require("./product.route"));
 
+//@@REVIEW
+router.use("/reviews", require("./review.route"));
+
 //@@CART
 router.use("/cart", require("./cart.route"));
 
@@ -22,6 +25,9 @@ router.use("/cart", require("./cart.route"));
 // });
 router.get("/private", (req, res) => res.json(req.user));
 //@@ADMIN
-router.use("/admin", require("../Admin/router"));
+router.use("/admin", require("./admin.route"));
+
+//@@POST
+router.use("/post", require("./post.route"));
 
 module.exports = router;
