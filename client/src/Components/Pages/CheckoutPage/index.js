@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import cartApi from "../../../api/cartApi";
 import vouApi from "../../../api/vouApi";
 import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
 import { Context } from "../../../Contexts";
@@ -9,12 +10,13 @@ import { cartTotalPrice } from "../../../utils/calculate";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import CheckoutModal from "./CheckoutModal";
 import DiscountForm from "./DiscountForm";
+import cartSlice from "../../../redux/slices/cartSlice";
 import "./style.scss";
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const { setToast } = useContext(Context);
   const { userCart } = useSelector((state) => state.cartReducer);
-  // const { isAuthenticated } = useSelector((state) => state.authReducer);
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
   const [totalPrice, setTotalPrice] = useState(0);
   const usedDiscountRef = useRef(false);
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +28,93 @@ export default function CheckoutPage() {
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
 
+  //HANDLE DELETE PRODUCT FROM CART
+  const handleRemoveProduct = async (id) => {
+    try {
+      setToast({
+        toastShow: true,
+        title: "Deleting ...",
+        content: "Please wait a second",
+        icon: "👀",
+        bg: "info",
+      });
+      if (isAuthenticated) {
+        const res = await cartApi.removeFromCart(id);
+        if (res.data.isSuccess) {
+          // console.log(res.data);
+          dispatch(
+            cartSlice.actions.deletingFromCart({
+              prodID: res.data.deletedProdID,
+            })
+          );
+          return setToast({
+            toastShow: true,
+            title: "Delete Successfully !!!",
+            content: "Happy shopping :)",
+            icon: "✔",
+            bg: "success",
+          });
+        }
+      } else {
+      }
+    } catch (err) {
+      console.log(err);
+      setToast({
+        toastShow: true,
+        title: "Something happens !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+    }
+  };
+
+  //HANDLE UPDATE QUANTITY
+  const handleUpdateQuantity = async (prodID, quantity, action) => {
+    try {
+      if (action === "decrease" && quantity - 1 <= 0) return;
+      setToast({
+        toastShow: true,
+        title: "Updating ...",
+        content: "Please wait a second",
+        icon: "👀",
+        bg: "info",
+      });
+      if (isAuthenticated) {
+        const res = await cartApi.updateCart(
+          prodID,
+          action === "increase" ? quantity + 1 : quantity - 1
+        );
+        if (res.data.isSuccess) {
+          console.log(res.data.userCart);
+          dispatch(
+            cartSlice.actions.setCart({
+              cartLoading: false,
+              userCart: res.data.userCart,
+            })
+          );
+          return setToast({
+            toastShow: true,
+            title: "Update Successfully !!!",
+            content: "Happy shopping :)",
+            icon: "✔",
+            bg: "success",
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setToast({
+        toastShow: true,
+        title: "Something happens !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+    }
+  };
   ///SUBMIT VOUCHER
+
   const handleSubmitVoucher = async ({ vouCode }) => {
     if (usedDiscountRef.current)
       return setToast({
@@ -131,17 +219,52 @@ export default function CheckoutPage() {
                       src={`${PROD_IMAGE_BASE_URL}${e.product.prodThumbnail}`}
                       alt="name"
                     />
-                    <div className="added_product_info_quantity">
+                    {/* <div className="added_product_info_quantity">
                       {e.quantity}
-                    </div>
+                    </div> */}
                   </div>
                   <div className="added_product_info">
                     <div className="added_product_info_name">
                       {e.product.prodName}
                     </div>
+                    <div className="added_product_info_category">
+                      {e.product.prodCategory.cateName.cateName} |
+                      {` ${e.product.prodCategory.cateFilter.filterName}`}
+                    </div>
+                    <div className="added_product_info_quantity">
+                      x {e.quantity}
+                    </div>
                   </div>
                   <div className="added_product_price">
                     {formatCurrency(e.product.prodPrice)}
+                  </div>
+                  <div className="added_product_action_icons">
+                    <i
+                      onClick={() =>
+                        handleUpdateQuantity(
+                          e.product._id,
+                          e.quantity,
+                          "increase"
+                        )
+                      }
+                      className="fas fa-angle-up"
+                    ></i>
+                    <i
+                      onClick={() =>
+                        handleUpdateQuantity(
+                          e.product._id,
+                          e.quantity,
+                          "decrease"
+                        )
+                      }
+                      className="fas fa-angle-down"
+                    ></i>
+                    <i
+                      className="addedd_product_icon_close"
+                      onClick={() => handleRemoveProduct(e.product._id)}
+                    >
+                      ❌
+                    </i>
                   </div>
                 </div>
               ))

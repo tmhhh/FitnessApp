@@ -4,4 +4,10 @@ const verifyUser = require("../middlewares/verifyToken.mdw");
 const cartCtl = require("../controllers/cart.controller");
 
 router.route("/add").put(verifyUser, cartCtl.addingToCart);
+
+//
+router.delete("/delete", verifyUser, cartCtl.deletingFromCart);
+
+//
+router.put("/update", verifyUser, cartCtl.updatingCart);
 module.exports = router;

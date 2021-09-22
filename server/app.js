@@ -4,6 +4,7 @@ const PORT = process.env.PORT || 4000;
 const cors = require("cors");
 const mongoose = require("mongoose");
 const expressSession = require("express-session");
+const passport = require("passport");
 require("dotenv").config();
 
 app.use(
@@ -20,9 +21,13 @@ app.use(
     origin: true,
   })
 );
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("./public"));
+app.use(passport.initialize());
+app.use(passport.session());
+
 mongoose
   .connect(process.env.MONGO_DB_URI, {
     useNewUrlParser: true,
@@ -31,7 +36,10 @@ mongoose
   .then(() => {
     console.log("connected");
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.log(err);
+  });
+
 //ROUTE
 app.use("/api", require("./routes/index.route"));
 app.listen(PORT, () => {

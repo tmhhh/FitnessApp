@@ -37,7 +37,7 @@ export default function CateSide() {
     console.log({ formData });
     const cateFilterName = formData.cateFilter.split(",");
     const newCate = {
-      cateType: formData.cateType,
+      cateName: formData.cateType,
       cateFilter: [],
     };
     cateFilterName.forEach((e) => {
@@ -52,7 +52,7 @@ export default function CateSide() {
     const cateFilterName = formData.cateFilter.split(",");
     const updatingCate = {
       _id: updatedCateRef.current._id,
-      cateType: formData.cateType,
+      cateName: formData.cateType,
       cateFilter: [],
     };
     cateFilterName.forEach((e) => {

@@ -11,4 +11,7 @@ export const authApi = {
   loadUser: () => {
     return axiosClient.get(BASE_API_URL + "/auth/verify");
   },
+  getLoginData: () => {
+    return axiosClient.get(BASE_API_URL + "/auth/login/data");
+  },
 };

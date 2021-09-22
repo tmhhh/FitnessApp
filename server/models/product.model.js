@@ -3,14 +3,24 @@ const Schema = mongoose.Schema;
 const Products = new Schema({
   prodName: { type: String, required: true },
   prodCategory: {
-    type: Schema.Types.ObjectId,
-    ref: "Categories.cateFilter._id",
-    required: true,
+    cateName: {
+      type: Schema.Types.ObjectId,
+      ref: "Categories",
+      required: true,
+    },
+    cateFilter: {
+      _id: {
+        type: Schema.Types.ObjectID,
+        ref: "Categories.cateFilter",
+        index: 0,
+        required: true,
+      },
+    },
   },
   prodDescription: { type: String, required: false },
   prodPrice: { type: Number, required: true },
   prodRating: {
-    num_of_reviewers: { type: String, default: 0 },
+    num_of_reviewers: { type: Number, default: 0 },
     star: { type: Number, default: 0 },
   },
   prodThumbnail: { type: String, required: true },

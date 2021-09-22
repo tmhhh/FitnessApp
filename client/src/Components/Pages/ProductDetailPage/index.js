@@ -2,12 +2,13 @@ import React, { useState, useContext } from "react";
 import { Button, Spinner } from "react-bootstrap";
 
 import "./style.scss";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { Context } from "../../../Contexts";
 function ProductDetailPage() {
+  const history = useHistory();
   const { addToCart } = useContext(Context);
 
   const [quantity, setQuantity] = useState(1);
@@ -17,14 +18,13 @@ function ProductDetailPage() {
 
   //HANDLE ADD TO CART
   const handleAddToCart = () => {
-    addToCart(chosenProd);
+    addToCart(chosenProd, quantity);
   };
+
   //GET 3 RELATED PRODUCTS
-  let count = 1;
-  const relatedProds = listProducts.filter((prod) => {
-    if (count > 3) return;
+  const relatedProds = listProducts.filter((prod, index) => {
+    if (index > 3) return;
     if (prod._id !== prodID && prod.prodType === chosenProd.prodType) {
-      count++;
       return prod;
     }
   });
@@ -67,7 +67,9 @@ function ProductDetailPage() {
               <div className="product_info_price">
                 {formatCurrency(chosenProd.prodPrice)}
               </div>
-              <div className="product_info_des">{chosenProd.prodDes}</div>
+              <div className="product_info_des">
+                {chosenProd.prodDescription}
+              </div>
               <div className="product_info_action">
                 <Button onClick={handleAddToCart} variant="dark">
                   Add to cart
@@ -88,7 +90,11 @@ function ProductDetailPage() {
             <div className="product_related">
               <p className="product_related_title">Similar Products</p>
               {relatedProds.map((prod) => (
-                <div key={prod._id} className="product_related_info">
+                <div
+                  onClick={() => history.push(`/product/${prod._id}`)}
+                  key={prod._id}
+                  className="product_related_info"
+                >
                   <div className="product_related_info_image">
                     <img
                       src={`${PROD_IMAGE_BASE_URL}${prod.prodThumbnail}`}

@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const Users = new Schema({
   userNameID: { type: String, required: true },
   userName: { type: String, required: true },
-  userPassword: { type: String, required: true },
+  userPassword: { type: String, default: null },
   userImage: { type: String, default: null },
   userType: { type: Number, default: 0 },
   userCart: [

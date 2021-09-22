@@ -1,85 +1,92 @@
-
 ###
+
 GET http://localhost:4000/api/products/search?prodName=
 
 ###
+
 POST http://localhost:4000/api/auth/login
 Content-Type: application/json
 Authorization: Bearer eaasdada
 
 {
- 
+
     "userNameID":"tmh",
     "userPassword":"1"
+
 }
 
 ###
+
 POST http://localhost:4000/api/auth/register
 Content-Type: application/json
 
 {
-    "userNameID":"tmh",
-    "userPassword":"1",
-    "userName":"Hoang",
-    "userImage":"abc"
+"userNameID":"tmh",
+"userPassword":"1",
+"userName":"Hoang",
+"userImage":"abc"
 }
 
 ###
+
 GET http://localhost:4000/api/auth/verify
 Content-Type: application/json
- Authorization: Bearer aaeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
+Authorization: Bearer aaeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI2MTMxZWY5YmJmNGZkMmNiNmM4YTAxMzciLCJpYXQiOjE2MzA2Njc1MDh9.Vs29LfjqCfW7hM8BtGmrAoVKAhQxeEGn-DdC-O3LFeA
 
 {
- 
+
     "userNameID":"tmh",
     "userPassword":"1"
+
 }
 
-
 ###
+
 DELETE http://localhost:4000/api/products
 Content-Type: application/json
 
 {
-    "id":234
+"id":234
 }
 
-
-
 ###
-GET  http://localhost:4000/api/products/search
+
+GET http://localhost:4000/api/products/search
 Content-Type: application/json
 
 {
-    "id":111
+"id":111
 }
+
 ###
-POST  http://localhost:4000/api/products/search
+
+POST http://localhost:4000/api/products/search
 Content-Type: application/json
 
 {
-    "id":111
+"id":111
 }
+
 ###
-DELETE  http://localhost:4000/api/products/search
+
+DELETE http://localhost:4000/api/products/search
 Content-Type: application/json
 
 {
-    "id":111
+"id":111
 }
+
 ###
-PUT  http://localhost:4000/api/products/search
+
+PUT http://localhost:4000/api/products/search
 Content-Type: application/json
 
 {
-    "id":111
+"id":111
 }
 
-
-
-
-
 ###
+
 PUT http://localhost:4000/api/cart/add
 Content-Type:application/json
 
@@ -88,15 +95,30 @@ Content-Type:application/json
 }
 
 ###
+
 POST http://localhost:4000/api/admin/category/add
 Content-Type:application/json
 
 {
-    "cateType":"Cloth",
-    "cateFilter":[{"filterName":"Shirt"},{"filterName":"Paint"},{"filterName":"Cap"}]
-   
+"cateType":"Cloth",
+"cateFilter":[{"filterName":"Shirt"},{"filterName":"Paint"},{"filterName":"Cap"}]
+
 }
 
-#  "cateFilter":[{"filterName":"Whey Protein"},
-#     {"filterName":"BCAA","filterName":"Aminos"},
-#     {"filterName":"Mass"}]
+###
+
+POST http://localhost:4000/api/products
+Content-Type: application/json
+
+{
+"prodName":"ISO HD",
+"prodCategory":{
+"cateType":"613e282fe25e019f1299a0d9",
+"filter":"613e282fe25e019f1299a0da"
+},
+"prodDescription":"Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus perferendis nam omnis quis ab libero iusto, perspiciatis sint architecto quos nihil, est, iure fugiat optio. Harum ex nihil ullam minus!",
+"prodPrice":40, # "prodRating":{ # # "start":null, # # "num_of_reviewers":null # },
+"prodThumbnail":"iso_hd.png",
+"prodImages":"",
+"prodQuantity":10
+}

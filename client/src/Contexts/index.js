@@ -52,7 +52,7 @@ export default function ContextProvider({ children }) {
       });
     } catch (error) {
       console.log({ error });
-      dispatch({ type: "SET_NUTRI_FAIL", payload: {} });
+      nutriDispatch({ type: "SET_NUTRI_FAIL", payload: {} });
     }
   };
 
@@ -132,14 +132,10 @@ export default function ContextProvider({ children }) {
   };
 
   //ADD TO CART
-  const addToCart = async ({
-    _id,
-    prodName,
-    prodPrice,
-    prodThumbnail,
-    prodType,
-  }) => {
-    console.log("hi");
+  const addToCart = async (
+    { _id, prodName, prodPrice, prodThumbnail, prodType, prodCategory },
+    addedQuantity = 1
+  ) => {
     try {
       setToast({
         toastShow: true,
@@ -149,7 +145,7 @@ export default function ContextProvider({ children }) {
         bg: "info",
       });
       if (isAuthenticated) {
-        const res = await cartApi.addToCart(_id);
+        const res = await cartApi.addToCart(_id, addedQuantity);
         setToast({
           toastShow: true,
           title: "Adding successfully !!!",
@@ -170,9 +166,16 @@ export default function ContextProvider({ children }) {
             prodName,
             prodPrice,
             prodThumbnail,
-            prodType,
+            prodCategory: {
+              cateName: {
+                cateName: prodCategory.cateName.cateName,
+              },
+              cateFilter: {
+                filterName: prodCategory.cateFilter.filterName,
+              },
+            },
           },
-          quantity: 1,
+          quantity: addedQuantity,
         };
         let newCart = [];
         let userCart = localStorage.getItem("USER_CART");
@@ -183,7 +186,7 @@ export default function ContextProvider({ children }) {
           userCart = JSON.parse(userCart);
           const updatedProduct = checkExist(userCart, _id);
           if (updatedProduct) {
-            updatedProduct.quantity += 1;
+            updatedProduct.quantity += addedQuantity;
             newCart = [...userCart];
           } else newCart = [...userCart, addedProduct];
           localStorage.setItem("USER_CART", JSON.stringify(newCart));

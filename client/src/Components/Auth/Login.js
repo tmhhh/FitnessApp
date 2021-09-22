@@ -6,6 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../../api/authApi";
 import authSlice from "../../redux/slices/authSlice";
 import cartSlice from "../../redux/slices/cartSlice";
+import { FacebookLoginButton } from "react-social-login-buttons";
+import { GoogleLoginButton } from "react-social-login-buttons";
+
 import "./style.scss";
 function Login() {
   const dispatch = useDispatch();
@@ -86,6 +89,74 @@ function Login() {
       });
     }
   };
+
+  //
+  const fetchUserData = async () => {
+    try {
+      const res = await authApi.getLoginData();
+      if (res.data.isSuccess) {
+        console.log(res.data.loginUser);
+        dispatch(
+          authSlice.actions.setAuth({
+            authLoading: false,
+            isAuthenticated: true,
+            userInfo: res.data.loginUser,
+          })
+        );
+        setAuthForm((e) => ({ ...e, isShown: false }));
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(authSlice.actions.setAuthFailed());
+    }
+  };
+  //LOGIN WITH GOOGLE
+  const handleLoginWithGoogle = async () => {
+    try {
+      let timer = null;
+
+      const newWindow = window.open(
+        "http://localhost:4000/api/auth/login/google",
+        "_blank",
+        "width=500,height=600"
+      );
+      // if (newWindow) {
+      timer = setInterval(async () => {
+        if (newWindow.closed) {
+          fetchUserData();
+          if (timer) clearInterval(timer);
+        }
+      }, 500);
+      // }
+    } catch (error) {
+      console.log(error);
+      dispatch(authSlice.actions.setAuthFailed());
+    }
+  };
+
+  //LOGIN WITH FACEBOOK
+  const handleLoginWithFacebook = async () => {
+    try {
+      let timer = null;
+
+      const newWindow = window.open(
+        "http://localhost:4000/api/auth/login/fb",
+        "_blank",
+        "width=500,height=600"
+      );
+      // if (newWindow) {
+      timer = setInterval(async () => {
+        if (newWindow.closed) {
+          fetchUserData();
+          if (timer) clearInterval(timer);
+        }
+      }, 500);
+      // }
+    } catch (error) {
+      console.log(error);
+      dispatch(authSlice.actions.setAuthFailed());
+    }
+  };
   return (
     <>
       {/* <AuthLayout> */}
@@ -137,6 +208,14 @@ function Login() {
             Submit
           </Button>
         </div>
+        <Form.Group className="mb-3 text-center" controlId="formBasicCheckbox">
+          <Form.Label>Or login with</Form.Label>
+          <FacebookLoginButton
+            className="mb-2"
+            onClick={handleLoginWithFacebook}
+          />
+          <GoogleLoginButton onClick={handleLoginWithGoogle} />
+        </Form.Group>
       </Form>
       {/* </AuthLayout> */}
     </>

@@ -2,12 +2,13 @@ $marginBottom: 5px;
 @import "../../../assets/constants.scss";
 .product_info {
   &_container {
+    background-color: #fff;
+
     padding-bottom: 30px;
     margin: 60px 0 0 0;
     width: 100%;
     min-height: calc(100% - 60px);
     display: flex;
-    background-color: #e9e7e5;
 
     justify-content: space-around;
   }
@@ -106,7 +107,6 @@ $marginBottom: 5px;
 }
 
 .product_related {
-  // background-color: #e9e7e5;
   width: 33.33%;
   height: calc(100%-60px);
   &_title {
@@ -120,8 +120,10 @@ $marginBottom: 5px;
     width: calc(100% - 20px);
     margin: 50px 0 30px 20px;
     display: flex;
+    padding: 5px 0;
     border-bottom: 5px solid $white_smoke;
-
+    box-shadow: 0 5px 10px black;
+    cursor: pointer;
     &_image {
       width: 20%;
       // flex-shrink: 0;

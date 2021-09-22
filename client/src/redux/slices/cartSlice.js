@@ -17,6 +17,15 @@ const cartSlice = createSlice({
         userCart: [...userCart],
       };
     },
+    deletingFromCart: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        userCart: state.userCart.filter(
+          (prod) => prod.product._id !== payload.prodID
+        ),
+      };
+    },
   },
 });
 

@@ -7,11 +7,11 @@ import { useRef } from "react";
 export default function CateForm(props) {
   const { innerRef, handleSubmitAction, action, updatedCateRef } = props;
   const initialValues = {
-    cateType: "",
+    cateName: "",
     cateFilter: "",
   };
   const validationSchema = yup.object().shape({
-    cateType: yup.string().required("This field is required"),
+    cateName: yup.string().required("This field is required"),
     cateFilter: yup.string().required("This field is required"),
   });
 
@@ -24,7 +24,7 @@ export default function CateForm(props) {
       return (cateFilter += e.filterName);
     });
     console.log({ cateFilter });
-    initialValues.cateType = updatedCateRef.cateType;
+    initialValues.cateName = updatedCateRef.cateName;
     initialValues.cateFilter = cateFilter;
   }
   const checkRef = useRef(false);
@@ -41,8 +41,8 @@ export default function CateForm(props) {
           return (
             <Form>
               <FastField
-                name="cateType"
-                label="Cate type"
+                name="cateName"
+                label="Cate name"
                 placeholder="Input cate type"
                 required
                 component={InputField}
