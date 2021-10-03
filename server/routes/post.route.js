@@ -11,11 +11,17 @@ router.post(
   upload("posts").single("thumbnailFile"),
   postCtl.create
 );
-// router.put("/:id", authMdw, postCtl.update);
-// router.delete("/:id", authMdw, postCtl.delete);
+router.put(
+  "/:id",
+  authMdw,
+  upload("posts").single("thumbnailFile"),
+  postCtl.update
+);
 
-// router.post("/like/:id", authMdw, postCtl.like);
+router.delete("/:id", authMdw, postCtl.delete);
 
+router.put("/like/:id", authMdw, postCtl.like);
+router.put("/pending/:id", authMdw, postCtl.pending);
 //Post files
 router.post("/uploadfiles", upload("posts").single("file"), (req, res) => {
   if (req.file)

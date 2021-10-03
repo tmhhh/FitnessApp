@@ -40,8 +40,15 @@ export default function InputField(props) {
           )}
           <Form.Control
             {...field}
-            id={name}
             onChange={type === "file" ? onFileChange : onChange}
+            value={
+              type !== "file"
+                ? value
+                : value instanceof File
+                ? value
+                : undefined
+            }
+            id={name}
             as={asType}
             type={type}
             placeholder={placeholder}

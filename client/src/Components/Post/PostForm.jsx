@@ -3,6 +3,7 @@ import React from "react";
 import { Image } from "react-bootstrap";
 import InputField from "../Common/InputField";
 import RichTextField from "../Common/RichTextField";
+import { fetchPostImage } from "../../assets/constants";
 
 export default function PostForm({ innerRef, handleSubmit, initialValues }) {
   const onSubmit = async (formData) => {
@@ -15,8 +16,9 @@ export default function PostForm({ innerRef, handleSubmit, initialValues }) {
   return (
     <>
       <Formik
-        innerRef={innerRef}
+        enableReinitialize
         initialValues={initialValues}
+        innerRef={innerRef}
         onSubmit={(values) => onSubmit(values)}
       >
         {(formikProps) => {
@@ -39,8 +41,8 @@ export default function PostForm({ innerRef, handleSubmit, initialValues }) {
               <div className="d-flex justify-content-center">
                 {values.thumbnailFile === undefined ? (
                   <Image
-                    style={{ width: "200px", height: "100px" }}
-                    src={values.thumbnail}
+                    style={{ width: "600px", height: "300px" }}
+                    src={fetchPostImage(values.thumbnail)}
                     thumbnail
                     rounded
                   />

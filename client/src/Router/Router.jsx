@@ -16,6 +16,7 @@ import NotiToast from "../Components/Common/Toast";
 import ProtectedRoute from "../Components/Routing/ProtectedRoute";
 import Post from "../Components/Post/Post";
 import NewPostPage from "../Components/Pages/PostPage/NewPostPage";
+import EditPostPage from "../Components/Pages/PostPage/EditPostPage";
 export default function MainRouter() {
   const location = useLocation();
   return (
@@ -31,6 +32,7 @@ export default function MainRouter() {
         <Route exact path="/shopping" component={ShoppingPage} />
         <Route exact path="/post/:postId" component={Post} />
         <Route exact path="/create-post" component={NewPostPage} />
+        <Route exact path="/edit-post/:postId" component={EditPostPage} />
         <Route render={() => <div>NOT FOUND !!!</div>} />
       </Switch>
       <NotiToast />

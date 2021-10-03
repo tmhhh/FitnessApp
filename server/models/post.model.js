@@ -7,6 +7,15 @@ const post = new Schema(
     author: { type: Schema.Types.ObjectId, ref: "Users", required: true },
     thumbnail: { type: String },
     content: { type: String },
+    status: {
+      type: String,
+      enum: ["pending, accepted, rejected"],
+      default: "pending",
+    },
+    like: {
+      count: { type: Number, default: 0 },
+      user: [{ type: Schema.Types.ObjectId, ref: "Users", default: null }],
+    },
   },
   {
     timestamps: true,

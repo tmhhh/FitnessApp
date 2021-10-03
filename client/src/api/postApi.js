@@ -5,13 +5,18 @@ const reviewApi = {
   fetch: () => {
     return axiosClient.get(BASE_API_URL + URL);
   },
+  fetchByAuthor: (authorId) => {
+    return axiosClient.get(BASE_API_URL + URL + `?authorId=${authorId}`);
+  },
   create: (body) => {
     return axiosClient.post(BASE_API_URL + URL, body);
   },
-  editReview: (id, body) => {
+  edit: (id, body) => {
+    console.log("do edit");
+    console.log(body);
     return axiosClient.put(BASE_API_URL + URL + `/${id}`, body);
   },
-  deleteReview: (id) => {
+  delete: (id) => {
     return axiosClient.delete(BASE_API_URL + URL + `/${id}`);
   },
   likeReview: (id) => {

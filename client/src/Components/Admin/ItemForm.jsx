@@ -1,13 +1,13 @@
 import { FastField, Form, Formik } from "formik";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
+import { fetchProductImage } from "../../assets/constants";
 import InputField from "../Common/InputField";
 import SelectField from "../Common/SelectField";
 import Thumbnail from "../Common/Thumbnail";
 
 export default function NewItemForm(props) {
   const { innerRef, onSubmit, initialValues, validationSchema } = props;
-
   return (
     <>
       <Formik
@@ -74,7 +74,7 @@ export default function NewItemForm(props) {
 
               <div className="d-flex justify-content-center">
                 {values.thumbnailFile === undefined ? (
-                  <Thumbnail url={values.prodThumbnail} />
+                  <Thumbnail url={fetchProductImage(values.prodThumbnail)} />
                 ) : (
                   <Thumbnail
                     url={

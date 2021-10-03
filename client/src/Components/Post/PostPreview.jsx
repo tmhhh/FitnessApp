@@ -1,10 +1,22 @@
 import React from "react";
-import { Image, Button } from "react-bootstrap";
+import { Image } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { fetchPostImage, fetchUserImage } from "../../assets/constants";
 
 import "./style.scss";
 
-export default function PostPreview({ post }) {
+export default function PostPreview({ post, handleShowConfirm }) {
+  const history = useHistory();
+  const user = useSelector((state) => state.authReducer.userInfo);
+  const onEditClick = (e) => {
+    e.stopPropagation();
+    history.push(`/edit-post/${post._id}`);
+  };
+  const onRemoveClick = (e) => {
+    e.stopPropagation();
+    handleShowConfirm(post._id);
+  };
   return (
     <>
       <div className="postPreviewContainer">
@@ -16,10 +28,12 @@ export default function PostPreview({ post }) {
               roundedCircle
               thumbnail
             />
-            <h6 className="ms-2">{post.author?.userName}</h6>
+            <h6 style={{ color: "grey" }} className="ms-2">
+              {post.author?.userName}
+            </h6>
           </div>
         </div>
-        <h3 className="mt-2">{post.title}</h3>
+        <h6 className="mt-2">{post.title}</h6>
         <span style={{ color: "grey" }}>{post.updatedAt}</span>
         <Image
           style={{ height: "200px", width: "100%" }}
@@ -31,10 +45,28 @@ export default function PostPreview({ post }) {
           className="d-flex justify-content-center mt-4 "
           style={{ height: "30px" }}
         >
-          <button className="button3D">☝</button>
-          <button className="button3D">💬</button>
-          <button className="button3D">📖</button>
+          <button className="button3D" style={{ margin: "auto" }}>
+            ☝
+          </button>
+          <button className="button3D" style={{ margin: "auto" }}>
+            💬
+          </button>
+          <button className="button3D" style={{ margin: "auto" }}>
+            📖
+          </button>
         </div>
+        {user?._id === post.author?._id && (
+          <>
+            <div className="operation d-flex">
+              <div className="edit-btn" onClick={onEditClick}>
+                <span>✍</span>
+              </div>
+              <div className="edit-btn" onClick={onRemoveClick}>
+                <span>🗑</span>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </>
   );

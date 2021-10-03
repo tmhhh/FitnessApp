@@ -6,11 +6,6 @@ export default function RichTextField(props) {
   const { field, form, label, required, placeholder } = props;
   const { name, value } = field;
   const { setFieldValue } = form;
-  //   const onFileChange = (e) => {
-  //     const files = e.target.files;
-  //     const file = files.length > 1 ? files : files[0];
-  //     setFieldValue(`${name}File`, file);
-  //   };
   const onEditorChange = (values) => {
     setFieldValue(name, values);
   };
@@ -27,7 +22,7 @@ export default function RichTextField(props) {
       )}
       <QuillEditor
         height="800px"
-        value={value}
+        initialValue={value}
         onEditorChange={onEditorChange}
         onFilesChange={onFilesChange}
         placeholder={placeholder}
