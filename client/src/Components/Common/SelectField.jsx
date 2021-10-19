@@ -7,11 +7,10 @@ export default function SelectField(props) {
     form,
     type,
     label,
-    placeholder,
     disabled,
     required,
-    defaultValue,
-    min,
+    options,
+    optionDefaultValue,
   } = props;
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
@@ -20,24 +19,35 @@ export default function SelectField(props) {
   return (
     <>
       <Form.Group
-        className={`mb-3 ${type === "number" && "d-flex align-items-center "}`}
+        className={`mb-4 ${type === "number" && "d-flex align-items-center "}`}
       >
         {label && (
-          <Form.Label>
+          <Form.Label
+            style={{
+              fontSize: "15px",
+              fontWeight: "500",
+              color: "#999",
+            }}
+          >
             {label}
             {required && " * "} :
           </Form.Label>
         )}
         <Form.Select
           {...field}
-          defaultValue={defaultValue}
+          disabled={disabled}
+          // defaultValue={defaultValue}
           isValid={touched[name] && !error}
           isInvalid={error}
         >
-          <option value={""}>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
+          <option value={""}>
+            {optionDefaultValue ? optionDefaultValue : "Open this select menu"}
+          </option>
+          {options.map((e, index) => (
+            <option key={index} value={e.value}>
+              {e.name}
+            </option>
+          ))}
         </Form.Select>
         <Form.Control.Feedback type="invalid">
           {errors[name]} 💢

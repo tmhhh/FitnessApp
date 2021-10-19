@@ -1,12 +1,45 @@
-import React, { Fragment, useContext } from "react";
+import { Fragment, useContext, useState } from "react";
 import { Col, Row, Spinner } from "react-bootstrap";
 import { Context } from "../../../Contexts";
 import NutritionContainer from "../../Containers/NutritionContainer";
 import SearchBar from "../../Common/SearchBar";
 import "./style.scss";
-
+import FoodModal from "./FoodModal";
+import { BASE_IMAGE_BASE_URL } from "../../../assets/constants";
 export default function NutritionPage() {
   const { nutriState } = useContext(Context);
+  const [modal, setModal] = useState({
+    isShown: false,
+    foodData: {},
+  });
+  const [servingSize, setServingSize] = useState(1);
+
+  const handleServingChange = (e) => {
+    setServingSize(e.target.value);
+  };
+  //HANDLE MODAL
+  const handleCloseModal = () => {
+    setModal({ ...modal, isShown: false });
+    setServingSize(1);
+  };
+  const handleShowModal = (foodID) => {
+    console.log(foodID);
+    const foundFood = nutriState.listFoods.find(
+      (e) => e.food.foodId === foodID
+    );
+    console.log({ foundFood });
+    setModal({
+      foodData: foundFood,
+      isShown: true,
+    });
+  };
+
+  //HANDLE INVALID IMG
+  const handleErrorImg = (e) => {
+    e.target.onerror = null;
+    // e.target.src = BASE_IMAGE_BASE_URL + "/dishes-default.jpg";
+    e.target.src = "http://localhost:4000/img/base/dishes-default.jpg";
+  };
   return (
     <>
       <NutritionContainer>
@@ -50,8 +83,22 @@ export default function NutritionPage() {
                     {nutriState.listFoods.map((e, index) => (
                       <Fragment key={index}>
                         <Col lg={2} md={2}>
-                          <div className="food_image">
-                            <img src={e.food.image} alt={e.food.label} />
+                          <div
+                            onClick={() => {
+                              handleShowModal(e.food.foodId);
+                            }}
+                            role="button"
+                            className="food_image"
+                          >
+                            <img
+                              // onError={handleErrorImg}
+                              src={
+                                e.food.image
+                                  ? e.food.image
+                                  : BASE_IMAGE_BASE_URL + "/dishes-default.png"
+                              }
+                              alt={e.food.label}
+                            />
                           </div>{" "}
                         </Col>
                         <Col lg={2} md={2}>
@@ -90,6 +137,12 @@ export default function NutritionPage() {
             <SearchBar />
           </div>
         )}
+        <FoodModal
+          handleServingChange={handleServingChange}
+          servingSize={servingSize}
+          modal={modal}
+          handleCloseModal={handleCloseModal}
+        />
       </NutritionContainer>
     </>
   );

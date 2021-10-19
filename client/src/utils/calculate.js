@@ -9,3 +9,7 @@ export const cartTotalPrice = (cart) => {
 
   return totalPrice;
 };
+
+export const calculatePercentage = (total, number) => {
+  return Math.trunc((number / total) * 100);
+};

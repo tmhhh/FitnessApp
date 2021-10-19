@@ -7,18 +7,20 @@ const expressSession = require("express-session");
 const passport = require("passport");
 require("dotenv").config();
 
+app.set("trust proxy", 1); // trust first proxy
+
 app.use(
   expressSession({
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 2000000, httpOnly: true },
+    // cookie: { secure: true, sameSite: "none" },
   })
 );
 app.use(
   cors({
     credentials: true,
-    origin: true,
+    origin: "http://localhost:3000",
   })
 );
 

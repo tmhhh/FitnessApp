@@ -11,6 +11,7 @@ export default function InputField(props) {
     disabled,
     required,
     defaultValue,
+    className,
     min,
     asType,
     multiple,
@@ -27,10 +28,15 @@ export default function InputField(props) {
 
   return (
     <>
-      <Form.Group className="mb-4 mt-4">
+      <Form.Group className="mb-4">
         <div className={`${type === "number" && "d-flex align-items-center "}`}>
           {label && (
             <Form.Label
+              style={{
+                fontSize: "15px",
+                fontWeight: "500",
+                color: "#999",
+              }}
               className={type === "number" && "flex-shrink-0"}
               htmlFor={name}
             >
@@ -48,7 +54,7 @@ export default function InputField(props) {
             disabled={disabled}
             defaultValue={defaultValue}
             min={min}
-            className={type === "number" && "flex-grow-1 ms-2"}
+            className={type === "number" ? "flex-grow-1 ms-2" : className}
             multiple={multiple}
             isValid={touched[name] && !errors[name]}
             isInvalid={error}
@@ -56,7 +62,11 @@ export default function InputField(props) {
         </div>
         {error ? (
           <Form.Text
-            style={{ color: "red", textAlign: "right", display: "block" }}
+            style={{
+              color: "red",
+              // textAlign: "right",
+              // display: "inline-block",
+            }}
           >
             {errors[name]} 💢
           </Form.Text>

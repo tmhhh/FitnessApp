@@ -24,11 +24,18 @@
   &_item {
     padding: 8px 16px;
     height: 40px;
-    min-width: 120px;
+    width: 140px;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    & .user_image {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
     &:nth-child(3) {
       border-right: 2px solid $white_smoke !important;
     }
@@ -77,11 +84,11 @@
   span {
     // line-height: 16px;
     text-decoration: none;
-    color: $white_smoke !important;
+    color: $white_smoke;
     font-size: 16px;
     font-weight: 700;
     &:hover {
-      color: white !important;
+      color: white;
     }
   }
   &_logo {
@@ -89,7 +96,8 @@
     margin-left: 48px;
   }
 
-  // & .dropdown {
-  //   width: 100%;
-  // }
+  &_item_active,
+  .dropdown_item_active {
+    color: white !important ;
+  }
 }

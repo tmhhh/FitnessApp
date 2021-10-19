@@ -30,8 +30,14 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
     //UPDATE TO DB
     const updatedCart = await userModel
       .findOneAndUpdate({ _id: userID }, { userCart: newCart }, { new: true })
-      .populate("userCart.product");
-    console.log(updatedCart.userCart);
+      .populate({
+        path: "userCart.product",
+        populate: {
+          path: "prodCategory.cateName",
+        },
+      })
+      .lean();
+    // console.log(updatedCart.userCart);
     return updatedCart.userCart;
   } catch (error) {
     console.log("catch1");
@@ -58,6 +64,24 @@ module.exports = {
         prodID,
         addedQuantity
       );
+      // console.log(updatedCart[0].product);
+
+      //FIND PRODUCT FILTER NAME
+      for (const prod of updatedCart) {
+        for (const filter of prod.product.prodCategory.cateName.cateFilter) {
+          if (
+            filter._id.toString() ===
+            prod.product.prodCategory.cateFilter._id.toString()
+          ) {
+            prod.product.prodCategory.cateFilter.filterName = filter.filterName;
+          }
+        }
+      }
+
+      //REMOVE CATE FIlTER PROPERTIES IN CATE NAME OF PRODUCT
+      for (const prod of updatedCart) {
+        delete prod.product.prodCategory.cateName.cateFilter;
+      }
 
       res.status(200).json({ isSuccess: true, updatedCart });
     } catch (error) {

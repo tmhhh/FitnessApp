@@ -21,7 +21,7 @@ export default function SearchBar() {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
             nutriSearching(e.target.value);
-          }, 2000);
+          }, 1000);
         }
       } else if (location.pathname === "/shopping") {
         if (e.target.value !== "") {

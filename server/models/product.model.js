@@ -26,5 +26,6 @@ const Products = new Schema({
   prodThumbnail: { type: String, required: true },
   prodImages: [{ type: String }],
   prodQuantity: { type: Number, default: 1 },
+  prodWeight: { type: Number, required: true },
 });
 module.exports = mongoose.model("Products", Products);

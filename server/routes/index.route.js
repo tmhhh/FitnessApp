@@ -30,4 +30,9 @@ router.use("/admin", require("./admin.route"));
 //@@POST
 router.use("/post", require("./post.route"));
 
+//@@USER
+router.use("/user", require("./user.route"));
+
+//@@CHECKOUT
+router.use("/checkout", require("./checkout.route"));
 module.exports = router;

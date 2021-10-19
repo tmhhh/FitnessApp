@@ -1,14 +1,18 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
 
 import "./style.scss";
 import { useParams, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { Context } from "../../../Contexts";
+import { getReview } from "../../../redux/slices/reviewSlice";
+import ReviewSection from "../../Review/ReviewSection";
 function ProductDetailPage() {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const listReview = useSelector((state) => state.reviewReducer.listReview);
   const { addToCart } = useContext(Context);
 
   const [quantity, setQuantity] = useState(1);
@@ -16,18 +20,31 @@ function ProductDetailPage() {
   let { listProducts, prodLoading } = useSelector((state) => state.prodReducer);
   const chosenProd = listProducts.find((prod) => prod._id === prodID);
 
+  //
+  useEffect(() => {
+    (async () => {
+      await dispatch(getReview(prodID));
+    })();
+  }, [prodID, dispatch]);
+
   //HANDLE ADD TO CART
   const handleAddToCart = () => {
     addToCart(chosenProd, quantity);
   };
 
   //GET 3 RELATED PRODUCTS
-  const relatedProds = listProducts.filter((prod, index) => {
-    if (index > 3) return;
-    if (prod._id !== prodID && prod.prodType === chosenProd.prodType) {
-      return prod;
+  const relatedProds = listProducts.reduce((acc, prod) => {
+    if (
+      prod._id !== prodID &&
+      prod.prodCategory.cateFilter.filterName ===
+        chosenProd.prodCategory.cateFilter.filterName &&
+      acc.length < 3
+    ) {
+      return [...acc, prod];
     }
-  });
+    return acc;
+  }, []);
+  console.log({ relatedProds });
   return (
     <>
       <div className="product_info_container">
@@ -115,6 +132,8 @@ function ProductDetailPage() {
           </>
         )}
       </div>
+      {/* //REVIEW */}
+      <ReviewSection listReview={listReview} />
     </>
   );
 }

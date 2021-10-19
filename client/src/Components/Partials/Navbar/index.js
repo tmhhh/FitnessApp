@@ -5,6 +5,7 @@ import { Link, NavLink, useHistory } from "react-router-dom";
 import { Context } from "../../../Contexts";
 import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
+import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 export default function Navbar() {
   // const [showDropdown, setDropdown] = useState(false);
   const history = useHistory();
@@ -51,55 +52,85 @@ export default function Navbar() {
         </div>
         <div className="nav_bar_link">
           <Nav.Item className="nav_bar_item">
-            <NavLink to="/training">TRAINING</NavLink>
+            <NavLink activeClassName="nav_bar_item_active" to="/training">
+              TRAINING
+            </NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
-            <NavLink to="/nutrition">NUTRITION</NavLink>
+            <NavLink activeClassName="nav_bar_item_active" to="/nutrition">
+              NUTRITION
+            </NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
-            <NavLink to="/shopping">SHOP</NavLink>
+            <NavLink activeClassName="nav_bar_item_active" to="/shopping">
+              SHOP
+            </NavLink>
           </Nav.Item>
           <Nav.Item className="nav_bar_item">
             {authLoading ? null : isAuthenticated ? (
-              <DropdownButton
-                id="dropdown_toggle"
-                title={userInfo.userName}
-                autoClose
-              >
-                {userInfo.userType === 1 && (
+              <>
+                <img
+                  className="user_image"
+                  alt={userInfo.userImage}
+                  src={
+                    userInfo.userImage.includes("http")
+                      ? userInfo.userImage
+                      : `${USER_IMAGE_BASE_URL}/${userInfo.userImage}`
+                  }
+                />
+                <DropdownButton
+                  id="dropdown_toggle"
+                  title={
+                    userInfo.userName.split(" ")[
+                      userInfo.userName.split(" ").length - 1
+                    ]
+                  }
+                  autoClose
+                >
+                  {userInfo.userType === 1 && (
+                    <Dropdown.Item className=" dropdown_item">
+                      <NavLink
+                        activeClassName="dropdown_item_active"
+                        to="/admin"
+                      >
+                        <i className="fas fa-users-cog"></i> Dashboard
+                      </NavLink>
+                    </Dropdown.Item>
+                  )}
+
                   <Dropdown.Item className=" dropdown_item">
-                    <Link to="/admin">
-                      <i className="fas fa-users-cog"></i> Dashboard
-                    </Link>
+                    <NavLink
+                      activeClassName="dropdown_item_active"
+                      to="/profile"
+                    >
+                      <i className="far fa-id-badge"></i> Profile
+                    </NavLink>
                   </Dropdown.Item>
-                )}
+                  <Dropdown.Item className=" dropdown_item">
+                    <NavLink
+                      activeClassName="dropdown_item_active"
+                      to="/checkout"
+                    >
+                      <i className="fas fa-shopping-basket"></i>Shopping Cart
+                    </NavLink>
+                  </Dropdown.Item>
 
-                <Dropdown.Item className=" dropdown_item">
-                  <Link to="/profile">
-                    <i className="far fa-id-badge"></i> Profile
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item className=" dropdown_item">
-                  <Link to="/checkout">
-                    <i className="fas fa-shopping-basket"></i>Shopping Cart
-                  </Link>
-                </Dropdown.Item>
+                  <Dropdown.Item className=" dropdown_item">
+                    <p>
+                      <i className="far fa-user"></i> Type:{" "}
+                      {userInfo.userType === 0 ? "User" : "Admin"}
+                    </p>
+                  </Dropdown.Item>
 
-                <Dropdown.Item className=" dropdown_item">
-                  <p>
-                    <i className="far fa-user"></i> Type:{" "}
-                    {userInfo.userType === 0 ? "User" : "Admin"}
-                  </p>
-                </Dropdown.Item>
-
-                <Dropdown.Divider id="dropdown_divider" />
-                <Dropdown.Item className=" dropdown_item">
-                  <p role="button" onClick={handleLogout}>
-                    <i className="fas fa-sign-out-alt"></i>
-                    Logout
-                  </p>
-                </Dropdown.Item>
-              </DropdownButton>
+                  <Dropdown.Divider id="dropdown_divider" />
+                  <Dropdown.Item className=" dropdown_item">
+                    <p role="button" onClick={handleLogout}>
+                      <i className="fas fa-sign-out-alt"></i>
+                      Logout
+                    </p>
+                  </Dropdown.Item>
+                </DropdownButton>
+              </>
             ) : (
               <span role="button" onClick={handleShowAuthForm}>
                 {authForm.isShown === false ? "LOGIN" : "X"}

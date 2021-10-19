@@ -18,6 +18,8 @@ const Users = new Schema({
       quantity: { type: Number, default: 1 },
     },
   ],
+  userEmail: { type: String, default: null },
+  userPhone: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model("Users", Users);

@@ -10,6 +10,7 @@ import { FacebookLoginButton } from "react-social-login-buttons";
 import { GoogleLoginButton } from "react-social-login-buttons";
 
 import "./style.scss";
+import { BASE_API_URL } from "../../assets/constants";
 function Login() {
   const dispatch = useDispatch();
   // TOAST
@@ -95,6 +96,7 @@ function Login() {
     try {
       const res = await authApi.getLoginData();
       if (res.data.isSuccess) {
+        localStorage.setItem("USER_TOKEN", res.data.accessToken);
         console.log(res.data.loginUser);
         dispatch(
           authSlice.actions.setAuth({
@@ -116,10 +118,11 @@ function Login() {
       let timer = null;
 
       const newWindow = window.open(
-        "http://localhost:4000/api/auth/login/google",
+        BASE_API_URL + "/auth/login/google",
         "_blank",
         "width=500,height=600"
       );
+
       // if (newWindow) {
       timer = setInterval(async () => {
         if (newWindow.closed) {
@@ -127,7 +130,6 @@ function Login() {
           if (timer) clearInterval(timer);
         }
       }, 500);
-      // }
     } catch (error) {
       console.log(error);
       dispatch(authSlice.actions.setAuthFailed());
@@ -140,20 +142,20 @@ function Login() {
       let timer = null;
 
       const newWindow = window.open(
-        "http://localhost:4000/api/auth/login/fb",
+        BASE_API_URL + "/auth/login/fb",
         "_blank",
         "width=500,height=600"
       );
       // if (newWindow) {
       timer = setInterval(async () => {
         if (newWindow.closed) {
-          fetchUserData();
+          await fetchUserData();
           if (timer) clearInterval(timer);
         }
       }, 500);
       // }
     } catch (error) {
-      console.log(error);
+      console.log({ error });
       dispatch(authSlice.actions.setAuthFailed());
     }
   };
@@ -209,7 +211,7 @@ function Login() {
           </Button>
         </div>
         <Form.Group className="mb-3 text-center" controlId="formBasicCheckbox">
-          <Form.Label>Or login with</Form.Label>
+          <Form.Label style={{ fontWeight: 600 }}>Or login with</Form.Label>
           <FacebookLoginButton
             className="mb-2"
             onClick={handleLoginWithFacebook}
