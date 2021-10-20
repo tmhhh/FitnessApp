@@ -10,4 +10,5 @@ router.delete("/delete", verifyUser, cartCtl.deletingFromCart);
 
 //
 router.put("/update", verifyUser, cartCtl.updatingCart);
+router.put("/update/select", verifyUser, cartCtl.updatingProdSelect);
 module.exports = router;

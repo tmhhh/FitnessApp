@@ -1,12 +1,17 @@
 import axios from "axios";
-import axiosClient from "../../../../api/axiosClient";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
-import { address_API_config } from "../../../../assets/constants";
+import {
+  address_API_config,
+  CLIENT_PUBLIC_URL,
+} from "../../../../assets/constants";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import ShippingForm from "./ShippingForm";
 import checkOutApi from "../../../../api/checkoutApi";
 import "./style.scss";
+import { useHistory } from "react-router-dom";
+import cartSlice from "../../../../redux/slices/cartSlice";
 export default function CheckoutModal({
   showModal,
   handleCloseModal,
@@ -15,6 +20,8 @@ export default function CheckoutModal({
   cartTotalPrice,
   userInfo,
 }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
   //PROVINCE STATE
   const [addressData, setAddressData] = useState({
     provincesData: [],
@@ -27,6 +34,7 @@ export default function CheckoutModal({
 
   //FORM SUBMIT REF DATA
   const formData = useRef({});
+  // const { formData } = useContext(OrderContext);
 
   //FORMIK  FORM REF
   const formRef = useRef();
@@ -62,7 +70,7 @@ export default function CheckoutModal({
     }, 0);
     formData.current = {
       ...values,
-      listItems,
+      listItems: listItems.filter((e) => e.isSelected),
       discountUsedID:
         usedDiscountRef.current.isUsed === true
           ? usedDiscountRef.current.discountCode
@@ -105,7 +113,7 @@ export default function CheckoutModal({
     }
   };
 
-  //HANDLE ORDER
+  //HANDLE CONFIRM ORDER
   const handleConfirmOrder = async () => {
     // try {
     //   const res = await checkOutApi.billCheckout(formData.current);
@@ -115,13 +123,63 @@ export default function CheckoutModal({
     // } catch (error) {
     //   console.log(error);
     // }
+
     try {
-      const res = await axiosClient.post("http://localhost:4000/api/checkout", {
-        ...formData.current,
-      });
-      console.log(res.data);
-      if (res.data.isSuccess) {
-        window.location.href = res.data.approveUrl;
+      if (formData.current.paymentMethod === "OTHERS") {
+        const res = await checkOutApi.paypalCheckout({ ...formData.current });
+        let timer = null;
+        if (res.data.isSuccess) {
+          const newWindow = window.open(
+            res.data.approveUrl,
+            "_blank",
+            "width=500,height=600"
+          );
+
+          // ****************
+          timer = setInterval(async () => {
+            try {
+              if (newWindow.closed) {
+                console.log("User closes the window");
+                clearInterval(timer);
+              }
+              if (
+                newWindow.location.href.toString() ===
+                CLIENT_PUBLIC_URL + "/checkout/success"
+              ) {
+                //CAPTURE SUCCESS
+                clearInterval(timer);
+                newWindow.close();
+                const checkOutRes = await checkOutApi.billCheckout({
+                  ...formData.current,
+                });
+                if (checkOutRes.data.isSuccess) {
+                  dispatch(
+                    cartSlice.actions.setCart({
+                      cartLoading: false,
+                      userCart: checkOutRes.data.updatedCart,
+                    })
+                  );
+                  history.push("/checkout/success");
+                }
+              }
+            } catch (error) {
+              console.log("CORS");
+            }
+          }, 500);
+        }
+      } else {
+        const checkOutRes = await checkOutApi.billCheckout({
+          ...formData.current,
+        });
+        if (checkOutRes.data.isSuccess) {
+          dispatch(
+            cartSlice.actions.setCart({
+              cartLoading: false,
+              userCart: checkOutRes.data.updatedCart,
+            })
+          );
+          history.push("/checkout/success");
+        }
       }
     } catch (error) {
       console.log(error);

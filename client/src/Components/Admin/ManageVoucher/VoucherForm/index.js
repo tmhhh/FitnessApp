@@ -48,7 +48,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
         const handleGenerateCode = () => {
           const code = nanoid(10);
           formikProps.setFieldValue("vouCode", code);
-          console.log(formikProps.values);
+          // console.log(formikProps.values);
         };
         return (
           <Form>

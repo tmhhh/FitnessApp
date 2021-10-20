@@ -5,6 +5,12 @@ module.exports = {
       totalPrice += item.product.prodPrice * item.quantity;
     }
     totalPrice = totalPrice * (1 - discountValue / 100);
-    return totalPrice - shippingPrice;
+    return totalPrice + shippingPrice;
+  },
+  calSubTotal: (listItems) => {
+    return listItems.reduce(
+      (sum, current) => sum + current.quantity * current.product.prodPrice,
+      0
+    );
   },
 };

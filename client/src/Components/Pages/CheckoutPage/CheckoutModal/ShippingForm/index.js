@@ -56,6 +56,7 @@ export default function ShippingForm({
     >
       {(formikProps) => {
         const { values, touched } = formikProps;
+        // console.log(values);
         const getDistrictsByProvinceID = async () => {
           try {
             const res = await axios.get(address_API_config.districts_API_URL, {

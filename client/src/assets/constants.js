@@ -38,3 +38,5 @@ export const PAYPAL_CONFIG = {
     "ECRwSfvV_zekWRwFbe975fHtsD7IPWR-9NSiuEFPI0Gl_StUQUGh6Rqb9Lyc_zDlgH4rQe174f03UPa9",
   clientID: `AZSA8xyQ8cQd0VUkehg2o08WdhfPA7Pe6TCTGwP3-VykHwG1dAClk7Kepuo9WPmjzhVtMbgqOD6jGg5n`,
 };
+
+export const CLIENT_PUBLIC_URL = `http://localhost:3000`;

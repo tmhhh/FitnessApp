@@ -22,18 +22,30 @@ export default function CheckoutPage() {
   const [totalPrice, setTotalPrice] = useState(0);
   const usedDiscountRef = useRef({
     isUsed: false,
-    discountPercent: null,
+    discountPercent: 0,
     discountCode: null,
   });
   const [showModal, setShowModal] = useState(false);
   useEffect(() => {
-    setTotalPrice(cartTotalPrice(userCart));
+    setTotalPrice(
+      cartTotalPrice(userCart, usedDiscountRef.current.discountPercent)
+    );
   }, [userCart]);
 
   //HANDLE MODAL
   const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
-
+  const handleShowModal = () => {
+    const check = userCart.find((e) => e.isSelected);
+    if (check) setShowModal(true);
+    else
+      setToast({
+        toastShow: true,
+        title: "Product not found !!!",
+        content: "Please choose your product !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+  };
   //HANDLE DELETE PRODUCT FROM CART
   const handleRemoveProduct = async (id) => {
     try {
@@ -74,7 +86,22 @@ export default function CheckoutPage() {
       });
     }
   };
-
+  //UPDATE ITEM TO SELECTED
+  const handleSelectProduct = async (prodID) => {
+    try {
+      const res = await cartApi.updateProductSelect(prodID);
+      if (res.data.isSuccess) {
+        dispatch(
+          cartSlice.actions.setCart({
+            cartLoading: false,
+            userCart: res.data.userCart,
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //HANDLE REDIRECT TO DETAIL PAGE
   const handleRedirectProduct = (id) => {
     history.push(`/product/${id}`);
@@ -97,7 +124,7 @@ export default function CheckoutPage() {
           action === "increase" ? quantity + 1 : quantity - 1
         );
         if (res.data.isSuccess) {
-          console.log(res.data.userCart);
+          // console.log(res.data.userCart);
           dispatch(
             cartSlice.actions.setCart({
               cartLoading: false,
@@ -147,15 +174,19 @@ export default function CheckoutPage() {
 
       if (res.data.isSuccess) {
         usedDiscountRef.current = {
+          // ...usedDiscountRef.current,
           isUsed: true,
           discountPercent: res.data.voucher.vouDiscount,
           discountCode: res.data.voucher._id,
         };
-        setTotalPrice((totalPrice) => {
-          const newPrice =
-            totalPrice * (1 - usedDiscountRef.current.discountPercent / 100);
-          return newPrice;
-        });
+        // setTotalPrice((totalPrice) => {
+        //   const newPrice =
+        //     totalPrice * (1 - usedDiscountRef.current.discountPercent / 100);
+        //   return newPrice;
+        // });
+        setTotalPrice(
+          cartTotalPrice(userCart, usedDiscountRef.current.discountPercent)
+        );
         setToast({
           toastShow: true,
           title: "Your code is valid !!!",
@@ -183,77 +214,104 @@ export default function CheckoutPage() {
       <div className="main_container">
         <div className="shopping_cart_container">
           <div className="shopping_cart_title">
-            Cart ({userCart.length} items)
+            Cart (
+            {userCart.reduce((sum, e) => {
+              if (e.isSelected) return sum + 1;
+              return sum;
+            }, 0)}{" "}
+            items)
           </div>
           <div className="shopping_cart_products">
-            {userCart.map((prod) => (
-              <div key={prod.product._id} className="shopping_cart_product">
-                <div className="product_image">
-                  <img
-                    src={`${PROD_IMAGE_BASE_URL + prod.product.prodThumbnail}`}
-                    alt={prod.product.prodName}
-                  />
-                </div>
-                <div className="product_info">
-                  <div className="product_info_left">
-                    <div className="product_name">{prod.product.prodName}</div>
-                    <div className="product_category">
-                      {prod.product.prodCategory.cateName.cateName}
+            {userCart.map(
+              (prod) =>
+                !prod.isOrdered && (
+                  <div key={prod.product._id} className="shopping_cart_product">
+                    <div className="product_image">
+                      <img
+                        src={`${
+                          PROD_IMAGE_BASE_URL + prod.product.prodThumbnail
+                        }`}
+                        alt={prod.product.prodName}
+                      />
                     </div>
-                    <div className="product_filter">
-                      {prod.product.prodCategory.cateFilter.filterName}
-                    </div>
-                    <div className="cart_action">
-                      <i
-                        onClick={() =>
-                          handleUpdateQuantity(
-                            prod.product._id,
-                            prod.quantity,
-                            "increase"
-                          )
-                        }
-                        className="fas fa-angle-up"
-                      ></i>
-                      <i
-                        onClick={() =>
-                          handleUpdateQuantity(
-                            prod.product._id,
-                            prod.quantity,
-                            "decrease"
-                          )
-                        }
-                        className="fas fa-angle-down"
-                      ></i>
-                      <Button
-                        className="cart_action_remove mt-4 rounded-0"
-                        variant="danger"
-                        style={{ marginRight: "5px" }}
-                        onClick={() => handleRemoveProduct(prod.product._id)}
-                      >
-                        X REMOVE ITEM
-                      </Button>
-                      <Button
-                        className="cart_action_redirect_detail rounded-0 mt-4"
-                        variant="dark"
-                        onClick={() => handleRedirectProduct(prod.product._id)}
-                      >
-                        👁‍🗨 VIEW DETAILS
-                      </Button>
+                    <div className="product_info">
+                      <div className="product_info_left">
+                        <div className="product_name">
+                          {prod.product.prodName}
+                        </div>
+                        <div className="product_category">
+                          {prod.product.prodCategory.cateName.cateName}
+                        </div>
+                        <div className="product_filter">
+                          {prod.product.prodCategory.cateFilter.filterName}
+                        </div>
+                        <div className="cart_action">
+                          <i
+                            onClick={() =>
+                              handleUpdateQuantity(
+                                prod.product._id,
+                                prod.quantity,
+                                "increase"
+                              )
+                            }
+                            className="fas fa-angle-up"
+                          ></i>
+                          <i
+                            onClick={() =>
+                              handleUpdateQuantity(
+                                prod.product._id,
+                                prod.quantity,
+                                "decrease"
+                              )
+                            }
+                            className="fas fa-angle-down"
+                          ></i>
+                          <Button
+                            className="cart_action_remove mt-4 rounded-0"
+                            variant="danger"
+                            style={{ marginRight: "5px" }}
+                            onClick={() =>
+                              handleRemoveProduct(prod.product._id)
+                            }
+                          >
+                            X REMOVE ITEM
+                          </Button>
+                          <Button
+                            className="cart_action_redirect_detail rounded-0 mt-4"
+                            variant="dark"
+                            onClick={() =>
+                              handleRedirectProduct(prod.product._id)
+                            }
+                          >
+                            👁‍🗨 VIEW DETAILS
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="product_check_box">
+                        <input
+                          checked={prod.isSelected === true ? true : false}
+                          type="checkbox"
+                          onChange={() => handleSelectProduct(prod.product._id)}
+                        />
+                      </div>
+                      <div className="product_info_right">
+                        <div className="note">Note: 1 piece</div>
+                        <div className="product_price">
+                          {formatCurrency(prod.product.prodPrice)}
+                        </div>
+                        <div className="product_quantity">
+                          x {prod.quantity}
+                        </div>
+                        <div className="product_total_price">
+                          {formatCurrency(
+                            prod.product.prodPrice * prod.quantity
+                          )}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="product_info_right">
-                    <div className="note">Note: 1 piece</div>
-                    <div className="product_price">
-                      {formatCurrency(prod.product.prodPrice)}
-                    </div>
-                    <div className="product_quantity">x {prod.quantity}</div>
-                    <div className="product_total_price">
-                      {formatCurrency(prod.product.prodPrice * prod.quantity)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+                )
+            )}
           </div>
         </div>
         <div className="checkout_info_container">

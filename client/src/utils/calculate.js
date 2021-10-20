@@ -1,13 +1,13 @@
-export const cartTotalPrice = (cart) => {
+export const cartTotalPrice = (cart, discount = 0) => {
   let totalPrice = 0;
-  // console.log(cart.length);
   if (cart.length > 0) {
     cart.forEach((e) => {
-      totalPrice += e.product.prodPrice * e.quantity;
+      if (e.isSelected && !e.isOrdered)
+        totalPrice += e.product.prodPrice * e.quantity;
     });
   }
-
-  return totalPrice;
+  console.log(discount, totalPrice, totalPrice * (1 - discount / 100));
+  return totalPrice * (1 - discount / 100);
 };
 
 export const calculatePercentage = (total, number) => {

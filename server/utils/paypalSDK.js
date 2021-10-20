@@ -20,6 +20,7 @@ module.exports = {
     const { shippingFee, discountUsedID } = req.body;
     console.log({ discountUsedID });
     try {
+      // 1st WAY => GET CART FROM DB
       const foundUser = userModel
         .findById(req.userID)
         .populate("userCart.product");
@@ -27,10 +28,12 @@ module.exports = {
       const listRes = await Promise.all([foundUser, foundVou]);
 
       //CART TOTAL PRICE
-      const cartTotalPrice = listRes[0].userCart.reduce(
-        (sum, current) => sum + current.quantity * current.product.prodPrice,
-        0
-      );
+      const cartTotalPrice = listRes[0].userCart.reduce((sum, current) => {
+        if (current.isSelected) {
+          return sum + current.quantity * current.product.prodPrice;
+        }
+        return sum;
+      }, 0);
 
       //CREATE ORDER
       const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
@@ -38,7 +41,7 @@ module.exports = {
       request.requestBody({
         intent: "CAPTURE",
         application_context: {
-          return_url: process.env.server_URL + "/checkout/paypal/success",
+          return_url: process.env.server_URL + "/checkout/paypal/capture",
           cancel_url: process.env.server_URL + "/checkout/paypal/cancel",
         },
         purchase_units: [
@@ -70,17 +73,21 @@ module.exports = {
                 },
               },
             },
-            items: listRes[0].userCart.map((e) => ({
-              name: e.product.prodName,
-              description: "Supplements",
-              sku: e.product._id,
-              unit_amount: {
-                currency_code: "USD",
-                value: e.product.prodPrice,
-              },
-              quantity: e.quantity.toString(),
-              category: "PHYSICAL_GOODS",
-            })),
+            items: listRes[0].userCart
+              .filter((e) => {
+                if (e.isSelected) return true;
+              })
+              .map((e) => ({
+                name: e.product.prodName,
+                description: "Supplements",
+                sku: e.product._id,
+                unit_amount: {
+                  currency_code: "USD",
+                  value: e.product.prodPrice,
+                },
+                quantity: e.quantity.toString(),
+                category: "PHYSICAL_GOODS",
+              })),
           },
         ],
       });

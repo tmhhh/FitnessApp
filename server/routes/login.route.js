@@ -85,8 +85,8 @@ router.get(
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
     // return res.status(200).json({ isSuccess: true, loginUser: req.user });
-    // res.send("<script>window.close()</script>");
-    res.send("hi");
+    res.send("<script>window.close()</script>");
+    // res.send("hi");
   }
 );
 

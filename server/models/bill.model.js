@@ -19,6 +19,7 @@ const Bill = new Schema(
         },
 
         quantity: { type: Number, required: true },
+        _id: false,
       },
     ],
     discountUsed: {

@@ -13,7 +13,7 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
 
     //CHECK IF PRODUCT ALREADY HAS IN USER CART
     let foundProduct = user.userCart.find((e) => {
-      if (e.product._id.toString() === productID.toString()) {
+      if (e.product._id.toString() === productID.toString() && !e.isOrdered) {
         e.quantity += addedQuantity;
         return e;
       }
@@ -26,7 +26,7 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
       });
     /// ELSE ADD NEW TO CART
     else newCart = [...user.userCart, { product: productID, quantity: 1 }];
-
+    // console.log({ newCart });
     //UPDATE TO DB
     const updatedCart = await userModel
       .findOneAndUpdate({ _id: userID }, { userCart: newCart }, { new: true })
@@ -37,7 +37,7 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
         },
       })
       .lean();
-    // console.log(updatedCart.userCart);
+    // console.log(updatedCart);
     return updatedCart.userCart;
   } catch (error) {
     console.log("catch1");
@@ -171,5 +171,57 @@ module.exports = {
           .json({ isSuccess: false, error: "Internal Server Error" });
       });
     // console.log(error);
+  },
+  updatingProdSelect: async (req, res) => {
+    try {
+      const { prodID } = req.body;
+      userModel
+        .findById(req.userID)
+        .populate({
+          path: "userCart.product",
+          populate: {
+            path: "prodCategory.cateName",
+          },
+        })
+        .then((foundUser) => {
+          foundUser.userCart.forEach((prod) => {
+            if (prod.product._id.toString() === prodID) {
+              prod.isSelected = !prod.isSelected;
+            }
+            return prod;
+          });
+          return foundUser.save();
+        })
+        .then((result) => {
+          // PARSE FROM MONGOOSE DOCUMENT TO JS OBJECT
+          result = result.toObject();
+          //FIND PRODUCT FILTER NAME
+          for (const prod of result.userCart) {
+            for (const filter of prod.product.prodCategory.cateName
+              .cateFilter) {
+              if (
+                filter._id.toString() ===
+                prod.product.prodCategory.cateFilter._id.toString()
+              ) {
+                prod.product.prodCategory.cateFilter.filterName =
+                  filter.filterName;
+              }
+            }
+          }
+
+          //REMOVE CATE FIlTER PROPERTIES IN CATE NAME OF PRODUCT
+          for (const prod of result.userCart) {
+            delete prod.product.prodCategory.cateName.cateFilter;
+          }
+          return res
+            .status(200)
+            .json({ isSuccess: true, userCart: result.userCart });
+        });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Internal Server Error" });
+    }
   },
 };

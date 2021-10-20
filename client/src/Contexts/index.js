@@ -128,9 +128,9 @@ export default function ContextProvider({ children }) {
   }, [loadUser, getProducts, getCate]);
 
   //CHECK IF PRODUCT EXIST IN CART
-  const checkExist = (cart, prodID) => {
-    return cart.find((e) => e.product._id === prodID);
-  };
+  // const checkExist = (cart, prodID) => {
+  //   return cart.find((e) => e.product._id === prodID);
+  // };
 
   //ADD TO CART
   const addToCart = async (

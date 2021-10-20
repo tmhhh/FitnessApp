@@ -366,6 +366,15 @@
           object-fit: contain;
         }
       }
+      .product_check_box {
+        display: flex;
+        align-items: center;
+        input[type="checkbox"] {
+          // font-size: 20px;
+          height: 30px;
+          width: 30px;
+        }
+      }
       & .product_info {
         position: relative;
         flex-grow: 1;

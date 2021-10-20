@@ -16,6 +16,8 @@ const Users = new Schema({
         default: null,
       },
       quantity: { type: Number, default: 1 },
+      isSelected: { type: Boolean, default: true },
+      isOrdered: { type: Boolean, default: false },
     },
   ],
   userEmail: { type: String, default: null },
