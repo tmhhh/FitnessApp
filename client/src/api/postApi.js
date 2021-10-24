@@ -1,9 +1,12 @@
 import axiosClient from "./axiosClient";
 import { BASE_API_URL } from "../assets/constants";
 const URL = "/post";
-const reviewApi = {
+const postApi = {
   fetch: () => {
     return axiosClient.get(BASE_API_URL + URL);
+  },
+  fetchById: (id) => {
+    return axiosClient.get(BASE_API_URL + URL + `/${id}`);
   },
   fetchByAuthor: (authorId) => {
     return axiosClient.get(BASE_API_URL + URL + `?authorId=${authorId}`);
@@ -19,8 +22,14 @@ const reviewApi = {
   delete: (id) => {
     return axiosClient.delete(BASE_API_URL + URL + `/${id}`);
   },
-  likeReview: (id) => {
-    return axiosClient.post(BASE_API_URL + URL + `/like/${id}`);
+  like: (id) => {
+    return axiosClient.put(BASE_API_URL + URL + `/like/${id}`);
+  },
+  getPostComments: (postId) => {
+    return axiosClient.get(BASE_API_URL + URL + `/comment/${postId}`);
+  },
+  comment: (postId, body) => {
+    return axiosClient.post(BASE_API_URL + URL + `/comment/${postId}`, body);
   },
 };
-export default reviewApi;
+export default postApi;

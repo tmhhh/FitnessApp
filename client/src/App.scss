@@ -1,1 +1,12 @@
 @import "~bootstrap/scss/bootstrap";
+
+.default-button {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+  border: none;
+  transition: all 0.1s linear;
+  &:hover {
+    background-color: #eeeeee;
+  }
+}

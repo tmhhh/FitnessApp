@@ -7,6 +7,13 @@ export const getPosts = createAsyncThunk(
     return res.data.listPost;
   }
 );
+export const getPostById = createAsyncThunk(
+  "post/getPostById",
+  async (id, thunkApi) => {
+    const res = await postApi.fetchById(id);
+    return res.data.post;
+  }
+);
 export const getPostsByAuthor = createAsyncThunk(
   "post/getPostsByAuthor",
   async (_, thunkApi) => {
@@ -39,6 +46,21 @@ export const deletePost = createAsyncThunk(
     const res = await postApi.delete(postId);
     dispatch(getPosts());
     return res.data.isSuccess;
+  }
+);
+export const likePost = createAsyncThunk(
+  "post/likePost",
+  async (postId, { dispatch }) => {
+    const res = await postApi.like(postId);
+    dispatch(getPosts());
+    return res.data.isSuccess;
+  }
+);
+export const getPostComments = createAsyncThunk(
+  "post/getPostComments",
+  async (postId, { dispatch }) => {
+    const res = await postApi.getPostComments(postId);
+    return res.data.comments;
   }
 );
 

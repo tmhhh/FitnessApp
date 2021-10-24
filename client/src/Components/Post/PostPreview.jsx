@@ -1,13 +1,15 @@
 import React from "react";
-import { Image } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Badge, Image } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { fetchPostImage, fetchUserImage } from "../../assets/constants";
+import { likePost } from "../../redux/slices/postSlice";
 
 import "./style.scss";
 
 export default function PostPreview({ post, handleShowConfirm }) {
   const history = useHistory();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer.userInfo);
   const onEditClick = (e) => {
     e.stopPropagation();
@@ -17,6 +19,11 @@ export default function PostPreview({ post, handleShowConfirm }) {
     e.stopPropagation();
     handleShowConfirm(post._id);
   };
+  const onLikeClick = (e) => {
+    e.stopPropagation();
+    dispatch(likePost(post._id));
+  };
+  const onCmtClick = async (e) => {};
   return (
     <>
       <div className="postPreviewContainer">
@@ -34,27 +41,42 @@ export default function PostPreview({ post, handleShowConfirm }) {
           </div>
         </div>
         <h6 className="mt-2">{post.title}</h6>
-        <span style={{ color: "grey" }}>{post.updatedAt}</span>
+        <span style={{ color: "grey" }}>{post.createdAt}</span>
         <Image
           style={{ height: "200px", width: "100%" }}
           src={fetchPostImage(post.thumbnail)}
           rounded
           fluid
         />
+        <div className="d-flex justify-content-center mt-1">
+          <Badge pill bg="dark" text="light">
+            {post.like?.count} voted
+          </Badge>
+        </div>
         <div
           className="d-flex justify-content-center mt-4 "
           style={{ height: "30px" }}
         >
-          <button className="button3D" style={{ margin: "auto" }}>
+          <button
+            className="button3D"
+            style={{ margin: "auto" }}
+            onClick={onLikeClick}
+          >
             ☝
           </button>
-          <button className="button3D" style={{ margin: "auto" }}>
+          <button
+            className="button3D"
+            style={{ margin: "auto" }}
+            onClick={onCmtClick}
+          >
             💬
           </button>
           <button className="button3D" style={{ margin: "auto" }}>
             📖
           </button>
         </div>
+
+        {/* EDIT POST */}
         {user?._id === post.author?._id && (
           <>
             <div className="operation d-flex">
