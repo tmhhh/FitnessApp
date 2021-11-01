@@ -73,21 +73,23 @@ export default function ContextProvider({ children }) {
         return dispatch(authSlice.actions.setAuthFailed());
       }
       const res = await authApi.loadUser();
-      if (res.data.isSuccess)
+      if (res.data.isSuccess) {
+        console.log(res.data.user);
         dispatch(
           cartSlice.actions.setCart({
             userCart: res.data.user.userCart,
             cartLoading: false,
           })
         );
-      delete res.data.user.userCart;
-      dispatch(
-        authSlice.actions.setAuth({
-          authLoading: false,
-          isAuthenticated: true,
-          userInfo: res.data.user,
-        })
-      );
+        delete res.data.user.userCart;
+        dispatch(
+          authSlice.actions.setAuth({
+            authLoading: false,
+            isAuthenticated: true,
+            userInfo: res.data.user,
+          })
+        );
+      }
     } catch (error) {
       console.log(error);
       localStorage.removeItem("USER_TOKEN");
@@ -120,6 +122,7 @@ export default function ContextProvider({ children }) {
       console.log(err);
     }
   }, [dispatch]);
+
   //LOAD USER , PRODUCTS , CATE AFTER REFRESHING
   useEffect(() => {
     loadUser();

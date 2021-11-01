@@ -3,6 +3,7 @@ html {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace !important;
+  /* font-family: 'Montserrat', sans-serif; */
 }
 #root {
   min-height: 100%;
@@ -17,12 +18,12 @@ div {
 }
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
   -webkit-font-smoothing: antialiased !important;
-  -moz-osx-font-smoothing: grayscale !important;
-
+  -moz-osx-font-smoothing: grayscale !important; */
+  font-family: "Montserrat", sans-serif;
   width: 100%;
   min-height: 100%;
 }

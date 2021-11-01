@@ -22,6 +22,28 @@ const Users = new Schema({
   ],
   userEmail: { type: String, default: null },
   userPhone: { type: Number, default: 0 },
+  trackingInfo: {
+    isFilled: { type: Boolean, default: false },
+    userHeight: { type: Number, default: null },
+    userAge: { type: Number, default: null },
+    userGender: { type: Number, default: null },
+    userWeight: { type: Number, default: null },
+    userGoal: { type: Number, default: null },
+    userActivityLevel: { type: String, default: null },
+    trackingFood: {
+      addedDate: { type: String, default: new Date().toLocaleDateString() },
+      listFoods: [
+        {
+          _id: false,
+          id: { type: String, default: null },
+          mealType: { type: Number, default: null },
+          foodName: { type: String, default: null },
+          foodServing: { type: String, default: null },
+          foodKCAL: { type: String, default: null },
+        },
+      ],
+    },
+  },
 });
 
 module.exports = mongoose.model("Users", Users);

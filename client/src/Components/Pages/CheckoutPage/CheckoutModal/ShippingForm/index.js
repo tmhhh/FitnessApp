@@ -114,18 +114,19 @@ export default function ShippingForm({
               required
               label="Shipping Address"
               name="province"
-              optionDefaultValue="Province/City"
+              optionDefaultName="Province/City"
               options={provincesData.map((e) => ({
                 value: parseInt(e.ProvinceID),
                 name: e.ProvinceName,
               }))}
+              fieldType={0}
               component={SelectField}
               disabled={false}
             />
             <Field
               required
               name="district"
-              optionDefaultValue="District"
+              optionDefaultName="District"
               options={
                 parseInt(values.province) !== 0
                   ? districtsData.map((district) => ({
@@ -134,6 +135,7 @@ export default function ShippingForm({
                     }))
                   : []
               }
+              fieldType={0}
               disabled={+values.province === 0 ? true : false}
               component={SelectField}
             />
@@ -150,8 +152,9 @@ export default function ShippingForm({
                   : []
               }
               disabled={+values.district === 0 && true}
-              optionDefaultValue="Ward ..."
+              optionDefaultName="Ward ..."
               component={SelectField}
+              fieldType={0}
             />
             <FastField
               required

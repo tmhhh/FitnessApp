@@ -54,6 +54,7 @@ export default function BioForm({ userName, userEmail, userPhone }) {
               component={InputField}
             />
             <FastField
+              fieldType={1}
               name="userEmail"
               label="Your email"
               className="w-50 "

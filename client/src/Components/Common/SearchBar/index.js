@@ -15,20 +15,28 @@ export default function SearchBar() {
   /////
   const handleOnChange = (e) => {
     setInput(e.target.value);
+    const param = e.target.value;
     try {
       if (location.pathname === "/nutrition") {
-        if (e.target.value.trim(" ") !== "") {
+        if (e.target.value.trim() !== "") {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
-            nutriSearching(e.target.value);
-          }, 1000);
+            // console.log(e.target.value);
+            // console.log(param);
+            // nutriSearching(e.target.value);
+            nutriSearching(param);
+          }, 2000);
+        } else {
+          if (timerRef.current) clearTimeout(timerRef.current);
         }
       } else if (location.pathname === "/shopping") {
-        if (e.target.value !== "") {
+        if (e.target.value.trim() !== "") {
+          const param = e.target.value;
+
           dispatch(prodSlice.actions.pendingProducts());
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(async () => {
-            const res = await prodApi.searchProducts(e.target.value);
+            const res = await prodApi.searchProducts(param);
             console.log(res.data);
             dispatch(
               prodSlice.actions.getProducts({
@@ -37,6 +45,8 @@ export default function SearchBar() {
               })
             );
           }, 2000);
+        } else {
+          if (timerRef.current) clearTimeout(timerRef.current);
         }
       }
     } catch (error) {

@@ -9,5 +9,11 @@ router.put(
   upload("users").fields([{ name: "userImage", maxCount: 1 }]),
   userCtl.updateAvatar
 );
+//FOR MANAGE USER PROFILE INFO
 router.put("/profile", verifyToken, userCtl.updateProfile);
+
+//FOR NUTRITION FEATURE PURPOSE
+router.put("/profile/tracking-info", verifyToken, userCtl.updateTrackingInfo);
+router.put("/profile/food", verifyToken, userCtl.addTrackingFood);
+router.delete("/profile/food", verifyToken, userCtl.removeTrackingFood);
 module.exports = router;

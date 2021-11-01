@@ -2,11 +2,19 @@ const billModel = require("../models/bill.model");
 const { calTotalPrice, calSubTotal } = require("../utils/cartUtils");
 const vouModel = require("../models/voucher.model");
 const userModel = require("../models/user.model");
+const nodemailer = require("../utils//nodemailer");
 module.exports = {
   billCheckOut: async (req, res) => {
     //2nd WAY GET CART FROM USER'S POST REQUEST
     const { listItems, shippingFee, discountUsedID } = req.body;
     const foundVou = await vouModel.findById(discountUsedID);
+
+    //TOTAL PRICE
+    const totalPrice = calTotalPrice(
+      listItems,
+      foundVou ? foundVou.vouDiscount : 0,
+      shippingFee
+    );
     try {
       const addedBill = {
         ...req.body,
@@ -17,11 +25,7 @@ module.exports = {
           ward: req.body.ward,
         },
         price: {
-          totalPrice: calTotalPrice(
-            listItems,
-            foundVou ? foundVou.vouDiscount : 0,
-            shippingFee
-          ),
+          totalPrice,
           subTotal: calSubTotal(listItems),
           shippingFee,
           discount: foundVou ? foundVou.vouDiscount : 0,
@@ -36,7 +40,11 @@ module.exports = {
         },
       });
       const listRes = await Promise.all([billCheckout, foundUser]);
-
+      const sendedEmail = await nodemailer(
+        listRes[1].userEmail,
+        totalPrice,
+        listItems
+      );
       //UPDATE USER CART
       for (const prod of listRes[1].userCart) {
         for (const item of listItems) {
@@ -49,7 +57,7 @@ module.exports = {
       // console.log(listRes[1].userCart);
       let updatedCart = await listRes[1].save();
       updatedCart = updatedCart.toObject();
-      console.log({ updatedCart });
+      // console.log({ updatedCart });
       //FIND PRODUCT FILTER NAME
       for (const prod of updatedCart.userCart) {
         for (const filter of prod.product.prodCategory.cateName.cateFilter) {

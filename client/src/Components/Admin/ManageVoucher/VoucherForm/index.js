@@ -87,6 +87,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               required
               placeholder="List Of Categories ..."
               name="cateID"
+              fieldType={0}
               component={SelectField}
               options={listCate}
             />

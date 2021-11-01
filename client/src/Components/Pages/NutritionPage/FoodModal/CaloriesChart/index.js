@@ -5,7 +5,9 @@ export default function CaloriesChart({ chartData: { carbs, fat, protein } }) {
   return (
     <>
       <Doughnut
-        className="calories_item_summary"
+        // height={100}
+        width={100}
+        options={{ maintainAspectRatio: true }}
         data={{
           // labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
           datasets: [

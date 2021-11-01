@@ -1,8 +1,9 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-
+import "./style.scss";
 export default function InputField(props) {
   const {
+    fieldType = 1,
     field, // formik
     form, // formik
     type,
@@ -28,50 +29,87 @@ export default function InputField(props) {
 
   return (
     <>
-      <Form.Group className="mb-4">
-        <div className={`${type === "number" && "d-flex align-items-center "}`}>
-          {label && (
-            <Form.Label
+      {fieldType === 0 ? (
+        <Form.Group className="mb-4">
+          <div
+            className={`${type === "number" && "d-flex align-items-center "}`}
+          >
+            {label && (
+              <Form.Label
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                  color: "#999",
+                }}
+                className={type === "number" && "flex-shrink-0"}
+                htmlFor={name}
+              >
+                {label}
+                {required && " * "} :
+              </Form.Label>
+            )}
+            <Form.Control
+              {...field}
+              id={name}
+              onChange={type === "file" ? onFileChange : onChange}
+              as={asType}
+              type={type}
+              placeholder={placeholder}
+              disabled={disabled}
+              defaultValue={defaultValue}
+              min={min}
+              className={type === "number" ? "flex-grow-1 ms-2" : className}
+              multiple={multiple}
+              isValid={touched[name] && !errors[name]}
+              isInvalid={error}
+            />
+          </div>
+          {error ? (
+            <Form.Text
               style={{
-                fontSize: "15px",
-                fontWeight: "500",
-                color: "#999",
+                color: "red",
+                // textAlign: "right",
+                // display: "inline-block",
               }}
-              className={type === "number" && "flex-shrink-0"}
-              htmlFor={name}
             >
-              {label}
-              {required && " * "} :
-            </Form.Label>
-          )}
-          <Form.Control
+              {errors[name]} 💢
+            </Form.Text>
+          ) : null}
+        </Form.Group>
+      ) : (
+        <div
+          class={
+            className ? className + "custom__input mt-4" : "custom__input mt-4"
+          }
+        >
+          <input
+            className={`
+              ${
+                touched[name] && !errors[name]
+                  ? "is-valid input__field "
+                  : "input__field "
+              }  ${error ? "is-invalid input__field " : ""}`}
             {...field}
-            id={name}
-            onChange={type === "file" ? onFileChange : onChange}
-            as={asType}
-            type={type}
+            // className="input__field is-invalid"
+            name={name}
+            type="text"
+            onChange={onChange}
             placeholder={placeholder}
             disabled={disabled}
-            defaultValue={defaultValue}
-            min={min}
-            className={type === "number" ? "flex-grow-1 ms-2" : className}
-            multiple={multiple}
-            isValid={touched[name] && !errors[name]}
-            isInvalid={error}
           />
+          <span className="input__state-icon"> </span>
+          {label && <p class="input__label">{label}</p>}
+          {error ? (
+            <div
+              style={{
+                color: "red",
+              }}
+            >
+              {errors[name]} 💢
+            </div>
+          ) : null}
         </div>
-        {error ? (
-          <Form.Text
-            style={{
-              color: "red",
-              // textAlign: "right",
-              // display: "inline-block",
-            }}
-          >
-            {errors[name]} 💢
-          </Form.Text>
-        ) : null}
-      </Form.Group>
+      )}
     </>
   );
 }

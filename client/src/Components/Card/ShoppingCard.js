@@ -6,10 +6,10 @@ import "./style.scss";
 export default function ShoppingCard({ img, tag }) {
   const history = useHistory();
   const handleOnClick = () => {
-    history.push("/shop");
+    history.push("/shopping");
   };
   return (
-    <Card className="shopping_card " onClick={handleOnClick}>
+    <Card className="shopping_card ">
       <div className="shopping_card_tag">{tag}</div>
       <Card.Img
         className="shopping_card_image"
@@ -17,9 +17,9 @@ export default function ShoppingCard({ img, tag }) {
         src={img}
         alt={tag}
       />
-      <Card.Body className="shopping_card_body">
-        <Card.Title className="shopping_card_name">Card Title</Card.Title>
-        <Card.Text className="shopping_card_price">150.000VND</Card.Text>
+      <Card.Body className="shopping_card_noti" onClick={handleOnClick}>
+        {" "}
+        GET IN !!! <i className="far fa-hand-point-left"></i>
       </Card.Body>
     </Card>
   );

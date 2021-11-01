@@ -36,8 +36,8 @@ export default function Product(props) {
         <p className="product_card_price">{formatCurrency(prodPrice)}</p>
       </div>
       <div className="product_card_actions">
-        <i onClick={handleAddToCart}>🛒</i>
-        <i>🤍</i>
+        <i onClick={handleAddToCart} className="fas fa-shopping-cart"></i>
+        <i className="fab fa-gratipay"></i>
         {/* <i class="fas fa-heart"></i> */}
       </div>
     </div>

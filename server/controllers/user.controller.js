@@ -81,6 +81,8 @@ module.exports = {
       );
       user[0] = user[0].toObject();
       delete user[0].userPassword;
+      console.log(user[0].trackingInfo);
+
       return res
         .status(200)
         .json({ isSuccess: true, user: user[0], accessToken });
@@ -167,6 +169,95 @@ module.exports = {
       return res
         .status(500)
         .json({ isSuccess: false, error: "Internal Server Error" });
+    }
+  },
+  updateTrackingInfo: async (req, res) => {
+    try {
+      const { trackingInfo } = req.body;
+      const updatedUser = await userModel.findByIdAndUpdate(
+        req.userID,
+        {
+          trackingInfo,
+        },
+        { new: true }
+      );
+      // console.log(updatedUser);
+      return res.status(200).json({ isSuccess: true, updatedUser });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Internal Server Error" });
+    }
+  },
+  addTrackingFood: async (req, res) => {
+    try {
+      const {
+        food: { addedDate, id, foodServing, mealType },
+        food,
+      } = req.body;
+      console.log(typeof foodServing);
+      let updatedUser = null;
+      const foundUser = await userModel.findById(req.userID);
+
+      //CHECK IF USER HAS ADDED YET IN CURRENT DATE
+      if (foundUser.trackingInfo.trackingFood.addedDate !== addedDate) {
+        updatedUser = await userModel.findByIdAndUpdate(req.userID, {
+          "trackingInfo.trackingFood": {
+            addedDate,
+            listFoods: { ...food, foodServing: foodServing.toString() },
+          },
+        });
+        return res.status(200).json({ isSuccess: true, updatedUser });
+      }
+      //USER HAS ADDED BEFORE IN THE DAY
+      else {
+        //CHECK IF THAT FOOD EXIST IN DB OR NOT
+        const checkFoodExist =
+          foundUser.trackingInfo.trackingFood.listFoods.find(
+            (e) => e.id === id && e.mealType === mealType
+          );
+        if (!checkFoodExist) {
+          foundUser.trackingInfo.trackingFood.listFoods.push(food);
+          console.log(foundUser.listFoods);
+          await foundUser.save();
+        } else {
+          // UPDATE FOOD SERVING
+          checkFoodExist.foodServing =
+            parseFloat(checkFoodExist.foodServing) + parseFloat(foodServing);
+          foundUser.trackingInfo.trackingFood.listFoods.map((food) => {
+            if (food.id === checkFoodExist.id) return checkFoodExist;
+            else return food;
+          });
+          await foundUser.save();
+        }
+        return res
+          .status(200)
+          .json({ isSuccess: true, updatedUser: foundUser });
+      }
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Internal Server Error" });
+    }
+  },
+  removeTrackingFood: async (req, res) => {
+    try {
+      const { id } = req.query;
+      const foundUser = await userModel.findById(req.userID);
+      foundUser.trackingInfo.trackingFood.listFoods =
+        foundUser.trackingInfo.trackingFood.listFoods.filter(
+          (e) => e.id !== id
+        );
+      const updatedUser = await foundUser.save();
+      console.log(updatedUser.trackingInfo.trackingFood);
+      return res.status(200).json({ isSuccess: true, updatedUser });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Internal Server Error" });
     }
   },
 };

@@ -1,7 +1,7 @@
 @import "../../assets/constants.scss";
 .auth_form {
   // overflow: auto;
-  display: none;
+  // display: none;
   position: absolute;
   top: 60px;
   right: 10px;
@@ -25,9 +25,9 @@
     top: -10px;
   }
 }
-.form_active {
-  display: block;
-}
+// .form_active {
+//   display: block;
+// }
 .form_footer {
   display: flex;
   justify-content: space-between;

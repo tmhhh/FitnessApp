@@ -95,75 +95,75 @@ function Register() {
         }
 
         return (
-          <Form
-            className={isShown === true ? "auth_form form_active" : "auth_form"}
-          >
-            <FastField
-              required
-              label="Your Username"
-              placeholder="Enter name ..."
-              name="userNameID"
-              type="text"
-              component={InputField}
-            />
-            <FastField
-              required
-              label="Your name"
-              placeholder="Enter name ..."
-              name="userName"
-              type="text"
-              component={InputField}
-            />
-            <FastField
-              required
-              label="Your Email"
-              placeholder="Enter email ..."
-              name="userEmail"
-              type="text"
-              component={InputField}
-            />
-            <FastField
-              required
-              label="Your Password"
-              placeholder="Enter password ..."
-              name="userPassword"
-              type="password"
-              component={InputField}
-            />
-            <FastField
-              required
-              label="Confirm Your Password"
-              placeholder="Enter password confirmation ..."
-              name="userPasswordConfirm"
-              type="password"
-              component={InputField}
-            />
-            <div className="form_footer">
-              <FormBootStrap.Text className="text-muted">
-                Already have an account ? Login{" "}
-                <p
-                  style={{
-                    display: "inline-block",
-                    textDecoration: "underline",
-                    color: "blue",
-                  }}
-                  role="button"
-                  onClick={() =>
-                    setAuthForm({
-                      type: "login",
-                      isShown: true,
-                    })
-                  }
-                >
-                  here{" "}
-                </p>
-                !!!
-              </FormBootStrap.Text>
-              <Button className="mb-4" variant="primary" type="submit">
-                Submit
-              </Button>
-            </div>
-          </Form>
+          isShown === true && (
+            <Form className={"auth_form form_active"}>
+              <FastField
+                required
+                label="Your Username"
+                placeholder="Enter name ..."
+                name="userNameID"
+                type="text"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Your name"
+                placeholder="Enter name ..."
+                name="userName"
+                type="text"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Your Email"
+                placeholder="Enter email ..."
+                name="userEmail"
+                type="text"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Your Password"
+                placeholder="Enter password ..."
+                name="userPassword"
+                type="password"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Confirm Your Password"
+                placeholder="Enter password confirmation ..."
+                name="userPasswordConfirm"
+                type="password"
+                component={InputField}
+              />
+              <div className="form_footer">
+                <FormBootStrap.Text className="text-muted">
+                  Already have an account ? Login{" "}
+                  <p
+                    style={{
+                      display: "inline-block",
+                      textDecoration: "underline",
+                      color: "blue",
+                    }}
+                    role="button"
+                    onClick={() =>
+                      setAuthForm({
+                        type: "login",
+                        isShown: true,
+                      })
+                    }
+                  >
+                    here{" "}
+                  </p>
+                  !!!
+                </FormBootStrap.Text>
+                <Button className="mb-4" variant="primary" type="submit">
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          )
         );
       }}
     </Formik>

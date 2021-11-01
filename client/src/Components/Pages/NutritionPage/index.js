@@ -1,29 +1,46 @@
-import { Fragment, useContext, useState } from "react";
-import { Col, Row, Spinner } from "react-bootstrap";
-import { Context } from "../../../Contexts";
-import NutritionContainer from "../../Containers/NutritionContainer";
-import SearchBar from "../../Common/SearchBar";
-import "./style.scss";
-import FoodModal from "./FoodModal";
+import { useContext, useState, useEffect } from "react";
+import { Spinner, Table } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import userApi from "../../../api/userApi";
 import { BASE_IMAGE_BASE_URL } from "../../../assets/constants";
+import { Context } from "../../../Contexts";
+import SearchBar from "../../Common/SearchBar";
+import NutritionContainer from "../../Containers/NutritionContainer";
+import FoodModal from "./FoodModal";
+import TrackingSidebar from "./NutriSidebar";
+import "./style.scss";
+import TrackingModal from "./TrackingModal";
+import authSlice from "../../../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 export default function NutritionPage() {
+  const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
+  const { userInfo, isAuthenticated, authLoading } = useSelector(
+    (state) => state.authReducer
+  );
   const [modal, setModal] = useState({
     isShown: false,
     foodData: {},
   });
+
+  //
   const [servingSize, setServingSize] = useState(1);
 
+  //TRACKING MODAL
+  const [showTrackingModal, setShowTrackingModal] = useState(false);
+  const handleCloseTrackingModal = () => setShowTrackingModal(false);
+  const handleShowTrackingModal = () => setShowTrackingModal(true);
+
+  //
   const handleServingChange = (e) => {
     setServingSize(e.target.value);
   };
-  //HANDLE MODAL
-  const handleCloseModal = () => {
+  //HANDLE FOOD DETAIL MODAL
+  const handleCloseModal = (action) => {
+    if (action !== "next") setServingSize(1);
     setModal({ ...modal, isShown: false });
-    setServingSize(1);
   };
   const handleShowModal = (foodID) => {
-    console.log(foodID);
     const foundFood = nutriState.listFoods.find(
       (e) => e.food.foodId === foodID
     );
@@ -34,18 +51,43 @@ export default function NutritionPage() {
     });
   };
 
-  //HANDLE INVALID IMG
-  const handleErrorImg = (e) => {
-    e.target.onerror = null;
-    // e.target.src = BASE_IMAGE_BASE_URL + "/dishes-default.jpg";
-    e.target.src = "http://localhost:4000/img/base/dishes-default.jpg";
+  //HANDLE REMOVE TRACKING FOOD
+  const handleRemoveTrackingFood = async (id) => {
+    try {
+      const res = await userApi.removeTrackingFood(id);
+      if (res.data.isSuccess)
+        return dispatch(
+          authSlice.actions.setAuth({
+            authLoading: false,
+            isAuthenticated: true,
+            userInfo: res.data.updatedUser,
+          })
+        );
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  //
+  useEffect(() => {
+    if (!authLoading && isAuthenticated && !userInfo.trackingInfo.isFilled) {
+      console.log(userInfo);
+      handleShowTrackingModal();
+    }
+  }, [userInfo]);
   return (
     <>
       <NutritionContainer>
-        {nutriState.isLoading ? (
-          <div className="nutrition_section none_active">
-            <SearchBar />
+        <TrackingSidebar
+          isAuthenticated={isAuthenticated}
+          authLoading={authLoading}
+          userInfo={userInfo}
+          handleShowTrackingModal={handleShowTrackingModal}
+          handleRemoveTrackingFood={handleRemoveTrackingFood}
+        />
+        <div className="nutrition_section ">
+          <SearchBar />
+          {nutriState.isLoading ? (
             <Spinner
               style={{ position: "absolute", left: "50%", top: "50%" }}
               animation="border"
@@ -53,96 +95,74 @@ export default function NutritionPage() {
             >
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-          </div>
-        ) : nutriState.listFoods ? (
-          nutriState.listFoods.length > 0 ? (
+          ) : nutriState.listFoods ? (
+            // nutriState.listFoods.length > 0 ? (
             <>
-              <div className="nutrition_section">
-                <SearchBar />
-                <div className="header container">
-                  <Row>
-                    <Col lg={2} md={2}>
-                      <div className="header_image">Image</div>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <div className="header_serving">Serving</div>
-                    </Col>
-                    <Col lg={4} md={4}>
-                      <div className="header_foodname">Food</div>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <div className="header_totalEnergy">Energy</div>
-                    </Col>
-                    <Col lg={2} md={2}>
-                      <div className="header_nutrient">Nutrients</div>
-                    </Col>
-                  </Row>
-                </div>
-                <div className="body container">
-                  <Row>
-                    {nutriState.listFoods.map((e, index) => (
-                      <Fragment key={index}>
-                        <Col lg={2} md={2}>
-                          <div
-                            onClick={() => {
-                              handleShowModal(e.food.foodId);
-                            }}
-                            role="button"
-                            className="food_image"
-                          >
-                            <img
-                              // onError={handleErrorImg}
-                              src={
-                                e.food.image
-                                  ? e.food.image
-                                  : BASE_IMAGE_BASE_URL + "/dishes-default.png"
-                              }
-                              alt={e.food.label}
-                            />
-                          </div>{" "}
-                        </Col>
-                        <Col lg={2} md={2}>
-                          <div className="food_serving">100 gram</div>
-                        </Col>
-                        <Col lg={4} md={4}>
-                          <div className="food_name">{e.food.label}</div>
-                        </Col>
-                        <Col lg={2} md={2}>
-                          <div className="food_energy">
-                            {Math.trunc(e.food.nutrients.ENERC_KCAL)}
-                          </div>
-                        </Col>
-                        <Col lg={2} md={2}>
-                          <div className="food_nutrient">
-                            <p>
-                              Protein: {Math.trunc(e.food.nutrients.PROCNT)}g
-                            </p>
-                            <p>Fat: {Math.trunc(e.food.nutrients.FAT)}g</p>
-                            <p>Carbs: {Math.trunc(e.food.nutrients.FIBTG)}g</p>
-                          </div>
-                        </Col>
-                      </Fragment>
-                    ))}
-                  </Row>
-                </div>
-              </div>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Serving</th>
+                    <th>Food</th>
+                    <th>Energy</th>
+                    <th>Nutrients</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nutriState.listFoods.map((e, index) => (
+                    <tr
+                      key={index}
+                      role="button"
+                      onClick={() => handleShowModal(e.food.foodId)}
+                    >
+                      <td>{index + 1}</td>
+                      <td>
+                        <img
+                          height="80"
+                          width="80"
+                          src={
+                            e.food.image
+                              ? e.food.image
+                              : BASE_IMAGE_BASE_URL + "/dishes-default.png"
+                          }
+                          alt={e.food.label}
+                        />
+                      </td>
+                      <td>100gr</td>
+                      <td>{e.food.label}</td>
+                      <td> {Math.trunc(e.food.nutrients.ENERC_KCAL)}</td>
+                      <td>
+                        <div className="d-flex flex-column align-items-start pl-4 justify-content-start">
+                          <p>Protein: {Math.trunc(e.food.nutrients.PROCNT)}g</p>
+                          <p>Fat: {Math.trunc(e.food.nutrients.FAT)}g</p>
+                          <p>Carbs: {Math.trunc(e.food.nutrients.FIBTG)}g</p>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
             </>
           ) : (
-            <div className="nutrition_section none_active">
-              <SearchBar />
-            </div>
-          )
-        ) : (
-          <div className="nutrition_section none_active">
-            <SearchBar />
-          </div>
-        )}
-        <FoodModal
-          handleServingChange={handleServingChange}
-          servingSize={servingSize}
-          modal={modal}
-          handleCloseModal={handleCloseModal}
-        />
+            // ) : (
+            //   <div className="nutrition_section_w ">
+            //     <SearchBar />
+            //   </div>
+            // )
+            <div className="none_active"></div>
+          )}
+          <FoodModal
+            handleServingChange={handleServingChange}
+            servingSize={servingSize}
+            modal={modal}
+            handleCloseModal={handleCloseModal}
+          />
+          <TrackingModal
+            showTrackingModal={showTrackingModal}
+            handleCloseTrackingModal={handleCloseTrackingModal}
+          />
+        </div>
       </NutritionContainer>
     </>
   );

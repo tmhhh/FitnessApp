@@ -61,47 +61,55 @@ function ProductDetailPage() {
           />
         ) : (
           <>
-            <div className="product_info_image">
-              <img
-                src={`${PROD_IMAGE_BASE_URL}${chosenProd.prodThumbnail}`}
-                alt={chosenProd.prodName}
-              />
-            </div>
-            <div className="product_info_details">
-              <div className="product_info_type">{chosenProd.prodType}</div>
-              <div className="product_info_review">
-                <i
-                  style={{ color: "yellow", marginRight: "5px" }}
-                  className="fa fa-star"
-                  aria-hidden="true"
-                ></i>
-                4.5 (23 Reviews)
+            <div className="product_info">
+              <div className="product_info_image">
+                <img
+                  src={`${PROD_IMAGE_BASE_URL}${chosenProd.prodThumbnail}`}
+                  alt={chosenProd.prodName}
+                />
               </div>
-
-              <div className="product_info_name">
-                {chosenProd.prodName} <i className="far fa-heart"></i>
-              </div>
-              <div className="product_info_price">
-                {formatCurrency(chosenProd.prodPrice)}
-              </div>
-              <div className="product_info_des">
-                {chosenProd.prodDescription}
-              </div>
-              <div className="product_info_action">
-                <Button onClick={handleAddToCart} variant="dark">
-                  Add to cart
-                </Button>
-                <Button variant="dark">
+              <div className="product_info_details">
+                <div className="product_info_type">{chosenProd.prodType}</div>
+                <div className="product_info_review">
                   <i
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="fas fa-plus"
+                    style={{ color: "yellow", marginRight: "5px" }}
+                    className="fa fa-star"
+                    aria-hidden="true"
                   ></i>
-                  <span className="product_info_quantity">{quantity}</span>
-                  <i
-                    onClick={() => quantity > 1 && setQuantity(quantity - 1)}
-                    className="fas fa-minus"
-                  ></i>{" "}
-                </Button>
+                  4.5 (23 Reviews)
+                </div>
+                <div className="product_info_name">
+                  {chosenProd.prodName} <i className="far fa-heart"></i>
+                </div>
+                <div className="product_info_price">
+                  {formatCurrency(chosenProd.prodPrice)}
+                </div>
+                <div className="product_info_cate">
+                  {chosenProd.prodCategory.cateName.cateName} |{" "}
+                  {chosenProd.prodCategory.cateFilter.filterName}{" "}
+                </div>
+                <div className="product_info_weight">
+                  {chosenProd.prodWeight}g
+                </div>
+                <div className="product_info_des">
+                  {chosenProd.prodDescription}
+                </div>
+                <div className="product_info_action">
+                  <Button onClick={handleAddToCart} variant="dark">
+                    Add to cart
+                  </Button>
+                  <Button variant="dark">
+                    <i
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="fas fa-plus"
+                    ></i>
+                    <span className="product_info_quantity">{quantity}</span>
+                    <i
+                      onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+                      className="fas fa-minus"
+                    ></i>{" "}
+                  </Button>
+                </div>
               </div>
             </div>
             <div className="product_related">
@@ -121,9 +129,17 @@ function ProductDetailPage() {
                   <div className="product_related_info_details">
                     <div className="product_related_info_name">
                       {prod.prodName}
+                      <i className="far fa-heart"></i>
                     </div>
                     <div className="product_related_info_price">
                       {formatCurrency(prod.prodPrice)}
+                    </div>
+                    <div className="product_related_info_cate">
+                      {prod.prodCategory.cateName.cateName} |{" "}
+                      {prod.prodCategory.cateFilter.filterName}
+                    </div>
+                    <div className="product_related_info_weight">
+                      {prod.prodWeight}g
                     </div>
                   </div>
                 </div>
@@ -133,7 +149,7 @@ function ProductDetailPage() {
         )}
       </div>
       {/* //REVIEW */}
-      <ReviewSection listReview={listReview} />
+      {/* <ReviewSection listReview={listReview} /> */}
     </>
   );
 }

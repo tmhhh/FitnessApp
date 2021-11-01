@@ -1,16 +1,17 @@
-import React, { useState, useContext } from "react";
-import { Context } from "../../Contexts";
+import { FastField, Formik } from "formik";
+import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import * as yup from "yup";
 import { authApi } from "../../api/authApi";
+import { BASE_API_URL } from "../../assets/constants";
+import { Context } from "../../Contexts";
 import authSlice from "../../redux/slices/authSlice";
 import cartSlice from "../../redux/slices/cartSlice";
-import { FacebookLoginButton } from "react-social-login-buttons";
-import { GoogleLoginButton } from "react-social-login-buttons";
-
+import InputField from "../Common/InputField";
+import OtherLoginButton from "./OtherLoginButton";
 import "./style.scss";
-import { BASE_API_URL } from "../../assets/constants";
 function Login() {
   const dispatch = useDispatch();
   // TOAST
@@ -19,9 +20,6 @@ function Login() {
   //AUTH FORM
   const { authForm, setAuthForm } = useContext(Context);
   const { isShown } = authForm;
-
-  //AUTH DATA
-  const authSelector = useSelector((state) => state.authReducer);
 
   //INPUT
   const [input, setInput] = useState({
@@ -35,14 +33,12 @@ function Login() {
   };
 
   //LOGIN
-  const handleOnSubmit = async (e) => {
-    e.preventDefault();
-    console.log(authSelector);
+  const handleOnSubmit = async (values, event) => {
+    // e.preventDefault();
+    const { userNameID, userPassword } = values;
+    console.log(event);
 
-    const userNameID = input.userNameID.trim(" ");
-    const userPassword = input.userPassword.trim(" ");
-
-    if (userNameID === "" || userPassword === "") return;
+    // if (userNameID === "" || userPassword === "") return;
 
     try {
       setToast({
@@ -52,9 +48,12 @@ function Login() {
         icon: "👀",
         bg: "info",
       });
-      console.log(userNameID, userPassword);
+      // console.log(userNameID, userPassword);
       const res = await authApi.userLogin(userNameID, userPassword);
+      // console.log(res.data);
       if (res.data.isSuccess) {
+        // event.resetForm();
+        // event.setTouched({});
         setAuthForm({ ...authForm, isShown: false });
         setToast({
           toastShow: true,
@@ -160,67 +159,83 @@ function Login() {
     }
   };
   return (
-    <>
-      {/* <AuthLayout> */}
-      <Form
-        className={isShown === true ? "auth_form form_active" : "auth_form"}
-        onSubmit={handleOnSubmit}
+    isShown === true && (
+      <Formik
+        initialValues={{ userNameID: "", userPassword: "" }}
+        validationSchema={yup.object().shape({
+          userNameID: yup.string().required("This field is required"),
+          userPassword: yup.string().required("This field is required"),
+        })}
+        onSubmit={(values, event) => handleOnSubmit(values, event)}
       >
-        <Form.Group className="mb-3" controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            onChange={handleInputOnChange}
-            type="text"
-            name="userNameID"
-            value={input.userNameID}
-            placeholder="Enter username"
-          />
-        </Form.Group>
+        {(formikProps) => {
+          const { errors, values, touched } = formikProps;
+          console.log({ errors, values, touched });
+          return (
+            <Form onSubmit={formikProps.handleSubmit} className={"auth_form "}>
+              <FastField
+                name="userNameID"
+                placeholder="Your username ..."
+                component={InputField}
+                required
+                label="Username"
+              />
+              <FastField
+                name="userPassword"
+                label="Password"
+                required
+                placeholder="Your password ..."
+                component={InputField}
+              />
 
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            onChange={handleInputOnChange}
-            type="password"
-            name="userPassword"
-            value={input.userPassword}
-            placeholder="Password"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Remember me" />
-        </Form.Group>
-        <div className="form_footer">
-          <Form.Text className="text-muted">
-            Don't have an account ? Register{" "}
-            <a
-              href="###"
-              onClick={() =>
-                setAuthForm({
-                  type: "register",
-                  isShown: true,
-                })
-              }
-            >
-              here{" "}
-            </a>{" "}
-            !!!
-          </Form.Text>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </div>
-        <Form.Group className="mb-3 text-center" controlId="formBasicCheckbox">
-          <Form.Label style={{ fontWeight: 600 }}>Or login with</Form.Label>
-          <FacebookLoginButton
-            className="mb-2"
-            onClick={handleLoginWithFacebook}
-          />
-          <GoogleLoginButton onClick={handleLoginWithGoogle} />
-        </Form.Group>
-      </Form>
-      {/* </AuthLayout> */}
-    </>
+              {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="Remember me" />
+            </Form.Group> */}
+              <div className="form_footer">
+                <Form.Text className="text-muted">
+                  Don't have an account ? Register{" "}
+                  <a
+                    href="###"
+                    onClick={() =>
+                      setAuthForm({
+                        type: "register",
+                        isShown: true,
+                      })
+                    }
+                  >
+                    here{" "}
+                  </a>{" "}
+                  !!!
+                </Form.Text>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+              </div>
+              <Form.Group
+                className="mb-3 text-center"
+                controlId="formBasicCheckbox"
+              >
+                <Form.Label style={{ fontWeight: 600 }}>
+                  Or login with
+                </Form.Label>
+                <OtherLoginButton
+                  title="Login with Facebook"
+                  img="https://fullstack.edu.vn/assets/images/signin/facebook-18px.svg"
+                  onClick={handleLoginWithFacebook}
+                />
+                <OtherLoginButton
+                  title="Login with Google"
+                  img="https://fullstack.edu.vn/assets/images/signin/google-18px.svg"
+                  onClick={handleLoginWithGoogle}
+                />
+              </Form.Group>
+            </Form>
+          );
+        }}
+
+        {/* </AuthLayout> */}
+      </Formik>
+    )
   );
 }
 

@@ -16,9 +16,9 @@ export default function Navbar() {
   //SHOW FORM
   const handleShowAuthForm = () => {
     if (isAuthenticated) return;
-    if (authForm.isShown === false)
-      return setAuthForm({ ...authForm, isShown: true });
-    setAuthForm({ ...authForm, isShown: false });
+    // if (authForm.isShown === false)
+    return setAuthForm({ ...authForm, isShown: !authForm.isShown });
+    // setAuthForm({ ...authForm, isShown: false });
   };
 
   // //HIDE DROPDOWN
@@ -88,47 +88,56 @@ export default function Navbar() {
                   autoClose
                 >
                   {userInfo.userType === 1 && (
-                    <Dropdown.Item className=" dropdown_item">
-                      <NavLink
-                        activeClassName="dropdown_item_active"
-                        to="/admin"
-                      >
-                        <i className="fas fa-users-cog"></i> Dashboard
-                      </NavLink>
-                    </Dropdown.Item>
+                    <NavLink
+                      className="dropdown_item pointer"
+                      activeClassName="dropdown_item_active dropdown_item pointer"
+                      to="/admin"
+                    >
+                      <div className="dropdown_item_icon">
+                        <i className="fas fa-users-cog"></i>
+                      </div>{" "}
+                      Dashboard
+                    </NavLink>
                   )}
 
-                  <Dropdown.Item className=" dropdown_item">
-                    <NavLink
-                      activeClassName="dropdown_item_active"
-                      to="/profile"
-                    >
-                      <i className="far fa-id-badge"></i> Profile
-                    </NavLink>
-                  </Dropdown.Item>
-                  <Dropdown.Item className=" dropdown_item">
-                    <NavLink
-                      activeClassName="dropdown_item_active"
-                      to="/checkout"
-                    >
-                      <i className="fas fa-shopping-basket"></i>Shopping Cart
-                    </NavLink>
-                  </Dropdown.Item>
+                  <NavLink
+                    className="dropdown_item pointer"
+                    activeClassName="dropdown_item_active dropdown_item pointer"
+                    to="/profile"
+                  >
+                    <div className="dropdown_item_icon">
+                      <i className="far fa-id-badge"></i>
+                    </div>
+                    Profile
+                  </NavLink>
+                  <NavLink
+                    className="dropdown_item pointer"
+                    activeClassName="dropdown_item_active dropdown_item pointer"
+                    to="/checkout"
+                  >
+                    <div className="dropdown_item_icon">
+                      <i className="fas fa-shopping-basket"></i>
+                    </div>
+                    Shopping Cart
+                  </NavLink>
 
-                  <Dropdown.Item className=" dropdown_item">
-                    <p>
-                      <i className="far fa-user"></i> Type:{" "}
-                      {userInfo.userType === 0 ? "User" : "Admin"}
-                    </p>
-                  </Dropdown.Item>
+                  <div className="dropdown_item ">
+                    <div className="dropdown_item_icon">
+                      <i className="far fa-user"></i>
+                    </div>{" "}
+                    Type: {userInfo.userType === 0 ? "User" : "Admin"}
+                  </div>
 
                   <Dropdown.Divider id="dropdown_divider" />
-                  <Dropdown.Item className=" dropdown_item">
-                    <p role="button" onClick={handleLogout}>
+                  <div
+                    className=" dropdown_item pointer"
+                    onClick={handleLogout}
+                  >
+                    <div className="dropdown_item_icon">
                       <i className="fas fa-sign-out-alt"></i>
-                      Logout
-                    </p>
-                  </Dropdown.Item>
+                    </div>
+                    Logout
+                  </div>
                 </DropdownButton>
               </>
             ) : (

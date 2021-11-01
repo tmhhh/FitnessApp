@@ -20,7 +20,7 @@ export default function CateTable({
           {listCate.map((item, index) => (
             <tr key={item._id}>
               <td>{index + 1}</td>
-              <td>{item.cateType}</td>
+              <td>{item.cateName}</td>
               <td>
                 {item.cateFilter.map((e, index) => {
                   if (index < item.cateFilter.length - 1) {

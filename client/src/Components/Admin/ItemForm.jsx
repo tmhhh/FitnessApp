@@ -54,6 +54,7 @@ export default function NewItemForm(props) {
                 </Col>
               </Row>
               <FastField
+                fieldType={0}
                 name="prodCategory"
                 label="Category"
                 component={SelectField}

@@ -107,7 +107,6 @@ module.exports = {
       user.userCart = user.userCart.filter(
         (prod) => prod.product.toString() !== prodID.toString()
       );
-
       user.save((err) => {
         if (err) {
           console.log(err);
