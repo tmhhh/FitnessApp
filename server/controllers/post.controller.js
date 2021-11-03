@@ -95,6 +95,17 @@ module.exports = {
         .json({ isSuccess: false, error: "Internal Server Error" });
     }
   },
+  pending: async (req, res) => {
+    const { userType } = await userModel.findById(req.userID);
+    if (userType === 1) return res.status(403).json({ error: "No permission" });
+    const status = req.body.isAccepted === true ? "accepted" : "rejected";
+    try {
+      await postModel.updateOne({ _id: req.params.id }, { status });
+      return res.json({ isSuccess: true });
+    } catch (error) {
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
   like: async (req, res) => {
     try {
       const oldPost = await postModel.findById(req.params.id);
@@ -114,14 +125,41 @@ module.exports = {
       return res.status(500).json({ isSuccess: false, error });
     }
   },
+  unlike: async (req, res) => {
+    try {
+      const oldPost = await postModel.findById(req.params.id);
+      if (!oldPost) return res.status(404).json({ error: "Post is not found" });
+      if (!oldPost.like.user.includes(req.userID))
+        return res.json({ isSuccess: true, message: "You haven't liked" });
+      const update = {
+        like: {
+          count: --oldPost.like.count,
+          user: oldPost.like.user.filter((userId) => userId != req.userID),
+        },
+      };
+      await postModel.updateOne({ _id: oldPost._id }, update);
+      return res.json({ isSuccess: true });
+    } catch (error) {
+      console.log("err: ", error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
 
   comment: async (req, res) => {
+    const postId = req.params.id !== "0" ? req.params.id : undefined;
     try {
       const comment = new commentModel({
         author: req.userID,
         content: req.body.content,
-        of_post: req.params.id,
+        of_comment: req.body.commentId,
+        of_post: postId,
       });
+      if (req.body.commentId) {
+        commentModel.findById(req.body.commentId).then((parent) => {
+          parent.replies.push(comment._id);
+          parent.save();
+        });
+      }
       await comment.save();
       return res.status(200).json({ isSuccess: true, comment });
     } catch (error) {
@@ -133,8 +171,24 @@ module.exports = {
     try {
       const comments = await commentModel
         .find({ of_post: req.params.id })
-        .populate("author");
-      return res.json({ isSuccess: true, comments });
+        .populate("author")
+        .populate("replies");
+      // PROBLEM
+      // const listComment = comments.reduce((acc, comment) => {
+      //   const test = comment.replies?.reduce((acc, reply) => {
+      //     // const { userName } = await userModel.findById(reply.author);
+      //     reply = { ...reply, author: "userName" };
+      //     return [...acc, reply];
+      //   }, []);
+      //   console.log(test);
+      //   comment = { ...comment, replies: test };
+      //   return [...acc, comment];
+      // }, []);
+      // listComment.forEach((e) => {
+      //   // console.log(e.replies);
+      // });
+
+      return res.json({ isSuccess: true, comments: listComment });
     } catch (error) {
       console.log("err: ", error);
       return res.status(500).json({ isSuccess: false, error });
@@ -174,18 +228,6 @@ module.exports = {
       return res.status(200).json({ isSuccess: true });
     } catch (error) {
       console.log("err: ", error);
-      return res.status(500).json({ isSuccess: false, error });
-    }
-  },
-
-  pending: async (req, res) => {
-    const { userType } = await userModel.findById(req.userID);
-    if (userType === 1) return res.status(403).json({ error: "No permission" });
-    const status = req.body.isAccepted === true ? "accepted" : "rejected";
-    try {
-      await postModel.updateOne({ _id: req.params.id }, { status });
-      return res.json({ isSuccess: true });
-    } catch (error) {
       return res.status(500).json({ isSuccess: false, error });
     }
   },

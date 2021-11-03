@@ -25,11 +25,17 @@ const postApi = {
   like: (id) => {
     return axiosClient.put(BASE_API_URL + URL + `/like/${id}`);
   },
+  unlike: (id) => {
+    return axiosClient.delete(BASE_API_URL + URL + `/like/${id}`);
+  },
   getPostComments: (postId) => {
     return axiosClient.get(BASE_API_URL + URL + `/comment/${postId}`);
   },
   comment: (postId, body) => {
     return axiosClient.post(BASE_API_URL + URL + `/comment/${postId}`, body);
+  },
+  reply: (body) => {
+    return axiosClient.post(BASE_API_URL + URL + `/comment/0`, body);
   },
 };
 export default postApi;

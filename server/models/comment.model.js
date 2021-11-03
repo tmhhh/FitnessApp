@@ -6,11 +6,17 @@ const comment = new Schema(
     content: { type: String },
     replies: [
       {
-        author: { type: Schema.Types.ObjectId, ref: "Users", required: true },
-        content: { type: String },
+        type: Schema.Types.ObjectId,
+        ref: "Comments",
+        required: false,
       },
     ],
-    of_post: { type: Schema.Types.ObjectId, ref: "Posts", required: true },
+    of_comment: {
+      type: Schema.Types.ObjectId,
+      ref: "Comments",
+      required: false,
+    },
+    of_post: { type: Schema.Types.ObjectId, ref: "Posts" },
   },
   {
     timestamps: true,

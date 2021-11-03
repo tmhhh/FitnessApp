@@ -56,6 +56,14 @@ export const likePost = createAsyncThunk(
     return res.data.isSuccess;
   }
 );
+export const unLikePost = createAsyncThunk(
+  "post/unLikePost",
+  async (postId, { dispatch }) => {
+    const res = await postApi.unlike(postId);
+    dispatch(getPosts());
+    return res.data.isSuccess;
+  }
+);
 export const getPostComments = createAsyncThunk(
   "post/getPostComments",
   async (postId, { dispatch }) => {

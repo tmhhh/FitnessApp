@@ -14,6 +14,7 @@ export default function Post() {
   const [post, setPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [cmtModalShow, setCmtModalShow] = useState(false);
+
   useEffect(() => {
     (async () => {
       const rs = await dispatch(getPostById(postId));
@@ -80,7 +81,7 @@ export default function Post() {
             </div>
           </div>
           <hr />
-          <div>
+          <div className=" ql-editor">
             <div dangerouslySetInnerHTML={{ __html: post?.content }} />
           </div>
         </Container>
@@ -113,34 +114,11 @@ export default function Post() {
 
           {comments &&
             comments.map((comment) => (
-              <div
+              <Comment
                 key={comment._id}
-                style={{
-                  padding: "20px",
-                  marginTop: "20px",
-                  borderRadius: "10px",
-                  border: "1px solid #eeeeee",
-                }}
-              >
-                <Row className="align-items-center">
-                  <Col xs={1}>
-                    <Image
-                      src={fetchUserImage(comment.author?.userImage)}
-                      roundedCircle
-                      style={{ width: "50px", height: "50px" }}
-                    />
-                  </Col>
-                  <Col>
-                    <h6>{comment.author?.userName}</h6>
-                  </Col>
-                </Row>
-                <Row className="mt-3">
-                  <Col xs={1}></Col>
-                  <Col>
-                    <p>{comment.content}</p>
-                  </Col>
-                </Row>
-              </div>
+                comment={comment}
+                getComments={getComments}
+              />
             ))}
         </Container>
         {/* </Col>
@@ -150,6 +128,85 @@ export default function Post() {
     </>
   );
 }
+
+function Comment({ comment, getComments }) {
+  const [replyTextShow, setReplyTextShow] = useState(false);
+  const handleReply = async (content) => {
+    setReplyTextShow(false);
+    const rs = await postApi.reply({ content, commentId: comment._id });
+    if (rs.data.isSuccess) getComments();
+  };
+  console.log(comment.replies);
+  return (
+    <div
+      style={{
+        padding: "20px",
+        marginTop: "20px",
+        borderRadius: "10px",
+        border: "1px solid #eeeeee",
+      }}
+    >
+      <Row>
+        <Col xs={1}>
+          <Image
+            src={fetchUserImage(comment.author?.userImage)}
+            roundedCircle
+            style={{ width: "50px", height: "50px" }}
+          />
+        </Col>
+        <Col>
+          <div className="d-flex align-items-center" style={{ height: "50px" }}>
+            <h6>{comment.author?.userName}</h6>
+          </div>
+          <p className="mt-3">{comment.content}</p>
+          <hr />
+          {comment.replies?.map((reply) => (
+            <Row key={reply._id}>
+              <Col xs={1}>
+                <Image
+                  src={fetchUserImage(reply.author?.userImage)}
+                  roundedCircle
+                  style={{ width: "50px", height: "50px" }}
+                />
+              </Col>
+              <Col>
+                <div
+                  className="d-flex align-items-center"
+                  style={{ height: "50px" }}
+                >
+                  <h6>{reply.author?.userName}</h6>
+                </div>
+                <p className="mt-3">{reply.content}</p>
+              </Col>
+            </Row>
+          ))}
+          <Row className="align-items-end">
+            <Col xs={10}>
+              {replyTextShow && (
+                <ReplyText
+                  handleReply={handleReply}
+                  onHide={() => {
+                    setReplyTextShow(false);
+                  }}
+                />
+              )}
+            </Col>
+            <Col className="p-0">
+              <button
+                className=" default-outline-button default-primary mt-3"
+                style={{ fontSize: "14px" }}
+                onClick={() => setReplyTextShow(true)}
+              >
+                <i className="far fa-comment-dots"></i> Reply
+              </button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </div>
+  );
+}
+
 function CommentModal(props) {
   return (
     <Modal show={props.show} size="lg" centered>
@@ -161,5 +218,42 @@ function CommentModal(props) {
         />
       </Modal.Body>
     </Modal>
+  );
+}
+
+function ReplyText(props) {
+  const [reply, setReply] = useState("");
+  const onReplyChange = (e) => {
+    setReply(e.target.value);
+  };
+  const onSubmit = async () => {
+    await props.handleReply(reply);
+  };
+  return (
+    <>
+      <div className="d-flex align-items-end">
+        <input
+          type="text"
+          className="default-input w-100"
+          placeholder="Reply....."
+          onChange={onReplyChange}
+          value={reply}
+        ></input>
+        <button
+          className="default-button default-primary"
+          style={{ fontSize: "12px", border: "none" }}
+          onClick={onSubmit}
+        >
+          <i className="far fa-paper-plane"></i>
+        </button>
+        <button
+          className="default-button ms-1"
+          style={{ fontSize: "14px" }}
+          onClick={props.onHide}
+        >
+          Dismiss
+        </button>
+      </div>
+    </>
   );
 }

@@ -24,6 +24,7 @@ router.delete("/:id", authMdw, postCtl.delete);
 
 //Like && comment
 router.put("/like/:id", authMdw, postCtl.like);
+router.delete("/like/:id", authMdw, postCtl.unlike);
 
 router.get("/comment/:id", postCtl.getComment);
 router.post("/comment/:id", authMdw, postCtl.comment);
