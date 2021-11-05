@@ -119,7 +119,7 @@ export default function ShippingForm({
                 value: parseInt(e.ProvinceID),
                 name: e.ProvinceName,
               }))}
-              fieldType={0}
+              fieldType={1}
               component={SelectField}
               disabled={false}
             />

@@ -91,4 +91,40 @@ module.exports = {
       return res.status(500).json({ isSuccess: false, error });
     }
   },
+  getTotalNumbProds: async (req, res) => {
+    try {
+      const listProds = await productModel
+        .find()
+        .populate("prodCategory.cateName");
+      const totalNumbProds = listProds.length;
+      const prodNumbByCate = {
+        supplement: 0,
+        equipment: 0,
+        cloth: 0,
+      };
+      for (const prod of listProds) {
+        console.log(prodNumbByCate);
+        if (prod.prodCategory.cateName.cateName === "Supplement") {
+          prodNumbByCate.supplement += 1;
+        } else if (prod.prodCategory.cateName.cateName === "Equipment") {
+          prodNumbByCate.equipment += 1;
+        } else prodNumbByCate.cloth += 1;
+      }
+      const prodPercentByCate = [
+        (prodNumbByCate.supplement / totalNumbProds) * 100,
+        (prodNumbByCate.equipment / totalNumbProds) * 100,
+        (prodNumbByCate.cloth / totalNumbProds) * 100,
+      ];
+      return res.status(200).json({
+        isSuccess: true,
+        totalNumbProds,
+        prodPercentByCate,
+      });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
 };

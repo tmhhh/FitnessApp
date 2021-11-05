@@ -17,5 +17,6 @@ const reviewApi = {
   likeReview: (id) => {
     return axiosClient.post(BASE_API_URL + URL + `/like/${id}`);
   },
+  getTotalNumbPosts: () => axiosClient.get(BASE_API_URL + URL + "/total"),
 };
 export default reviewApi;

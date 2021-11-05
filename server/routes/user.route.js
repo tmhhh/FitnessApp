@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middlewares/uploadFile.mdw");
 const verifyToken = require("../middlewares/verifyToken.mdw");
+const verifyAdmin = require("../middlewares/verifyAdmin");
 const userCtl = require("../controllers/user.controller");
 router.put(
   "/avatar",
@@ -16,4 +17,7 @@ router.put("/profile", verifyToken, userCtl.updateProfile);
 router.put("/profile/tracking-info", verifyToken, userCtl.updateTrackingInfo);
 router.put("/profile/food", verifyToken, userCtl.addTrackingFood);
 router.delete("/profile/food", verifyToken, userCtl.removeTrackingFood);
+
+//FOR STATISTIC PURPOSE
+router.get("/total", verifyToken, verifyAdmin, userCtl.getTotalNumbCustomers);
 module.exports = router;

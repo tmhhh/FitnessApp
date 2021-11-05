@@ -4,12 +4,14 @@
 }
 
 .dashboard__container {
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
   margin-left: 20px;
   display: flex;
+  width: calc(100% - 20px);
+  flex-wrap: wrap;
   .dashboard {
     &__left {
-      width: 70%;
+      width: calc(70% - 40px);
       margin: 40px 40px 0 0;
       height: calc(100% - 40px);
       &__header {
@@ -73,8 +75,8 @@
       display: flex;
       flex-direction: column;
       justify-content: space-evenly;
-      width: 30%;
-      height: 100%;
+      width: calc(30% - 20px);
+      height: 100vh;
       &__item {
         &-title {
           font-size: 25px;
@@ -88,13 +90,13 @@
 
           &-left {
             display: flex;
-            justify-content: center;
             align-items: center;
-            width: 33.333%;
+            // width: 33.333%;
+            flex: 1;
             @include handleTextOverflow();
             .item-image {
-              width: 40px;
-              height: 40px;
+              width: 50px;
+              height: 50px;
               border-radius: 50%;
               overflow: hidden;
               margin-right: 5px;
@@ -105,7 +107,7 @@
               }
             }
             .item-name {
-              margin-right: 20px;
+              // margin-right: 20px;
 
               font-size: 15px;
               font-weight: 750;
@@ -114,7 +116,7 @@
           }
           &-center {
             @include handleTextOverflow();
-            width: 33.333%;
+            flex: 1;
 
             font-size: 15px;
             font-weight: 400;
@@ -123,13 +125,30 @@
           }
 
           &-right {
-            width: 33.333%;
+            flex: 1;
             text-align: center;
             font-size: 15px;
             font-weight: 700;
             color: black;
           }
         }
+      }
+    }
+    &__bottom {
+      display: flex;
+      margin-top: 40px;
+      width: 100%;
+      min-height: 50%;
+      max-height: 100%;
+      justify-content: space-around;
+      &__chart {
+        width: calc(40% - 20px);
+
+        &-title {
+          font-size: 30px;
+          font-weight: 800;
+        }
+        // flex-basis: 50%;
       }
     }
   }

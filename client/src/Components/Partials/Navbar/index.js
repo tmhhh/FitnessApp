@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Dropdown, DropdownButton, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, NavLink, useHistory } from "react-router-dom";
@@ -7,6 +7,7 @@ import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
 import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 export default function Navbar() {
+  const navRef = useRef(null);
   // const [showDropdown, setDropdown] = useState(false);
   const history = useHistory();
   const { authForm, setAuthForm, loadUser } = useContext(Context);
@@ -41,7 +42,12 @@ export default function Navbar() {
   };
   return (
     <>
-      <Nav className="nav_bar" activeKey="/home">
+      <i
+        onClick={() => navRef.current.classList.toggle("nav_bar_active")}
+        className="fas fa-bars nav_bar_toggle_icon"
+      ></i>
+
+      <Nav ref={navRef} className="nav_bar" activeKey="/home">
         <div className="nav_bar_logo" onClick={() => history.push("/")}>
           <img
             width="70"
@@ -50,105 +56,130 @@ export default function Navbar() {
             alt="logo"
           />
         </div>
+        <i
+          onClick={() => navRef.current.classList.toggle("nav_bar_active")}
+          className="fas fa-times nav_bar_close_icon"
+        ></i>
+
         <div className="nav_bar_link">
-          <Nav.Item className="nav_bar_item">
-            <NavLink activeClassName="nav_bar_item_active" to="/training">
-              TRAINING
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item className="nav_bar_item">
-            <NavLink activeClassName="nav_bar_item_active" to="/nutrition">
-              NUTRITION
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item className="nav_bar_item">
-            <NavLink activeClassName="nav_bar_item_active" to="/shopping">
-              SHOP
-            </NavLink>
-          </Nav.Item>
-          <Nav.Item className="nav_bar_item">
-            {authLoading ? null : isAuthenticated ? (
-              <>
-                <img
-                  className="user_image"
-                  alt={userInfo.userImage}
-                  src={
-                    userInfo.userImage.includes("http")
-                      ? userInfo.userImage
-                      : `${USER_IMAGE_BASE_URL}/${userInfo.userImage}`
-                  }
-                />
-                <DropdownButton
-                  id="dropdown_toggle"
-                  title={
-                    userInfo.userName.split(" ")[
-                      userInfo.userName.split(" ").length - 1
-                    ]
-                  }
-                  autoClose
-                >
-                  {userInfo.userType === 1 && (
-                    <NavLink
-                      className="dropdown_item pointer"
-                      activeClassName="dropdown_item_active dropdown_item pointer"
-                      to="/admin"
-                    >
-                      <div className="dropdown_item_icon">
-                        <i className="fas fa-users-cog"></i>
-                      </div>{" "}
-                      Dashboard
-                    </NavLink>
-                  )}
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/training"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-dumbbell"></i>
+            </div>
+            <div className="nav_bar_item-title">TRAINING</div>
+          </NavLink>
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/nutrition"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-utensils"></i>{" "}
+            </div>
+            <div className="nav_bar_item-title">NUTRITION</div>
+          </NavLink>
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/shopping"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-shopping-basket"></i>{" "}
+            </div>
+            <div className="nav_bar_item-title">SHOP</div>
+          </NavLink>
 
+          {authLoading ? null : isAuthenticated ? (
+            <div className="nav_bar_item">
+              <img
+                className="user_image"
+                alt={userInfo.userImage}
+                src={
+                  userInfo.userImage.includes("http")
+                    ? userInfo.userImage
+                    : `${USER_IMAGE_BASE_URL}/${userInfo.userImage}`
+                }
+              />
+              <DropdownButton
+                id="dropdown_toggle"
+                title={
+                  userInfo.userName.split(" ")[
+                    userInfo.userName.split(" ").length - 1
+                  ]
+                }
+                autoClose
+              >
+                {userInfo.userType === 1 && (
                   <NavLink
                     className="dropdown_item pointer"
                     activeClassName="dropdown_item_active dropdown_item pointer"
-                    to="/profile"
+                    to="/admin"
                   >
                     <div className="dropdown_item_icon">
-                      <i className="far fa-id-badge"></i>
-                    </div>
-                    Profile
-                  </NavLink>
-                  <NavLink
-                    className="dropdown_item pointer"
-                    activeClassName="dropdown_item_active dropdown_item pointer"
-                    to="/checkout"
-                  >
-                    <div className="dropdown_item_icon">
-                      <i className="fas fa-shopping-basket"></i>
-                    </div>
-                    Shopping Cart
-                  </NavLink>
-
-                  <div className="dropdown_item ">
-                    <div className="dropdown_item_icon">
-                      <i className="far fa-user"></i>
+                      <i className="fas fa-users-cog"></i>
                     </div>{" "}
-                    Type: {userInfo.userType === 0 ? "User" : "Admin"}
-                  </div>
+                    Dashboard
+                  </NavLink>
+                )}
 
-                  <Dropdown.Divider id="dropdown_divider" />
-                  <div
-                    className=" dropdown_item pointer"
-                    onClick={handleLogout}
-                  >
-                    <div className="dropdown_item_icon">
-                      <i className="fas fa-sign-out-alt"></i>
-                    </div>
-                    Logout
+                <NavLink
+                  className="dropdown_item pointer"
+                  activeClassName="dropdown_item_active dropdown_item pointer"
+                  to="/profile"
+                >
+                  <div className="dropdown_item_icon">
+                    <i className="far fa-id-badge"></i>
                   </div>
-                </DropdownButton>
-              </>
-            ) : (
-              <span role="button" onClick={handleShowAuthForm}>
-                {authForm.isShown === false ? "LOGIN" : "X"}
-              </span>
-            )}
-          </Nav.Item>
+                  Profile
+                </NavLink>
+                <NavLink
+                  className="dropdown_item pointer"
+                  activeClassName="dropdown_item_active dropdown_item pointer"
+                  to="/checkout"
+                >
+                  <div className="dropdown_item_icon">
+                    <i className="fas fa-shopping-basket"></i>
+                  </div>
+                  Shopping Cart
+                </NavLink>
 
-          <AuthForm />
+                <div className="dropdown_item ">
+                  <div className="dropdown_item_icon">
+                    <i className="far fa-user"></i>
+                  </div>{" "}
+                  Type: {userInfo.userType === 0 ? "User" : "Admin"}
+                </div>
+
+                <Dropdown.Divider id="dropdown_divider" />
+                <div className=" dropdown_item pointer" onClick={handleLogout}>
+                  <div className="dropdown_item_icon">
+                    <i className="fas fa-sign-out-alt"></i>
+                  </div>
+                  Logout
+                </div>
+              </DropdownButton>
+            </div>
+          ) : (
+            <div className="nav_bar_item" onClick={handleShowAuthForm}>
+              {authForm.isShown === false ? (
+                <>
+                  <div className="nav_bar_item-icon">
+                    <i className="fas fa-sign-in-alt"></i>
+                  </div>
+                  <div className="nav_bar_item-title">LOGIN</div>
+                </>
+              ) : (
+                "X"
+              )}
+            </div>
+          )}
         </div>
+
+        <AuthForm />
       </Nav>
     </>
   );

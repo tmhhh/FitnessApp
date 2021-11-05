@@ -3,7 +3,7 @@ import { Form, FloatingLabel } from "react-bootstrap";
 
 export default function SelectField(props) {
   const {
-    fieldType, // CHOOSE VARIOUS TYPE
+    fieldType = 1, // CHOOSE VARIOUS TYPE
     field,
     form,
     type,
@@ -23,8 +23,8 @@ export default function SelectField(props) {
         className={`mb-4 ${type === "number" && "d-flex align-items-center "}`}
       >
         {fieldType === 0 ? (
-          label && (
-            <>
+          <>
+            {label && (
               <Form.Label
                 style={{
                   fontSize: "15px",
@@ -35,27 +35,27 @@ export default function SelectField(props) {
                 {label}
                 {required && " * "} :
               </Form.Label>
+            )}
 
-              <Form.Select
-                {...field}
-                disabled={disabled}
-                // defaultValue={defaultValue}
-                isValid={touched[name] && !error}
-                isInvalid={error}
-              >
-                <option value={""}>
-                  {optionDefaultName
-                    ? optionDefaultName
-                    : "Open this select menu"}
+            <Form.Select
+              {...field}
+              disabled={disabled}
+              // defaultValue={defaultValue}
+              isValid={touched[name] && !error}
+              isInvalid={error}
+            >
+              <option value={""}>
+                {optionDefaultName
+                  ? optionDefaultName
+                  : "Open this select menu"}
+              </option>
+              {options.map((e, index) => (
+                <option key={index} value={e.value}>
+                  {e.name}
                 </option>
-                {options.map((e, index) => (
-                  <option key={index} value={e.value}>
-                    {e.name}
-                  </option>
-                ))}
-              </Form.Select>
-            </>
-          )
+              ))}
+            </Form.Select>
+          </>
         ) : (
           <FloatingLabel
             controlId="floatingSelect"

@@ -23,5 +23,6 @@ const userApi = {
       params: { id },
     });
   },
+  getTotalNumbCustomers: () => axiosClient.get(BASE_API_URL + "/user/total"),
 };
 export default userApi;

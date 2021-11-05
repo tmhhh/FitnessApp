@@ -1,6 +1,8 @@
 $marginBottom: 10px;
 @import "../../../assets/constants.scss";
 .product_info {
+  display: flex;
+  flex-basis: 70%;
   &_container {
     background-color: #fff;
 

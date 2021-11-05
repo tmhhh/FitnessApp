@@ -84,3 +84,11 @@
   width: 100%;
   background: red;
 }
+
+@media only screen and (max-width: 499px) {
+  .nutrition_section {
+    flex-grow: 0;
+    width: 90%;
+    margin: 60px auto;
+  }
+} ;

@@ -6,30 +6,39 @@
   padding: 10px 0;
   position: fixed;
   top: 0;
-
+  margin-bottom: 60px;
   left: 0;
   z-index: 9999;
   width: 100%;
   display: flex;
-
+  // display: none;
   justify-content: space-between;
 
   &_link {
     margin-right: 48px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    // justify-content: center;
     position: relative;
   }
   &_item {
+    text-decoration: none;
+    color: $white_smoke;
+    font-weight: 700;
     padding: 8px 16px;
     height: 40px;
-    width: 140px;
-    text-align: center;
+    min-width: 140px;
+    cursor: pointer;
+    // text-align: center;
     display: flex;
     align-items: center;
-    justify-content: center;
-
+    &:hover {
+      color: white !important;
+    }
+    &-icon {
+      width: 20px;
+      margin: 0 10px;
+    }
     & .user_image {
       height: 30px;
       width: 30px;
@@ -95,6 +104,7 @@
           margin-right: 10px;
         }
         &:hover {
+          color: white;
           background-color: #333;
         }
       }
@@ -120,5 +130,73 @@
   &_item_active,
   .dropdown_item_active {
     color: white !important ;
+  }
+  &_toggle_icon {
+    display: none;
+  }
+  &_close_icon {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 25px;
+    color: $white_smoke;
+    cursor: pointer;
+    z-index: 1000000;
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .nav_bar {
+    display: none;
+    flex-direction: column;
+    &_link {
+      flex-direction: column;
+      margin-right: 0px;
+      justify-content: start !important;
+      align-items: flex-start;
+      .nav_bar_item {
+        padding: 30px;
+
+        &:nth-child(3) {
+          border-right: none !important;
+        }
+        &:last-child {
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+    }
+    &_toggle_icon {
+      display: block;
+      font-size: 25px;
+      color: #333;
+      position: fixed;
+      top: 20px;
+      left: 10px;
+      cursor: pointer;
+      z-index: 1000;
+      // &:active ~ .nav_bar {
+      //   display: block;
+      // }
+    }
+    &_close_icon {
+      display: block;
+    }
+    &_active {
+      display: block;
+      position: fixed;
+      top: 0px;
+      left: 0;
+      z-index: 1000;
+      height: 100%;
+      width: 90%;
+      .nav_bar_logo {
+        margin-bottom: 40px;
+      }
+      .nav_bar_link {
+      }
+    }
   }
 }

@@ -18,7 +18,6 @@ export default function ShoppingCard({ img, tag }) {
         alt={tag}
       />
       <Card.Body className="shopping_card_noti" onClick={handleOnClick}>
-        {" "}
         GET IN !!! <i className="far fa-hand-point-left"></i>
       </Card.Body>
     </Card>

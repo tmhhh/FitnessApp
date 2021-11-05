@@ -114,6 +114,7 @@ function Login() {
   //LOGIN WITH GOOGLE
   const handleLoginWithGoogle = async () => {
     try {
+      console.log("eror");
       let timer = null;
 
       const newWindow = window.open(
@@ -193,7 +194,7 @@ function Login() {
             </Form.Group> */}
               <div className="form_footer">
                 <Form.Text className="text-muted">
-                  Don't have an account ? Register{" "}
+                  Don't have an account? Register{" "}
                   <a
                     href="###"
                     onClick={() =>
@@ -203,8 +204,8 @@ function Login() {
                       })
                     }
                   >
-                    here{" "}
-                  </a>{" "}
+                    here
+                  </a>
                   !!!
                 </Form.Text>
                 <Button variant="primary" type="submit">
@@ -221,12 +222,12 @@ function Login() {
                 <OtherLoginButton
                   title="Login with Facebook"
                   img="https://fullstack.edu.vn/assets/images/signin/facebook-18px.svg"
-                  onClick={handleLoginWithFacebook}
+                  handleLogin={handleLoginWithFacebook}
                 />
                 <OtherLoginButton
                   title="Login with Google"
                   img="https://fullstack.edu.vn/assets/images/signin/google-18px.svg"
-                  onClick={handleLoginWithGoogle}
+                  handleLogin={handleLoginWithGoogle}
                 />
               </Form.Group>
             </Form>

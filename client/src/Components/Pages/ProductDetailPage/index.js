@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Button, Spinner } from "react-bootstrap";
-
 import "./style.scss";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -149,7 +148,7 @@ function ProductDetailPage() {
         )}
       </div>
       {/* //REVIEW */}
-      {/* <ReviewSection listReview={listReview} /> */}
+      <ReviewSection listReview={listReview} />
     </>
   );
 }

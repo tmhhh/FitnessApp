@@ -1,20 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const postCtl = require("../controllers/post.controller");
-const authMdw = require("../middlewares/verifyToken.mdw");
+const verifyToken = require("../middlewares/verifyToken.mdw");
 const upload = require("../middlewares/uploadFile.mdw");
+const verifyAdmin = require("../middlewares/verifyAdmin");
 
 router.get("/", postCtl.get);
 router.post(
   "/",
-  authMdw,
+  verifyToken,
   upload("posts").single("thumbnailFile"),
   postCtl.create
 );
-// router.put("/:id", authMdw, postCtl.update);
-// router.delete("/:id", authMdw, postCtl.delete);
+// router.put("/:id", verifyToken, postCtl.update);
+// router.delete("/:id", verifyToken, postCtl.delete);
 
-// router.post("/like/:id", authMdw, postCtl.like);
+// router.post("/like/:id", verifyToken, postCtl.like);
 
 //Post files
 router.post("/uploadfiles", upload("posts").single("file"), (req, res) => {
@@ -27,4 +28,5 @@ router.post("/uploadfiles", upload("posts").single("file"), (req, res) => {
   return res.status(400).json({ isSuccess: false });
 });
 
+router.get("/total", verifyToken, verifyAdmin, postCtl.getTotalNumbPosts);
 module.exports = router;

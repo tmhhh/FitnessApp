@@ -21,5 +21,6 @@ const prodApi = {
         prodName,
       },
     }),
+  totalNumbProds: () => axiosClient.get(BASE_API_URL + "/products/total"),
 };
 export default prodApi;

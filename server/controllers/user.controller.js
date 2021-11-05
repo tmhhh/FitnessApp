@@ -81,7 +81,7 @@ module.exports = {
       );
       user[0] = user[0].toObject();
       delete user[0].userPassword;
-      console.log(user[0].trackingInfo);
+      // console.log(user[0].trackingInfo);
 
       return res
         .status(200)
@@ -258,6 +258,17 @@ module.exports = {
       return res
         .status(500)
         .json({ isSuccess: false, message: "Internal Server Error" });
+    }
+  },
+  getTotalNumbCustomers: async (req, res) => {
+    try {
+      const totalNumbCustomers = await userModel.count();
+      return res.status(200).json({ isSuccess: true, totalNumbCustomers });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
     }
   },
 };
