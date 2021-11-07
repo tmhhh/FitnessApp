@@ -52,6 +52,13 @@ export default function InputField(props) {
               {...field}
               id={name}
               onChange={type === "file" ? onFileChange : onChange}
+              value={
+              type !== "file"
+                ? value
+                : value instanceof File
+                ? value
+                : undefined
+            }
               as={asType}
               type={type}
               placeholder={placeholder}
