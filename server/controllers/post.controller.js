@@ -146,12 +146,10 @@ module.exports = {
   },
 
   comment: async (req, res) => {
-    const postId = req.params.id !== "0" ? req.params.id : undefined;
     try {
       const comment = new commentModel({
         author: req.userID,
         content: req.body.content,
-        of_comment: req.body.commentId,
         of_post: postId,
       });
       if (req.body.commentId) {

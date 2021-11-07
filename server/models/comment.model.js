@@ -7,15 +7,11 @@ const comment = new Schema(
     replies: [
       {
         type: Schema.Types.ObjectId,
-        ref: "Comments",
+        ref: "Replies",
         required: false,
       },
     ],
-    of_comment: {
-      type: Schema.Types.ObjectId,
-      ref: "Comments",
-      required: false,
-    },
+
     of_post: { type: Schema.Types.ObjectId, ref: "Posts" },
   },
   {
