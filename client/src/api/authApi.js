@@ -7,11 +7,15 @@ export const authApi = {
       userPassword,
     });
   },
-  userRegister: () => {},
+  userRegister: (newUser) => {
+    return axiosClient.post(BASE_API_URL + "/auth/register", { ...newUser });
+  },
   loadUser: () => {
     return axiosClient.get(BASE_API_URL + "/auth/verify");
   },
   getLoginData: () => {
+    // return axiosClient.get("http://localhost:4000/api/auth/login/google");
+
     return axiosClient.get(BASE_API_URL + "/auth/login/data");
   },
 };

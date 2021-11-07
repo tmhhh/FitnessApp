@@ -19,5 +19,10 @@ const cartApi = {
       quantity,
     });
   },
+  updateProductSelect: (prodID) => {
+    return axiosClient.put(`${BASE_API_URL}/cart/update/select`, {
+      prodID,
+    });
+  },
 };
 export default cartApi;

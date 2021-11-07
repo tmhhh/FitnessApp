@@ -46,6 +46,7 @@ export default function ContextProvider({ children }) {
         payload: { isLoading: true, listFoods: {} },
       });
       const res = await axios.request(NUTRI_API_CONFIG(foodName));
+      // console.log(res.data);
       nutriDispatch({
         type: "SET_NUTRI",
         payload: { isLoading: false, listFoods: res.data.hints },
@@ -60,33 +61,35 @@ export default function ContextProvider({ children }) {
   const loadUser = useCallback(async () => {
     try {
       if (!localStorage.getItem("USER_TOKEN")) {
-        if (localStorage.getItem("USER_CART")) {
-          const localCart = JSON.parse(localStorage.getItem("USER_CART"));
-          dispatch(
-            cartSlice.actions.setCart({
-              cartLoading: false,
-              userCart: localCart,
-            })
-          );
-        }
+        // if (localStorage.getItem("USER_CART")) {
+        //   const localCart = JSON.parse(localStorage.getItem("USER_CART"));
+        //   dispatch(
+        //     cartSlice.actions.setCart({
+        //       cartLoading: false,
+        //       userCart: localCart,
+        //     })
+        //   );
+        // }
         return dispatch(authSlice.actions.setAuthFailed());
       }
       const res = await authApi.loadUser();
-      if (res.data.isSuccess)
+      if (res.data.isSuccess) {
+        console.log(res.data.user);
         dispatch(
           cartSlice.actions.setCart({
             userCart: res.data.user.userCart,
             cartLoading: false,
           })
         );
-      delete res.data.user.userCart;
-      dispatch(
-        authSlice.actions.setAuth({
-          authLoading: false,
-          isAuthenticated: true,
-          userInfo: res.data.user,
-        })
-      );
+        delete res.data.user.userCart;
+        dispatch(
+          authSlice.actions.setAuth({
+            authLoading: false,
+            isAuthenticated: true,
+            userInfo: res.data.user,
+          })
+        );
+      }
     } catch (error) {
       console.log(error);
       localStorage.removeItem("USER_TOKEN");
@@ -119,6 +122,7 @@ export default function ContextProvider({ children }) {
       console.log(err);
     }
   }, [dispatch]);
+
   //LOAD USER , PRODUCTS , CATE AFTER REFRESHING
   useEffect(() => {
     loadUser();
@@ -127,9 +131,9 @@ export default function ContextProvider({ children }) {
   }, [loadUser, getProducts, getCate]);
 
   //CHECK IF PRODUCT EXIST IN CART
-  const checkExist = (cart, prodID) => {
-    return cart.find((e) => e.product._id === prodID);
-  };
+  // const checkExist = (cart, prodID) => {
+  //   return cart.find((e) => e.product._id === prodID);
+  // };
 
   //ADD TO CART
   const addToCart = async (
@@ -160,44 +164,54 @@ export default function ContextProvider({ children }) {
           })
         );
       } else {
-        const addedProduct = {
-          product: {
-            _id,
-            prodName,
-            prodPrice,
-            prodThumbnail,
-            prodCategory: {
-              cateName: {
-                cateName: prodCategory.cateName.cateName,
-              },
-              cateFilter: {
-                filterName: prodCategory.cateFilter.filterName,
-              },
-            },
-          },
-          quantity: addedQuantity,
-        };
-        let newCart = [];
-        let userCart = localStorage.getItem("USER_CART");
-        if (!userCart) {
-          newCart.push(addedProduct);
-          localStorage.setItem("USER_CART", JSON.stringify(newCart));
-        } else {
-          userCart = JSON.parse(userCart);
-          const updatedProduct = checkExist(userCart, _id);
-          if (updatedProduct) {
-            updatedProduct.quantity += addedQuantity;
-            newCart = [...userCart];
-          } else newCart = [...userCart, addedProduct];
-          localStorage.setItem("USER_CART", JSON.stringify(newCart));
-          setToast({
-            toastShow: true,
-            title: "Adding successfully !!!",
-            content: "You can check it in your personal cart !!!",
-            icon: "✔",
-            bg: "success",
-          });
-        }
+        // const addedProduct = {
+        //   product: {
+        //     _id,
+        //     prodName,
+        //     prodPrice,
+        //     prodThumbnail,
+        //     prodCategory: {
+        //       cateName: {
+        //         cateName: prodCategory.cateName.cateName,
+        //       },
+        //       cateFilter: {
+        //         filterName: prodCategory.cateFilter.filterName,
+        //       },
+        //     },
+        //   },
+        //   quantity: addedQuantity,
+        // };
+        // let newCart = [];
+        // let userCart = localStorage.getItem("USER_CART");
+        // if (!userCart) {
+        //   newCart.push(addedProduct);
+        //   localStorage.setItem("USER_CART", JSON.stringify(newCart));
+        // } else {
+        //   userCart = JSON.parse(userCart);
+        //   const updatedProduct = checkExist(userCart, _id);
+        //   if (updatedProduct) {
+        //     updatedProduct.quantity += addedQuantity;
+        //     newCart = [...userCart];
+        //   } else newCart = [...userCart, addedProduct];
+        //   localStorage.setItem("USER_CART", JSON.stringify(newCart));
+        //   setToast({
+        //     toastShow: true,
+        //     title: "Adding successfully !!!",
+        //     content: "You can check it in your personal cart !!!",
+        //     icon: "✔",
+        //     bg: "success",
+        //   });
+        // }
+
+        // INFORM USER LOGIN TO ADD TO CART
+        setToast({
+          toastShow: true,
+          title: "Failed to add to cart !!!",
+          content: "Please login to do this!!!",
+          icon: "❌",
+          bg: "danger",
+        });
+        return setAuthForm({ ...authForm, isShown: true });
       }
     } catch (error) {
       console.log(error);

@@ -14,11 +14,13 @@ export default function ShoppingPage() {
     byCate: "All",
     byCateFilter: "",
   });
+
   //UPDATE PROD COPY WHEN THE ORIGINAL CHANGE
   useEffect(() => {
     setProdSelectorCopy({ ...prodSelector });
   }, [prodSelector]);
   console.log({ searchOption });
+
   /// HANDLE SEARCH BY CATE TYPE
   const handleSearchByCate = (cateOption) => {
     if (cateOption === "All") {
@@ -33,6 +35,8 @@ export default function ShoppingPage() {
     });
     setSearchOption({ byCate: cateOption, byCateFilter: "" });
   };
+
+  //SEARCH BY FILTER
   const handleSearchByCateFilter = (filterOption) => {
     setProdSelectorCopy({
       ...prodSelectorCopy,

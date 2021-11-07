@@ -40,3 +40,9 @@ Content-Type: application/json
      "item_type"
    ]
 }   
+
+###
+GET https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee
+Authorization:"32a47ba8-29a5-11ec-ac0c-327af017d353"
+
+{}

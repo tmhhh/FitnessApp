@@ -1,86 +1,172 @@
 import React, { useState, useContext } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import FormBootStrap from "react-bootstrap/Form";
 import "./style.scss";
 import { Context } from "../../Contexts";
+import { Formik, Form, FastField } from "formik";
+import InputField from "../Common/InputField";
+import * as yup from "yup";
+import { authApi } from "../../api/authApi";
 function Register() {
-  const [input, setInput] = useState({
-    username: "",
-    password: "",
-    rePassword: "",
-  });
-  //AUTH FORM
-  const { authForm, setAuthForm } = useContext(Context);
+  //  AUTH CONTEXT
+  const { authForm, setAuthForm, setToast } = useContext(Context);
   const { isShown } = authForm;
 
-  //
-  const handleInputOnChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
+  // const [input, setInput] = useState({
+  //   username: "",
+  //   password: "",
+  //   rePassword: "",
+  // });
 
-  //REGISTER
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
+  // //
+  // const handleInputOnChange = (e) => {
+  //   setInput({ ...input, [e.target.name]: e.target.value });
+  // };
+
+  // //REGISTER
+  // const handleOnSubmit = (e) => {
+  //   e.preventDefault();
+  // };
+  // const [err, setError] = useState(null);
+  const err = null;
+  const handleRegisterUser = async (values) => {
+    try {
+      const res = await authApi.userRegister(values);
+      if (res.data.isSuccess) {
+        setToast({
+          toastShow: true,
+          title: "Register successfully !!!",
+          content: "You can login now !!!",
+          icon: "✔",
+          bg: "success",
+        });
+        return setAuthForm({
+          type: "login",
+          isShown: true,
+        });
+      }
+    } catch (error) {
+      // alert(error.response.status);
+      if (error.response.status === 400)
+        // setToast({
+        //   toastShow: true,
+        //   title: "Failed to register  !!!",
+        //   content: error.response.data.error + " !!!",
+        //   icon: "❌",
+        //   bg: "danger",
+        // });
+        // setError(error.response.data.error + " !!!");
+        err = error.response.data.error + " !!!";
+    }
   };
 
   return (
-    <Form
-      className={isShown === true ? "auth_form form_active" : "auth_form"}
-      onSubmit={handleOnSubmit}
+    <Formik
+      initialValues={{
+        userNameID: "",
+        userName: "",
+        userPassword: "",
+        userPasswordConfirm: "",
+        userEmail: "",
+      }}
+      validationSchema={yup.object().shape({
+        userNameID: yup.string().required("This field is required"),
+        userName: yup.string().required("This field is required"),
+        userEmail: yup
+          .string()
+          .email("Invalid email format")
+          .required("This field is required"),
+        userPassword: yup.string().required("This field is required"),
+        userPasswordConfirm: yup
+          .string()
+          .test("passwords-match", "Passwords must match", function (value) {
+            return this.parent.userPassword === value;
+          })
+          .required("This field is required"),
+      })}
+      onSubmit={(values) => handleRegisterUser(values)}
     >
-      <Form.Group className="mb-3" controlId="formBasicUsername">
-        <Form.Label>Username</Form.Label>
-        <Form.Control
-          onChange={handleInputOnChange}
-          type="text"
-          name="username"
-          value={input.username}
-          placeholder="Enter username"
-        />
-      </Form.Group>
+      {(formikProps) => {
+        const { errors, touched } = formikProps;
+        console.log({ errors, touched });
+        if (err !== null) {
+          errors.userNameID = err;
+          touched.userNameID = true;
+        }
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          onChange={handleInputOnChange}
-          type="password"
-          name="password"
-          value={input.password}
-          placeholder="Password"
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Re-Password</Form.Label>
-        <Form.Control
-          onChange={handleInputOnChange}
-          type="password"
-          name="rePassword"
-          value={input.rePassword}
-          placeholder="Confirm password"
-        />
-      </Form.Group>
-
-      <div className="form_footer">
-        <Form.Text className="text-muted">
-          Already have an account ? Login{" "}
-          <a
-            href="###"
-            onClick={() =>
-              setAuthForm({
-                type: "login",
-                isShown: true,
-              })
-            }
-          >
-            here{" "}
-          </a>
-          !!!
-        </Form.Text>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </div>
-    </Form>
+        return (
+          isShown === true && (
+            <Form className={"auth_form form_active"}>
+              <FastField
+                required
+                label="Your Username"
+                placeholder="Enter name ..."
+                name="userNameID"
+                type="text"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Your name"
+                placeholder="Enter name ..."
+                name="userName"
+                type="text"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Your Email"
+                placeholder="Enter email ..."
+                name="userEmail"
+                type="text"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Your Password"
+                placeholder="Enter password ..."
+                name="userPassword"
+                type="password"
+                component={InputField}
+              />
+              <FastField
+                required
+                label="Confirm Your Password"
+                placeholder="Enter password confirmation ..."
+                name="userPasswordConfirm"
+                type="password"
+                component={InputField}
+              />
+              <div className="form_footer">
+                <FormBootStrap.Text className="text-muted">
+                  Already have an account ? Login{" "}
+                  <p
+                    style={{
+                      display: "inline-block",
+                      textDecoration: "underline",
+                      color: "blue",
+                    }}
+                    role="button"
+                    onClick={() =>
+                      setAuthForm({
+                        type: "login",
+                        isShown: true,
+                      })
+                    }
+                  >
+                    here{" "}
+                  </p>
+                  !!!
+                </FormBootStrap.Text>
+                <Button className="mb-4" variant="primary" type="submit">
+                  Submit
+                </Button>
+              </div>
+            </Form>
+          )
+        );
+      }}
+    </Formik>
   );
 }
 

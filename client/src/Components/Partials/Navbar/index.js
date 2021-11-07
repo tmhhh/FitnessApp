@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Dropdown, DropdownButton, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import { Context } from "../../../Contexts";
 import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
+import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 export default function Navbar() {
+  const navRef = useRef(null);
   // const [showDropdown, setDropdown] = useState(false);
   const history = useHistory();
   const { authForm, setAuthForm, loadUser } = useContext(Context);
@@ -15,9 +17,9 @@ export default function Navbar() {
   //SHOW FORM
   const handleShowAuthForm = () => {
     if (isAuthenticated) return;
-    if (authForm.isShown === false)
-      return setAuthForm({ ...authForm, isShown: true });
-    setAuthForm({ ...authForm, isShown: false });
+    // if (authForm.isShown === false)
+    return setAuthForm({ ...authForm, isShown: !authForm.isShown });
+    // setAuthForm({ ...authForm, isShown: false });
   };
 
   // //HIDE DROPDOWN
@@ -40,7 +42,12 @@ export default function Navbar() {
   };
   return (
     <>
-      <Nav className="nav_bar" activeKey="/home">
+      <i
+        onClick={() => navRef.current.classList.toggle("nav_bar_active")}
+        className="fas fa-bars nav_bar_toggle_icon"
+      ></i>
+
+      <Nav ref={navRef} className="nav_bar" activeKey="/home">
         <div className="nav_bar_logo" onClick={() => history.push("/")}>
           <img
             width="70"
@@ -49,66 +56,130 @@ export default function Navbar() {
             alt="logo"
           />
         </div>
+        <i
+          onClick={() => navRef.current.classList.toggle("nav_bar_active")}
+          className="fas fa-times nav_bar_close_icon"
+        ></i>
+
         <div className="nav_bar_link">
-          <Nav.Item className="nav_bar_item">
-            <NavLink to="/training">TRAINING</NavLink>
-          </Nav.Item>
-          <Nav.Item className="nav_bar_item">
-            <NavLink to="/nutrition">NUTRITION</NavLink>
-          </Nav.Item>
-          <Nav.Item className="nav_bar_item">
-            <NavLink to="/shopping">SHOP</NavLink>
-          </Nav.Item>
-          <Nav.Item className="nav_bar_item">
-            {authLoading ? null : isAuthenticated ? (
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/training"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-dumbbell"></i>
+            </div>
+            <div className="nav_bar_item-title">TRAINING</div>
+          </NavLink>
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/nutrition"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-utensils"></i>{" "}
+            </div>
+            <div className="nav_bar_item-title">NUTRITION</div>
+          </NavLink>
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/shopping"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-shopping-basket"></i>{" "}
+            </div>
+            <div className="nav_bar_item-title">SHOP</div>
+          </NavLink>
+
+          {authLoading ? null : isAuthenticated ? (
+            <div className="nav_bar_item">
+              <img
+                className="user_image"
+                alt={userInfo.userImage}
+                src={
+                  userInfo.userImage.includes("http")
+                    ? userInfo.userImage
+                    : `${USER_IMAGE_BASE_URL}/${userInfo.userImage}`
+                }
+              />
               <DropdownButton
                 id="dropdown_toggle"
-                title={userInfo.userName}
+                title={
+                  userInfo.userName.split(" ")[
+                    userInfo.userName.split(" ").length - 1
+                  ]
+                }
                 autoClose
               >
                 {userInfo.userType === 1 && (
-                  <Dropdown.Item className=" dropdown_item">
-                    <Link to="/admin">
-                      <i className="fas fa-users-cog"></i> Dashboard
-                    </Link>
-                  </Dropdown.Item>
+                  <NavLink
+                    className="dropdown_item pointer"
+                    activeClassName="dropdown_item_active dropdown_item pointer"
+                    to="/admin"
+                  >
+                    <div className="dropdown_item_icon">
+                      <i className="fas fa-users-cog"></i>
+                    </div>{" "}
+                    Dashboard
+                  </NavLink>
                 )}
 
-                <Dropdown.Item className=" dropdown_item">
-                  <Link to="/profile">
-                    <i className="far fa-id-badge"></i> Profile
-                  </Link>
-                </Dropdown.Item>
-                <Dropdown.Item className=" dropdown_item">
-                  <Link to="/checkout">
-                    <i className="fas fa-shopping-basket"></i>Shopping Cart
-                  </Link>
-                </Dropdown.Item>
+                <NavLink
+                  className="dropdown_item pointer"
+                  activeClassName="dropdown_item_active dropdown_item pointer"
+                  to="/profile"
+                >
+                  <div className="dropdown_item_icon">
+                    <i className="far fa-id-badge"></i>
+                  </div>
+                  Profile
+                </NavLink>
+                <NavLink
+                  className="dropdown_item pointer"
+                  activeClassName="dropdown_item_active dropdown_item pointer"
+                  to="/checkout"
+                >
+                  <div className="dropdown_item_icon">
+                    <i className="fas fa-shopping-basket"></i>
+                  </div>
+                  Shopping Cart
+                </NavLink>
 
-                <Dropdown.Item className=" dropdown_item">
-                  <p>
-                    <i className="far fa-user"></i> Type:{" "}
-                    {userInfo.userType === 0 ? "User" : "Admin"}
-                  </p>
-                </Dropdown.Item>
+                <div className="dropdown_item ">
+                  <div className="dropdown_item_icon">
+                    <i className="far fa-user"></i>
+                  </div>{" "}
+                  Type: {userInfo.userType === 0 ? "User" : "Admin"}
+                </div>
 
                 <Dropdown.Divider id="dropdown_divider" />
-                <Dropdown.Item className=" dropdown_item">
-                  <p role="button" onClick={handleLogout}>
+                <div className=" dropdown_item pointer" onClick={handleLogout}>
+                  <div className="dropdown_item_icon">
                     <i className="fas fa-sign-out-alt"></i>
-                    Logout
-                  </p>
-                </Dropdown.Item>
+                  </div>
+                  Logout
+                </div>
               </DropdownButton>
-            ) : (
-              <span role="button" onClick={handleShowAuthForm}>
-                {authForm.isShown === false ? "LOGIN" : "X"}
-              </span>
-            )}
-          </Nav.Item>
-
-          <AuthForm />
+            </div>
+          ) : (
+            <div className="nav_bar_item" onClick={handleShowAuthForm}>
+              {authForm.isShown === false ? (
+                <>
+                  <div className="nav_bar_item-icon">
+                    <i className="fas fa-sign-in-alt"></i>
+                  </div>
+                  <div className="nav_bar_item-title">LOGIN</div>
+                </>
+              ) : (
+                "X"
+              )}
+            </div>
+          )}
         </div>
+
+        <AuthForm />
       </Nav>
     </>
   );

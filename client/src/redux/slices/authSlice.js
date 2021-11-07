@@ -25,6 +25,20 @@ const authSlice = createSlice({
         authLoading: false,
       };
     },
+    setUserAvatar: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          userImage: payload,
+        },
+      };
+    },
+    setUserProfile: (state, action) => {
+      const { payload } = action;
+      return { ...state, userInfo: { ...payload } };
+    },
   },
 });
 

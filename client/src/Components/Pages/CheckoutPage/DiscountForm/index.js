@@ -2,6 +2,7 @@ import React from "react";
 import { Formik, Form, FastField } from "formik";
 import DiscountField from "./DiscountField";
 import * as yup from "yup";
+import { Button } from "react-bootstrap";
 
 export default function DiscountForm({ handleSubmitVoucher, disabled }) {
   const validationSchema = yup.object().shape({
@@ -20,18 +21,23 @@ export default function DiscountForm({ handleSubmitVoucher, disabled }) {
         const { values } = formikProps;
         console.log(values);
         return (
-          <Form className="d-flex align-items-center">
+          <Form className="d-flex align-items-center ">
             <FastField
-              className="discount_input"
+              label="Add a discount code (optional)"
+              className="discount_input flex-grow-1 "
               name="vouCode"
               component={DiscountField}
               type="text"
               placeholder="Discount Code"
               disabled={disabled}
             />
-            <button style={{ marginLeft: "10px" }} type="submit">
+            <Button
+              variant="secondary"
+              style={{ alignSelf: "end", marginLeft: "10px" }}
+              type="submit"
+            >
               Apply
-            </button>
+            </Button>
           </Form>
         );
       }}

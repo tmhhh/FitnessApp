@@ -7,7 +7,7 @@ export default function NotiToast() {
   return (
     <ToastContainer
       position="bottom-end"
-      style={{ zIndex: "1000" }}
+      style={{ zIndex: "1000000" }}
       className="p-3 position-fixed "
     >
       <Toast

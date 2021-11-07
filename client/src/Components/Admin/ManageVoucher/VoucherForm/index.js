@@ -48,7 +48,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
         const handleGenerateCode = () => {
           const code = nanoid(10);
           formikProps.setFieldValue("vouCode", code);
-          console.log(formikProps.values);
+          // console.log(formikProps.values);
         };
         return (
           <Form>
@@ -87,6 +87,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               required
               placeholder="List Of Categories ..."
               name="cateID"
+              fieldType={0}
               component={SelectField}
               options={listCate}
             />

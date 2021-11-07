@@ -1,17 +1,17 @@
 import React from "react";
-import { Form } from "react-bootstrap";
+import { Form, FloatingLabel } from "react-bootstrap";
 
 export default function SelectField(props) {
   const {
+    fieldType = 1, // CHOOSE VARIOUS TYPE
     field,
     form,
     type,
     label,
-    placeholder,
     disabled,
     required,
-    defaultValue,
-    min,
+    options,
+    optionDefaultName,
   } = props;
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
@@ -20,25 +20,67 @@ export default function SelectField(props) {
   return (
     <>
       <Form.Group
-        className={`mb-3 ${type === "number" && "d-flex align-items-center "}`}
+        className={`mb-4 ${type === "number" && "d-flex align-items-center "}`}
       >
-        {label && (
-          <Form.Label>
-            {label}
-            {required && " * "} :
-          </Form.Label>
+        {fieldType === 0 ? (
+          <>
+            {label && (
+              <Form.Label
+                style={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                  color: "#999",
+                }}
+              >
+                {label}
+                {required && " * "} :
+              </Form.Label>
+            )}
+
+            <Form.Select
+              {...field}
+              disabled={disabled}
+              // defaultValue={defaultValue}
+              isValid={touched[name] && !error}
+              isInvalid={error}
+            >
+              <option value={""}>
+                {optionDefaultName
+                  ? optionDefaultName
+                  : "Open this select menu"}
+              </option>
+              {options.map((e, index) => (
+                <option key={index} value={e.value}>
+                  {e.name}
+                </option>
+              ))}
+            </Form.Select>
+          </>
+        ) : (
+          <FloatingLabel
+            controlId="floatingSelect"
+            label={label && label}
+            className={error && "is-invalid"}
+          >
+            <Form.Select
+              {...field}
+              disabled={disabled}
+              isValid={touched[name] && !error}
+              isInvalid={error}
+            >
+              <option value={""}>
+                {optionDefaultName
+                  ? optionDefaultName
+                  : "Open this select menu"}
+              </option>
+              {options.map((e, index) => (
+                <option key={index} value={e.value}>
+                  {e.name}
+                </option>
+              ))}
+            </Form.Select>
+          </FloatingLabel>
         )}
-        <Form.Select
-          {...field}
-          defaultValue={defaultValue}
-          isValid={touched[name] && !error}
-          isInvalid={error}
-        >
-          <option value={""}>Open this select menu</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-          <option value="3">Three</option>
-        </Form.Select>
         <Form.Control.Feedback type="invalid">
           {errors[name]} 💢
         </Form.Control.Feedback>
