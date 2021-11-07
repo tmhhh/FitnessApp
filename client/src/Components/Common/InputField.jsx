@@ -90,6 +90,7 @@ export default function InputField(props) {
                   : "input__field "
               }  ${error ? "is-invalid input__field " : ""}`}
             {...field}
+
             // className="input__field is-invalid"
             name={name}
             type="text"

@@ -9,3 +9,61 @@
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 
+.default-button {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+  border: none;
+  font-size: 18px;
+  transition: all 0.1s linear;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+}
+
+.default-outline-button {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+  border: 0.1px solid rgb(224, 224, 224);
+  font-size: 18px;
+  transition: all 0.1s linear;
+  &:hover {
+    background-color: #f7f7f7;
+  }
+}
+
+.default-danger {
+  color: rgb(0, 0, 0);
+  &:hover {
+    background-color: #ffdfdf;
+  }
+}
+
+.default-primary {
+  color: #2e6efd;
+  border: 1px solid #b4ccff;
+  &:hover {
+    background-color: #dfe9ff;
+  }
+}
+
+.default-input {
+  border-radius: 2px;
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 1px 5px -2px rgba(0, 0, 0, 0.2);
+  height: 36px;
+  color: #797979;
+  padding-left: 5px;
+  label {
+    color: #b4b4b4;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 1px 5px -2px #42a5f5;
+    border-bottom: 1px solid #2196f3;
+  }
+}
+

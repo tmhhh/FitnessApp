@@ -5,20 +5,39 @@ const verifyToken = require("../middlewares/verifyToken.mdw");
 const upload = require("../middlewares/uploadFile.mdw");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 
-router.get("/", postCtl.get);
+//CRUD
+router.get("/:id", verifyAdmin, postCtl.getById);
+router.get("/", verifyAdmin, postCtl.get);
 router.post(
   "/",
   verifyToken,
   upload("posts").single("thumbnailFile"),
   postCtl.create
 );
-// router.put("/:id", verifyToken, postCtl.update);
-// router.delete("/:id", verifyToken, postCtl.delete);
+router.put(
+  "/:id",
+  verifyToken,
+  upload("posts").single("thumbnailFile"),
+  postCtl.update
+);
 
-// router.post("/like/:id", verifyToken, postCtl.like);
+router.delete("/:id", verifyToken, postCtl.delete);
+
+//Like && comment
+router.put("/like/:id", verifyToken, postCtl.like);
+router.delete("/like/:id", verifyToken, postCtl.unlike);
+
+router.get("/comment/:id", verifyAdmin, postCtl.getComment);
+router.post("/comment/:id", verifyToken, postCtl.comment);
+router.put("/comment/:commentId", verifyToken, postCtl.editComment);
+router.delete("/comment/:commentId", verifyToken, postCtl.deleteComment);
+
+//Pending
+router.put("/pending/:id", verifyToken, postCtl.pending);
+
 
 //Post files
-router.post("/uploadfiles", upload("posts").single("file"), (req, res) => {
+router.post("/uploadfiles",verifyToken, upload("posts").single("file"), (req, res) => {
   if (req.file)
     return res.status(200).json({
       isSuccess: true,
@@ -28,5 +47,6 @@ router.post("/uploadfiles", upload("posts").single("file"), (req, res) => {
   return res.status(400).json({ isSuccess: false });
 });
 
+//FOR STATISTICS
 router.get("/total", verifyToken, verifyAdmin, postCtl.getTotalNumbPosts);
 module.exports = router;

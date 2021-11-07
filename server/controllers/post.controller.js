@@ -1,5 +1,7 @@
 const productModel = require("../models/product.model");
 const postModel = require("../models/post.model");
+const userModel = require("../models/user.model");
+const commentModel = require("../models/comment.model");
 module.exports = {
   getByHashtag: async (req, res) => {
     try {
@@ -7,20 +9,32 @@ module.exports = {
       const listPost = await postModel
         .find({ hashtag: { $in: hashtag } })
         .populate("user");
-      return res.status(200).json({ isSuccess: true, listpost });
+      return res.status(200).json({ isSuccess: true, listPost });
     } catch (error) {
       console.log(error);
       return res
-        .satus(500)
+        .status(500)
         .json({ isSuccess: false, error: "Internal Server Error" });
     }
   },
   get: async (req, res) => {
+    const { authorId } = req.query;
+    let condition = {};
+    if (authorId) condition = { ...condition, author: authorId };
     try {
-      const listPost = await postModel.find({}).populate("author");
+      const listPost = await postModel.find(condition).populate("author");
       return res.status(200).json({ isSuccess: true, listPost });
     } catch (err) {
       return res.status(500).json({ isSuccess: false, error: err });
+    }
+  },
+  getById: async (req, res) => {
+    try {
+      const post = await postModel.findById(req.params.id).populate("author");
+      return res.status(200).json({ isSuccess: true, post });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ isSuccess: false, error });
     }
   },
   create: async (req, res) => {
@@ -44,19 +58,36 @@ module.exports = {
     }
   },
   update: async (req, res) => {
+    const postId = req.params.id;
     try {
-      const post = { ...req.body };
-      await postModel.updateOne({ _id: req.params.id }, post);
-      return res.status(200).json({ isSuccess: true });
-    } catch (err) {
+      const oldPost = await postModel.findById(postId);
+      if (!oldPost) return res.status(404).json({ isSuccess: false });
+      if (req.userID !== oldPost.author.toString())
+        return res.status(403).json({ isSuccess: false });
+
+      const post = {
+        ...req.body,
+        author: req.useID,
+        thumbnail: req.file ? req.file.filename : oldPost.thumbnail,
+      };
+      await postModel.updateOne({ _id: postId }, post);
+      return res.status(200).json({ isSuccess: true, post });
+    } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .json({ isSuccess: false, error: "Internal Server Error" });
     }
   },
   delete: async (req, res) => {
+    const postId = req.params.id;
     try {
-      await postModel.deleteOne({ _id: req.params.id });
+      const oldPost = await postModel.findById(postId);
+      if (!oldPost) return res.status(404).json({ isSuccess: false });
+      if (req.userID !== oldPost.author.toString())
+        return res.status(403).json({ isSuccess: false });
+
+      await postModel.deleteOne({ _id: postId });
       return res.status(200).json({ isSuccess: true });
     } catch (err) {
       return res
@@ -64,25 +95,138 @@ module.exports = {
         .json({ isSuccess: false, error: "Internal Server Error" });
     }
   },
+  pending: async (req, res) => {
+    const { userType } = await userModel.findById(req.userID);
+    if (userType === 1) return res.status(403).json({ error: "No permission" });
+    const status = req.body.isAccepted === true ? "accepted" : "rejected";
+    try {
+      await postModel.updateOne({ _id: req.params.id }, { status });
+      return res.json({ isSuccess: true });
+    } catch (error) {
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
   like: async (req, res) => {
     try {
-      const postId = req.params.id;
-      const post = await postModel.findById(postId);
-      const {
-        like: { count, people },
-      } = post;
-      if (people.indexOf(req.userID) < 0) {
-        const change = {
-          like: {
-            count: count + 1,
-            people: [...people, req.userID],
-          },
-        };
-        await postModel.updateOne({ _id: postId }, change);
+      const oldPost = await postModel.findById(req.params.id);
+      if (!oldPost) return res.status(404).json({ error: "Post is not found" });
+      if (oldPost.like.user.includes(req.userID))
+        return res.json({ isSuccess: true });
+      const update = {
+        like: {
+          count: ++oldPost.like.count,
+          user: oldPost.like.user.push(req.userID) && oldPost.like.user,
+        },
+      };
+      await postModel.updateOne({ _id: oldPost._id }, update);
+      return res.json({ isSuccess: true });
+    } catch (error) {
+      console.log("err: ", error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
+  unlike: async (req, res) => {
+    try {
+      const oldPost = await postModel.findById(req.params.id);
+      if (!oldPost) return res.status(404).json({ error: "Post is not found" });
+      if (!oldPost.like.user.includes(req.userID))
+        return res.json({ isSuccess: true, message: "You haven't liked" });
+      const update = {
+        like: {
+          count: --oldPost.like.count,
+          user: oldPost.like.user.filter((userId) => userId != req.userID),
+        },
+      };
+      await postModel.updateOne({ _id: oldPost._id }, update);
+      return res.json({ isSuccess: true });
+    } catch (error) {
+      console.log("err: ", error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
+
+  comment: async (req, res) => {
+    try {
+      const comment = new commentModel({
+        author: req.userID,
+        content: req.body.content,
+        of_post: postId,
+      });
+      if (req.body.commentId) {
+        commentModel.findById(req.body.commentId).then((parent) => {
+          parent.replies.push(comment._id);
+          parent.save();
+        });
       }
+      await comment.save();
+      return res.status(200).json({ isSuccess: true, comment });
+    } catch (error) {
+      console.log("err: ", error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
+  getComment: async (req, res) => {
+    try {
+      const comments = await commentModel
+        .find({ of_post: req.params.id })
+        .populate("author")
+        .populate("replies");
+      // PROBLEM
+      // const listComment = comments.reduce((acc, comment) => {
+      //   const test = comment.replies?.reduce((acc, reply) => {
+      //     // const { userName } = await userModel.findById(reply.author);
+      //     reply = { ...reply, author: "userName" };
+      //     return [...acc, reply];
+      //   }, []);
+      //   console.log(test);
+      //   comment = { ...comment, replies: test };
+      //   return [...acc, comment];
+      // }, []);
+      // listComment.forEach((e) => {
+      //   // console.log(e.replies);
+      // });
+
+      return res.json({ isSuccess: true, comments: listComment });
+    } catch (error) {
+      console.log("err: ", error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
+  editComment: async (req, res) => {
+    const commentId = req.params.commentId;
+    try {
+      const comment = await commentModel.findById(commentId);
+      if (!comment) return res.status(404).json({ isSuccess: false });
+      if (req.userID !== comment.author.toString())
+        return res.status(403).json({ isSuccess: false });
+
+      await commentModel.updateOne(
+        { _id: commentId },
+        {
+          content: req.body.content,
+        }
+      );
+      return res.status(200).json({ isSuccess: true, comment });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, error: "Internal Server Error" });
+    }
+  },
+  deleteComment: async (req, res) => {
+    const commentId = req.params.commentId;
+    try {
+      const comment = await commentModel.findById(commentId);
+      if (!comment) return res.status(404).json({ isSuccess: false });
+      if (req.userID !== comment.author.toString())
+        return res.status(403).json({ isSuccess: false });
+
+      await commentModel.deleteOne({ _id: commentId });
       return res.status(200).json({ isSuccess: true });
-    } catch (err) {
-      return res.status(500).json({ isSuccess: false, error: err });
+    } catch (error) {
+      console.log("err: ", error);
+      return res.status(500).json({ isSuccess: false, error });
     }
   },
   getTotalNumbPosts: async (req, res) => {

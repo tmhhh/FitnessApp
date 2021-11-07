@@ -17,6 +17,7 @@ import AdminRoute from "../Components/Routing/AdminRoute";
 import ProtectedRoute from "../Components/Routing/ProtectedRoute";
 import Post from "../Components/Post/Post";
 import NewPostPage from "../Components/Pages/PostPage/NewPostPage";
+import EditPostPage from "../Components/Pages/PostPage/EditPostPage";
 import PersonalPage from "../Components/Pages/PersonalPage";
 export default function MainRouter() {
   const location = useLocation();
@@ -33,6 +34,7 @@ export default function MainRouter() {
         <Route exact path="/shopping" component={ShoppingPage} />
         <Route exact path="/post/:postId" component={Post} />
         <Route exact path="/create-post" component={NewPostPage} />
+        <Route exact path="/edit-post/:postId" component={EditPostPage} />
         <Route exact path="/" component={HomePage} />
         <Route render={() => <div>NOT FOUND !!!</div>} />
       </Switch>

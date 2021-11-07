@@ -419,7 +419,7 @@ class QuillEditor extends React.Component {
           onChange={this.handleChange}
           modules={this.modules}
           formats={this.formats}
-          value={this.state.editorHtml}
+          value={this.state.editorHtml || this.props.initialValue}
           placeholder={this.props.placeholder}
           style={{ height: this.props.height }}
         />
