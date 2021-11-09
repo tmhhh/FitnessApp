@@ -10,7 +10,6 @@ export default function AdminPage() {
   // console.log({ path, url });
   return (
     <>
-      <Sidebar url={url} />
       <Container
         fluid
         style={{
@@ -20,8 +19,16 @@ export default function AdminPage() {
         }}
       >
         <Row>
-          <Col xs={2}></Col>
-          <Col xs={10}>
+          <Col
+            className="admin-sidebar d-flex"
+            style={{ position: "fixed", top: "60px", left: "0" }}
+            xs={12}
+            sm={12}
+            md={2}
+          >
+            <Sidebar url={url} />
+          </Col>
+          <Col style={{ marginLeft: "auto" }} xs={12} sm={12} md={10}>
             <AdminRoute path={path} />
           </Col>
         </Row>

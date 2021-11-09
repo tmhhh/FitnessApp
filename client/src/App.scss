@@ -8,7 +8,36 @@
 
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
+.form-control{
+  font-size:1.5rem !important;
+}
+.btn{
+  font-size:1.3rem !important;
+}
+.text-muted{
+  font-size:1.5rem !important;
 
+}
+.form-label{
+  font-size:1.2rem !important;
+}
+.form-floating{
+height:5rem;
+.form-select{
+  height:100%;
+
+}
+label{
+  font-size:1.2rem !important;
+
+}
+}
+.form-select{
+  font-size:1.5rem !important;
+ label{
+   font-size:1.2 !important;
+ }
+}
 .default-button {
   padding: 10px;
   border-radius: 10px;

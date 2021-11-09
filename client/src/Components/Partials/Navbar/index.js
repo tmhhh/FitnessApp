@@ -120,7 +120,7 @@ export default function Navbar() {
                     to="/admin"
                   >
                     <div className="dropdown_item_icon">
-                      <i className="fas fa-users-cog"></i>
+                      <i className="fas fa-home"></i>
                     </div>{" "}
                     Dashboard
                   </NavLink>

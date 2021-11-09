@@ -10,7 +10,7 @@ import prodApi from "../api/prodApi";
 import prodSlice from "../redux/slices/prodSlice";
 import cartApi from "../api/cartApi";
 import { getAllCate } from "../redux/slices/cateSlice";
-
+import { getAllExercise } from "../redux/slices/exerciseSlice";
 //CONTEXT
 export const Context = React.createContext();
 export default function ContextProvider({ children }) {
@@ -123,12 +123,21 @@ export default function ContextProvider({ children }) {
     }
   }, [dispatch]);
 
+  //GET EXERCISE
+  const getAllExercises = useCallback(async () => {
+    try {
+      dispatch(getAllExercise());
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
   //LOAD USER , PRODUCTS , CATE AFTER REFRESHING
   useEffect(() => {
     loadUser();
     getProducts();
     getCate();
-  }, [loadUser, getProducts, getCate]);
+    getAllExercises();
+  }, [loadUser, getProducts, getCate, getAllExercises]);
 
   //CHECK IF PRODUCT EXIST IN CART
   // const checkExist = (cart, prodID) => {

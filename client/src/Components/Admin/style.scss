@@ -1,10 +1,10 @@
 .admin-sidebar {
-  position: fixed;
-  width: 250px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  min-height: 100vh !important;
+  flex-direction: column;
+  height: 100vh;
+  // @@THIS CASE
+  // height: 100%;
+  // min-height: 100vh;
+  // min-height: 10;
   box-shadow: 5px 0 15px rgba(145, 145, 145, 0.589);
   background-color: white;
 
@@ -13,6 +13,7 @@
     border-radius: 5px;
     transition: all 0.4s;
     margin-top: 20px;
+    font-size: 1.5rem;
   }
   .sidebar-active {
     color: white;
@@ -37,5 +38,20 @@
   transition: all 0.4s;
   &:hover {
     box-shadow: 0 5px 10px rgb(158, 158, 158);
+  }
+}
+@media only screen and (max-width: 499px) {
+  .admin-sidebar {
+    flex-direction: row;
+    width: 100vw;
+    flex-wrap: wrap;
+    height: auto;
+    padding: 1rem;
+    position: relative !important;
+    transform: translateY(-60px);
+    .list-group-item {
+      width: 25%;
+      margin: 0 0 1rem 0;
+    }
   }
 }

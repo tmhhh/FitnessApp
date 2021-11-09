@@ -216,7 +216,7 @@ function Login() {
                 className="mb-3 text-center"
                 controlId="formBasicCheckbox"
               >
-                <Form.Label style={{ fontWeight: 600 }}>
+                <Form.Label style={{ fontWeight: 600,fontSize:"1.3rem" }}>
                   Or login with
                 </Form.Label>
                 <OtherLoginButton

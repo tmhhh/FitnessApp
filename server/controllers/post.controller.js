@@ -30,6 +30,7 @@ module.exports = {
   },
   getById: async (req, res) => {
     try {
+      console.log(req.params.id);
       const post = await postModel.findById(req.params.id).populate("author");
       return res.status(200).json({ isSuccess: true, post });
     } catch (error) {
@@ -234,7 +235,6 @@ module.exports = {
       const totalNumbPosts = await postModel.count();
       return res.status(200).json({ isSuccess: true, totalNumbPosts });
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .json({ isSuccess: true, message: "Server Internal Error" });

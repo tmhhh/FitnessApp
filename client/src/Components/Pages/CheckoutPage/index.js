@@ -108,9 +108,9 @@ export default function CheckoutPage() {
   };
 
   //HANDLE UPDATE QUANTITY
-  const handleUpdateQuantity = async (prodID, quantity, action) => {
+  const handleUpdateQuantity = async (prodID, quantity) => {
     try {
-      if (action === "decrease" && quantity - 1 <= 0) return;
+      // if (action === "decrease" && quantity - 1 <= 0) return;
       setToast({
         toastShow: true,
         title: "Updating ...",
@@ -121,7 +121,8 @@ export default function CheckoutPage() {
       if (isAuthenticated) {
         const res = await cartApi.updateCart(
           prodID,
-          action === "increase" ? quantity + 1 : quantity - 1
+          // action === "increase" ? quantity + 1 : quantity - 1
+          quantity
         );
         if (res.data.isSuccess) {
           // console.log(res.data.userCart);
@@ -246,26 +247,6 @@ export default function CheckoutPage() {
                           {prod.product.prodCategory.cateFilter.filterName}
                         </div>
                         <div className="cart_action">
-                          <i
-                            onClick={() =>
-                              handleUpdateQuantity(
-                                prod.product._id,
-                                prod.quantity,
-                                "increase"
-                              )
-                            }
-                            className="fas fa-angle-up"
-                          ></i>
-                          <i
-                            onClick={() =>
-                              handleUpdateQuantity(
-                                prod.product._id,
-                                prod.quantity,
-                                "decrease"
-                              )
-                            }
-                            className="fas fa-angle-down"
-                          ></i>
                           <Button
                             className="cart_action_remove mt-4 rounded-0"
                             variant="danger"
@@ -277,7 +258,7 @@ export default function CheckoutPage() {
                             X REMOVE ITEM
                           </Button>
                           <Button
-                            className="cart_action_redirect_detail rounded-0 mt-4"
+                            className="cart_action_redirect_detail rounded-0 "
                             variant="dark"
                             onClick={() =>
                               handleRedirectProduct(prod.product._id)
@@ -300,7 +281,18 @@ export default function CheckoutPage() {
                           {formatCurrency(prod.product.prodPrice)}
                         </div>
                         <div className="product_quantity">
-                          x {prod.quantity}
+                          x{" "}
+                          <input
+                            type="number"
+                            min={1}
+                            value={prod.quantity}
+                            onChange={(e) =>
+                              handleUpdateQuantity(
+                                prod.product._id,
+                                e.target.value
+                              )
+                            }
+                          />
                         </div>
                         <div className="product_total_price">
                           {formatCurrency(

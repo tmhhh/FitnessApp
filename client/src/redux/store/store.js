@@ -5,7 +5,7 @@ import prodSlice from "../slices/prodSlice";
 import cateSlice from "../slices/cateSlice";
 import reviewSlice from "../slices/reviewSlice";
 import postSlice from "../slices/postSlice";
-
+import exerciseSlice from "../slices/exerciseSlice";
 //ROOT
 const rootReducer = {
   authReducer: authSlice.reducer,
@@ -14,6 +14,7 @@ const rootReducer = {
   cateReducer: cateSlice.reducer,
   reviewReducer: reviewSlice.reducer,
   postReducer: postSlice.reducer,
+  exerciseReducer: exerciseSlice.reducer,
 };
 
 const store = configureStore({

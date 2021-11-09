@@ -33,7 +33,11 @@ export default function DiscountForm({ handleSubmitVoucher, disabled }) {
             />
             <Button
               variant="secondary"
-              style={{ alignSelf: "end", marginLeft: "10px" }}
+              style={{
+                alignSelf: "end",
+                marginLeft: "10px",
+                fontSize: "1.5rem",
+              }}
               type="submit"
             >
               Apply

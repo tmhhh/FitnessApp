@@ -1,6 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.send("hi");
+});
+
 //@@AUTH
 router.use("/auth", require("./auth.route"));
 
@@ -16,6 +20,9 @@ router.use("/cart", require("./cart.route"));
 router.use("/bill", require("./bill.route"));
 //@@ADMIN
 router.use("/admin", require("./admin.route"));
+
+//@@ROUTE
+router.use("/exercise", require("./exercise.route"));
 
 //@@POST
 router.use("/post", require("./post.route"));

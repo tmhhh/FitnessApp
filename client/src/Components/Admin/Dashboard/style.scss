@@ -5,10 +5,10 @@
 
 .dashboard__container {
   min-height: calc(100vh - 60px);
-  margin-left: 20px;
   display: flex;
   width: calc(100% - 20px);
   flex-wrap: wrap;
+  margin-left: 20px;
   .dashboard {
     &__left {
       width: calc(70% - 40px);
@@ -21,12 +21,12 @@
         margin-bottom: 40px;
         height: calc(10% - 40px);
         &-title {
-          font-size: 30px;
+          font-size: 3rem;
           font-weight: 800;
         }
         &-settings i {
           margin-right: 40px;
-          font-size: 20px;
+          font-size: 2rem;
         }
       }
       &__body {
@@ -38,13 +38,14 @@
           .summary__item {
             display: flex;
             flex-direction: column;
-            width: 25%;
+            width: 30%;
             // margin: 0 40px;
-            margin: 0 calc(33.33% - 25%);
+            margin: 0 calc(33.33% - 30%);
             &-title {
               display: flex;
               justify-content: space-between;
-              font-size: 15px;
+              align-items: center;
+              font-size: 1.5rem;
               color: #999;
               font-weight: 400;
               padding-bottom: 5px;
@@ -52,14 +53,14 @@
               box-shadow: 0px 0.5px 0 rgb(197, 197, 197);
             }
             &-value {
-              font-size: 30px;
+              font-size: 3rem;
               color: #333;
               font-weight: 700;
             }
           }
         }
         &-chart-title {
-          font-size: 25px;
+          font-size: 2.5rem;
           font-weight: 700;
         }
         &-chart {
@@ -79,7 +80,7 @@
       height: 100vh;
       &__item {
         &-title {
-          font-size: 25px;
+          font-size: 2.5rem;
           font-weight: 700;
           margin-bottom: 20px;
         }
@@ -109,7 +110,7 @@
             .item-name {
               // margin-right: 20px;
 
-              font-size: 15px;
+              font-size: 1.5rem;
               font-weight: 750;
               color: black;
             }
@@ -118,7 +119,7 @@
             @include handleTextOverflow();
             flex: 1;
 
-            font-size: 15px;
+            font-size: 1.5rem;
             font-weight: 400;
             color: #999;
             text-align: center;
@@ -127,7 +128,7 @@
           &-right {
             flex: 1;
             text-align: center;
-            font-size: 15px;
+            font-size: 1.5rem;
             font-weight: 700;
             color: black;
           }
@@ -145,10 +146,59 @@
         width: calc(40% - 20px);
 
         &-title {
-          font-size: 30px;
+          font-size: 3rem;
           font-weight: 800;
         }
         // flex-basis: 50%;
+      }
+    }
+  }
+}
+@media only screen and (max-width: 499px) {
+  .dashboard__container {
+    flex-direction: column;
+    .dashboard {
+      &__left {
+        width: calc(100% - 60px);
+        &__header {
+          &-title {
+          }
+          &-settings i {
+            // margin-right: 40px;
+          }
+        }
+        &__body {
+          &-summary {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            height: calc(90% - 40px);
+            .summary__item {
+              display: flex;
+              flex-direction: column;
+              // width: 30%;
+              flex: 1;
+              // margin: 0 calc(33.33% - 30%);
+              &-title {
+              }
+              &-value {
+              }
+            }
+          }
+          &-chart-title {
+          }
+          &-chart {
+          }
+        }
+      }
+      &__right {
+        width: 100%;
+      }
+      &__bottom {
+        flex-direction: column;
+        &__chart {
+          width: 100%;
+        }
       }
     }
   }

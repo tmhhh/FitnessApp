@@ -26,6 +26,7 @@
     color: $white_smoke;
     font-weight: 700;
     padding: 8px 16px;
+    font-size: 1.5rem;
     height: 40px;
     min-width: 140px;
     cursor: pointer;
@@ -94,6 +95,7 @@
         display: block;
         color: $white_smoke;
         display: flex;
+        font-size: 1.5rem;
         align-items: center;
         padding: 5px 10px;
         transition: all 0.25s linear;

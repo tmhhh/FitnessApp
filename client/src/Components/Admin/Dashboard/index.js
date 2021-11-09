@@ -46,7 +46,7 @@ export default function Dashboard() {
         postApi.getTotalNumbPosts(),
         billApi.getRevenueByYear(),
       ]);
-      console.log(res[3].data);
+      console.log(res[2].data);
       setTimeout(
         () =>
           setStatisticalData({
@@ -141,7 +141,7 @@ export default function Dashboard() {
             Top buyers this month
           </h3>
           {topCustomers.map((e) => (
-            <div className="dashboard__right__item__details">
+            <div key={e.user._id} className="dashboard__right__item__details">
               <div className="dashboard__right__item__details-left">
                 <div className="item-image">
                   <img
@@ -168,7 +168,10 @@ export default function Dashboard() {
         <div className="dashboard__right__item">
           <h3 className="dashboard__right__item-title">Best seller</h3>
           {topProds.map((e) => (
-            <div className="dashboard__right__item__details">
+            <div
+              key={e.product._id}
+              className="dashboard__right__item__details"
+            >
               <div className="dashboard__right__item__details-left">
                 <div className="item-image">
                   <img

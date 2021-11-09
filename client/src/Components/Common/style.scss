@@ -100,7 +100,7 @@ label.star:before {
 .custom__input {
   min-height: 50px;
   position: relative;
-  margin-bottom: 25px;
+  // margin-bottom: 25px;
   .is-valid {
     border: 1px solid green !important;
   }
@@ -129,6 +129,7 @@ label.star:before {
     height: 100%;
     padding: 10px;
     border: 1px solid #d4d9de;
+    font-size:1.5rem;
     &:focus {
       outline: none;
       box-shadow: 0 0 5px $primary_blue;
@@ -147,6 +148,6 @@ label.star:before {
     background: white;
     color: #999;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 1.2rem;
   }
 }
