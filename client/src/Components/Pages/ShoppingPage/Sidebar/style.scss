@@ -13,7 +13,9 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    font-size: 15px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
     border-top: 1px solid black;
     & i {
       cursor: pointer;
@@ -22,20 +24,28 @@
   & p {
     cursor: pointer;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 15px;
+    margin-left: 20px;
+    font-weight: 500;
+    color: #999;
   }
 }
 .other_products {
   &_title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    font-size: 15px;
     border-top: 1px solid black;
   }
   &_item {
+    margin-left: 20px;
     cursor: pointer;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #999;
   }
 }

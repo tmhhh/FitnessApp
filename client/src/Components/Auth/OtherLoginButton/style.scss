@@ -1,0 +1,30 @@
+.login__button-wrapper {
+  --height: 44px;
+  height: var(--height);
+  width: 100%;
+  border-radius: var(--height);
+  border: 1px solid rgb(197, 197, 197);
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  line-height: var(--height);
+  margin-bottom: 20px;
+  .login__button {
+    &-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+    &-title:hover {
+      color: #333;
+    }
+  }
+  img {
+    height: 18px;
+    width: 18px;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

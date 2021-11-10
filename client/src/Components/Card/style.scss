@@ -2,32 +2,54 @@
 
 .shopping_card {
   border-radius: 10px;
-  cursor: pointer;
   position: relative;
   margin-bottom: 40px;
+  overflow: hidden;
   // width: 33.33%;
   height: 400px;
-  transition: all 0.25s ease-in-out;
-  &:hover {
-    filter: brightness(30%);
+  &:hover &_image {
+    filter: brightness(50%);
+  }
+  &:hover &_noti {
+    opacity: 1;
+    // overflow: hidden;
+    visibility: visible;
+    transform: translateX(0);
   }
   &_image {
-    height: 100%;
+    transition: all 0.35s ease-in-out;
+    height: 400px !important;
+    width: 100%;
+    // object-fit: cover;
     filter: brightness(80%);
   }
-  &_body {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
+
   &_name {
     color: #fff;
     font-weight: 900;
     font-size: 20px;
   }
-  &_price {
-    font-style: italic;
+  &_noti {
+    cursor: pointer;
+    text-align: center;
+    position: absolute;
+    font-size: 20px;
+    font-weight: 500;
+    opacity: 0;
+    width: 100%;
+    transform: translateX(-100%);
+    visibility: hidden;
+    background: #000;
+    left: 0;
+    bottom: 10%;
+    transition: all 0.25s linear;
     color: #fff;
+    i {
+      // transform: translateX(100px);
+      // padding: 5px;
+      margin-left: 40px;
+      animation: iconZoom 0.25s infinite linear alternate;
+    }
   }
   &_tag {
     z-index: 10;
@@ -43,6 +65,12 @@
     top: 10px;
     left: 10px;
     background-color: black;
+  }
+}
+
+@keyframes iconZoom {
+  to {
+    font-size: 22px;
   }
 }
 
@@ -136,7 +164,7 @@
     width: 100%;
 
     &:hover {
-      filter: brightness(50%);
+      filter: brightness(70%);
     }
   }
   &:hover {
@@ -153,8 +181,8 @@
   }
   &_name {
     font-size: 20px;
-    font-weight: 700;
-    color: $primary_blue;
+    font-weight: 600;
+    color: black;
   }
   &_type {
     font-size: 15px;
@@ -171,7 +199,7 @@
     & i:last-child {
       font-size: 15px;
       position: absolute;
-      color: white;
+      color: #333;
 
       padding: 7px;
       // border-radius: 50%;

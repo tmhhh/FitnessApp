@@ -26,6 +26,7 @@ module.exports = {
         vouModel.findOne({ vouCode }).populate("cateID").select("-vouQuantity"),
       ]);
       const [foundUser, foundVoucher] = result;
+      console.log({ foundVoucher });
       console.log(foundVoucher);
       if (!foundVoucher)
         return res

@@ -1,10 +1,10 @@
 @import "../../../assets/constants.scss";
 .footer {
   position: relative;
-  height: 250px;
+  height: auto;
+  min-height: 250px;
   width: 100%;
   position: relative;
-
   background-image: url("https://dfd5gcc6b7vw5.cloudfront.net/assets/thenx-footer-24e7f3e5fe00928e95944891a14955366b4f613552ef83a87a0703bb8fe0464a.jpg");
   background-position: center center;
   background-repeat: no-repeat;
@@ -17,24 +17,33 @@
 
   align-items: flex-start;
   // margin-top: 40px;
-
   &_info {
     margin-top: 40px;
     display: flex;
+    width: 20%;
     flex-direction: column;
+    height: 250px;
     font-size: 28px;
     font-weight: 900;
     color: #fff;
     position: relative;
+    &_title {
+      margin-bottom: 20px;
+    }
     &_details {
       //  line-height: 28px;
       display: flex;
       align-items: center;
-    }
-    &_details span {
-      margin: 5px 5px;
-      font-size: 17px;
-      font-weight: 600;
+      margin-bottom: 15px;
+      span {
+        margin-left: 20px;
+        font-size: 17px;
+        font-weight: 600;
+      }
+      i {
+        height: 28px;
+        width: 28px;
+      }
     }
   }
   &::before {
@@ -45,5 +54,10 @@
     bottom: 0;
     right: 0;
     background: rgba(0, 0, 7, 0.65);
+  }
+}
+@media only screen and (max-width: 500px) {
+  .footer {
+    flex-direction: column;
   }
 }

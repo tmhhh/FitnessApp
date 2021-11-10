@@ -1,3 +1,12 @@
+
+
+// $theme-colors: (
+//     "info": ,
+//     "danger": tomato,
+//     "success":green
+// );
+
+/* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 
 .default-button {
@@ -57,3 +66,4 @@
     border-bottom: 1px solid #2196f3;
   }
 }
+

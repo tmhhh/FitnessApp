@@ -288,7 +288,18 @@ module.exports = {
       console.log(error);
       return res
         .status(500)
-        .json({ isSuccess: false, error: "Internal Server Error" });
+        .json({ isSuccess: true, message: "Server Internal Error" });
+    }
+  },
+  getTotalNumbPosts: async (req, res) => {
+    try {
+      const totalNumbPosts = await postModel.count();
+      return res.status(200).json({ isSuccess: true, totalNumbPosts });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: true, message: "Server Internal Error" });
     }
   },
 };

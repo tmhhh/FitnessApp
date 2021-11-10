@@ -1,0 +1,165 @@
+@import "../../../../assets/constants.scss";
+
+.food {
+  &_name {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  &_serving {
+    font-size: 16px;
+    font-weight: 400;
+    color: #999;
+  }
+}
+.calories {
+  &_items_summary {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    & .calories_item_summary:nth-child(3),
+    & .calories_item_summary:nth-child(4),
+    & .calories_item_summary:last-child {
+      div:first-child {
+        font-size: 17px;
+        font-weight: 600;
+      }
+      div:nth-child(2) {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      div:last-child {
+        font-size: 15px;
+        font-weight: 400;
+        color: #999;
+      }
+    }
+    // & .calories_item_summary:last-child div {
+    //   font-size: 20px;
+    //   font-weight: 700;
+    //   color: red;
+    // }
+
+    & .calories_item_summary:nth-child(3) {
+      & div:first-child {
+        color: #8bd2d5;
+      }
+    }
+    & .calories_item_summary:nth-child(4) {
+      & div:first-child {
+        color: #debee0;
+      }
+    }
+    & .calories_item_summary:last-child {
+      & div:first-child {
+        color: #fcbec2;
+      }
+    }
+  }
+  &_item_summary {
+    text-align: center;
+    width: 17% !important;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    // height: 120px !important;
+  }
+
+  &_serving {
+    &_items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &_item {
+      & input[type="number"] {
+        border: none;
+        &:focus {
+          outline: none;
+        }
+      }
+      display: flex;
+      //   justify-content: space-around;
+      padding: 7px 0;
+      &_label,
+      &_value {
+        width: 50%;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      &_value {
+        color: $primary_blue;
+        text-align: right;
+      }
+    }
+  }
+
+  &_detail {
+    &_items {
+      padding: 7px 0;
+    }
+    &_item_main {
+      display: flex;
+      // justify-content: center;
+      // align-items: center;
+      padding: 7px 0;
+      border-top: 0.1px dotted #999;
+      &_label,
+      &_value {
+        width: 50%;
+        font-size: 16px;
+      }
+      &_label {
+        font-weight: 600;
+      }
+      &_value {
+        text-align: right;
+        font-weight: 400;
+      }
+    }
+
+    &_item_sub {
+      padding: 7px 0;
+
+      margin-left: 20px;
+      display: flex;
+      justify-content: space-around;
+      &_label,
+      &_value {
+        color: #999;
+        width: 50%;
+        font-size: 16px;
+      }
+      &_label {
+        font-weight: 600;
+      }
+      &_value {
+        text-align: right;
+        font-weight: 400;
+      }
+    }
+  }
+}
+.chart_center_custom {
+  position: relative;
+  left: -80px;
+  top: 0px;
+  max-height: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 35px;
+
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  span {
+    font-size: 17px;
+    font-weight: 400;
+    color: #999;
+  }
+}
