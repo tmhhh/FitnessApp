@@ -24,7 +24,7 @@ export default function ProductSide({
             ) : (
               // ) : searchOption.byCate === "All" ? (
               listProducts.map((prod) => (
-                <Col lg={4} key={prod._id}>
+                <Col xs={12} sm={6} md={6} lg={4} key={prod._id}>
                   <ProductCard {...prod} />
                 </Col>
               ))

@@ -1,32 +1,32 @@
-$default_margin: 40px;
+$default_margin: 4rem;
 @mixin style_section_title {
   text-align: center;
   color: #101010;
-  font-size: 32px;
+  font-size: 3.2rem;
   font-weight: 900;
   margin: $default_margin 0;
-  line-height: 35px;
+  line-height: 3.5rem;
 }
 @mixin style_section_title_underline {
   content: "";
   background-color: black;
-  height: 2px;
+  height: 0.2rem;
   width: 50%;
   display: block;
   margin: 0 auto;
 }
 .introduce_section {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 
   background-color: black;
   color: #fff;
   width: 100%;
   &_title {
     text-align: center;
-    font-size: 40px;
+    font-size: 4rem;
     font-weight: 900;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
     &::before {
       @include style_section_title_underline();
     }
@@ -65,6 +65,18 @@ $default_margin: 40px;
     @include style_section_title();
     &::before {
       @include style_section_title_underline();
+    }
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .introduce_section {
+    a {
+      margin-bottom: 2rem;
+      font-size: 2rem !important;
+    }
+    &_title {
+      margin: 2rem 0;
     }
   }
 }

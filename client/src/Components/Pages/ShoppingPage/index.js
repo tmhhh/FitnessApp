@@ -51,7 +51,7 @@ export default function ShoppingPage() {
       <div className="container shopping_page_container">
         <div></div>
         <Row>
-          <Col lg={3}>
+          <Col md={3} lg={3}>
             <Sidebar
               handleSearchByCateType={handleSearchByCate}
               handleSearchByCateFilter={handleSearchByCateFilter}
@@ -61,7 +61,7 @@ export default function ShoppingPage() {
               // setFilter={setFilter}
             />
           </Col>
-          <Col lg={9}>
+          <Col md={9} lg={9}>
             <ProductSide prodSelector={prodSelectorCopy} />
           </Col>
         </Row>

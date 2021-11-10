@@ -60,7 +60,11 @@ export default function SearchBar() {
         onChange={handleOnChange}
         className="search_bar"
         type="text"
-        placeholder="Input here ..."
+        placeholder={
+          location.pathname === "/nutrition"
+            ? "Ex: Chicken, Rice,..."
+            : "Ex: BCAA, Weight Protein,..."
+        }
       />
       <i className="search_bar_icon fas fa-search"></i>
     </div>

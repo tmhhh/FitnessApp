@@ -209,14 +209,14 @@ function Login() {
                   !!!
                 </Form.Text>
                 <Button variant="primary" type="submit">
-                  Submit
+                  Login
                 </Button>
               </div>
               <Form.Group
                 className="mb-3 text-center"
                 controlId="formBasicCheckbox"
               >
-                <Form.Label style={{ fontWeight: 600,fontSize:"1.3rem" }}>
+                <Form.Label style={{ fontWeight: 600, fontSize: "1.3rem" }}>
                   Or login with
                 </Form.Label>
                 <OtherLoginButton

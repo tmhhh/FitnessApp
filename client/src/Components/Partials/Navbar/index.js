@@ -14,6 +14,7 @@ export default function Navbar() {
   const { isAuthenticated, userInfo, authLoading } = useSelector(
     (state) => state.authReducer
   );
+  const { userCart } = useSelector((state) => state.cartReducer);
   //SHOW FORM
   const handleShowAuthForm = () => {
     if (isAuthenticated) return;
@@ -145,6 +146,9 @@ export default function Navbar() {
                     <i className="fas fa-shopping-basket"></i>
                   </div>
                   Shopping Cart
+                  <i className="cart-item-number">
+                    {userCart.filter((e) => !e.isOrdered).length}
+                  </i>
                 </NavLink>
 
                 <div className="dropdown_item ">

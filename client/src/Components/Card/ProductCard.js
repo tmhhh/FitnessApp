@@ -13,7 +13,8 @@ export default function Product(props) {
 
   //
 
-  const { prodName, prodType, prodPrice, prodThumbnail, _id } = props;
+  const { prodName, prodType, prodPrice, prodThumbnail, _id, prodWeight } =
+    props;
 
   // ADD TO CART
   const handleAddToCart = () => {
@@ -34,11 +35,17 @@ export default function Product(props) {
         <p className="product_card_name">{prodName}</p>
         <p className="product_card_type">{prodType}</p>
         <p className="product_card_price">{formatCurrency(prodPrice)}</p>
+        {/* <p className="product_card_weight">{prodWeight}g</p> */}
       </div>
       <div className="product_card_actions">
-        <i onClick={handleAddToCart} className="fas fa-shopping-cart"></i>
-        <i className="fab fa-gratipay"></i>
-        {/* <i class="fas fa-heart"></i> */}
+        <div onClick={handleAddToCart} className="product_card_action">
+          <i className="fas fa-shopping-cart"></i>
+          <span>+Cart</span>
+        </div>
+        <div className="product_card_action">
+          <i className="fab fa-gratipay"></i>
+          <span>+Favorite</span>
+        </div>
       </div>
     </div>
   );
