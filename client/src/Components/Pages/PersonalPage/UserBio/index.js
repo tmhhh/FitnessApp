@@ -37,6 +37,12 @@ export default function UserBio() {
         className="mb-3"
       >
         <Tab eventKey="information" title="General Information">
+          <BioForm {...userInfo} />
+        </Tab>
+        <Tab eventKey="password" title="Change Password">
+          <PasswordForm />
+        </Tab>
+        <Tab eventKey="avatar" title="User Avatar">
           <div className="user_bio_image_container">
             <div
               style={{
@@ -95,11 +101,6 @@ export default function UserBio() {
               </div> */}
             </div>
           </div>
-
-          <BioForm {...userInfo} />
-        </Tab>
-        <Tab eventKey="password" title="Change Password">
-          <PasswordForm />
         </Tab>
         <Tab eventKey="contact" title="Contact" disabled></Tab>
       </Tabs>

@@ -7,6 +7,7 @@ import "./style.scss";
 
 export default function ShoppingPage() {
   const prodSelector = useSelector((state) => state.prodReducer);
+  const { userInfo } = useSelector((state) => state.authReducer);
   const listCate = useSelector((state) => state.cateReducer);
 
   const [prodSelectorCopy, setProdSelectorCopy] = useState({ ...prodSelector });
@@ -36,6 +37,19 @@ export default function ShoppingPage() {
     setSearchOption({ byCate: cateOption, byCateFilter: "" });
   };
 
+  // GET FAVORITE PRODUCTS
+  const handleShowFavoriteProds = () => {
+    const favoriteProds = [];
+    userInfo.favoriteProducts.forEach((e) => {
+      prodSelector.listProducts.forEach((prod) => {
+        if (e.toString() === prod._id.toString()) {
+          favoriteProds.push(prod);
+        }
+      });
+    });
+    setProdSelectorCopy({ ...prodSelector, listProducts: favoriteProds });
+    return setSearchOption({ byCate: "All", byCateFilter: "" });
+  };
   //SEARCH BY FILTER
   const handleSearchByCateFilter = (filterOption) => {
     setProdSelectorCopy({
@@ -53,6 +67,7 @@ export default function ShoppingPage() {
         <Row>
           <Col md={3} lg={3}>
             <Sidebar
+              handleShowFavoriteProds={handleShowFavoriteProds}
               handleSearchByCateType={handleSearchByCate}
               handleSearchByCateFilter={handleSearchByCateFilter}
               listCate={listCate}

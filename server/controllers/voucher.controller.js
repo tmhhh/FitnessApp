@@ -1,6 +1,6 @@
 const vouModel = require("../models/voucher.model");
 const userModel = require("../models/user.model");
-
+const nodemailer = require("../utils/nodemailer");
 // const checkVoucherUse = (vouCateType, userCart) => {
 //   const userCart.find(e=>e.product.prodType)
 // };
@@ -8,8 +8,14 @@ module.exports = {
   addingVou: async (req, res) => {
     try {
       const newVoucher = { ...req.body };
-      const addedVou = await vouModel.create(newVoucher);
-      return res.status(200).json({ isSuccess: true, addedVou });
+      const listUsers = userModel.find().select("-userPassword");
+      const addedVou = vouModel.create(newVoucher);
+      const listPromises = await Promise.all([addedVou, listUsers]);
+      //SEND MAIL TO USERS
+      await nodemailer.discountNoti(listPromises[1], listPromises[0]);
+      return res
+        .status(200)
+        .json({ isSuccess: true, addedVou: listPromises[0] });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ isSuccess: false, error });

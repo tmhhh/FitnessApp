@@ -22,6 +22,7 @@ const Products = new Schema({
   prodRating: {
     num_of_reviewers: { type: Number, default: 0 },
     star: { type: Number, default: 0 },
+    favorite_count: { type: Number, default: 0 },
   },
   prodThumbnail: { type: String, required: true },
   prodImages: [{ type: String }],

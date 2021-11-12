@@ -1,4 +1,5 @@
 const userModel = require("../models/user.model");
+const prodModel = require("../models/product.model");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
 module.exports = {
@@ -196,7 +197,7 @@ module.exports = {
         food: { addedDate, id, foodServing, mealType },
         food,
       } = req.body;
-      console.log(typeof foodServing);
+      // console.log(typeof foodServing);
       let updatedUser = null;
       const foundUser = await userModel.findById(req.userID);
 
@@ -219,7 +220,7 @@ module.exports = {
           );
         if (!checkFoodExist) {
           foundUser.trackingInfo.trackingFood.listFoods.push(food);
-          console.log(foundUser.listFoods);
+          // console.log(foundUser.listFoods);
           await foundUser.save();
         } else {
           // UPDATE FOOD SERVING
@@ -251,7 +252,7 @@ module.exports = {
           (e) => e.id !== id
         );
       const updatedUser = await foundUser.save();
-      console.log(updatedUser.trackingInfo.trackingFood);
+      // console.log(updatedUser.trackingInfo.trackingFood);
       return res.status(200).json({ isSuccess: true, updatedUser });
     } catch (error) {
       console.log(error);
@@ -264,6 +265,50 @@ module.exports = {
     try {
       const totalNumbCustomers = await userModel.count();
       return res.status(200).json({ isSuccess: true, totalNumbCustomers });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  addFavoriteProduct: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const foundUser = await userModel.findByIdAndUpdate(req.userID);
+      foundUser.favoriteProducts.push(id);
+
+      //UPDATE PRODUCT'S FAVORITE COUNT (Increase 1)
+      const updatedProd = prodModel.findByIdAndUpdate(id, {
+        $inc: { "prodRating.favorite_count": 1 },
+      });
+      await Promise.all([foundUser.save(), updatedProd]);
+      // console.log(updatedUser);
+
+      return res.status(200).json({ isSuccess: true, addedFavorite: id });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  removeFavoriteProduct: async (req, res) => {
+    try {
+      const { id } = req.body;
+      const foundUser = await userModel.findById(req.userID);
+
+      foundUser.favoriteProducts = foundUser.favoriteProducts.filter(
+        (prod) => prod.toString() !== id.toString()
+      );
+      //UPDATE PRODUCT'S FAVORITE COUNT (Decrease 1)
+      const updatedProd = prodModel.findByIdAndUpdate(id, {
+        $inc: { "prodRating.favorite_count": -1 },
+      });
+      const listRes = await Promise.all([foundUser.save(), updatedProd]);
+      // console.log(foundUser.favoriteProducts);
+
+      return res.status(200).json({ isSuccess: true, removedFavorite: id });
     } catch (error) {
       console.log(error);
       return res

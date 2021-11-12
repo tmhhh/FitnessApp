@@ -22,6 +22,9 @@ const Users = new Schema({
   ],
   userEmail: { type: String, default: null },
   userPhone: { type: Number, default: 0 },
+  favoriteProducts: [
+    { type: Schema.Types.ObjectId, ref: "Products", default: null },
+  ],
   trackingInfo: {
     isFilled: { type: Boolean, default: false },
     userHeight: { type: Number, default: null },

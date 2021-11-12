@@ -5,6 +5,6 @@ const Voucher = new Schema({
   vouExpired: { type: Date, required: true },
   vouCode: { type: String, required: true },
   vouDiscount: { type: Number, required: true },
-  cateID: { type: Schema.Types.ObjectId, ref: "Categories", required: true },
+  // cateID: { type: Schema.Types.ObjectId, ref: "Categories", required: true },
 });
 module.exports = mongoose.model("Voucher", Voucher);

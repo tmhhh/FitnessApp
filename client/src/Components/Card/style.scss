@@ -231,12 +231,14 @@
       right: 0px;
       padding: 0.5rem;
       border-radius: 1rem 0 0 1rem;
-
       transition: all 0.5s ease-in-out;
       span {
         font-size: 1.5rem;
         font-weight: 400;
         // color: #999;
+        white-space: nowrap;
+        // word-break: keep-all;
+
         color: white;
       }
 
@@ -247,7 +249,7 @@
         top: var(--y);
       }
       &:hover {
-        width: 40%;
+        width: 60%;
         & i {
           transform: scale(1.3);
         }

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { PROD_IMAGE_BASE_URL } from "../../assets/constants";
 import { Context } from "../../Contexts";
@@ -7,7 +7,10 @@ import { formatCurrency } from "../../utils/formatCurrency";
 import "./style.scss";
 
 export default function Product(props) {
-  const { addToCart } = useContext(Context);
+  const { addToCart, handleAddFavorite, handleRemoveFavorite } =
+    useContext(Context);
+
+  const { userInfo } = useSelector((state) => state.authReducer);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -28,7 +31,7 @@ export default function Product(props) {
         src={`${PROD_IMAGE_BASE_URL}${prodThumbnail}`}
         alt={prodName}
         onClick={() => {
-          history.push(`/product/${props._id}`);
+          history.push(`/product/${_id}`);
         }}
       />
       <div className="product_card_content">
@@ -40,12 +43,28 @@ export default function Product(props) {
       <div className="product_card_actions">
         <div onClick={handleAddToCart} className="product_card_action">
           <i className="fas fa-shopping-cart"></i>
-          <span>+Cart</span>
+          <span>+ Cart</span>
         </div>
-        <div className="product_card_action">
-          <i className="fab fa-gratipay"></i>
-          <span>+Favorite</span>
-        </div>
+        {!userInfo.favoriteProducts?.find(
+          // THE SAME AS userInfo.favoriteProducts && ...
+          (e) => e.toString() === _id.toString()
+        ) ? (
+          <div
+            onClick={() => handleAddFavorite(_id)}
+            className="product_card_action"
+          >
+            <i className="fab fa-gratipay"></i>
+            <span>+ Favorite</span>
+          </div>
+        ) : (
+          <div
+            onClick={() => handleRemoveFavorite(_id)}
+            className="product_card_action"
+          >
+            <i className="fas fa-heart-broken"></i>
+            <span>- Favorite</span>
+          </div>
+        )}
       </div>
     </div>
   );

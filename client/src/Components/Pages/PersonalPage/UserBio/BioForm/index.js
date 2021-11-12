@@ -44,11 +44,11 @@ export default function BioForm({ userName, userEmail, userPhone }) {
     >
       {(formikProps) => {
         return (
-          <Form>
+          <Form className="position-relative">
             <FastField
               name="userName"
               label="Your name"
-              placeholder="Input your name"
+              placeholder="Ex: Truong Hoang ..."
               className="w-50 "
               required
               component={InputField}
@@ -58,20 +58,24 @@ export default function BioForm({ userName, userEmail, userPhone }) {
               name="userEmail"
               label="Your email"
               className="w-50 "
-              placeholder="Input your email"
+              placeholder="Ex: example@gmail.com"
               required
               component={InputField}
             />
             <FastField
               name="userPhone"
-              className="w-50 "
+              className="w-50  "
               label="Your phone number"
-              placeholder="Input your phone number"
+              placeholder="Ex: xxx xxx xxx"
               required
               component={InputField}
             />
 
-            <Button type="submit" variant="primary">
+            <Button
+              style={{ position: "absolute", right: "50%" }}
+              type="submit"
+              variant="primary"
+            >
               Save Changes
             </Button>
           </Form>

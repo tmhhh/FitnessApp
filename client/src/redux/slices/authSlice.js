@@ -39,6 +39,33 @@ const authSlice = createSlice({
       const { payload } = action;
       return { ...state, userInfo: { ...payload } };
     },
+    addFavoriteProduct: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          favoriteProducts: [
+            ...state.userInfo.favoriteProducts,
+            payload.addedFavorite,
+          ],
+        },
+      };
+    },
+    removeFavoriteProduct: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          favoriteProducts: [
+            state.userInfo.favoriteProducts.filter(
+              (e) => e.toString() !== payload.removedFavorite.toString()
+            ),
+          ],
+        },
+      };
+    },
   },
 });
 

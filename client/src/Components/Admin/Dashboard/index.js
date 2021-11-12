@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import LineChart from "../../Common/Chart/LineChart.js";
 import { useSelector } from "react-redux";
 import "./style.scss";
+import { useHistory } from "react-router-dom";
 import {
   USER_IMAGE_BASE_URL,
   PROD_IMAGE_BASE_URL,
@@ -15,6 +16,7 @@ import postApi from "../../../api/postApi";
 import Spinner from "../../Common/Spinner";
 import { formatCurrency } from "../../../utils/formatCurrency";
 export default function Dashboard() {
+  const history = useHistory();
   //GET STATISTICAL DATA -- LOCAL STATE
   const [statisticalData, setStatisticalData] = useState({
     dataLoading: true,
@@ -25,6 +27,7 @@ export default function Dashboard() {
     topCustomers: [],
     topProds: [],
     prodPercentByCate: [],
+    favoriteProds: [],
   });
   const { userInfo } = useSelector((state) => state.authReducer);
   const {
@@ -36,7 +39,9 @@ export default function Dashboard() {
     topCustomers,
     topProds,
     prodPercentByCate,
+    favoriteProds,
   } = statisticalData;
+
   //GET DATA FOR STATISTICS
   const getStatisticalData = async () => {
     try {
@@ -53,6 +58,7 @@ export default function Dashboard() {
             dataLoading: false,
             totalNumbCustomers: res[0].data.totalNumbCustomers,
             totalNumbProds: res[1].data.totalNumbProds,
+            favoriteProds: res[1].data.favoriteProds,
             prodPercentByCate: res[1].data.prodPercentByCate,
             totalNumbPosts: res[2].data.totalNumbPosts,
             yearRevenue: res[3].data.yearRevenue,
@@ -113,7 +119,7 @@ export default function Dashboard() {
               </div>
             </div>
           </div>
-          <div className="dashboard__left__body-chart-title">Activity</div>
+          {/* <div className="dashboard__left__body-chart-title">Activity</div> */}
           <div className="dashboard__left__body-chart">
             <LineChart
               listLabels={[
@@ -173,13 +179,18 @@ export default function Dashboard() {
               className="dashboard__right__item__details"
             >
               <div className="dashboard__right__item__details-left">
-                <div className="item-image">
+                <div className="item-image product-image">
                   <img
                     src={PROD_IMAGE_BASE_URL + e.product.prodThumbnail}
                     alt={e.product.prodName}
                   />
                 </div>
-                <div className="item-name">{e.product.prodName}</div>
+                <div
+                  onClick={() => history.push(`/product/${e.product._id}`)}
+                  className="item-name"
+                >
+                  {e.product.prodName}
+                </div>
               </div>
 
               <div className="dashboard__right__item__details-right">
@@ -191,12 +202,12 @@ export default function Dashboard() {
       </div>
       <div className="dashboard__bottom">
         <div className="dashboard__bottom__chart">
-          <div className="dashboard__bottom__chart-title">Activity</div>
+          {/* <div className="dashboard__bottom__chart-title">Activity</div> */}
           <PieChart listData={prodPercentByCate} />
         </div>
         <div className="dashboard__bottom__chart">
-          <div className="dashboard__bottom__chart-title">Activity</div>
-          <BarChart />
+          {/* <div className="dashboard__bottom__chart-title">Activity</div> */}
+          <BarChart listData={favoriteProds} />
         </div>
       </div>
     </div>

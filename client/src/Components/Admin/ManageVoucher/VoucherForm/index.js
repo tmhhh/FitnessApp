@@ -14,7 +14,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
     vouExpired: new Date(),
     vouCode: "",
     vouDiscount: 0,
-    cateID: "",
+    // cateID: "",
   };
 
   // VALIDATION SCHEMA
@@ -34,7 +34,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
       .required("This field is required")
       .nullable()
       .moreThan(0, "Discount value must be larger than 0"),
-    cateID: yup.string().required("This field is required").nullable(),
+    // cateID: yup.string().required("This field is required").nullable(),
   });
   return (
     <Formik
@@ -82,7 +82,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               component={DatePickerField}
               // minDate={date}
             />
-            <FastField
+            {/* <FastField
               label="Choose category "
               required
               placeholder="List Of Categories ..."
@@ -90,7 +90,7 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               fieldType={0}
               component={SelectField}
               options={listCate}
-            />
+            /> */}
             <div
               style={{
                 marginTop: "40px",

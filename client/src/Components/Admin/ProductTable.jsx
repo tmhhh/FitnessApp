@@ -10,7 +10,13 @@ export default function ListTable({
 }) {
   return (
     <>
-      <Table striped bordered hover className="text-center align-middle">
+      <Table
+        responsive
+        striped
+        bordered
+        hover
+        className="text-center align-middle"
+      >
         <thead>
           <tr>
             <th>Thumbnail</th>
@@ -32,7 +38,7 @@ export default function ListTable({
               </td>
               <td>{item.prodName}</td>
               <td>{item.prodCategory?.cateFilter?.filterName}</td>
-//               <td>{item.prodCategory.cateFilter.filterName}</td>
+              // <td>{item.prodCategory.cateFilter.filterName}</td>
               <td>{formatCurrency(item.prodPrice)}</td>
               <td>{item.prodQuantity}</td>
               <td>{item.prodRating.star}</td>

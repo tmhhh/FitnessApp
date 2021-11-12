@@ -23,7 +23,7 @@ export default function PasswordForm() {
     >
       {(formmikProps) => {
         return (
-          <Form>
+          <Form className="position-relative">
             <FastField
               name="userPassword"
               className="w-50 "
@@ -32,8 +32,10 @@ export default function PasswordForm() {
               placeholder="Input your password"
               required
               component={InputField}
+              type="password"
             />
             <FastField
+              type="password"
               name="userConfirmPassword"
               className="w-50 "
               label="Confirm your password"
@@ -42,7 +44,12 @@ export default function PasswordForm() {
               required
               component={InputField}
             />
-            <Button type="submit" variant="primary">
+            <Button
+              style={{ right: "50%" }}
+              className="position-absolute"
+              type="submit"
+              variant="primary"
+            >
               Save Changes
             </Button>
           </Form>

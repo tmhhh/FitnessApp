@@ -47,12 +47,13 @@ module.exports = {
           path: "prodCategory.cateName",
         },
       });
+      // const updatedProducted
       const listRes = await Promise.all([billCheckout, foundUser]);
-      // const sendedEmail = await nodemailer(
-      //   listRes[1].userEmail,
-      //   totalPrice,
-      //   listItems
-      // );
+      const sendedEmail = await nodemailer.billConfirm(
+        listRes[1].userEmail,
+        addedBill,
+        listRes[0]._id
+      );
       //UPDATE USER CART
       for (const prod of listRes[1].userCart) {
         for (const item of listItems) {
@@ -172,10 +173,11 @@ module.exports = {
           }
         }
       }
-      topProds.sort((a, b) => b - a);
+      topProds.sort((a, b) => b.quantity - a.quantity);
       topProds = topProds.filter((e, index) => {
         if (index < 3) return true;
       });
+      console.log(topProds);
       return res.json({ isSuccess: true, yearRevenue, topCustomers, topProds });
     } catch (error) {
       console.log(error);

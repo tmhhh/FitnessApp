@@ -68,6 +68,7 @@ passport.use(
             userNameID: email,
             userName: name,
             userImage: picture,
+            userEmail: email,
           });
           // console.log({ addedUser });
           cb(null, addedUser);
@@ -161,6 +162,7 @@ passport.use(
             userNameID: email,
             userName: name,
             userImage: picture,
+            userEmail: email,
           });
           // console.log({ addedUser });
           cb(null, addedUser);

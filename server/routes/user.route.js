@@ -20,4 +20,8 @@ router.delete("/profile/food", verifyToken, userCtl.removeTrackingFood);
 
 //FOR STATISTIC PURPOSE
 router.get("/total", verifyToken, verifyAdmin, userCtl.getTotalNumbCustomers);
+
+//FAVORITE PRODUCT
+router.put("/favorite/add", verifyToken, userCtl.addFavoriteProduct);
+router.put("/favorite/remove", verifyToken, userCtl.removeFavoriteProduct);
 module.exports = router;

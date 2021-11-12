@@ -75,7 +75,7 @@ export default function ShippingForm({
         };
 
         //
-        const getWardsByProvinceID = async () => {
+        const getWardsByDistrictID = async () => {
           try {
             const res = await axios.get(address_API_config.ward_API_URL, {
               headers: {
@@ -86,7 +86,7 @@ export default function ShippingForm({
               },
             });
             console.log(res.data.data);
-            setAddressData({ ...addressData, wardsData: res.data.data });
+            setAddressData({ ...addressData, wardsData: res.data.data || [] });
           } catch (error) {
             console.log(error);
           }
@@ -99,7 +99,7 @@ export default function ShippingForm({
         }
         if (parseInt(values.district) !== 0 && touched.district === true) {
           touched.district = false;
-          getWardsByProvinceID();
+          getWardsByDistrictID();
         }
         return (
           <Form>

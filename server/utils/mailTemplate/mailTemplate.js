@@ -1,329 +1,459 @@
-module.exports = `<body>
-<center class="wrapper" data-link-color="#1188E6" data-body-style="font-size:14px; font-family:inherit; color:#000000; background-color:#f0f0f0;">
-  <div class="webkit">
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="wrapper" bgcolor="#f0f0f0">
-      <tbody><tr>
-        <td valign="top" bgcolor="#f0f0f0" width="100%">
-          <table width="100%" role="content-container" class="outer" align="center" cellpadding="0" cellspacing="0" border="0">
-            <tbody><tr>
-              <td width="100%">
-                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                  <tbody><tr>
-                    <td>
-                      <!--[if mso]>
-<center>
-<table><tr><td width="600">
-<![endif]-->
-                              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;" align="center">
-                                <tbody><tr>
-                                  <td role="modules-container" style="padding:0px 0px 0px 0px; color:#000000; text-align:left;" bgcolor="#ffffff" width="100%" align="left"><table class="module preheader preheader-hide" role="module" data-type="preheader" border="0" cellpadding="0" cellspacing="0" width="100%" style="display: none !important; mso-hide: all; visibility: hidden; opacity: 0; color: transparent; height: 0; width: 0;">
-<tbody><tr>
-<td role="module-content">
-  <p></p>
-</td>
-</tr>
-</tbody></table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:30px 20px 40px 30px;" bgcolor="#77dedb">
-<tbody>
-<tr role="module-content">
-  <td height="100%" valign="top">
-    <table class="column" width="550" style="width:550px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="b422590c-5d79-4675-8370-a10c2c76af02">
-<tbody>
-<tr>
-  <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="left">
-    <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;" width="140" alt="" data-proportionally-constrained="true" data-responsive="false" src="" height="40">
-  </td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="1995753e-0c64-4075-b4ad-321980b82dfe">
-<tbody>
-<tr>
-  <td style="padding:100px 0px 18px 0px; line-height:36px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="color: #ffffff; font-size: 40px; font-family: inherit">Thank you for your order!</span></div><div></div></div></td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="2ffbd984-f644-4c25-9a1e-ef76ac62a549">
-<tbody>
-<tr>
-  <td style="padding:18px 20px 20px 0px; line-height:24px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="font-size: 24px">Now you can relax. We're workin on</span></div>
-<div style="font-family: inherit; text-align: inherit"><span style="font-size: 24px">getting your food to you ASAP!</span></div><div></div></div></td>
-</tr>
-</tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="69fc33ea-7c02-45ed-917a-b3b8a6866e89">
-<tbody>
-  <tr>
-    <td align="left" bgcolor="" class="outer-td" style="padding:0px 0px 0px 0px;">
-      <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
-        <tbody>
+module.exports = {
+  billConfirm: (bill, billID) => {
+    const imgURL = "https://apiserver-fitnessapp.herokuapp.com/img/products/";
+    today = new Date();
+    estimatedDate = new Date(today.getTime() + 36 * 60 * 60 * 1000);
+
+    return `
+  <body style="margin: 0 !important; padding: 0 !important; background-color: #eeeeee;" bgcolor="#eeeeee">
+      <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Open Sans, Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+          For what reason would it be advisable for me to think about business content? That might be little bit risky to have crew member like them.
+      </div>
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
           <tr>
-          <td align="center" bgcolor="#000000" class="inner-td" style="border-radius:6px; font-size:16px; text-align:left; background-color:inherit;">
-            <a href="" style="background-color:#000000; border:1px solid #000000; border-color:#000000; border-radius:0px; border-width:1px; color:#ffffff; display:inline-block; font-size:18px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid; font-family:inherit;" target="_blank">Follow Your Delivery</a>
-          </td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-    
-  </td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="8b5181ed-0827-471c-972b-74c77e326e3d">
-<tbody>
-<tr>
-  <td style="padding:30px 20px 18px 30px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit"><span style="color: #0055ff; font-size: 24px">Order Summary</span></div><div></div></div></td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="f7373f10-9ba4-4ca7-9a2e-1a2ba700deb9">
-<tbody>
-<tr>
-  <td style="padding:0px 30px 0px 30px;" role="module-content" height="100%" valign="top" bgcolor="">
-    <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" height="3px" style="line-height:3px; font-size:3px;">
-      <tbody>
-        <tr>
-          <td style="padding:0px 0px 3px 0px;" bgcolor="#e7e7e7"></td>
-        </tr>
-      </tbody>
-    </table>
-  </td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="264ee24b-c2b0-457c-a9c1-d465879f9935">
-<tbody>
-<tr>
-  <td style="padding:18px 20px 18px 30px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit">Transaction Number: NT029811</div>
-<div style="font-family: inherit; text-align: inherit"><span style="color: #0055ff"><strong>Expected Delivery Time: 9:50 - 10:15 PM</strong></span></div>
-<div style="font-family: inherit; text-align: inherit"><br></div>
-<div style="font-family: inherit; text-align: inherit">Monday, July 26, 2019 &nbsp;9:34 PM</div>
-<div style="font-family: inherit; text-align: inherit">Order From: Saigon Baguette Co.</div>
-<div style="font-family: inherit; text-align: inherit">Irvine, California&nbsp;</div><div></div></div></td>
-</tr>
-</tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:20px 20px 0px 30px;" bgcolor="#FFFFFF">
-<tbody>
-<tr role="module-content">
-  <td height="100%" valign="top">
-    <table class="column" width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="239f10b7-5807-4e0b-8f01-f2b8d25ec9d7">
-<tbody>
-<tr>
-  <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="left">
-    <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;" width="104" alt="" data-proportionally-constrained="true" data-responsive="false" src="http://cdn.mcauto-images-production.sendgrid.net/954c252fedab403f/f812833d-a1d7-4e7f-b5dd-8607415f078b/104x104.png" height="104">
-  </td>
-</tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-    <table class="column" width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="f404b7dc-487b-443c-bd6f-131ccde745e2">
-<tbody>
-<tr>
-  <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit">Veggie Bahn Mi Sandwich</div>
-<div style="font-family: inherit; text-align: inherit"><br></div>
-<div style="font-family: inherit; text-align: inherit"><span style="color: #0055ff">$9.49&nbsp;</span></div><div></div></div></td>
-</tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-  <table width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-2">
-<tbody>
-  <tr>
-    <td style="padding:0px;margin:0px;border-spacing:0;"></td>
-  </tr>
-</tbody>
-</table><table width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-3">
-<tbody>
-  <tr>
-    <td style="padding:0px;margin:0px;border-spacing:0;"></td>
-  </tr>
-</tbody>
-</table></td>
-</tr>
-</tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:20px 20px 0px 30px;" bgcolor="#FFFFFF">
-<tbody>
-<tr role="module-content">
-  <td height="100%" valign="top">
-    <table class="column" width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="wrapper" role="module" data-type="image" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="239f10b7-5807-4e0b-8f01-f2b8d25ec9d7.1">
-<tbody>
-<tr>
-  <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="left">
-    <img class="max-width" border="0" style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;" width="104" alt="" data-proportionally-constrained="true" data-responsive="false" src="http://cdn.mcauto-images-production.sendgrid.net/954c252fedab403f/fcc12b6b-1d51-4693-8bf6-d7dbbb224010/104x104.png" height="104">
-  </td>
-</tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-    <table class="column" width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="f404b7dc-487b-443c-bd6f-131ccde745e2.1">
-<tbody>
-<tr>
-  <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit">Vietnamese Iced Coffee w/ Boba</div>
-<div style="font-family: inherit; text-align: inherit"><br></div>
-<div style="font-family: inherit; text-align: inherit"><span style="color: #0055ff">$2.49&nbsp;</span></div><div></div></div></td>
-</tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-  <table width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-2">
-<tbody>
-  <tr>
-    <td style="padding:0px;margin:0px;border-spacing:0;"></td>
-  </tr>
-</tbody>
-</table><table width="137" style="width:137px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-3">
-<tbody>
-  <tr>
-    <td style="padding:0px;margin:0px;border-spacing:0;"></td>
-  </tr>
-</tbody>
-</table></td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="divider" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="f7373f10-9ba4-4ca7-9a2e-1a2ba700deb9.1">
-<tbody>
-<tr>
-  <td style="padding:20px 30px 0px 30px;" role="module-content" height="100%" valign="top" bgcolor="">
-    <table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" height="3px" style="line-height:3px; font-size:3px;">
-      <tbody>
-        <tr>
-          <td style="padding:0px 0px 3px 0px;" bgcolor="E7E7E7"></td>
-        </tr>
-      </tbody>
-    </table>
-  </td>
-</tr>
-</tbody>
-</table><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="264ee24b-c2b0-457c-a9c1-d465879f9935.1">
-<tbody>
-<tr>
-  <td style="padding:18px 20px 30px 30px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: inherit">Subtotal - $11.98</div>
-<div style="font-family: inherit; text-align: inherit">Taxes - $1.27</div>
-<div style="font-family: inherit; text-align: inherit">Delivery Charges - $1.99</div>
-<div style="font-family: inherit; text-align: inherit">Driver Tips - $2.49</div>
-<div style="font-family: inherit; text-align: inherit"><br>
-Grand Total&nbsp;</div>
-<div style="font-family: inherit; text-align: inherit"><br></div>
-<div style="font-family: inherit; text-align: inherit"><span style="color: #0055ff; font-size: 32px; font-family: inherit">$17.73</span></div><div></div></div></td>
-</tr>
-</tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" align="center" width="100%" role="module" data-type="columns" style="padding:0px 20px 0px 20px;" bgcolor="#0055ff">
-<tbody>
-<tr role="module-content">
-  <td height="100%" valign="top">
-    <table class="column" width="140" style="width:140px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9d43ffa1-8e24-438b-9484-db553cf5b092">
-<tbody>
-<tr>
-  <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><a href="http://"><span style="color: #ffffff">Support</span></a></div><div></div></div></td>
-</tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-    <table class="column" width="140" style="width:140px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="">
-      <tbody>
-        <tr>
-          <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9d43ffa1-8e24-438b-9484-db553cf5b092.1">
-<tbody>
-<tr>
-  <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><a href="http://"><span style="color: #ffffff">Contact Us</span></a></div><div></div></div></td>
-</tr>
-</tbody>
-</table></td>
-        </tr>
-      </tbody>
-    </table>
-  <table width="140" style="width:140px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-2">
-<tbody>
-  <tr>
-    <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9d43ffa1-8e24-438b-9484-db553cf5b092.1.1">
-<tbody>
-<tr>
-  <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><a href="http://"><span style="color: #ffffff">Drivers</span></a></div><div></div></div></td>
-</tr>
-</tbody>
-</table></td>
-  </tr>
-</tbody>
-</table><table width="140" style="width:140px; border-spacing:0; border-collapse:collapse; margin:0px 0px 0px 0px;" cellpadding="0" cellspacing="0" align="left" border="0" bgcolor="" class="column column-3">
-<tbody>
-  <tr>
-    <td style="padding:0px;margin:0px;border-spacing:0;"><table class="module" role="module" data-type="text" border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed;" data-muid="9d43ffa1-8e24-438b-9484-db553cf5b092.1.1.1">
-<tbody>
-<tr>
-  <td style="padding:18px 0px 18px 0px; line-height:22px; text-align:inherit;" height="100%" valign="top" bgcolor="" role="module-content"><div><div style="font-family: inherit; text-align: center"><a href="http://"><span style="color: #ffffff">Legal</span></a></div><div></div></div></td>
-</tr>
-</tbody>
-</table></td>
-  </tr>
-</tbody>
-</table></td>
-</tr>
-</tbody>
-</table><div data-role="module-unsubscribe" class="module" role="module" data-type="unsubscribe" style="background-color:#0055ff; color:#ffffff; font-size:12px; line-height:20px; padding:16px 16px 16px 16px; text-align:Center;" data-muid="4e838cf3-9892-4a6d-94d6-170e474d21e5">
-                                      <div class="Unsubscribe--addressLine"><p class="Unsubscribe--senderName" style="font-size:12px; line-height:20px;">{{Sender_Name}}</p><p style="font-size:12px; line-height:20px;"><span class="Unsubscribe--senderAddress">{{Sender_Address}}</span>, <span class="Unsubscribe--senderCity">{{Sender_City}}</span>, <span class="Unsubscribe--senderState">{{Sender_State}}</span> <span class="Unsubscribe--senderZip">{{Sender_Zip}}</span></p></div>
-                                      <p style="font-size:12px; line-height:20px;"><a class="Unsubscribe--unsubscribeLink" href="{{{unsubscribe}}}" target="_blank" style="color:#77dedb;">Unsubscribe</a> - <a href="{{{unsubscribe_preferences}}}" target="_blank" class="Unsubscribe--unsubscribePreferences" style="color:#77dedb;">Unsubscribe Preferences</a></p>
-                                    </div><table border="0" cellpadding="0" cellspacing="0" class="module" data-role="module-button" data-type="button" role="module" style="table-layout:fixed;" width="100%" data-muid="e5cea269-a730-4c6b-8691-73d2709adc62">
-<tbody>
-  <tr>
-    <td align="center" bgcolor="0055FF" class="outer-td" style="padding:0px 0px 20px 0px;">
-      <table border="0" cellpadding="0" cellspacing="0" class="wrapper-mobile" style="text-align:center;">
-        <tbody>
-          <tr>
-          <td align="center" bgcolor="#f5f8fd" class="inner-td" style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;"><a href="https://www.sendgrid.com/?utm_source=powered-by&utm_medium=email" style="background-color:#f5f8fd; border:1px solid #f5f8fd; border-color:#f5f8fd; border-radius:25px; border-width:1px; color:#a8b9d5; display:inline-block; font-size:10px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:5px 18px 5px 18px; text-align:center; text-decoration:none; border-style:solid; font-family:helvetica,sans-serif;" target="_blank">♥ POWERED BY TWILIO SENDGRID</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-  </tr>
-</tbody>
-</table></td>
+              <td align="center" style="background-color: #eeeeee;" bgcolor="#eeeeee">
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                      <tr>
+                          <td align="left" valign="top" style="font-size:0; padding: 35px;" bgcolor="#333">
+                              <div style="display:block;; min-width:100px; vertical-align:top; width:100%;">
+                                  <table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:300px;">
+                                      <tr>
+                                          <td align="left" valign="top" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 36px; font-weight: 800; line-height: 48px;" class="mobile-center">
+                                              <h1 style="font-size: 36px; font-weight: 800; margin: 0; color: #ffffff;">HHT</h1>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </div>
+                              
+                          </td>
+                      </tr>
+                      <tr>
+                          <td align="center" style="padding: 35px 35px 20px 35px; background-color: #ffffff;" bgcolor="#ffffff">
+                              <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                                  <tr>
+                                      <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;"> <img src="https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png" width="125" height="120" style="display: block; border: 0px;" /><br>
+                                          <h2 style="font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;"> Thank You For Your Order! </h2>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 10px;">
+                                          <p style="font-size: 16px; font-weight: 400; line-height: 24px; color: #777777;"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Praesentium iste ipsa numquam odio dolores, nam. </p>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td align="left" style="padding-top: 20px;">
+                                          <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                              <tr>
+                                                  <td width="75%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> Order Confirmation # </td>
+                                                  <td width="25%" align="left" bgcolor="#eeeeee" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;"> #${billID.toString()} </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="75%" align="left" style="color: #333;font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 15px 10px 5px 10px;"> Purchased Item (${
+                                                    bill.listItems.length
+                                                  })
+                                                </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 15px 10px 5px 10px; border-bottom: 1px solid black;"> $${
+                                                    bill.price.subTotal
+                                                  } </td>
+                                              </tr>
+                                              ${bill.listItems.map(
+                                                (e) =>
+                                                  `<tr>
+                                                   <td style="align-items:center; margin-left: 20px; padding: 15px 5px 10px 5px; display: flex; font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 600;color: #333; line-height: 24px">
+                                                  <img alt="Logo" title="Logo" style="" heigh="30" width="50" src="
+                                                    cid:${e.product._id.toString()}
+                                                  "/>${e.product.prodName}
+                                                   </td>
+                                                   <td style= "padding: 15px 10px 5px
+                                                   ;font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; line-height: 24px;">
+                                                $${e.product.prodPrice} x(${
+                                                    e.quantity
+                                                  })</td>
+                                                </tr>`
+                                              )}
+                                               <tr>
+                                                  <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700;color: #333; line-height: 24px; padding: 5px 10px;"> Shipping  </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 5px 10px;"> $${
+                                                    bill.price.shippingFee
+                                                  } </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700;color: #333; line-height: 24px; padding: 5px 10px;"> Discount </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 5px 10px;"> ${
+                                                    bill.price.discount
+                                                  } </td>
+                                              </tr>
+                                              <tr>
+                                                  <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700;color: #333; line-height: 24px; padding: 5px 10px;"> Payment Method </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 5px 10px;"> ${
+                                                    bill.paymentMethod === "COD"
+                                                      ? "COD"
+                                                      : "Paypal"
+                                                  } </td>
+                                              </tr>
+                                          </table>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                                      <td align="left" style="padding-top: 20px;">
+                                          <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                              <tr>
+                                                  <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> TOTAL </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> $${
+                                                    bill.price.totalPrice
+                                                  } </td>
+                                              </tr>
+                                          </table>
+                                      </td>
+                                  </tr>
+                                  <tr>
+                        <td align="center" style=" padding: 35px; background-color: #ff7361;" bgcolor="#1b9ba3">
+                            <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;">
+                                <tr>
+                                    <td align="center" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;">
+                                        <h2 style="font-size: 24px; font-weight: 800; line-height: 30px; color: #ffffff; margin: 0;"> Get 30% off your next order. </h2>
+                                    </td>
                                 </tr>
-                              </tbody></table>
-                              <!--[if mso]>
-                            </td>
-                          </tr>
-                        </table>
-                      </center>
-                      <![endif]-->
-                    </td>
-                  </tr>
-                </tbody></table>
+                                <tr>
+                                    <td align="center" style="padding: 25px 0 15px 0;">
+                                        <table border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td align="center" style="border-radius: 5px;" bgcolor="#66b3b7"> <a href="localhost://localhost:3000/shopping" target="_blank" style="font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #F44336; padding: 15px 30px; border: 1px solid #F44336; display: block;">Shop Again</a> </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                              </table>
+                          </td>
+                      </tr>
+                  </table>
               </td>
-            </tr>
-          </tbody></table>
-        </td>
-      </tr>
-    </tbody></table>
-  </div>
-</center>
+          </tr>
+      </table>
+  </body>`;
+  },
+  discountNoti: (
+    name,
+    discountValue,
+    discountCode,
+    expired
+  ) => `<body style="background-color:#fff;margin:0;padding:0;-webkit-text-size-adjust:none;text-size-adjust:none">
+  <table class="nl-container" width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation"
+      style="mso-table-lspace:0;mso-table-rspace:0;background-color:#fff">
+      <tbody>
+          <tr>
+              <td>
+                  <table class="row row-1" align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
+                      role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#eae3dd">
+                      <tbody>
+                          <tr>
+                              <td>
 
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <table class="row row-2" align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
+                      role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#eae3dd">
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <table class="row-content stack" align="center" border="0" cellpadding="0"
+                                      cellspacing="0" role="presentation"
+                                      style="mso-table-lspace:0;mso-table-rspace:0;background-color:#892c63;color:#000"
+                                      width="600">
+                                      <tbody>
+                                          <tr>
+                                              <th class="column" width="100%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-top:0;padding-bottom:0;border-top:0;border-right:0;border-bottom:0;border-left:0">
+                                                  <table class="image_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td
+                                                              style="padding-top:20px;width:100%;padding-right:0;padding-left:0">
+                                                              <div align="center" style="line-height:10px"><img
+                                                                      class="big"
+                                                                      src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/69/Coupon_header.png"
+                                                                      style="display:block;height:auto;border:0;width:600px;max-width:100%"
+                                                                      width="600" alt="Image" title="Image"></div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                                  <table class="button_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td style="padding-bottom:30px;text-align:center">
+                                                              <div align="center">
+                                                                  <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:52px;width:195px;v-text-anchor:middle;" arcsize="0%" stroke="false" fillcolor="#FFFFFF"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#892C63; font-family:Arial, sans-serif; font-size:16px"><![endif]-->
+                                                                  <div
+                                                                      style="text-decoration:none;display:inline-block;color:#892c63;background-color:#fff;border-radius:0;width:auto;border-top:1px solid #fff;border-right:1px solid #fff;border-bottom:1px solid #fff;border-left:1px solid #fff;padding-top:10px;padding-bottom:10px;font-family:Arial,Helvetica Neue,Helvetica,sans-serif;text-align:center;mso-border-alt:none;word-break:keep-all">
+                                                                      <a href="http://localhost:4000"
+                                                                          style="text-decoration:none;color:black;padding-left:25px;padding-right:25px;font-size:16px;display:inline-block;letter-spacing:normal;font-weight:700"><span
+                                                                              style="font-size:16px;line-height:2;word-break:break-word;mso-line-height-alt:32px"><span
+                                                                                  style="cursor:pointer;font-size:16px;line-height:32px"
+                                                                                  data-mce-style="font-size: 16px; line-height: 32px;">VISIT
+                                                                                  OUR WEBSITE</span></span></a>
+                                                                  </div>
+                                                                  <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
+                                                              </div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                              </th>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <table class="row row-3" align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
+                      role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#eae3dd">
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <table class="row-content stack" align="center" border="0" cellpadding="0"
+                                      cellspacing="0" role="presentation"
+                                      style="mso-table-lspace:0;mso-table-rspace:0;background-color:#ededed;color:#333"
+                                      width="600">
+                                      <tbody>
+                                          <tr>
+                                              <th class="column" width="33.333333333333336%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;border-top:0;border-right:0;border-bottom:0;border-left:0">
+                                                  <table class="image_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td
+                                                              style="width:100%;padding-right:0;padding-left:0;padding-top:15px;padding-bottom:15px">
+                                                              <div align="center" style="line-height:10px"><img
+                                                                      src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/69/247support(0).jpg"
+                                                                      style="display:block;height:auto;border:0;width:180px;max-width:100%"
+                                                                      width="180" alt="Image" title="Image"></div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                              </th>
+                                              <th class="column" width="33.333333333333336%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;border-top:0;border-right:0;border-bottom:0;border-left:0">
+                                                  <table class="image_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td
+                                                              style="width:100%;padding-right:0;padding-left:0;padding-top:15px;padding-bottom:15px">
+                                                              <div align="center" style="line-height:10px"><img
+                                                                      src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/69/freedelivery(1).jpg"
+                                                                      style="display:block;height:auto;border:0;width:180px;max-width:100%"
+                                                                      width="180" alt="Image" title="Image"></div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                              </th>
+                                              <th class="column" width="33.333333333333336%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-left:10px;padding-right:10px;border-top:0;border-right:0;border-bottom:0;border-left:0">
+                                                  <table class="image_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td
+                                                              style="width:100%;padding-right:0;padding-left:0;padding-top:15px;padding-bottom:15px">
+                                                              <div align="center" style="line-height:10px"><img
+                                                                      src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/69/todaysdeal(0).jpg"
+                                                                      style="display:block;height:auto;border:0;width:180px;max-width:100%"
+                                                                      width="180" alt="Image" title="Image"></div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                              </th>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <table class="row row-4" align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
+                      role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#eae3dd">
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <table class="row-content stack" align="center" border="0" cellpadding="0"
+                                      cellspacing="0" role="presentation"
+                                      style="mso-table-lspace:0;mso-table-rspace:0;background-color:#fff;color:#333"
+                                      width="600">
+                                      <tbody>
+                                          <tr>
+                                              <th class="column" width="100%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-top:0;padding-bottom:0;border-top:0;border-right:0;border-bottom:0;border-left:0">
+                                                  <table class="text_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+                                                      <tr>
+                                                          <td
+                                                              style="padding-bottom:10px;padding-left:20px;padding-right:20px;padding-top:20px">
+                                                              <div style="font-family:sans-serif">
+                                                                  <div
+                                                                      style="font-size:12px;font-family:Arial,Helvetica Neue,Helvetica,sans-serif;mso-line-height-alt:14.399999999999999px;color:#892c63;line-height:1.2">
+                                                                      <p style="margin:0;font-size:18px"><strong><span
+                                                                                  style="font-size:14px">Hello
+                                                                                  ${name},
 
-</body>`;
+                                                                              </span></strong></p>
+                                                                  </div>
+                                                              </div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                                  <table class="text_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0;word-break:break-word">
+                                                      <tr>
+                                                          <td
+                                                              style="padding-bottom:20px;padding-left:20px;padding-right:20px">
+                                                              <div style="font-family:sans-serif">
+                                                                  <div
+                                                                      style="font-size:12px;font-family:Arial,Helvetica Neue,Helvetica,sans-serif;mso-line-height-alt:18px;color:#555;line-height:1.5">
+                                                                      <p
+                                                                          style="margin:0;font-size:12px;mso-line-height-alt:21px">
+                                                                          <span style="font-size:14px">We’re so happy
+                                                                              to have you on board! As a thank you,
+                                                                              we’ve got a special <span style="font-weight:700">${discountValue}%</span>
+                                                                              discount for
+                                                                              you. Use <span style="font-weight:700"> ${discountCode}. </span>
+                                                                              The offer is valid until <span style="font-weight:700">${expired.toLocaleDateString()}</span> and
+                                                                              limited !!! Hope
+                                                                              you’ll enjoy it!
+
+                                                                          </span>
+
+                                                                          <p style="font-size:16px;font-weight:700">Best,HHT.</p>
+                                                                      </p>
+                                                                  </div>
+                                                              </div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                              </th>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <table class="row row-5" align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
+                      role="presentation" style="mso-table-lspace:0;mso-table-rspace:0;background-color:#eae3dd">
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <table class="row-content stack" align="center" border="0" cellpadding="0"
+                                      cellspacing="0" role="presentation"
+                                      style="mso-table-lspace:0;mso-table-rspace:0;background-color:#eae3dd;color:#000"
+                                      width="600">
+                                      <tbody>
+                                          <tr>
+                                              <th class="column" width="100%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-top:0;padding-bottom:0;border-top:0;border-right:0;border-bottom:0;border-left:0">
+                                                  <table class="divider_block" width="100%" border="0"
+                                                      cellpadding="10" cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td>
+                                                              <div align="center">
+                                                                  <table border="0" cellpadding="0" cellspacing="0"
+                                                                      role="presentation" width="100%"
+                                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                                      <tr>
+                                                                          <td class="divider_inner"
+                                                                              style="font-size:1px;line-height:1px;border-top:0 solid #bbb">
+                                                                              <span>&#8202;</span>
+                                                                          </td>
+                                                                      </tr>
+                                                                  </table>
+                                                              </div>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                                  <table class="social_block" width="100%" border="0" cellpadding="0"
+                                                      cellspacing="0" role="presentation"
+                                                      style="mso-table-lspace:0;mso-table-rspace:0">
+                                                      <tr>
+                                                          <td
+                                                              style="padding-bottom:20px;padding-left:10px;padding-right:10px;padding-top:10px;text-align:center">
+                                                              <table class="social-table" width="126px" border="0"
+                                                                  cellpadding="0" cellspacing="0" role="presentation"
+                                                                  align="center"
+                                                                  style="mso-table-lspace:0;mso-table-rspace:0">
+                                                                  <tr>
+                                                                      <td style="padding:0 10px 0 0"><a
+                                                                              href="https://www.facebook.com/"
+                                                                              target="_blank"><img
+                                                                                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/facebook.png"
+                                                                                  width="32" height="32"
+                                                                                  alt="Facebook" title="Facebook"
+                                                                                  style="display:block;height:auto;border:0"></a>
+                                                                      </td>
+                                                                      <td style="padding:0 10px 0 0"><a
+                                                                              href="http://twitter.com/"
+                                                                              target="_blank"><img
+                                                                                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/twitter.png"
+                                                                                  width="32" height="32" alt="Twitter"
+                                                                                  title="Twitter"
+                                                                                  style="display:block;height:auto;border:0"></a>
+                                                                      </td>
+                                                                      <td style="padding:0 10px 0 0"><a
+                                                                              href="http://plus.google.com/"
+                                                                              target="_blank"><img
+                                                                                  src="https://app-rsrc.getbee.io/public/resources/social-networks-icon-sets/circle-color/googleplus.png"
+                                                                                  width="32" height="32" alt="Google+"
+                                                                                  title="Google+"
+                                                                                  style="display:block;height:auto;border:0"></a>
+                                                                      </td>
+                                                                  </tr>
+                                                              </table>
+                                                          </td>
+                                                      </tr>
+                                                  </table>
+                                              </th>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <table class="row row-6" align="center" width="100%" border="0" cellpadding="0" cellspacing="0"
+                      role="presentation" style="mso-table-lspace:0;mso-table-rspace:0">
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <table class="row-content stack" align="center" border="0" cellpadding="0"
+                                      cellspacing="0" role="presentation"
+                                      style="mso-table-lspace:0;mso-table-rspace:0;color:#000" width="600">
+                                      <tbody>
+                                          <tr>
+                                              <th class="column" width="100%"
+                                                  style="mso-table-lspace:0;mso-table-rspace:0;font-weight:400;text-align:left;vertical-align:top;padding-top:5px;padding-bottom:5px;border-top:0;border-right:0;border-bottom:0;border-left:0">
+
+                                              </th>
+                                          </tr>
+                                      </tbody>
+                                  </table>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </td>
+          </tr>
+      </tbody>
+  </table><!-- End -->
+</body>
+
+</html>`,
+};

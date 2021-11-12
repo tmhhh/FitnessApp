@@ -3,7 +3,7 @@ import { Pie } from "react-chartjs-2";
 
 const PieChart = ({ listData }) => {
   const data = {
-    labels: ["Supplement", "Equipment", "Cloth"],
+    labels: ["Supplement", "Equipment", "Cloth"], // CAN OPTIMIZE
     datasets: [
       {
         label: "# of Votes",
@@ -20,6 +20,15 @@ const PieChart = ({ listData }) => {
       y: {
         display: false,
         // beginAtZero: true,
+      },
+    },
+    plugins: {
+      title: {
+        display: true,
+        text: "PRODUCT BY CATEGORY",
+        font: {
+          size: 20,
+        },
       },
     },
   };

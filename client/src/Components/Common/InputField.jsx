@@ -53,12 +53,12 @@ export default function InputField(props) {
               id={name}
               onChange={type === "file" ? onFileChange : onChange}
               value={
-              type !== "file"
-                ? value
-                : value instanceof File
-                ? value
-                : undefined
-            }
+                type !== "file"
+                  ? value
+                  : value instanceof File
+                  ? value
+                  : undefined
+              }
               as={asType}
               type={type}
               placeholder={placeholder}
@@ -85,8 +85,9 @@ export default function InputField(props) {
         </Form.Group>
       ) : (
         <div
-          class={
-            className ? className + "custom__input mt-4" : "custom__input mt-4"
+          style={{ marginBottom: "20px" }}
+          className={
+            className ? className + "custom__input " : "custom__input "
           }
         >
           <input
@@ -97,16 +98,15 @@ export default function InputField(props) {
                   : "input__field "
               }  ${error ? "is-invalid input__field " : ""}`}
             {...field}
-
             // className="input__field is-invalid"
             name={name}
-            type="text"
+            type={type}
             onChange={onChange}
             placeholder={placeholder}
             disabled={disabled}
           />
           <span className="input__state-icon"> </span>
-          {label && <p class="input__label">{label}</p>}
+          {label && <p className="input__label">{label}</p>}
           {error ? (
             <div
               style={{

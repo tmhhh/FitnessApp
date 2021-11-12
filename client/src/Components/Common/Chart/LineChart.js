@@ -16,12 +16,16 @@ const LineChart = ({ listData, listLabels }) => {
   };
 
   const options = {
-    // plugins: {
-    //   title: {
-    //     display: true,
-    //     text: "TEXT",
-    //   },
-    // },
+    plugins: {
+      title: {
+        display: true,
+        text: "REVENUE BY MONTHS",
+        font: {
+          size: 20,
+        },
+      },
+    },
+
     scales: {
       x: {
         display: true,

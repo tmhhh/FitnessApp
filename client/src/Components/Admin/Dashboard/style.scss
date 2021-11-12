@@ -81,7 +81,8 @@
       &__item {
         &-title {
           font-size: 2.5rem;
-          font-weight: 700;
+          font-weight: 500;
+          text-transform: capitalize;
           margin-bottom: 20px;
         }
         .dashboard__right__item__details {
@@ -107,11 +108,14 @@
                 object-fit: cover;
               }
             }
+            .product-image {
+              border-radius: 0;
+            }
             .item-name {
               // margin-right: 20px;
 
               font-size: 1.5rem;
-              font-weight: 750;
+              font-weight: 700;
               color: black;
             }
           }

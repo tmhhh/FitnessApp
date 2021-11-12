@@ -20,6 +20,7 @@ app.use(
   cors({
     credentials: true,
     origin: "http://localhost:3000",
+    // origin:"https://cdd7-171-250-98-85.ngrok.io"
   })
 );
 app.use(express.urlencoded({ extended: true }));

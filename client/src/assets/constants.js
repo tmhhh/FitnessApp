@@ -21,12 +21,10 @@ export const address_API_config = {
 export const BASE_API_URL = `http://localhost:4000/api`;
 // export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
 
-export const PROD_IMAGE_BASE_URL = `http://localhost:4000/img/products/`;
-export const USER_IMAGE_BASE_URL = `http://localhost:4000/img/users/`;
-export const BASE_IMAGE_BASE_URL = `http://localhost:4000/img/base/`;
-// export const PROD_IMAGE_BASE_URL = `https://apiserver-fitnessapp.herokuapp.com/img/products/`;
-
 const PUBLIC_URL = `http://localhost:4000`;
+export const PROD_IMAGE_BASE_URL = `${PUBLIC_URL}/img/products/`;
+export const USER_IMAGE_BASE_URL = `${PUBLIC_URL}/img/users/`;
+export const BASE_IMAGE_BASE_URL = `${PUBLIC_URL}/img/base/`;
 
 export const fetchProductImage = (name) => PUBLIC_URL + `/img/products/${name}`;
 export const fetchUserImage = (name) => PUBLIC_URL + `/img/users/${name}`;

@@ -18,7 +18,23 @@
 
 }
 }
+.nav-tabs{
+  button{
+font-weight:600;
+font-size:1.3rem  }
+}
+.spinner-border{
+  width:4rem;
+  height:4rem;
+  border:0.5rem solid !important;
+  border-right: 0.5rem solid transparent !important;
+}
 
+.toast{
+
+  // padding:1rem !important;
+  font-size:1.5rem !important
+}
 .btn{
   font-size:1.3rem !important;
   padding:1rem ;

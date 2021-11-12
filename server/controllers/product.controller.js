@@ -98,6 +98,8 @@ module.exports = {
         .find()
         .populate("prodCategory.cateName");
       const totalNumbProds = listProds.length;
+
+      //GET PRODUCT FILTERED BY CATEGORY (IN %)
       const prodNumbByCate = {
         supplement: 0,
         equipment: 0,
@@ -116,10 +118,19 @@ module.exports = {
         (prodNumbByCate.equipment / totalNumbProds) * 100,
         (prodNumbByCate.cloth / totalNumbProds) * 100,
       ];
+
+      //GET TOP 5 FAVORITE PRODUCTS
+      listProds.sort(
+        (a, b) => b.prodRating.favorite_count - a.prodRating.favorite_count
+      );
+
+      const favoriteProds = listProds.filter((e, index) => index < 5);
+
       return res.status(200).json({
         isSuccess: true,
         totalNumbProds,
         prodPercentByCate,
+        favoriteProds,
       });
     } catch (error) {
       console.log(error);

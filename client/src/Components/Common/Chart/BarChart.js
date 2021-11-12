@@ -1,31 +1,40 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 
-const data = {
-  labels: ["1", "2", "3", "4", "5", "6"],
-  datasets: [
-    {
-      label: "# of Votes",
-      data: [12, 19, 3, 5, 2, 3],
-      fill: false,
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgba(255, 99, 132, 0.2)",
+const BarChart = ({ listData }) => {
+  const data = {
+    labels: listData.map((e) => e.prodName),
+    datasets: [
+      {
+        label: "Favorite Count",
+        data: listData.map((e) => e.prodRating.favorite_count),
+        fill: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: "Top Favorite Products ",
+        font: {
+          size: 20,
+        },
+      },
     },
-  ],
-};
-
-const options = {
-  scales: {
-    y: {
-      beginAtZero: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: "Number",
+        },
+      },
     },
-  },
+  };
+  return <Bar data={data} options={options} />;
 };
-
-const BarChart = () => (
-  <>
-    <Bar data={data} options={options} />
-  </>
-);
-
 export default BarChart;

@@ -4,6 +4,7 @@ export default function Sidebar({
   listCate,
   handleSearchByCateType,
   handleSearchByCateFilter,
+  handleShowFavoriteProds,
   searchOption,
 }) {
   console.log({ searchOption });
@@ -22,7 +23,8 @@ export default function Sidebar({
 
   const handleOnCLick = (option, type) => {
     if (type === "cate") handleSearchByCateType(option);
-    else handleSearchByCateFilter(option);
+    else if (type === "filter") handleSearchByCateFilter(option);
+    else handleShowFavoriteProds();
   };
   return (
     <div className="side_bar">
@@ -57,6 +59,13 @@ export default function Sidebar({
           </p>
         ))}
       </div>
+      <h3
+        style={{ cursor: "pointer" }}
+        onClick={() => handleOnCLick(null, "favorite")}
+        className="other_products_title"
+      >
+        FAVORITE<i className="far fa-heart"></i>
+      </h3>
     </div>
   );
 }

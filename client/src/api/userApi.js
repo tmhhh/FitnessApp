@@ -23,6 +23,16 @@ const userApi = {
       params: { id },
     });
   },
+  addFavoriteProduct: (id) => {
+    return axiosClient.put(BASE_API_URL + "/user/favorite/add", {
+      id,
+    });
+  },
+  removeFavoriteProduct: (id) => {
+    return axiosClient.put(BASE_API_URL + "/user/favorite/remove", {
+      id,
+    });
+  },
   getTotalNumbCustomers: () => axiosClient.get(BASE_API_URL + "/user/total"),
 };
 export default userApi;

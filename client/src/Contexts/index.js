@@ -11,6 +11,7 @@ import prodSlice from "../redux/slices/prodSlice";
 import cartApi from "../api/cartApi";
 import { getAllCate } from "../redux/slices/cateSlice";
 import { getAllExercise } from "../redux/slices/exerciseSlice";
+import userApi from "../api/userApi";
 //CONTEXT
 export const Context = React.createContext();
 export default function ContextProvider({ children }) {
@@ -144,6 +145,98 @@ export default function ContextProvider({ children }) {
   //   return cart.find((e) => e.product._id === prodID);
   // };
 
+  //
+  const handleAddFavorite = async (id) => {
+    try {
+      if (isAuthenticated) {
+        setToast({
+          toastShow: true,
+          title: "Adding ...",
+          content: "Please wait a second",
+          icon: "👀",
+          bg: "info",
+        });
+        const res = await userApi.addFavoriteProduct(id);
+        if (res.data.isSuccess) {
+          dispatch(
+            authSlice.actions.addFavoriteProduct({
+              addedFavorite: res.data.addedFavorite,
+            })
+          );
+          setToast({
+            toastShow: true,
+            title: "Adding successfully !!!",
+            content: "You can check it in your personal cart !!!",
+            icon: "✔",
+            bg: "success",
+          });
+        }
+      } else {
+        setToast({
+          toastShow: true,
+          title: "Failed to add to cart !!!",
+          content: "Please login to do this!!!",
+          icon: "❌",
+          bg: "danger",
+        });
+      }
+    } catch (error) {
+      setToast({
+        toastShow: true,
+        title: "Failed to add to cart !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+      console.log(error);
+    }
+  };
+  const handleRemoveFavorite = async (id) => {
+    try {
+      if (isAuthenticated) {
+        setToast({
+          toastShow: true,
+          title: "Removing ...",
+          content: "Please wait a second",
+          icon: "👀",
+          bg: "info",
+        });
+        const res = await userApi.removeFavoriteProduct(id);
+        if (res.data.isSuccess) {
+          console.log(res.data.removedFavorite);
+          dispatch(
+            authSlice.actions.removeFavoriteProduct({
+              removedFavorite: res.data.removedFavorite,
+            })
+          );
+          setToast({
+            toastShow: true,
+            title: "Removed successfully !!!",
+            content: "You can check it in your personal cart !!!",
+            icon: "✔",
+            bg: "success",
+          });
+        }
+      } else {
+        setToast({
+          toastShow: true,
+          title: "Failed to add to cart !!!",
+          content: "Please login to do this!!!",
+          icon: "❌",
+          bg: "danger",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      setToast({
+        toastShow: true,
+        title: "Failed to add to cart !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+    }
+  };
   //ADD TO CART
   const addToCart = async (
     { _id, prodName, prodPrice, prodThumbnail, prodType, prodCategory },
@@ -242,6 +335,8 @@ export default function ContextProvider({ children }) {
     authForm,
     setAuthForm,
     loadUser,
+    handleRemoveFavorite,
+    handleAddFavorite,
   };
   return <Context.Provider value={contextData}>{children}</Context.Provider>;
 }
