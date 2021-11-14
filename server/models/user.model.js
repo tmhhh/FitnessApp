@@ -20,6 +20,22 @@ const Users = new Schema({
       isOrdered: { type: Boolean, default: false },
     },
   ],
+  userWishlist: {
+    products: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Products",
+        default: null,
+      },
+    ],
+    services: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Services",
+        default: null,
+      },
+    ],
+  },
   userEmail: { type: String, default: null },
   userPhone: { type: Number, default: 0 },
   favoriteProducts: [
