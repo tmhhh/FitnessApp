@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const productCtl = require("../controllers/product.controller");
+const wishlistController = require("../controllers/wishlist.controller");
 const upload = require("../middlewares/uploadFile.mdw");
+const authMdw = require("../middlewares/verifyToken.mdw");
+
 const verifyToken = require("../middlewares/verifyToken.mdw");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 //@@ GET ALL PRODUCTS
@@ -42,4 +45,23 @@ router.put(
   verifyAdmin,
   productCtl.resetDiscount
 );
+router
+  .post(
+    "wishlist/:id",
+    authMdw,
+    (req, res, next) => {
+      req.type = "product";
+      next();
+    },
+    wishlistController.add
+  )
+  .delete(
+    "wishlist/:id",
+    authMdw,
+    (req, res, next) => {
+      req.type = "product";
+      next();
+    },
+    wishlistController.delete
+  );
 module.exports = router;
