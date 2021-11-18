@@ -1,5 +1,13 @@
 @import "../../../../assets/constants.scss";
 
+@keyframes slide {
+  from {
+    height: 0%;
+  }
+  to {
+    height: 22px;
+  }
+}
 .side_bar {
   display: flex;
   flex-direction: column;
@@ -9,6 +17,9 @@
 }
 .product_type {
   margin: 20px 0;
+  p {
+    animation: slide 0.25s linear forwards;
+  }
   &_title {
     display: flex;
     justify-content: space-between;

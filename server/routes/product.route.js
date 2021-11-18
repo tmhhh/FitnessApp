@@ -33,4 +33,13 @@ router.get("/total", verifyToken, verifyAdmin, productCtl.getTotalNumbProds);
 // router.post("/search", productCtl.searchProducts);
 // router.put("/search", productCtl.searchProducts);
 // router.delete("/search", productCtl.searchProducts);
+
+//DISCOUNT
+router.put("/discount/add", verifyToken, verifyAdmin, productCtl.addDiscount);
+router.put(
+  "/discount/reset",
+  verifyToken,
+  verifyAdmin,
+  productCtl.resetDiscount
+);
 module.exports = router;

@@ -15,7 +15,7 @@ export default function AdminRoute({ path }) {
         <Route exact path={path + "/product"} component={ProductSide} />
         <Route exact path={path + "/voucher"} component={VoucherSide} />
         <Route exact path={path + "/category"} component={CateSide} />
-        {/* <Route exact path={path + "/exercise"} component={ExerciseSide} /> */}
+        <Route exact path={path + "/exercise"} component={ExerciseSide} />
         {/* 
         <Route exact path={path + "/reviews"} component={<div>Reviews</div>} />
         <Route exact path={path + "/vouchers"} component={<div>Voucher</div>} /> */}

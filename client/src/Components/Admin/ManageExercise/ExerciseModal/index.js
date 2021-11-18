@@ -1,25 +1,23 @@
-import { Button, Container, Modal } from "react-bootstrap";
-import React, { useEffect, useRef, useState } from "react";
-import CateForm from "../ExerciseForm";
-export default function CateModalForm(props) {
-  const { action, handleSubmitAction, show, hide, updatedCateRef } = props;
+import React, { useRef } from "react";
+import { Button, Modal } from "react-bootstrap";
+import ExerciseForm from "../ExerciseForm";
+export default function ExerciseModalForm(props) {
+  const { action, handleSubmitAction, show, hide, updatedExerciseRef } = props;
   const formRef = useRef();
 
   const triggerFormikSubmit = () => {
-    // console.log({ formRef });
-
     //TRIGGER FORMIK SUBMIT
     formRef.current.handleSubmit();
   };
   return (
-    <Modal show={show} onHide={hide} centered>
+    <Modal size="lg" show={show} onHide={hide} centered>
       {action === "add" ? (
         <>
           <Modal.Header closeButton>
-            <Modal.Title>Add New Category 🗃</Modal.Title>
+            <Modal.Title>Add New Exercise 🗃</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CateForm
+            <ExerciseForm
               innerRef={formRef}
               handleSubmitAction={handleSubmitAction}
               action="add"
@@ -37,13 +35,13 @@ export default function CateModalForm(props) {
       ) : (
         <>
           <Modal.Header closeButton>
-            <Modal.Title>Update Category 🛠</Modal.Title>
+            <Modal.Title>Update Exercise 🛠</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CateForm
+            <ExerciseForm
               innerRef={formRef}
               handleSubmitAction={handleSubmitAction}
-              updatedCateRef={updatedCateRef}
+              updatedExerciseRef={updatedExerciseRef}
               action="update"
             />
           </Modal.Body>

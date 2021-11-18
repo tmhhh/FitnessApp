@@ -7,6 +7,7 @@ export default function ListTable({
   productList,
   updateModalShow,
   deleteOnClick,
+  handleShowProductDiscountModal,
 }) {
   return (
     <>
@@ -38,7 +39,7 @@ export default function ListTable({
               </td>
               <td>{item.prodName}</td>
               <td>{item.prodCategory?.cateFilter?.filterName}</td>
-              // <td>{item.prodCategory.cateFilter.filterName}</td>
+              <td>{item.prodCategory.cateFilter.filterName}</td>
               <td>{formatCurrency(item.prodPrice)}</td>
               <td>{item.prodQuantity}</td>
               <td>{item.prodRating.star}</td>
@@ -57,6 +58,13 @@ export default function ListTable({
                   onClick={() => deleteOnClick(item._id)}
                 >
                   🗑
+                </Button>
+                <Button
+                  onClick={() => handleShowProductDiscountModal(item)}
+                  variant="info"
+                  className="myButton ms-2"
+                >
+                  <i className="fas fa-percentage"></i>
                 </Button>
               </td>
             </tr>

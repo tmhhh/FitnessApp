@@ -139,4 +139,43 @@ module.exports = {
         .json({ isSuccess: false, message: "Server Internal Error" });
     }
   },
+  addDiscount: async (req, res) => {
+    try {
+      const { prodID, discountPercent } = req.body;
+      const updatedProd = await productModel.findByIdAndUpdate(
+        prodID,
+        {
+          "prodDiscount.isDiscounted": true,
+          "prodDiscount.discountPercent": discountPercent,
+        },
+        { new: true }
+      );
+      return res.status(200).json({ isSuccess: true, updatedProd });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  resetDiscount: async (req, res) => {
+    try {
+      const { prodID } = req.body;
+      console.log(prodID);
+      const updatedProd = await productModel.findByIdAndUpdate(
+        prodID,
+        {
+          "prodDiscount.isDiscounted": false,
+          "prodDiscount.discountPercent": "0",
+        },
+        { new: true }
+      );
+      return res.status(200).json({ isSuccess: true, updatedProd });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
 };

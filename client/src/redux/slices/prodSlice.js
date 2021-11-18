@@ -21,6 +21,29 @@ export const deleteProduct = createAsyncThunk(
     await prodApi.deleteProduct(id);
   }
 );
+export const addDiscount = createAsyncThunk(
+  "product/addDiscount",
+  async ({ prodID, discountPercent }, thunkApi) => {
+    try {
+      const res = await prodApi.addDiscount(prodID, discountPercent);
+      if (res.data.isSuccess) return res.data.updatedProd;
+    } catch (error) {
+      // return "trong gui ra";  WRONG WAY
+      return Promise.reject(error); //CORRECT WAY
+    }
+  }
+);
+export const resetDiscount = createAsyncThunk(
+  "product/resetDiscount",
+  async (prodID, thunkApi) => {
+    try {
+      const res = await prodApi.resetDiscount(prodID);
+      if (res.data.isSuccess) return res.data.updatedProd;
+    } catch (error) {
+      return Promise.reject(error); //CORRECT WAY
+    }
+  }
+);
 
 // export const getProductById = createAsyncThunk(
 //   "product/getProductById",
@@ -65,6 +88,26 @@ const prodSlice = createSlice({
     },
     [editProduct.fulfilled]: (state, action) => {
       state.prodLoading = false;
+    },
+    [addDiscount.fulfilled]: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        listProducts: state.listProducts.map((e) => {
+          if (e._id.toString() === payload._id.toString()) return payload;
+          return e;
+        }),
+      };
+    },
+    [resetDiscount.fulfilled]: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        listProducts: state.listProducts.map((e) => {
+          if (e._id.toString() === payload._id.toString()) return payload;
+          return e;
+        }),
+      };
     },
   },
 });

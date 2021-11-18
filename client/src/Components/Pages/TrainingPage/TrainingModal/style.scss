@@ -45,6 +45,7 @@
         }
         .exercise-muscles {
           display: flex;
+          justify-content: space-around;
           margin-bottom: 1rem;
           .exercise-muscle:not(:first-child) {
             margin-left: 2rem;

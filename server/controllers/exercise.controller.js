@@ -27,9 +27,11 @@ module.exports = {
   updateExercise: async (req, res) => {
     try {
       const exercise = { ...req.body };
+      console.log({ exercise });
       const updatedExercise = await exerciseModel.findByIdAndUpdate(
         exercise._id,
-        exercise
+        exercise,
+        { new: true }
       );
       return res.status(200).json({ isSuccess: true, updatedExercise });
     } catch (error) {

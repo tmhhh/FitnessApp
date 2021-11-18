@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import prodApi from "../../../api/prodApi";
 import prodSlice from "../../../redux/slices/prodSlice";
 import { useDispatch } from "react-redux";
-export default function SearchBar() {
+export default function SearchBar({ listExercises, setListExercisesCop }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { nutriSearching } = useContext(Context);
@@ -21,9 +21,6 @@ export default function SearchBar() {
         if (e.target.value.trim() !== "") {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
-            // console.log(e.target.value);
-            // console.log(param);
-            // nutriSearching(e.target.value);
             nutriSearching(param);
           }, 2000);
         } else {
@@ -48,6 +45,24 @@ export default function SearchBar() {
         } else {
           if (timerRef.current) clearTimeout(timerRef.current);
         }
+      } else {
+        if (e.target.value.trim() !== "") {
+          if (timerRef.current) clearTimeout(timerRef.current);
+          timerRef.current = setTimeout(() => {
+            const foundExercises = listExercises.filter((exercise) => {
+              if (exercise.name.toUpperCase().includes(param.toUpperCase())) {
+                console.log("yrs");
+                return true;
+              }
+              return false;
+            });
+            console.log({ foundExercises });
+            setListExercisesCop(foundExercises);
+          }, 2000);
+        } else {
+          setListExercisesCop(listExercises);
+          if (timerRef.current) clearTimeout(timerRef.current);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -63,7 +78,9 @@ export default function SearchBar() {
         placeholder={
           location.pathname === "/nutrition"
             ? "Ex: Chicken, Rice,..."
-            : "Ex: BCAA, Weight Protein,..."
+            : location.pathname === "/shopping"
+            ? "Ex: BCAA, Weight Protein,..."
+            : "Ex: Squat, Pullup..."
         }
       />
       <i className="search_bar_icon fas fa-search"></i>

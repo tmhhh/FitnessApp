@@ -110,7 +110,7 @@ export default function ShippingForm({
               name="phoneNumber"
               component={InputField}
             />
-            <Field
+            <FastField
               required
               label="Shipping Address"
               name="province"
@@ -123,7 +123,7 @@ export default function ShippingForm({
               component={SelectField}
               disabled={false}
             />
-            <Field
+            <FastField
               required
               name="district"
               optionDefaultName="District"
@@ -140,7 +140,7 @@ export default function ShippingForm({
               component={SelectField}
             />
 
-            <Field
+            <FastField
               required
               name="ward"
               options={

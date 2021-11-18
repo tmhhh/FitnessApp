@@ -7,7 +7,9 @@ import "./style.scss";
 
 export default function ShoppingPage() {
   const prodSelector = useSelector((state) => state.prodReducer);
-  const { userInfo } = useSelector((state) => state.authReducer);
+  const { userInfo, isAuthenticated } = useSelector(
+    (state) => state.authReducer
+  );
   const listCate = useSelector((state) => state.cateReducer);
 
   const [prodSelectorCopy, setProdSelectorCopy] = useState({ ...prodSelector });
@@ -67,12 +69,13 @@ export default function ShoppingPage() {
         <Row>
           <Col md={3} lg={3}>
             <Sidebar
+              isAuthenticated={isAuthenticated}
               handleShowFavoriteProds={handleShowFavoriteProds}
               handleSearchByCateType={handleSearchByCate}
               handleSearchByCateFilter={handleSearchByCateFilter}
               listCate={listCate}
               searchOption={searchOption}
-
+              totalFavorite={userInfo.favoriteProducts?.length}
               // setFilter={setFilter}
             />
           </Col>

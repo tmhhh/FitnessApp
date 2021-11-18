@@ -1,47 +1,58 @@
-import React from "react";
 import { Button, Table } from "react-bootstrap";
 export default function CateTable({
-  listCate,
+  listExercises,
   updateModalShow,
   deleteOnClick,
 }) {
   return (
     <>
-      <Table striped bordered hover className="text-center align-middle">
+      <Table
+        responsive
+        striped
+        bordered
+        hover
+        className="text-center align-middle"
+      >
         <thead>
           <tr>
             <th>No</th>
-            <th>Type</th>
-            <th>Filter</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Muscle Activate</th>
+            <th>Thumbnail</th>
+            <th>Video Link</th>
             <th>Edit/Remove</th>
           </tr>
         </thead>
         <tbody>
-          {listCate.map((item, index) => (
-            <tr key={item._id}>
+          {listExercises.map((exercise, index) => (
+            <tr key={exercise._id}>
               <td>{index + 1}</td>
-              <td>{item.cateName}</td>
+              <td>{exercise.name}</td>
+              <td>{exercise.category}</td>
               <td>
-                {item.cateFilter.map((e, index) => {
-                  if (index < item.cateFilter.length - 1) {
-                    return e.filterName + ", ";
-                  }
-                  return e.filterName;
+                {exercise.muscleActivate.map((muscle, index) => {
+                  if (index < exercise.muscleActivate.length - 1)
+                    return muscle + ", ";
+                  return muscle;
                 })}
               </td>
+              <td>{exercise.thumbnail}</td>
+              <td>{exercise.videoURL}</td>
               <td>
                 <Button
                   variant="warning"
                   className="myButton"
-                  itemID={item._id}
-                  onClick={() => updateModalShow("update", item._id)}
+                  exercise
+                  ID={exercise._id}
+                  onClick={() => updateModalShow("update", exercise._id)}
                 >
                   🛠
                 </Button>
                 <Button
                   variant="danger"
                   className="myButton ms-2"
-                  onClick={() => deleteOnClick(item._id)}
+                  onClick={() => deleteOnClick(exercise._id)}
                 >
                   🗑
                 </Button>

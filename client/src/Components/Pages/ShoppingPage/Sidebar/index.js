@@ -6,8 +6,9 @@ export default function Sidebar({
   handleSearchByCateFilter,
   handleShowFavoriteProds,
   searchOption,
+  isAuthenticated,
+  totalFavorite,
 }) {
-  console.log({ searchOption });
   const listFilter = [];
   if (searchOption.byCate !== "All") {
     for (const cate of listCate) {
@@ -31,7 +32,13 @@ export default function Sidebar({
       <div className="product_type">
         <h3 className="product_type_title">
           FILTER
-          <i className="fas fa-chevron-down"></i>
+          <i
+            className={
+              listFilter.length > 0
+                ? `fas fa-chevron-down`
+                : "fas fa-chevron-up"
+            }
+          ></i>
         </h3>
         {listFilter.map((e, index) => (
           <p onClick={() => handleOnCLick(e._id, "filter")} key={index}>
@@ -59,13 +66,15 @@ export default function Sidebar({
           </p>
         ))}
       </div>
-      <h3
-        style={{ cursor: "pointer" }}
-        onClick={() => handleOnCLick(null, "favorite")}
-        className="other_products_title"
-      >
-        FAVORITE<i className="far fa-heart"></i>
-      </h3>
+      {isAuthenticated && (
+        <h3
+          style={{ cursor: "pointer" }}
+          onClick={() => handleOnCLick(null, "favorite")}
+          className="other_products_title"
+        >
+          FAVORITE ({totalFavorite})<i className="far fa-heart"></i>
+        </h3>
+      )}
     </div>
   );
 }

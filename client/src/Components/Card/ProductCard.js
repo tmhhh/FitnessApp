@@ -16,8 +16,15 @@ export default function Product(props) {
 
   //
 
-  const { prodName, prodType, prodPrice, prodThumbnail, _id, prodWeight } =
-    props;
+  const {
+    prodName,
+    prodType,
+    prodPrice,
+    prodThumbnail,
+    _id,
+    prodWeight,
+    prodDiscount,
+  } = props;
 
   // ADD TO CART
   const handleAddToCart = () => {
@@ -26,6 +33,11 @@ export default function Product(props) {
   };
   return (
     <div className="product_card">
+      {prodDiscount?.isDiscounted && (
+        <div className="product_card_banner">
+          -{prodDiscount?.discountPercent}%
+        </div>
+      )}
       <img
         className="product_card_image"
         src={`${PROD_IMAGE_BASE_URL}${prodThumbnail}`}
@@ -37,7 +49,21 @@ export default function Product(props) {
       <div className="product_card_content">
         <p className="product_card_name">{prodName}</p>
         <p className="product_card_type">{prodType}</p>
-        <p className="product_card_price">{formatCurrency(prodPrice)}</p>
+        {prodDiscount?.isDiscounted ? (
+          <>
+            <p className="product_card_price line-through ">
+              {formatCurrency(prodPrice)}
+            </p>
+            <p className="product_card_discount_price">
+              {formatCurrency(
+                prodPrice * (1 - parseFloat(prodDiscount.discountPercent) / 100)
+              )}
+            </p>
+          </>
+        ) : (
+          <p className="product_card_price  ">{formatCurrency(prodPrice)}</p>
+        )}
+
         {/* <p className="product_card_weight">{prodWeight}g</p> */}
       </div>
       <div className="product_card_actions">

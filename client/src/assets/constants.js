@@ -38,3 +38,6 @@ export const PAYPAL_CONFIG = {
 };
 
 export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
+
+export const YT_THUMBNAIL_BASE_URL = (id) =>
+  `https://img.youtube.com/vi/${id}/hqdefault.jpg`;

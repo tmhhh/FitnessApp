@@ -278,7 +278,12 @@ export default function CheckoutPage() {
                       <div className="product_info_right">
                         <div className="note">Note: 1 piece</div>
                         <div className="product_price">
-                          {formatCurrency(prod.product.prodPrice)}
+                          {formatCurrency(
+                            prod.product.prodPrice *
+                              (1 -
+                                prod.product.prodDiscount?.discountPercent /
+                                  100 || 0)
+                          )}
                         </div>
                         <div className="product_quantity">
                           x{" "}
