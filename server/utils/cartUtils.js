@@ -7,12 +7,18 @@ module.exports = {
         item.quantity *
         (1 - parseFloat(item.product.prodDiscount?.discountPercent / 100 || 0));
     }
-    totalPrice = totalPrice * (1 - discountValue / 100);
-    return totalPrice + shippingPrice;
+
+    return totalPrice * (1 - discountValue / 100) + shippingPrice;
   },
   calSubTotal: (listItems) => {
     return listItems.reduce(
-      (sum, current) => sum + current.quantity * current.product.prodPrice,
+      (sum, current) =>
+        sum +
+        current.quantity *
+          current.product.prodPrice *
+          (1 -
+            parseFloat(current.product.prodDiscount?.discountPercent || 0) /
+              100),
       0
     );
   },

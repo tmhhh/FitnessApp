@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
+import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { getPosts, getPostsByAuthor } from "../../../redux/slices/postSlice";
@@ -8,13 +9,18 @@ import PostContainer from "../../Post/PostContainer";
 import TrainingModal from "./TrainingModal";
 import "./style.scss";
 import SearchBar from "../../Common/SearchBar";
-
+import userApi from "../../../api/userApi";
+import authSlice from "../../../redux/slices/authSlice";
+import { Context } from "../../../Contexts";
 export default function Training() {
   const dispatch = useDispatch();
   const { listExercises, exerciseLoading } = useSelector(
     (state) => state.exerciseReducer
   );
+  const { isAuthenticated } = useSelector((state) => state.authReducer);
   const [listExercisesCop, setListExercisesCop] = useState([]);
+  const { setToast } = useContext(Context);
+
   useEffect(() => {
     setListExercisesCop(listExercises);
   }, [listExercises]);
@@ -48,7 +54,75 @@ export default function Training() {
         (e) => e._id.toString() === id.toString()
       ),
     });
+  //DATE PICKER MODAL
+  const [datePickerModalShow, setDatePickerModalShow] = useState(false);
+  const handleCloseDatePickerModal = () => {
+    setDatePickerModalShow(false);
+    setShow({ ...show, isShow: true });
+  };
+  const handleOpenDatePickerModal = () => {
+    setDatePickerModalShow(true);
+    setShow({ ...show, isShow: false });
+  };
 
+  //HANDLE ADD TO TRAINING PLAN
+  const handleAddToTrainingSchedule = async (id, addedDate) => {
+    try {
+      setToast({
+        toastShow: true,
+        title: "Login ...",
+        content: "Please wait a second",
+        icon: "👀",
+        bg: "info",
+      });
+      if (!isAuthenticated)
+        return setToast({
+          toastShow: true,
+          title: "Failed to add !!!",
+          content: "Please login to do this  !!!",
+          icon: "❌",
+          bg: "danger",
+        });
+      const res = await userApi.addToWorkoutSchedule(
+        id,
+        addedDate.toLocaleDateString()
+      );
+      if (res.data.isSuccess) {
+        console.log(res.data.addedExercise);
+        dispatch(
+          authSlice.actions.addToWorkoutSchedule({
+            addedExercise: res.data.addedExercise,
+          })
+        );
+        handleCloseDatePickerModal();
+        setToast({
+          toastShow: true,
+          title: "Add successfully !!!",
+          content: "Enjoy !!!",
+          icon: "✔",
+          bg: "success",
+        });
+      }
+    } catch (error) {
+      if (error.response.status === 400)
+        return setToast({
+          toastShow: true,
+          title: "Failed to add !!!",
+          content: error.response.data.message,
+          icon: "❌",
+          bg: "danger",
+        });
+      setToast({
+        toastShow: true,
+        title: "Failed to add !!!",
+        content: "Please try again later !!!",
+        icon: "❌",
+        bg: "danger",
+      });
+    }
+  };
+
+  //
   let listCate = [];
   let listMuscles = [];
   for (const exercise of listExercises) {
@@ -70,6 +144,7 @@ export default function Training() {
       })
     );
   };
+
   return (
     <div className="exercise__page__container">
       <div className="exercise__sidebar__container">
@@ -118,7 +193,15 @@ export default function Training() {
             ))}
           </div>
         )}
-        <TrainingModal handleClose={handleClose} show={show} />
+        <TrainingModal
+          handleOpenDatePickerModal={handleOpenDatePickerModal}
+          handleCloseDatePickerModal={handleCloseDatePickerModal}
+          datePickerModalShow={datePickerModalShow}
+          handleAddToTrainingSchedule={handleAddToTrainingSchedule}
+          handleAddToTrainingSchedule={handleAddToTrainingSchedule}
+          handleClose={handleClose}
+          show={show}
+        />
       </div>
     </div>
   );

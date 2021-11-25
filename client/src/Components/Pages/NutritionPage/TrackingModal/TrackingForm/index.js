@@ -3,6 +3,8 @@ import { Formik, Form, FastField } from "formik";
 import { Button } from "react-bootstrap";
 import FormBT from "react-bootstrap/Form";
 import * as yup from "yup";
+
+import "./style.scss";
 import InputField from "../../../../Common/InputField";
 import SelectField from "../../../../Common/SelectField";
 export default function TrackingForm({
@@ -12,6 +14,42 @@ export default function TrackingForm({
   formData,
   handleUpdateTrackingInfo,
 }) {
+  const [error, setError] = useState(null);
+  const [groupBtn, setGroupBtn] = useState([
+    {
+      id: 1,
+      isClicked: false,
+      title: "Not Very Active",
+      img: "https://w7.pngwing.com/pngs/498/948/png-transparent-person-sitting-on-chair-in-front-desk-writing-computer-icons-stick-figure-man-working-desk-miscellaneous-angle-furniture.png",
+      desc: "Spend most of the day sitting (e.g., bankteller, desk job)",
+      value: 1.2,
+    },
+    {
+      id: 2,
+      isClicked: false,
+      title: "Lightly Active",
+      img: "https://cdn5.vectorstock.com/i/1000x1000/54/94/lesson-teacher-icon-simple-style-vector-27185494.jpg",
+      desc: "Spend a good part of the day on your feet (e.g., teacher, salesperson)",
+      value: 1.375,
+    },
+    {
+      id: 3,
+      isClicked: false,
+      title: "Active",
+      img: "https://cdn.iconscout.com/icon/premium/png-256-thumb/servant-1529655-1293221.png",
+      desc: "Spend a good part of the day doing some physical activity (e.g., food server, postal carrier)",
+      value: 1.55,
+    },
+    {
+      id: 4,
+      isClicked: false,
+      title: "Very Active",
+      img: "https://cdn.iconscout.com/icon/premium/png-256-thumb/running-3251258-2709000.png",
+      desc: "Spend a good part of the day doing some physical activity (e.g., food server, postal carrier)",
+      value: 1.725,
+    },
+  ]);
+
   if (activeStep === 0) {
     return (
       <Formik
@@ -140,7 +178,14 @@ export default function TrackingForm({
           userActivityLevel: 0,
         }}
         onSubmit={(e) => {
-          formData.current = { ...formData.current, ...e, isFilled: true };
+          if (groupBtn.every((e) => !e.isClicked))
+            return setError("Please choose your type");
+
+          formData.current = {
+            ...formData.current,
+            activityLevel: groupBtn.find((e) => e.isClicked).value,
+            isFilled: true,
+          };
           console.log(formData.current);
           setActiveStep(0);
           handleUpdateTrackingInfo();
@@ -149,7 +194,7 @@ export default function TrackingForm({
         {(formikProps) => {
           return (
             <Form>
-              <FastField
+              {/* <FastField
                 fieldType={1}
                 label={"What is your baseline activity level?"}
                 name="userActivityLevel"
@@ -164,7 +209,7 @@ export default function TrackingForm({
                     value: 1.375,
                   },
                   {
-                    name: "Active - Spend a good part of the day doing some physical activity (e.g., food server, postal carrier)",
+                    name: "",
                     value: 1.55,
                   },
                   {
@@ -173,7 +218,46 @@ export default function TrackingForm({
                   },
                 ]}
                 component={SelectField}
-              />
+              /> */}
+              <div className="custom__button-container">
+                {groupBtn.map((btn) => (
+                  <div
+                    key={btn.id}
+                    onClick={() => {
+                      setGroupBtn(
+                        groupBtn.map((e) => {
+                          if (e.id === btn.id) {
+                            return { ...e, isClicked: true };
+                          }
+                          return { ...e, isClicked: false };
+                        })
+                      );
+                    }}
+                    className={`custom__button ${btn.isClicked && "clicked"}`}
+                  >
+                    <div className="custom__button__left">
+                      <img src={btn.img} alt="" />
+                    </div>
+                    <div className="custom__button__right">
+                      <h3 className="custom__button__right-title">
+                        {btn.title}
+                      </h3>
+                      <h5 className="custom__button__right-desc">{btn.desc}</h5>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {error && (
+                <div
+                  style={{
+                    color: "red",
+                    textAlign: "center",
+                    fontSize: "1.5rem",
+                  }}
+                >
+                  {error}
+                </div>
+              )}
             </Form>
           );
         }}

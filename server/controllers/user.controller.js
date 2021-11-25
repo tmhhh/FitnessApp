@@ -13,9 +13,9 @@ module.exports = {
             path: "prodCategory.cateName",
           },
         })
+        .populate("workoutSchedule.exercise")
         .select("-userPassword")
         .lean();
-
       //CHECK IF USER HAS ITEM IN CART
       if (user.userCart.length > 0) {
         //FIND PRODUCT FILTER NAME
@@ -275,7 +275,7 @@ module.exports = {
   addFavoriteProduct: async (req, res) => {
     try {
       const { id } = req.body;
-      const foundUser = await userModel.findByIdAndUpdate(req.userID);
+      const foundUser = await userModel.findById(req.userID);
       foundUser.favoriteProducts.push(id);
 
       //UPDATE PRODUCT'S FAVORITE COUNT (Increase 1)
@@ -309,6 +309,75 @@ module.exports = {
       // console.log(foundUser.favoriteProducts);
 
       return res.status(200).json({ isSuccess: true, removedFavorite: id });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  addWorkOutSchedule: async (req, res) => {
+    try {
+      const { exerciseID, createdDate } = req.body;
+      const foundUser = await userModel.findById(req.userID);
+      //CHECK IF THIS EXERCISE HAS ALREADY ADDED IN THE SAME DATE
+      if (
+        foundUser.workoutSchedule.some(
+          (e) =>
+            e.exercise.toString() === exerciseID.toString() &&
+            e.createdDate === createdDate
+        )
+      )
+        return res.status(400).json({
+          isSuccess: false,
+          message: "This exercise has already been added",
+        });
+
+      foundUser.workoutSchedule.push({
+        exercise: exerciseID,
+        createdDate: createdDate,
+      });
+      let updatedUser = await userModel
+        .findByIdAndUpdate(
+          req.userID,
+          {
+            workoutSchedule: foundUser.workoutSchedule,
+          },
+          { new: true }
+        )
+        .populate("workoutSchedule.exercise");
+      return res
+        .status(200)
+        .json({ isSuccess: true, addedExercise: updatedUser.workoutSchedule });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  removeWorkoutSchedule: async (req, res) => {
+    try {
+      const { exerciseID, createdDate } = req.body;
+      console.log({ exerciseID, createdDate });
+      const foundUser = await userModel.findById(req.userID);
+      foundUser.workoutSchedule = foundUser.workoutSchedule.filter((e) => {
+        if (
+          e.exercise.toString() !== exerciseID.toString() ||
+          (e.exercise.toString() === exerciseID.toString() &&
+            e.createdDate !== createdDate)
+        ) {
+          return true;
+        }
+        return false;
+      });
+      console.log(foundUser.workoutSchedule);
+      await foundUser.save();
+      return res.status(200).json({
+        isSuccess: true,
+        removedExercise: exerciseID,
+        createdDate,
+      });
     } catch (error) {
       console.log(error);
       return res

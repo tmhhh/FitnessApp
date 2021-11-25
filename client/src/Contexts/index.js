@@ -251,6 +251,7 @@ export default function ContextProvider({ children }) {
         bg: "info",
       });
       if (isAuthenticated) {
+        console.log({ addedQuantity });
         const res = await cartApi.addToCart(_id, addedQuantity);
         setToast({
           toastShow: true,

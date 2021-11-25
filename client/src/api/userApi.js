@@ -34,5 +34,25 @@ const userApi = {
     });
   },
   getTotalNumbCustomers: () => axiosClient.get(BASE_API_URL + "/user/total"),
+  addToWorkoutSchedule: (
+    exerciseID,
+    createdDate = new Date().toLocaleDateString()
+  ) => {
+    return axiosClient.post(BASE_API_URL + `/user/workout-schedule`, {
+      exerciseID,
+      createdDate,
+    });
+  },
+  removeFromWorkoutSchedule: (
+    exerciseID,
+    createdDate = new Date().toLocaleDateString()
+  ) => {
+    return axiosClient.delete(BASE_API_URL + `/user/workout-schedule`, {
+      data: {
+        exerciseID,
+        createdDate,
+      },
+    });
+  },
 };
 export default userApi;

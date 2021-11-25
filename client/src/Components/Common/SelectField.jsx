@@ -23,10 +23,9 @@ export default function SelectField(props) {
 
   const handleOnChange = (value) => {
     console.log({ value });
-    // const selectedValue = value ? value.map((e) => e.value) : value;
+    // const selectedValue = isMulti ? value : value.value;
     onChange({ target: { name, value } });
   };
-
   let body = null;
   if (fieldType === 0) {
     body = (
@@ -103,6 +102,9 @@ export default function SelectField(props) {
             ...provided,
             fontSize: "1.3rem",
           }),
+          singleValue: (defaultStyles) => {
+            return { ...defaultStyles, fontSize: "1.3rem" };
+          },
           multiValue: (defaultStyles) => {
             return { ...defaultStyles, fontSize: "1.3rem" };
           },

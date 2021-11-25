@@ -45,7 +45,8 @@ export default function ShippingForm({
       .max(12, "Phone number is not in correct format")
       .required("This field is required"),
     apartmentNumber: yup.string().required("This field is required"),
-    paymentMethod: yup.string().required("This field is required"),
+    // paymentMethod: yup.string().required("This field is required"),
+    paymentMethod: yup.object().required("This field is required"),
   });
   return (
     <Formik
@@ -123,7 +124,7 @@ export default function ShippingForm({
               component={SelectField}
               disabled={false}
             />
-            <FastField
+            <Field
               required
               name="district"
               optionDefaultName="District"
@@ -140,7 +141,7 @@ export default function ShippingForm({
               component={SelectField}
             />
 
-            <FastField
+            <Field
               required
               name="ward"
               options={
@@ -163,7 +164,7 @@ export default function ShippingForm({
               name="apartmentNumber"
               component={InputField}
             />
-            <FastField
+            {/* <FastField
               type="checkbox"
               required
               name="paymentMethod"
@@ -186,6 +187,58 @@ export default function ShippingForm({
               ]}
               label="Payment Method"
               component={CheckField}
+            /> */}
+            <FastField
+              // label="Checkout Method"
+              placeholder="Choose your payment method "
+              required
+              name="paymentMethod"
+              isMulti={false}
+              component={SelectField}
+              options={[
+                {
+                  value: "COD",
+                  label: (
+                    <div className="option-container d-flex justify-content-between align-items-center">
+                      <p className="option-label">COD</p>
+                      <img
+                        height="30"
+                        width="30"
+                        src="https://printgo.vn/uploads/file-logo/1/512x512.e1267ccd23435225c187a0d29782afe2.ai.1.png"
+                        alt="cod"
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  value: "PAYPAL",
+                  label: (
+                    <div className="option-container d-flex justify-content-between align-items-center">
+                      <p className="option-label">PAYPAL</p>
+                      <img
+                        height="30"
+                        width="30"
+                        src="https://cdn.pixabay.com/photo/2018/05/08/21/29/paypal-3384015__480.png"
+                        alt="paypal"
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  value: "VNPAY",
+                  label: (
+                    <div className="option-container d-flex justify-content-between align-items-center">
+                      <p className="option-label">VNPAY</p>
+                      <img
+                        height="30"
+                        width="30"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnadRexyJp2rdd1dgEOx5TyDR88D2qA6t0aUrQhHDVudHbRx6U3petkwc-nj9MFPvBxyw&usqp=CAU"
+                        alt="cod"
+                      />
+                    </div>
+                  ),
+                },
+              ]}
             />
           </Form>
         );

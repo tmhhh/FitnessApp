@@ -42,9 +42,9 @@ export default function TrackingModal({
     formRef.current.submitForm();
   };
   return (
-    <Modal centered show={showTrackingModal} onHide={handleCloseTrackingModal}>
+    <Modal centered show={showTrackingModal}>
       <Modal.Header>
-        <Modal.Title>Modal heading</Modal.Title>
+        <Modal.Title>Tracking Info</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <TrackingForm
