@@ -24,22 +24,6 @@ export default function Training() {
   useEffect(() => {
     setListExercisesCop(listExercises);
   }, [listExercises]);
-  const history = useHistory();
-  const [isAll, setIsAll] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      await dispatch(getPosts());
-    })();
-  }, [dispatch]);
-  const fetchYourPost = async () => {
-    await dispatch(getPostsByAuthor());
-    setIsAll(false);
-  };
-  const onSeeAll = async () => {
-    await dispatch(getPosts());
-    setIsAll(true);
-  };
 
   //EXERCISE MODAL
   const [show, setShow] = useState({

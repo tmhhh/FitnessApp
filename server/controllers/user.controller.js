@@ -175,6 +175,7 @@ module.exports = {
   updateTrackingInfo: async (req, res) => {
     try {
       const { trackingInfo } = req.body;
+      console.log({ trackingInfo });
       const updatedUser = await userModel.findByIdAndUpdate(
         req.userID,
         {

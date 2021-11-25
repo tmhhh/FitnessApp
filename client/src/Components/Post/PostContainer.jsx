@@ -22,7 +22,7 @@ export default function PostContainer({ listPost }) {
     handleCloseConfirm();
   };
   return (
-    <Container className="mt-5">
+    <Container style={{ height: "100vh" }} className="mt-5">
       <ConfirmModal
         show={confirmShow}
         handleConfirm={handleConfirm}

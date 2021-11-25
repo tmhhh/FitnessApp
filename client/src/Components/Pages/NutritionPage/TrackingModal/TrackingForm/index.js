@@ -171,24 +171,22 @@ export default function TrackingForm({
     return (
       <Formik
         innerRef={formRef}
-        validationSchema={yup.object().shape({
-          userActivityLevel: yup.number().required("This field is required"),
-        })}
         initialValues={{
           userActivityLevel: 0,
         }}
         onSubmit={(e) => {
           if (groupBtn.every((e) => !e.isClicked))
             return setError("Please choose your type");
-
+          const userActivityLevel = groupBtn.find((e) => e.isClicked).value;
+          console.log(userActivityLevel);
           formData.current = {
             ...formData.current,
-            activityLevel: groupBtn.find((e) => e.isClicked).value,
+            userActivityLevel,
             isFilled: true,
           };
           console.log(formData.current);
-          setActiveStep(0);
           handleUpdateTrackingInfo();
+          setActiveStep(0);
         }}
       >
         {(formikProps) => {

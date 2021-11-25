@@ -86,6 +86,16 @@ export default function Navbar() {
           <NavLink
             className="nav_bar_item"
             activeClassName="nav_bar_item_active"
+            to="/blog"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-pen"></i>{" "}
+            </div>
+            <div className="nav_bar_item-title">BLOG</div>
+          </NavLink>
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
             to="/shopping"
           >
             <div className="nav_bar_item-icon">
