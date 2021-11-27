@@ -2,8 +2,11 @@ import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PostContainer from "../../Post/PostContainer";
-import { getPosts, getPostsByAuthor } from "../../../redux/slices/postSlice";
-export default function () {
+import {
+  getAvailablePosts,
+  getPostsByAuthor,
+} from "../../../redux/slices/postSlice";
+export default function BlogPage() {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
   const history = useHistory();
@@ -11,7 +14,7 @@ export default function () {
 
   useEffect(() => {
     (async () => {
-      await dispatch(getPosts());
+      await dispatch(getAvailablePosts());
     })();
   }, [dispatch]);
   const fetchYourPost = async () => {
@@ -19,7 +22,7 @@ export default function () {
     setIsAll(false);
   };
   const onSeeAll = async () => {
-    await dispatch(getPosts());
+    await dispatch(getAvailablePosts());
     setIsAll(true);
   };
   return (

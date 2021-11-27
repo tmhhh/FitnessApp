@@ -9,8 +9,8 @@ const verifyAdmin = require("../middlewares/verifyAdmin");
 router.get("/total", verifyToken, verifyAdmin, postCtl.getTotalNumbPosts);
 
 //CRUD
-router.get("/:id", verifyToken, verifyAdmin, postCtl.getById);
-router.get("/", verifyToken, verifyAdmin, postCtl.get);
+router.get("/:id", postCtl.getById);
+router.get("/", postCtl.get);
 router.post(
   "/",
   verifyToken,

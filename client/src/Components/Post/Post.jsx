@@ -45,6 +45,7 @@ export default function Post() {
             width: "800px",
             borderRadius: "20px",
             boxShadow: "0 5px 15px 5px #f4f4f4",
+            backgroundColor: "white",
           }}
         >
           <div>
@@ -136,7 +137,6 @@ function Comment({ comment, getComments }) {
     const rs = await postApi.reply(comment._id, content);
     if (rs.data.isSuccess) getComments();
   };
-  console.log(comment.replies);
   return (
     <div
       style={{

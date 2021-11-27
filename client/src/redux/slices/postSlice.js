@@ -7,6 +7,13 @@ export const getPosts = createAsyncThunk(
     return res.data.listPost;
   }
 );
+export const getAvailablePosts = createAsyncThunk(
+  "post/getAvailablePosts",
+  async (_, thunkApi) => {
+    const res = await postApi.fetchAvailable();
+    return res.data.listPost;
+  }
+);
 export const getPostById = createAsyncThunk(
   "post/getPostById",
   async (id, thunkApi) => {
@@ -87,6 +94,17 @@ const postSlice = createSlice({
       state.postLoading = false;
     },
     [getPosts.fulfilled]: (state, action) => {
+      const { payload } = action;
+      state.postLoading = false;
+      state.listPost = payload;
+    },
+    [getAvailablePosts.pending]: (state) => {
+      state.postLoading = true;
+    },
+    [getAvailablePosts.rejected]: (state) => {
+      state.postLoading = false;
+    },
+    [getAvailablePosts.fulfilled]: (state, action) => {
       const { payload } = action;
       state.postLoading = false;
       state.listPost = payload;

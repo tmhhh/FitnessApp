@@ -5,6 +5,9 @@ const postApi = {
   fetch: () => {
     return axiosClient.get(BASE_API_URL + URL);
   },
+  fetchAvailable: () => {
+    return axiosClient.get(BASE_API_URL + URL + `?status=${"accepted"}`);
+  },
   fetchById: (id) => {
     return axiosClient.get(BASE_API_URL + URL + `/${id}`);
   },
