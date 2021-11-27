@@ -2,7 +2,7 @@
 .side_bar_container {
   padding: 20px;
   margin: 20px;
-  width: 25%;
+  width: 20%;
   display: flex;
   flex-direction: column;
   background-color: $white_smoke;
@@ -42,6 +42,7 @@
       color: #999;
 
       & i {
+        font-size: 1.5rem;
         &:last-child {
           position: absolute;
           right: 0;
@@ -54,7 +55,7 @@
       & a {
         color: #999;
 
-        margin-left: 10px;
+        margin-left: 15px;
         text-transform: capitalize;
         text-decoration: none;
         font-size: 15px;

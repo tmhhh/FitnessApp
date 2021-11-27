@@ -70,6 +70,7 @@ export default function CheckoutModal({
     }, 0);
     formData.current = {
       ...values,
+      paymentMethod: values.paymentMethod.value,
       listItems: listItems.filter((e) => e.isSelected),
       discountUsedID:
         usedDiscountRef.current.isUsed === true
@@ -115,17 +116,9 @@ export default function CheckoutModal({
 
   //HANDLE CONFIRM ORDER
   const handleConfirmOrder = async () => {
-    // try {
-    //   const res = await checkOutApi.billCheckout(formData.current);
-    //   if (res.data.isSuccess) {
-    //     console.log(res.dat.addedBill);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     try {
-      if (formData.current.paymentMethod === "OTHERS") {
+      if (formData.current.paymentMethod === "PAYPAL") {
+        console.log(formData.current);
         const res = await checkOutApi.paypalCheckout({ ...formData.current });
         let timer = null;
         if (res.data.isSuccess) {
@@ -161,6 +154,46 @@ export default function CheckoutModal({
                   );
                   history.push("/checkout/success");
                 }
+              }
+            } catch (error) {
+              console.log("CORS");
+            }
+          }, 500);
+        }
+      } else if (formData.current.paymentMethod === "VNPAY") {
+        const res = await checkOutApi.vnpayCheckout({ ...formData.current });
+        let timer = null;
+        if (res.data.isSuccess) {
+          const newWindow = window.open(
+            res.data.approveUrl,
+            "_blank",
+            "width=500,height=600"
+          );
+          timer = setInterval(async () => {
+            try {
+              if (newWindow.closed) {
+                console.log("User closes the window");
+                clearInterval(timer);
+              }
+              if (
+                newWindow.location.href.toString() ===
+                CLIENT_PUBLIC_URL + "/checkout/success"
+              ) {
+                clearInterval(timer);
+                newWindow.close();
+                // const checkOutRes = await checkOutApi.billCheckout({
+                //   ...formData.current,
+                // });
+                // if (checkOutRes.data.isSuccess) {
+                //   dispatch(
+                //     cartSlice.actions.setCart({
+                //       cartLoading: false,
+                //       userCart: checkOutRes.data.updatedCart,
+                //     })
+                //   );
+                //   history.push("/checkout/success");
+                // }
+                console.log("vnpay success");
               }
             } catch (error) {
               console.log("CORS");

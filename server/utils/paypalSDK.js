@@ -30,7 +30,14 @@ module.exports = {
       //CART TOTAL PRICE
       const cartTotalPrice = listRes[0].userCart.reduce((sum, current) => {
         if (current.isSelected) {
-          return sum + current.quantity * current.product.prodPrice;
+          return (
+            sum +
+            current.quantity *
+              current.product.prodPrice *
+              (1 -
+                parseFloat(current.product.prodDiscount?.discountPercent || 0) /
+                  100)
+          );
         }
         return sum;
       }, 0);
@@ -83,7 +90,11 @@ module.exports = {
                 sku: e.product._id,
                 unit_amount: {
                   currency_code: "USD",
-                  value: e.product.prodPrice,
+                  value:
+                    e.product.prodPrice *
+                    (1 -
+                      parseFloat(e.product.prodDiscount?.discountPercent || 0) /
+                        100),
                 },
                 quantity: e.quantity.toString(),
                 category: "PHYSICAL_GOODS",

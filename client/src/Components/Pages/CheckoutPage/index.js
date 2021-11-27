@@ -278,7 +278,13 @@ export default function CheckoutPage() {
                       <div className="product_info_right">
                         <div className="note">Note: 1 piece</div>
                         <div className="product_price">
-                          {formatCurrency(prod.product.prodPrice)}
+                          {formatCurrency(
+                            prod.product.prodPrice *
+                              (1 -
+                                (prod.product.prodDiscount?.discountPercent ||
+                                  0) /
+                                  100)
+                          )}
                         </div>
                         <div className="product_quantity">
                           x{" "}
@@ -287,6 +293,7 @@ export default function CheckoutPage() {
                             min={1}
                             value={prod.quantity}
                             onChange={(e) =>
+                              +e.target.value <= prod.product.prodQuantity &&
                               handleUpdateQuantity(
                                 prod.product._id,
                                 e.target.value
@@ -296,7 +303,12 @@ export default function CheckoutPage() {
                         </div>
                         <div className="product_total_price">
                           {formatCurrency(
-                            prod.product.prodPrice * prod.quantity
+                            prod.product.prodPrice *
+                              (1 -
+                                (prod.product.prodDiscount?.discountPercent ||
+                                  0) /
+                                  100) *
+                              prod.quantity
                           )}
                         </div>
                       </div>

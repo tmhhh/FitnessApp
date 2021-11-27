@@ -63,6 +63,17 @@ const Users = new Schema({
       ],
     },
   },
+  workoutSchedule: [
+    {
+      _id: false,
+      exercise: {
+        type: Schema.Types.ObjectId,
+        ref: "Exercises",
+        default: null,
+      },
+      createdDate: { type: String, default: new Date().toLocaleDateString() },
+    },
+  ],
 });
 
 module.exports = mongoose.model("Users", Users);

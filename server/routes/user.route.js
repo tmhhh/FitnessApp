@@ -24,4 +24,9 @@ router.get("/total", verifyToken, verifyAdmin, userCtl.getTotalNumbCustomers);
 //FAVORITE PRODUCT
 router.put("/favorite/add", verifyToken, userCtl.addFavoriteProduct);
 router.put("/favorite/remove", verifyToken, userCtl.removeFavoriteProduct);
+
+//SCHEDULE
+router.delete("/workout-schedule", verifyToken, userCtl.removeWorkoutSchedule);
+router.post("/workout-schedule", verifyToken, userCtl.addWorkOutSchedule);
+
 module.exports = router;

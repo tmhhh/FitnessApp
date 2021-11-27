@@ -18,13 +18,15 @@ export default function ExerciseCard({
           alt={title}
         />
         <div className="exercise_card_body">
-          <div className="exercise_card_info">
+          <div onClick={handleShowModal} className="exercise_card_info">
             <i className="play-btn far fa-play-circle"></i>
-            <div onClick={handleShowModal} className="exercise_card_name">
-              {title}
-            </div>
+            <div className="exercise_card_name">{title}</div>
           </div>
-          <div className="exercise_card_tags">#{muscleTags}</div>
+          <div className="exercise_card_tags">
+            {muscleTags.map((e) => (
+              <div style={{ marginRight: "1rem" }}>#{e}</div>
+            ))}
+          </div>
         </div>
       </div>
     </>

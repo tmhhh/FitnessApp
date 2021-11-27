@@ -25,9 +25,8 @@ export default function ExerciseSide() {
       setNewModal({ ...newModal, action: "add", isShown: true });
     else {
       updatedExerciseRef.current = listExercises.find(
-        (Exercise) => Exercise._id === _id
+        (Exercise) => Exercise._id.toString() === _id.toString()
       );
-      console.log({ updatedExerciseRef });
       setNewModal({ ...newModal, action: "update", isShown: true });
     }
   };
@@ -36,30 +35,22 @@ export default function ExerciseSide() {
   };
 
   const handleAddExercise = async (formData) => {
-    console.log({ formData });
-    const ExerciseFilterName = formData.ExerciseFilter.split(",");
     const newExercise = {
-      ExerciseName: formData.ExerciseName,
-      ExerciseFilter: [],
+      ...formData,
+      muscleActivate: formData.muscleActivate.map((e) => e.value),
     };
-    ExerciseFilterName.forEach((e) => {
-      newExercise.ExerciseFilter.push({ filterName: e });
-    });
+
     const res = await dispatch(addExercise(newExercise));
     if (unwrapResult(res)) newModalClose();
   };
 
   ///UPDATE Exercise
   const handleUpdateExercise = async (formData) => {
-    const ExerciseFilterName = formData.ExerciseFilter.split(",");
     const updatingExercise = {
-      _id: updatedExerciseRef.current._id,
-      ExerciseName: formData.ExerciseName,
-      ExerciseFilter: [],
+      ...formData,
+      muscleActivate: formData.muscleActivate.map((e) => e.value),
     };
-    ExerciseFilterName.forEach((e) => {
-      updatingExercise.ExerciseFilter.push({ filterName: e });
-    });
+    console.log({ updatingExercise });
     const res = await dispatch(updateExercise(updatingExercise));
     if (unwrapResult(res)) newModalClose();
   };

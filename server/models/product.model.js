@@ -28,5 +28,9 @@ const Products = new Schema({
   prodImages: [{ type: String }],
   prodQuantity: { type: Number, default: 1 },
   prodWeight: { type: Number, required: true },
+  prodDiscount: {
+    isDiscounted: { type: Boolean, default: false },
+    discountPercent: { type: String, default: "0" },
+  },
 });
 module.exports = mongoose.model("Products", Products);

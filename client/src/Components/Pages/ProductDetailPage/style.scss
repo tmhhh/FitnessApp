@@ -61,7 +61,7 @@ $marginBottom: 10px;
   &_name {
     font-size: 25px;
     font-weight: 700;
-    color: $primary_black;
+    color: black;
     text-align: left;
     margin-bottom: $marginBottom;
 
@@ -80,6 +80,12 @@ $marginBottom: 10px;
     font-weight: 700;
     color: $primary_blue;
     margin-bottom: $marginBottom;
+    span {
+      margin-left: 20px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+    }
   }
   &_des {
     font-size: 17px;
@@ -164,6 +170,7 @@ $marginBottom: 10px;
     }
     &_price {
       font-weight: 700;
+      font-size: 2rem;
       color: $primary_blue;
       margin-bottom: 5px;
     }

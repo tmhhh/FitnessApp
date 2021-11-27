@@ -54,6 +54,18 @@ export default function Sidebar({ userImage, userName, parentPath }) {
           </NavLink>
           <i className="fas fa-chevron-right"></i>
         </div>
+        <div className="side_bar_item">
+          <i className="fas fa-calendar-alt"></i>
+          <NavLink
+            exact
+            activeClassName="navbar_active"
+            to={`/profile/schedule`}
+            className="personal_information"
+          >
+            Workout Schedule
+          </NavLink>
+          <i className="fas fa-chevron-right"></i>
+        </div>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ export const addExercise = createAsyncThunk(
   async (exercise, thunkApi) => {
     try {
       const res = await exerciseApi.addExercise(exercise);
+      console.log(res.data);
       if (res.data.isSuccess) return res.data.addedExercise;
     } catch (error) {
       console.log(error);
@@ -12,19 +13,18 @@ export const addExercise = createAsyncThunk(
   }
 );
 
-export const getAllExercise =
-  ("exercise/getAll",
-  async () => {
-    try {
-      const res = await exerciseApi.getAllExercises();
-      if (res.data.isSuccess) return res.data.listExercises;
-    } catch (error) {
-      console.log(error);
-    }
-  });
+export const getAllExercise = createAsyncThunk("exercise/getAll", async () => {
+  try {
+    const res = await exerciseApi.getAllExercises();
+    console.log(res.data);
+    if (res.data.isSuccess) return res.data.listExercises;
+  } catch (error) {
+    console.log(error);
+  }
+});
 
-export const updateExercise =
-  ("exercise/update",
+export const updateExercise = createAsyncThunk(
+  "exercise/update",
   async (updateExercise) => {
     try {
       const res = await exerciseApi.editExercise(updateExercise);
@@ -32,17 +32,20 @@ export const updateExercise =
     } catch (error) {
       console.log(error);
     }
-  });
-export const deleteExercise =
-  ("exercise/delete",
+  }
+);
+export const deleteExercise = createAsyncThunk(
+  "exercise/delete",
   async (id) => {
     try {
       const res = await exerciseApi.deleteExercise(id);
+      console.log(res.data);
       if (res.data.isSuccess) return res.data.deletedID;
     } catch (error) {
       console.log(error);
     }
-  });
+  }
+);
 const exerciseSlice = createSlice({
   name: "exercise",
   initialState: {
@@ -52,13 +55,13 @@ const exerciseSlice = createSlice({
   extraReducers: {
     [getAllExercise.fulfilled]: (state, action) => {
       const { payload } = action;
-      return { exerciseLoading: false, listExercises: payload.listExercises };
+      return { exerciseLoading: false, listExercises: payload };
     },
     [addExercise.fulfilled]: (state, action) => {
       const { payload } = action;
       return {
         ...state,
-        listExercises: [...state.listExercises, payload.addedExercise],
+        listExercises: [...state.listExercises, payload],
       };
     },
     [updateExercise.fulfilled]: (state, action) => {
@@ -66,8 +69,7 @@ const exerciseSlice = createSlice({
       return {
         ...state,
         listExercises: state.listExercises.map((e) => {
-          if (e._id.toString() === payload.updatedExercise._id.toString())
-            return payload.updatedExercise;
+          if (e._id.toString() === payload._id.toString()) return payload;
           return e;
         }),
       };
@@ -77,7 +79,7 @@ const exerciseSlice = createSlice({
       return {
         ...state,
         listExercises: state.listExercises.filter(
-          (e) => e._id.toString() !== payload._id.toString()
+          (e) => e._id.toString() !== payload.toString()
         ),
       };
     },

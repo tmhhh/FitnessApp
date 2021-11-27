@@ -3,11 +3,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import ProductDiscountModal from "./ProductDiscountModal";
 import * as yup from "yup";
 import {
+  addDiscount,
   addProduct,
   deleteProduct,
   editProduct,
+  resetDiscount,
 } from "../../../redux/slices/prodSlice";
 import ItemForm from "../ItemForm";
 import ProductTable from "../ProductTable";
@@ -30,6 +33,7 @@ export default function ProductSide(props) {
       itemID: e.target.getAttribute("itemID"),
     });
   };
+
   const updateModalClose = () => {
     setUpdateModal({
       ...updateModal,
@@ -134,6 +138,35 @@ export default function ProductSide(props) {
     );
   };
 
+  //DISCOUNT MODAL
+  const [discountModal, setProdDiscountModal] = useState({
+    isShown: false,
+    product: null,
+  });
+
+  const handleShowProductDiscountModal = (product) => {
+    setProdDiscountModal({ isShown: true, product });
+  };
+  const handleCloseProductDiscountModal = () => {
+    setProdDiscountModal({ ...discountModal, isShown: false });
+  };
+  const handleAddDiscount = async (prodID, discountPercent) => {
+    try {
+      const res = await dispatch(addDiscount({ prodID, discountPercent }));
+      if (unwrapResult(res)) handleCloseProductDiscountModal();
+    } catch (error) {
+      console.log("ngoai");
+      console.log({ error });
+    }
+  };
+  const handleResetDiscount = async (prodID) => {
+    try {
+      const res = await dispatch(resetDiscount(prodID));
+      if (unwrapResult(res)) handleCloseProductDiscountModal();
+    } catch (error) {
+      console.log({ error });
+    }
+  };
   return (
     <Container className="admin-container mt-5">
       <div className="admin-content">
@@ -154,6 +187,7 @@ export default function ProductSide(props) {
         <div className="mt-5">
           {/* <ListTable list={listProducts} updateModalShow={updateModalShow} /> */}
           <ProductTable
+            handleShowProductDiscountModal={handleShowProductDiscountModal}
             productList={listProducts}
             updateModalShow={updateModalShow}
             deleteOnClick={handleDeleteProduct}
@@ -172,6 +206,12 @@ export default function ProductSide(props) {
         handleAction={handleAddProduct}
         show={newModal}
         hide={newModalClose}
+      />
+      <ProductDiscountModal
+        discountModal={discountModal}
+        handleAddDiscount={handleAddDiscount}
+        handleResetDiscount={handleResetDiscount}
+        handleClose={handleCloseProductDiscountModal}
       />
     </Container>
   );

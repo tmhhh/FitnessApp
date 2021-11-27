@@ -31,12 +31,20 @@ router.put(
 );
 router.delete("/:id", verifyToken, verifyAdmin, productCtl.delete);
 
-router.get("/search", verifyToken, verifyAdmin, productCtl.searchProducts);
+router.get("/search", productCtl.searchProducts);
 router.get("/total", verifyToken, verifyAdmin, productCtl.getTotalNumbProds);
 // router.post("/search", productCtl.searchProducts);
 // router.put("/search", productCtl.searchProducts);
 // router.delete("/search", productCtl.searchProducts);
 
+//DISCOUNT
+router.put("/discount/add", verifyToken, verifyAdmin, productCtl.addDiscount);
+router.put(
+  "/discount/reset",
+  verifyToken,
+  verifyAdmin,
+  productCtl.resetDiscount
+);
 router
   .post(
     "wishlist/:id",

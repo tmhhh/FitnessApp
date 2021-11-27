@@ -66,6 +66,32 @@ const authSlice = createSlice({
         },
       };
     },
+    addToWorkoutSchedule: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        userInfo: { ...state.userInfo, workoutSchedule: payload.addedExercise },
+      };
+    },
+    removeFromWorkoutSchedule: (state, action) => {
+      const { payload } = action;
+      return {
+        ...state,
+        userInfo: {
+          ...state.userInfo,
+          workoutSchedule: [
+            ...state.userInfo.workoutSchedule.filter(
+              (e) =>
+                e.exercise._id.toString() !==
+                  payload.removedExercise.toString() ||
+                (e.exercise._id.toString() ===
+                  payload.removedExercise.toString() &&
+                  e.createdDate !== payload.createdDate)
+            ),
+          ],
+        },
+      };
+    },
   },
 });
 

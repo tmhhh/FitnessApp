@@ -29,7 +29,7 @@ module.exports = {
           .findById(req.userID)
           .select("-userPassword")
           .populate("userCart.product"),
-        vouModel.findOne({ vouCode }).populate("cateID").select("-vouQuantity"),
+        vouModel.findOne({ vouCode }).select("-vouQuantity"),
       ]);
       const [foundUser, foundVoucher] = result;
       console.log({ foundVoucher });

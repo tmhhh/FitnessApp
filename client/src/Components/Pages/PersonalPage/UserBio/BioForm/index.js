@@ -44,7 +44,7 @@ export default function BioForm({ userName, userEmail, userPhone }) {
     >
       {(formikProps) => {
         return (
-          <Form className="position-relative">
+          <Form style={{ marginTop: "40px" }} className="position-relative ">
             <FastField
               name="userName"
               label="Your name"

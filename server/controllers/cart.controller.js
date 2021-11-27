@@ -7,38 +7,72 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
     const user = await userModel
       .findById(userID)
       .populate("userCart.product")
-      .select("-userPassword")
-      .lean();
-    let newCart = [];
+      .select("-userPassword");
+    // let newCart = [];
 
-    //CHECK IF PRODUCT ALREADY HAS IN USER CART
-    let foundProduct = user.userCart.find((e) => {
-      if (e.product._id.toString() === productID.toString() && !e.isOrdered) {
-        e.quantity += addedQuantity;
-        return e;
+    // //CHECK IF PRODUCT ALREADY HAS IN USER CART IF EXIST UPDATE  QUANTITY
+    // let foundProduct = user.userCart.find((e) => {
+    //   if (e.product._id.toString() === productID.toString() && !e.isOrdered) {
+    //     e.quantity += addedQuantity;
+    //     return e;
+    //   }
+    // });
+    // //// UPDATE NEW CART
+    // if (foundProduct)
+    //   newCart = user.userCart.map((e) => {
+    //     if (e.product._id === productID) return foundProduct;
+    //     return e;
+    //   });
+    // /// ELSE ADD NEW TO CART
+    // else
+    //   newCart = [
+    //     ...user.userCart,
+    //     { product: productID, quantity: addedQuantity },
+    //   ];
+    // // console.log({ newCart });
+    // //UPDATE TO DB
+    // const updatedCart = await userModel
+    //   .findOneAndUpdate({ _id: userID }, { userCart: newCart }, { new: true })
+    //   .populate({
+    //     path: "userCart.product",
+    //     populate: {
+    //       path: "prodCategory.cateName",
+    //     },
+    //   })
+    //   .lean();
+    // // console.log(updatedCart);
+
+    // BETTER WAY !!!!
+    let checkExist = false;
+    for (const item of user.userCart) {
+      if (
+        item.product._id.toString() === productID.toString() &&
+        !item.isOrdered
+      ) {
+        item.quantity += addedQuantity;
+        checkExist = true;
       }
-    });
-    //// IF EXIST UPDATE  QUANTITY
-    if (foundProduct)
-      newCart = user.userCart.map((e) => {
-        if (e.product._id === productID) return foundProduct;
-        return e;
-      });
-    /// ELSE ADD NEW TO CART
-    else newCart = [...user.userCart, { product: productID, quantity: 1 }];
-    // console.log({ newCart });
-    //UPDATE TO DB
-    const updatedCart = await userModel
-      .findOneAndUpdate({ _id: userID }, { userCart: newCart }, { new: true })
+    }
+    if (!checkExist)
+      user.userCart.push({ product: productID, quantity: addedQuantity });
+
+    const updatedUser = await userModel
+      .findByIdAndUpdate(
+        userID,
+        {
+          userCart: user.userCart,
+        },
+        { new: true }
+      )
       .populate({
         path: "userCart.product",
         populate: {
           path: "prodCategory.cateName",
         },
       })
-      .lean();
-    // console.log(updatedCart);
-    return updatedCart.userCart;
+      .lean()
+      .select("-userPassword");
+    return updatedUser.userCart;
   } catch (error) {
     console.log("catch1");
     console.log(error);
@@ -49,8 +83,10 @@ module.exports = {
   addingToCart: async (req, res) => {
     try {
       const { prodID, addedQuantity } = req.body;
-      if (!prodID) return res.status(400).json({ isSuccess: false });
-
+      if (!prodID)
+        return res
+          .status(400)
+          .json({ isSuccess: false, message: "Product ID not found" });
       //CHECK IF ID IS VALID
       let foundProd = await productModel.findById(prodID);
       if (!foundProd)
@@ -62,7 +98,7 @@ module.exports = {
       const updatedCart = await handleUserCart(
         req.userID,
         prodID,
-        addedQuantity
+        +addedQuantity
       );
       // console.log(updatedCart[0].product);
 
@@ -82,7 +118,6 @@ module.exports = {
       for (const prod of updatedCart) {
         delete prod.product.prodCategory.cateName.cateFilter;
       }
-
       res.status(200).json({ isSuccess: true, updatedCart });
     } catch (error) {
       console.log("catch2");

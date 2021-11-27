@@ -43,7 +43,7 @@ function ProductDetailPage() {
     }
     return acc;
   }, []);
-  console.log({ relatedProds });
+  // console.log({ relatedProds });
   return (
     <>
       <div className="product_info_container">
@@ -80,8 +80,10 @@ function ProductDetailPage() {
                 <div className="product_info_name">
                   {chosenProd.prodName} <i className="far fa-heart"></i>
                 </div>
-                <div className="product_info_price">
+                <div className="product_info_price d-flex align-items-center">
                   {formatCurrency(chosenProd.prodPrice)}
+
+                  <span>( {chosenProd.prodQuantity} IN STOCK !!!)</span>
                 </div>
                 <div className="product_info_cate">
                   {chosenProd.prodCategory.cateName.cateName} |{" "}
@@ -99,7 +101,10 @@ function ProductDetailPage() {
                   </Button>
                   <Button variant="dark">
                     <i
-                      onClick={() => setQuantity(quantity + 1)}
+                      onClick={() =>
+                        quantity < chosenProd.prodQuantity &&
+                        setQuantity(quantity + 1)
+                      }
                       className="fas fa-plus"
                     ></i>
                     <span className="product_info_quantity">{quantity}</span>
