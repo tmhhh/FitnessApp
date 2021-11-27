@@ -133,7 +133,7 @@ function Comment({ comment, getComments }) {
   const [replyTextShow, setReplyTextShow] = useState(false);
   const handleReply = async (content) => {
     setReplyTextShow(false);
-    const rs = await postApi.reply({ content, commentId: comment._id });
+    const rs = await postApi.reply(comment._id, content);
     if (rs.data.isSuccess) getComments();
   };
   console.log(comment.replies);

@@ -11,10 +11,10 @@ import {
 } from "../../../redux/slices/prodSlice";
 import ItemForm from "../ItemForm";
 import ProductTable from "../ProductTable";
-export default function ProductSide(props) {
+export default function ServiceSide(props) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const listProducts = useSelector((state) => state.prodReducer.listProducts);
+  const listServices = useSelector((state) => state.prodReducer.Services);
   const [newModal, setNewModal] = useState(false);
   const [updateModal, setUpdateModal] = useState({ show: false, itemID: "" });
 
@@ -88,7 +88,7 @@ export default function ProductSide(props) {
     //Get item by ID to fill all field (For update purpose)
     useEffect(() => {
       if (itemID) {
-        const item = listProducts.find((item) => item._id === itemID);
+        const item = listServices.find((item) => item._id === itemID);
         setItem(item);
       }
     }, [itemID]);
@@ -152,9 +152,9 @@ export default function ProductSide(props) {
           </Button>
         </div>
         <div className="mt-5">
-          {/* <ListTable list={listProducts} updateModalShow={updateModalShow} /> */}
+          {/* <ListTable list={listServices} updateModalShow={updateModalShow} /> */}
           <ProductTable
-            productList={listProducts}
+            productList={listServices}
             updateModalShow={updateModalShow}
             deleteOnClick={handleDeleteProduct}
           />

@@ -35,6 +35,11 @@ router.post("/comment/:id", verifyToken, postCtl.comment);
 router.put("/comment/:commentId", verifyToken, postCtl.editComment);
 router.delete("/comment/:commentId", verifyToken, postCtl.deleteComment);
 
+//Reply
+router.post("/reply/:commentId", verifyToken, postCtl.reply);
+router.put("/reply/:replyId", verifyToken, postCtl.editReply);
+router.delete("/reply/:replyId", verifyToken, postCtl.deleteReply);
+
 //Pending
 router.put("/pending/:id", verifyToken, postCtl.pending);
 

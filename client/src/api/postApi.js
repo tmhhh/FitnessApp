@@ -34,8 +34,8 @@ const postApi = {
   comment: (postId, body) => {
     return axiosClient.post(BASE_API_URL + URL + `/comment/${postId}`, body);
   },
-  reply: (body) => {
-    return axiosClient.post(BASE_API_URL + URL + `/comment/0`, body);
+  reply: (commentId, body) => {
+    return axiosClient.post(BASE_API_URL + URL + `/reply/${commentId}`, body);
   },
   getTotalNumbPosts: () => axiosClient.get(BASE_API_URL + URL + "/total"),
 };
