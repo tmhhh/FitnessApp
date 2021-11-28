@@ -33,7 +33,6 @@ module.exports = {
 
   getById: async (req, res) => {
     try {
-      console.log(req.params.id);
       const post = await postModel.findById(req.params.id).populate("author");
 
       return res.status(200).json({ isSuccess: true, post });
@@ -103,7 +102,7 @@ module.exports = {
   pending: async (req, res) => {
     const { userType } = await userModel.findById(req.userID);
     if (userType === 1) return res.status(403).json({ error: "No permission" });
-    const status = req.body.isAccepted === true ? "accepted" : "rejected";
+    const status = req.body.isAccepted === true ? "approved" : "rejected";
     try {
       await postModel.updateOne({ _id: req.params.id }, { status });
       return res.json({ isSuccess: true });

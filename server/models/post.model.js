@@ -9,7 +9,7 @@ const post = new Schema(
     content: { type: String },
     status: {
       type: String,
-      enum: ["pending", "accepted", "rejected"],
+      enum: ["pending", "approved", "rejected"],
       default: "pending",
     },
     like: {
