@@ -13,19 +13,41 @@ const calRevenueByMonth = (listRevenues, month) =>
   }, 0);
 
 module.exports = {
+  // billCheckOut: (req, res) => {
+  //   const { listItems, shippingFee, discountUsedID } = req.body;
+  //   console.log(listItems);
+  // },
   billCheckOut: async (req, res) => {
     try {
       //2nd WAY GET CART FROM USER'S POST REQUEST ( prefer 1st way *get cart from database)
       const { listItems, shippingFee, discountUsedID } = req.body;
       const foundVou = await vouModel.findById(discountUsedID);
-
+      //CHECK PRODUCT'S IN STOCK QUANTITY BEFORE CHECKOUT
+      const listPromises_1 = [];
+      for (const item of listItems) {
+        listPromises_1.push(
+          productModel.find({
+            _id: item.product._id,
+            prodQuantity: {
+              $lt: +item.quantity,
+            },
+          })
+        );
+      }
+      const prodAvailableCheck = await Promise.all([...listPromises_1]);
+      console.log(prodAvailableCheck);
+      if (prodAvailableCheck.some((e) => Object.keys(e).length > 0))
+        return res
+          .status(400)
+          .json({ isSuccess: false, message: "Product's quantity exceed !!!" });
+      //
       //TOTAL PRICE
       const totalPrice = calTotalPrice(
         listItems,
         foundVou ? foundVou.vouDiscount : 0,
         shippingFee
       );
-      console.log({ totalPrice, shippingFee });
+      // console.log({ totalPrice, shippingFee });
       const addedBill = {
         ...req.body,
         user: req.userID,
@@ -65,7 +87,7 @@ module.exports = {
           )
         );
       }
-      console.log({ listUpdateProds });
+      // console.log({ listUpdateProds });
       //SEND MAIL CONFIRM ORDER TO BUYER
       const sendedEmail = nodemailer.billConfirm(
         listRes[1].userEmail,

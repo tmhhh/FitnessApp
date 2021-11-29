@@ -37,7 +37,7 @@ const Users = new Schema({
     ],
   },
   userEmail: { type: String, default: null },
-  userPhone: { type: Number, default: 0 },
+  userPhone: { type: String, default: "0" },
   favoriteProducts: [
     { type: Schema.Types.ObjectId, ref: "Products", default: null },
   ],

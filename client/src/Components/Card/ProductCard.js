@@ -24,6 +24,7 @@ export default function Product(props) {
     _id,
     prodWeight,
     prodDiscount,
+    status,
   } = props;
 
   // ADD TO CART
@@ -31,8 +32,32 @@ export default function Product(props) {
     console.log(props);
     addToCart(props);
   };
-  return (
-    <div className="product_card">
+  return status === "out_of_stock" ? (
+    <div
+      className={`product_card ${status === "out_of_stock" && "out_of_stock"}`}
+    >
+      {status === "out_of_stock" && (
+        <div className="out_of_stock_banner">Out Of Stock !!!</div>
+      )}
+
+      <img
+        className="product_card_image"
+        src={`${PROD_IMAGE_BASE_URL}${prodThumbnail}`}
+        alt={prodName}
+        onClick={() => {
+          history.push(`/product/${_id}`);
+        }}
+      />
+      <div className="product_card_content">
+        <p className="product_card_name">{prodName}</p>
+        <p className="product_card_type">{prodType}</p>
+      </div>
+    </div>
+  ) : (
+    <div className={`product_card`}>
+      {status === "out_of_stock" && (
+        <div className="out_of_stock_banner">Out Of Stock !!!</div>
+      )}
       {prodDiscount?.isDiscounted && (
         <div className="product_card_banner">
           -{prodDiscount?.discountPercent}%

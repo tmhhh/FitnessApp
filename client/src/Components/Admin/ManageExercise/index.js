@@ -1,5 +1,5 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import { Button, Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import ExerciseTable from "./ExerciseTable";
@@ -9,8 +9,10 @@ import {
   deleteExercise,
   updateExercise,
 } from "../../../redux/slices/exerciseSlice";
+import { Context } from "../../../Contexts";
 
 export default function ExerciseSide() {
+  const { setToast } = useContext(Context);
   const { listExercises } = useSelector((state) => state.exerciseReducer);
   const dispatch = useDispatch();
   const updatedExerciseRef = useRef(null);
@@ -35,29 +37,86 @@ export default function ExerciseSide() {
   };
 
   const handleAddExercise = async (formData) => {
-    const newExercise = {
-      ...formData,
-      muscleActivate: formData.muscleActivate.map((e) => e.value),
-    };
+    try {
+      const newExercise = {
+        ...formData,
+        muscleActivate: formData.muscleActivate.map((e) => e.value),
+      };
 
-    const res = await dispatch(addExercise(newExercise));
-    if (unwrapResult(res)) newModalClose();
+      const res = await dispatch(addExercise(newExercise));
+      if (unwrapResult(res)) {
+        setToast({
+          toastShow: true,
+          title: "Add successfully",
+          content: "Keep gooingggg",
+          icon: "✔",
+          bg: "success",
+        });
+        newModalClose();
+      }
+    } catch (error) {
+      setToast({
+        toastShow: true,
+        title: "Failed to add",
+        content: "Please try again later",
+        icon: "❌",
+        bg: "warning",
+      });
+    }
   };
 
   ///UPDATE Exercise
   const handleUpdateExercise = async (formData) => {
-    const updatingExercise = {
-      ...formData,
-      muscleActivate: formData.muscleActivate.map((e) => e.value),
-    };
-    console.log({ updatingExercise });
-    const res = await dispatch(updateExercise(updatingExercise));
-    if (unwrapResult(res)) newModalClose();
+    try {
+      const updatingExercise = {
+        ...formData,
+        muscleActivate: formData.muscleActivate.map((e) => e.value),
+      };
+      console.log({ updatingExercise });
+      const res = await dispatch(updateExercise(updatingExercise));
+      if (unwrapResult(res)) {
+        setToast({
+          toastShow: true,
+          title: "Update successfully",
+          content: "Keep gooingggg",
+          icon: "✔",
+          bg: "success",
+        });
+        newModalClose();
+      }
+    } catch (error) {
+      setToast({
+        toastShow: true,
+        title: "Failed to update",
+        content: "Please try again later",
+        icon: "❌",
+        bg: "warning",
+      });
+    }
   };
 
   ///DELETE Exercise
   const handleDeleteExercise = async (id) => {
-    dispatch(deleteExercise(id));
+    try {
+      const res = await dispatch(deleteExercise(id));
+      if (unwrapResult(res)) {
+        setToast({
+          toastShow: true,
+          title: "Delete successfully",
+          content: "Keep gooingggg",
+          icon: "✔",
+          bg: "success",
+        });
+      }
+    } catch (error) {
+      setToast({
+        toastShow: true,
+        title: "Failed to delete",
+        content: "Please try again later",
+        icon: "❌",
+        bg: "warning",
+      });
+    }
   };
 
   return (

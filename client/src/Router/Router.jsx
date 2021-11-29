@@ -20,12 +20,19 @@ import NewPostPage from "../Components/Pages/PostPage/NewPostPage";
 import EditPostPage from "../Components/Pages/PostPage/EditPostPage";
 import PersonalPage from "../Components/Pages/PersonalPage";
 import BlogPage from "../Components/Pages/BlogPage";
+import { Helmet } from "react-helmet";
 
 export default function MainRouter() {
   const location = useLocation();
   return (
     <>
       <Navbar />
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Fitness App</title>
+        <meta name="description" content="The world of fitness application" />
+        <meta name="keyword" content="Fitness Application" />
+      </Helmet>
       <Switch>
         <AdminRoute path="/admin" component={AdminPage} />
         <ProtectedRoute path="/checkout" component={CheckoutWrapper} />

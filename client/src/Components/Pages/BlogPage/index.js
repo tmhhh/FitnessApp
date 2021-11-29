@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PostContainer from "../../Post/PostContainer";
 import { getPosts, getPostsByAuthor } from "../../../redux/slices/postSlice";
+import { Helmet } from "react-helmet";
 export default function () {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
@@ -28,6 +29,10 @@ export default function () {
         style={{ marginTop: "60px" }}
         className="d-flex align-items-center justify-content-between "
       >
+        <Helmet>
+          <title>Blog</title>
+          <meta name="description" content="Place to show your knowledge" />
+        </Helmet>
         <div>
           <button
             className="button3D p-3"

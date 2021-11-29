@@ -8,6 +8,7 @@ import { formatCurrency } from "../../../utils/formatCurrency";
 import { Context } from "../../../Contexts";
 import { getReview } from "../../../redux/slices/reviewSlice";
 import ReviewSection from "../../Review/ReviewSection";
+import { Helmet } from "react-helmet";
 function ProductDetailPage() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -47,6 +48,10 @@ function ProductDetailPage() {
   return (
     <>
       <div className="product_info_container">
+        <Helmet>
+          <title>{chosenProd.prodName}</title>
+          <meta name="description" content={chosenProd.prodName} />
+        </Helmet>
         {prodLoading ? (
           <Spinner
             style={{
@@ -69,21 +74,26 @@ function ProductDetailPage() {
               </div>
               <div className="product_info_details">
                 <div className="product_info_type">{chosenProd.prodType}</div>
-                <div className="product_info_review">
+                {/* <div className="product_info_review">
                   <i
                     style={{ color: "yellow", marginRight: "5px" }}
                     className="fa fa-star"
                     aria-hidden="true"
                   ></i>
-                  4.5 (23 Reviews)
-                </div>
+                  4.5 (23 Reviews) */}
+                {/* </div> */}
+                <span style={{ fontSize: "1.3rem", fontWeight: 500 }}>
+                  (
+                  {chosenProd.prodQuantity !== 0
+                    ? chosenProd.prodQuantity + " left"
+                    : "Out of stock"}
+                  )
+                </span>
                 <div className="product_info_name">
                   {chosenProd.prodName} <i className="far fa-heart"></i>
                 </div>
                 <div className="product_info_price d-flex align-items-center">
                   {formatCurrency(chosenProd.prodPrice)}
-
-                  <span>( {chosenProd.prodQuantity} IN STOCK !!!)</span>
                 </div>
                 <div className="product_info_cate">
                   {chosenProd.prodCategory.cateName.cateName} |{" "}

@@ -70,13 +70,9 @@ export default function InputField(props) {
           />
         </div>
         {error ? (
-          <div
-            style={{
-              color: "red",
-            }}
-          >
-            {errors[name]} 💢
-          </div>
+          <Form.Control.Feedback type="invalid">
+            {errors[name]}
+          </Form.Control.Feedback>
         ) : null}
       </Form.Group>
     );
@@ -104,13 +100,9 @@ export default function InputField(props) {
         <span className="input__state-icon"> </span>
         {label && <p className="input__label">{label}</p>}
         {error ? (
-          <div
-            style={{
-              color: "red",
-            }}
-          >
-            {errors[name]} 💢
-          </div>
+          <Form.Control.Feedback type="invalid">
+            {errors[name]}
+          </Form.Control.Feedback>
         ) : null}
       </div>
     );
@@ -137,13 +129,9 @@ export default function InputField(props) {
           isValid={touched[name] && !errors[name]}
         />
         {error ? (
-          <div
-            style={{
-              color: "red",
-            }}
-          >
-            {errors[name]} 💢
-          </div>
+          <Form.Control.Feedback type="invalid">
+            {errors[name]}
+          </Form.Control.Feedback>
         ) : null}
       </Form.Group>
     );

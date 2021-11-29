@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
 import {
@@ -12,6 +12,7 @@ import checkOutApi from "../../../../api/checkoutApi";
 import "./style.scss";
 import { useHistory } from "react-router-dom";
 import cartSlice from "../../../../redux/slices/cartSlice";
+import { Context } from "../../../../Contexts";
 export default function CheckoutModal({
   showModal,
   handleCloseModal,
@@ -20,6 +21,7 @@ export default function CheckoutModal({
   cartTotalPrice,
   userInfo,
 }) {
+  const { setToast } = useContext(Context);
   const dispatch = useDispatch();
   const history = useHistory();
   //PROVINCE STATE
@@ -64,6 +66,7 @@ export default function CheckoutModal({
 
   //HANDLE ON SUBMIT
   const handleOnSubmit = async (values) => {
+    console.log({ values });
     // //COUNT TOTAL WEIGHT
     const itemsTotalWeight = listItems.reduce((sum, current) => {
       return sum + current.product.prodWeight * current.quantity;
@@ -71,7 +74,7 @@ export default function CheckoutModal({
     formData.current = {
       ...values,
       paymentMethod: values.paymentMethod.value,
-      listItems: listItems.filter((e) => e.isSelected),
+      listItems: listItems.filter((e) => e.isSelected && !e.isOrdered),
       discountUsedID:
         usedDiscountRef.current.isUsed === true
           ? usedDiscountRef.current.discountCode
@@ -79,6 +82,8 @@ export default function CheckoutModal({
       itemsTotalWeight,
     };
     try {
+      console.log({ cartTotalPrice });
+      console.log(cartTotalPrice * 23000);
       const shippingRes = await axios.get(
         address_API_config.shipping_fee_API_URL,
         {
@@ -88,7 +93,7 @@ export default function CheckoutModal({
           },
           params: {
             service_type_id: 2,
-            insurance_value: cartTotalPrice * 23000,
+            insurance_value: cartTotalPrice.toFixed(0) * 230000,
             coupon: null,
             from_district_id: 1442,
             to_district_id: parseInt(formData.current.district),
@@ -100,7 +105,7 @@ export default function CheckoutModal({
           },
         }
       );
-      console.log(shippingRes.data.data.total);
+      // console.log(shippingRes.data.data.total);
 
       formData.current = {
         ...formData.current,
@@ -181,18 +186,18 @@ export default function CheckoutModal({
               ) {
                 clearInterval(timer);
                 newWindow.close();
-                // const checkOutRes = await checkOutApi.billCheckout({
-                //   ...formData.current,
-                // });
-                // if (checkOutRes.data.isSuccess) {
-                //   dispatch(
-                //     cartSlice.actions.setCart({
-                //       cartLoading: false,
-                //       userCart: checkOutRes.data.updatedCart,
-                //     })
-                //   );
-                //   history.push("/checkout/success");
-                // }
+                const checkOutRes = await checkOutApi.billCheckout({
+                  ...formData.current,
+                });
+                if (checkOutRes.data.isSuccess) {
+                  dispatch(
+                    cartSlice.actions.setCart({
+                      cartLoading: false,
+                      userCart: checkOutRes.data.updatedCart,
+                    })
+                  );
+                  history.push("/checkout/success");
+                }
                 console.log("vnpay success");
               }
             } catch (error) {
@@ -215,7 +220,15 @@ export default function CheckoutModal({
         }
       }
     } catch (error) {
-      console.log(error);
+      console.log({ error });
+      if (error.response.status === 400)
+        setToast({
+          toastShow: true,
+          title: "Failed to checkout  !!!",
+          content: error.response.data.message + " !!!",
+          icon: "❌",
+          bg: "danger",
+        });
     }
   };
 
@@ -257,7 +270,14 @@ export default function CheckoutModal({
               {Object.keys(formData.current).length > 0 && (
                 <>
                   <div className="d-flex mb-2">
-                    <div className="order_user_name_label w-50">
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#333",
+                      }}
+                      className="order_user_name_label w-50"
+                    >
                       Order Customer
                     </div>
                     <div
@@ -268,7 +288,16 @@ export default function CheckoutModal({
                     </div>
                   </div>
                   <div className="d-flex mb-2">
-                    <div className="address_label w-50">Address</div>
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#333",
+                      }}
+                      className="address_label w-50"
+                    >
+                      Address
+                    </div>
                     <div
                       style={{ fontSize: "15px", fontWeight: "500" }}
                       className="address_value w-50"
@@ -291,7 +320,14 @@ export default function CheckoutModal({
                     </div>
                   </div>
                   <div className="d-flex mb-2">
-                    <div className="subtotal_price_label w-50">
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#333",
+                      }}
+                      className="subtotal_price_label w-50"
+                    >
                       Subtotal Price:
                     </div>
                     <div
@@ -302,7 +338,14 @@ export default function CheckoutModal({
                     </div>
                   </div>
                   <div className="d-flex mb-2">
-                    <div className="shipping_price_label w-50">
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#333",
+                      }}
+                      className="shipping_price_label w-50"
+                    >
                       Shipping Price:
                     </div>
                     <div
@@ -318,7 +361,16 @@ export default function CheckoutModal({
                       borderTop: "1px solid black",
                     }}
                   >
-                    <div className="w-50">Total Price:</div>
+                    <div
+                      style={{
+                        fontSize: "15px",
+                        fontWeight: 700,
+                        color: "#333",
+                      }}
+                      className="w-50"
+                    >
+                      Total Price:
+                    </div>
                     <div
                       style={{
                         fontSize: "20px",

@@ -122,7 +122,7 @@ export default function SelectField(props) {
       >
         {body}
         <Form.Control.Feedback type="invalid">
-          {errors[name]} 💢
+          {errors[name]}
         </Form.Control.Feedback>
       </Form.Group>
     </>
