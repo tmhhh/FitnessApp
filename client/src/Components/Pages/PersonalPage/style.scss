@@ -4,3 +4,9 @@
   min-height: calc(100vh - 60px);
   display: flex;
 }
+.badge-btn {
+  font-size: 18px;
+  &:hover {
+    cursor: pointer;
+  }
+}

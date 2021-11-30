@@ -47,7 +47,7 @@ export default function Sidebar({ userImage, userName, parentPath }) {
           <NavLink
             exact
             activeClassName="navbar_active"
-            to={`/profile/bill`}
+            to={`/profile/bill-history`}
             className="personal_information"
           >
             Bill history
@@ -63,6 +63,18 @@ export default function Sidebar({ userImage, userName, parentPath }) {
             className="personal_information"
           >
             Workout Schedule
+          </NavLink>
+          <i className="fas fa-chevron-right"></i>
+        </div>
+        <div className="side_bar_item">
+          <i class="far fa-newspaper"></i>
+          <NavLink
+            exact
+            activeClassName="navbar_active"
+            to={`/profile/post`}
+            className="personal_information"
+          >
+            Posts
           </NavLink>
           <i className="fas fa-chevron-right"></i>
         </div>

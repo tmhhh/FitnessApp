@@ -10,4 +10,7 @@ router.get(
   verifyAdmin,
   billController.getTotalRevenueByYear
 );
+
+router.get("/history", verifyToken, billController.getBillByCustomer);
+
 module.exports = router;

@@ -9,7 +9,9 @@ import Thumbnail from "../../Common/Thumbnail";
 export default function PostSide() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const listPost = useSelector((state) => state.postReducer.listPost);
+  const listPost = useSelector((state) => state.postReducer.listPost).filter(
+    (post) => post.status === "pending"
+  );
   useEffect(() => {
     (async () => {
       await dispatch(getPosts());
@@ -34,27 +36,31 @@ export default function PostSide() {
           </tr>
         </thead>
         <tbody>
-          {listPost.map(
-            (post) =>
-              post.status === "pending" && (
-                <tr key={post._id}>
-                  <td>
-                    <Thumbnail url={fetchPostImage(post.thumbnail)} />
-                  </td>
-                  <td>{post.title}</td>
-                  <td>{post.author?.userName}</td>
-                  <td>{post.createdAt}</td>
+          {listPost.map((post) => (
+            <tr key={post._id}>
+              <td>
+                <Thumbnail url={fetchPostImage(post.thumbnail)} />
+              </td>
+              <td>{post.title}</td>
+              <td>{post.author?.userName}</td>
+              <td>{post.createdAt}</td>
 
-                  <td>
-                    <button
-                      className="default-button default-primary"
-                      onClick={() => history.push(`/admin/post/${post._id}`)}
-                    >
-                      Check 📬
-                    </button>
-                  </td>
-                </tr>
-              )
+              <td>
+                <button
+                  className="default-button default-primary"
+                  onClick={() => history.push(`/admin/post/${post._id}`)}
+                >
+                  Check 📬
+                </button>
+              </td>
+            </tr>
+          ))}
+          {listPost.length <= 0 && (
+            <tr>
+              <td style={{ fontSize: "50px" }} colSpan="5">
+                No posts in pending ...{" "}
+              </td>{" "}
+            </tr>
           )}
         </tbody>
       </Table>

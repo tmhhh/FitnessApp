@@ -9,6 +9,9 @@ const billApi = {
       params: { year },
     });
   },
+  getBillByCustomer: () => {
+    return axiosClient.get(BASE_API_URL + "/bill/history");
+  },
 };
 
 export default billApi;
