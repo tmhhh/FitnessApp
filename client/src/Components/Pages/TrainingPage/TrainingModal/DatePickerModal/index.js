@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
 
 import { useState } from "react";
 
@@ -34,9 +34,6 @@ export default function DatePickerModal({
           format={"y-MM-dd"}
           value={date}
           className="w-100"
-          dayPlaceholder="XX"
-          monthPlaceholder="XX"
-          yearPlaceholder="XXXX"
         />
       </Modal.Body>
       <Modal.Footer>

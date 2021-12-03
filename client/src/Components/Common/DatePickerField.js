@@ -1,8 +1,8 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import DatePicker from "react-date-picker";
+import DatePicker from "react-datepicker";
 export default function DatePickerField(props) {
-  const { form, field, label, required, minDate } = props;
+  const { form, field, label, required, minDate,showTimeSelect } = props;
   const { name, value, onChange } = field;
   const { errors, touched } = form;
   const error = errors[name] && touched[name];
@@ -31,13 +31,18 @@ export default function DatePickerField(props) {
         )}
         <DatePicker
           {...field}
-          date
-          locale="us-uk"
-          minDate={minDate}
-          calendarType="Arabic"
-          onChange={handleOnChange}
-          className="flex-grow-1"
-          format={"y-MM-dd"}
+            minDate={minDate}
+            // startDate={new Date()}
+            onChange={handleOnChange}
+            showTimeSelect={showTimeSelect}
+            selected={value}
+          // date
+          // locale="us-uk"
+          // minDate={minDate}
+          // calendarType="Arabic"
+          // onChange={handleOnChange}
+          // className="flex-grow-1"
+          // format={"y-MM-dd"}
         />
         {error ? (
           <Form.Text

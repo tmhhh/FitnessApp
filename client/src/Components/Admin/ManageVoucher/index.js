@@ -20,7 +20,7 @@ export default function Voucher() {
       });
       const res = await vouApi.addVoucher({
         ...voucher,
-        vouExpired: voucher.vouExpired.toLocaleDateString(),
+        vouExpired: voucher.vouExpired,
       });
       if (res.data.isSuccess)
         return setToast({

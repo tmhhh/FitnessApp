@@ -23,9 +23,10 @@ export const deleteProduct = createAsyncThunk(
 );
 export const addDiscount = createAsyncThunk(
   "product/addDiscount",
-  async ({ prodID, discountPercent }, thunkApi) => {
+  async ({ prodID, discountPercent,startDate }, thunkApi) => {
     try {
-      const res = await prodApi.addDiscount(prodID, discountPercent);
+      console.log("slice"+startDate)
+      const res = await prodApi.addDiscount(prodID, discountPercent,startDate);
       if (res.data.isSuccess) return res.data.updatedProd;
     } catch (error) {
       // return "trong gui ra";  WRONG WAY

@@ -79,6 +79,8 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               name="vouExpired"
               label="Expired Date"
               required
+                    minDate={new Date()}
+            showTimeSelect
               component={DatePickerField}
               // minDate={date}
             />

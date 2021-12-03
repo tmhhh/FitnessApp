@@ -19,7 +19,7 @@ function ProductDetailPage() {
   const { id: prodID } = useParams();
   let { listProducts, prodLoading } = useSelector((state) => state.prodReducer);
   const chosenProd = listProducts.find((prod) => prod._id === prodID);
-
+  const [countingClock, setCountingClock] = useState(null);
   //
   useEffect(() => {
     (async () => {
@@ -32,6 +32,46 @@ function ProductDetailPage() {
     addToCart(chosenProd, quantity);
   };
 
+  //
+  useEffect(() => {
+    let current = new Date().getTime();
+
+    let difference =
+      new Date(chosenProd?.prodDiscount.startDate).getTime() - current;
+    if (!prodLoading && difference > 0) {
+      let timer = setInterval(() => {
+        current = new Date().getTime();
+        difference =
+          new Date(chosenProd.prodDiscount.startDate).getTime() - current;
+
+        let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
+        difference -= daysDifference * 1000 * 60 * 60 * 24;
+
+        let hoursDifference = Math.floor(difference / 1000 / 60 / 60);
+        difference -= hoursDifference * 1000 * 60 * 60;
+
+        let minutesDifference = Math.floor(difference / 1000 / 60);
+        difference -= minutesDifference * 1000 * 60;
+
+        let secondsDifference = Math.floor(difference / 1000);
+        console.log({
+          daysDifference,
+          hoursDifference,
+          minutesDifference,
+          secondsDifference,
+        });
+        setCountingClock({
+          daysDifference,
+          hoursDifference,
+          minutesDifference,
+          secondsDifference,
+        });
+      }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
+    }
+  }, [prodLoading]);
   //GET 3 RELATED PRODUCTS
   const relatedProds = listProducts.reduce((acc, prod) => {
     if (
@@ -48,10 +88,6 @@ function ProductDetailPage() {
   return (
     <>
       <div className="product_info_container">
-        <Helmet>
-          <title>{chosenProd.prodName}</title>
-          <meta name="description" content={chosenProd.prodName} />
-        </Helmet>
         {prodLoading ? (
           <Spinner
             style={{
@@ -65,6 +101,41 @@ function ProductDetailPage() {
           />
         ) : (
           <>
+            {countingClock && (
+              <>
+                <div className="counting-items">
+                  {/* <h3 className="counting-title">Sale in:</h3> */}
+                  <div className="counting-item">
+                    <p className="counting-item-value">
+                      {countingClock.daysDifference}
+                    </p>
+                    <p className="counting-item-label">days</p>
+                  </div>
+                  <div className="counting-item">
+                    <p className="counting-item-value">
+                      {countingClock.hoursDifference}
+                    </p>
+                    <p className="counting-item-label">hours</p>
+                  </div>
+                  <div className="counting-item">
+                    <p className="counting-item-value">
+                      {countingClock.minutesDifference}
+                    </p>
+                    <p className="counting-item-label">mins</p>
+                  </div>
+                  <div className="counting-item">
+                    <p className="counting-item-value">
+                      {countingClock.secondsDifference}
+                    </p>
+                    <p className="counting-item-label">secs</p>
+                  </div>
+                </div>
+              </>
+            )}
+            <Helmet>
+              <title>{chosenProd.prodName}</title>
+              <meta name="description" content={chosenProd.prodName} />
+            </Helmet>
             <div className="product_info">
               <div className="product_info_image">
                 <img
@@ -82,26 +153,58 @@ function ProductDetailPage() {
                   ></i>
                   4.5 (23 Reviews) */}
                 {/* </div> */}
-                <span style={{ fontSize: "1.3rem", fontWeight: 500 }}>
-                  (
-                  {chosenProd.prodQuantity !== 0
-                    ? chosenProd.prodQuantity + " left"
-                    : "Out of stock"}
-                  )
-                </span>
-                <div className="product_info_name">
+
+                <div className="product_info_name ">
                   {chosenProd.prodName} <i className="far fa-heart"></i>
+                  <span
+                    style={{
+                      marginLeft: "auto",
+                      fontSize: "1.7rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    (
+                    {chosenProd.prodQuantity !== 0
+                      ? chosenProd.prodQuantity + " left"
+                      : "Out of stock"}
+                    )
+                  </span>
                 </div>
-                <div className="product_info_price d-flex align-items-center">
-                  {formatCurrency(chosenProd.prodPrice)}
-                </div>
+                {new Date(chosenProd.prodDiscount.startDate).getTime() -
+                  new Date().getTime() <
+                0 ? (
+                  <>
+                    <div className="line-through">
+                      {formatCurrency(chosenProd.prodPrice)}
+                    </div>
+                    <div className="product_info_price d-flex align-items-center">
+                      {formatCurrency(
+                        chosenProd.prodPrice *
+                          (1 -
+                            (chosenProd.prodDiscount?.discountPercent / 100 ||
+                              0))
+                      )}
+                      <span className=" product_info_weight">
+                        / {chosenProd.prodWeight}g
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="product_info_price d-flex align-items-center">
+                    {formatCurrency(chosenProd.prodPrice)}{" "}
+                    <span className=" product_info_weight">
+                      / {chosenProd.prodWeight}g
+                    </span>
+                  </div>
+                )}
+
                 <div className="product_info_cate">
                   {chosenProd.prodCategory.cateName.cateName} |{" "}
                   {chosenProd.prodCategory.cateFilter.filterName}{" "}
                 </div>
-                <div className="product_info_weight">
+                {/* <div className="product_info_weight">
                   {chosenProd.prodWeight}g
-                </div>
+                </div> */}
                 <div className="product_info_des">
                   {chosenProd.prodDescription}
                 </div>

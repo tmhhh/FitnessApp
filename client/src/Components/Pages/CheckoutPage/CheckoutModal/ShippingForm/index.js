@@ -94,6 +94,7 @@ export default function ShippingForm({
         };
 
         if (parseInt(values.province) !== 0 && touched.province === true) {
+          // VAN DE
           // touched.province = false;
           formikProps.setFieldTouched("province", false);
 
