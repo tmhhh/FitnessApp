@@ -19,6 +19,7 @@ import Post from "../Components/Post/Post";
 import NewPostPage from "../Components/Pages/PostPage/NewPostPage";
 import EditPostPage from "../Components/Pages/PostPage/EditPostPage";
 import PersonalPage from "../Components/Pages/PersonalPage";
+import ServicePreview from "../Components/Service/ServicePreview";
 import BlogPage from "../Components/Pages/BlogPage";
 import { Helmet } from "react-helmet";
 
@@ -45,6 +46,7 @@ export default function MainRouter() {
         <Route exact path="/post/:postId" component={Post} />
         <Route exact path="/create-post" component={NewPostPage} />
         <Route exact path="/edit-post/:postId" component={EditPostPage} />
+        <Route exact path="/service" component={ServicePreview} />
         <Route exact path="/" component={HomePage} />
         <Route render={() => <div>NOT FOUND !!!</div>} />
       </Switch>

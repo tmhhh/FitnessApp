@@ -35,6 +35,7 @@ export default function PostForm({ innerRef, handleSubmit, initialValues }) {
                 name="thumbnail"
                 label="Post thumbnail"
                 type="file"
+                fieldType={0}
                 component={InputField}
               />
 

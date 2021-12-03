@@ -32,10 +32,10 @@ export default function PostCrud({ postId }) {
   const handleSubmit = async (body) => {
     if (postId) {
       await dispatch(editPost({ postId, body }));
-      history.push("/training");
+      history.push("/blog");
     } else {
       await dispatch(createPost(body));
-      history.push("/training");
+      history.push("/blog");
     }
   };
   return (

@@ -233,4 +233,19 @@ module.exports = {
         .json({ isSuccess: false, message: "Server Internal Error" });
     }
   },
+
+  getBillByCustomer: async (req, res) => {
+    const { userID } = req;
+    try {
+      const bills = await billModel
+        .find({ user: userID })
+        .populate("listItems.product");
+      console.log(userID);
+      return res.status(200).json({ bills });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
 };

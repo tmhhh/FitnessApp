@@ -19,9 +19,10 @@ module.exports = {
     }
   },
   get: async (req, res) => {
-    const { authorId } = req.query;
+    const { authorId, status } = req.query;
     let condition = {};
     if (authorId) condition = { ...condition, author: authorId };
+    if (status) condition = { ...condition, status };
     try {
       const listPost = await postModel.find(condition).populate("author");
       return res.status(200).json({ isSuccess: true, listPost });
@@ -29,9 +30,9 @@ module.exports = {
       return res.status(500).json({ isSuccess: false, error: err });
     }
   },
+
   getById: async (req, res) => {
     try {
-      console.log(req.params.id);
       const post = await postModel.findById(req.params.id).populate("author");
 
       return res.status(200).json({ isSuccess: true, post });
@@ -62,15 +63,15 @@ module.exports = {
   },
   update: async (req, res) => {
     const postId = req.params.id;
+    const user = await userModel.findById(req.userID);
     try {
       const oldPost = await postModel.findById(postId);
       if (!oldPost) return res.status(404).json({ isSuccess: false });
-      if (req.userID !== oldPost.author.toString())
+      if (req.userID !== oldPost.author.toString() && user.userType !== 1)
         return res.status(403).json({ isSuccess: false });
 
       const post = {
         ...req.body,
-        author: req.useID,
         thumbnail: req.file ? req.file.filename : oldPost.thumbnail,
       };
       await postModel.updateOne({ _id: postId }, post);
@@ -101,7 +102,7 @@ module.exports = {
   pending: async (req, res) => {
     const { userType } = await userModel.findById(req.userID);
     if (userType === 1) return res.status(403).json({ error: "No permission" });
-    const status = req.body.isAccepted === true ? "accepted" : "rejected";
+    const status = req.body.isAccepted === true ? "approved" : "rejected";
     try {
       await postModel.updateOne({ _id: req.params.id }, { status });
       return res.json({ isSuccess: true });
@@ -192,7 +193,7 @@ module.exports = {
       //   // console.log(e.replies);
       // });
 
-      return res.json({ isSuccess: true, comments: listComment });
+      return res.json({ isSuccess: true, comments: comments });
     } catch (error) {
       console.log("err: ", error);
       return res.status(500).json({ isSuccess: false, error });

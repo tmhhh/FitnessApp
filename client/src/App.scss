@@ -19,6 +19,7 @@
 .form-control {
   font-size: 1.5rem !important;
 }
+
 .page-item {
   font-size: 1.5rem !important;
   .page-link {
@@ -102,6 +103,12 @@
 }
 
 .default-primary {
+  color: #2e6efd;
+  &:hover {
+    background-color: #dfe9ff;
+  }
+}
+.default-outline-primary {
   color: #2e6efd;
   border: 1px solid #b4ccff;
   &:hover {
