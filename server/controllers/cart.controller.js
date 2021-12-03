@@ -92,8 +92,11 @@ module.exports = {
       if (!foundProd)
         return res
           .status(403)
-          .json({ isSuccess: false, Error: "Product not found !!!" });
-
+          .json({ isSuccess: false, message: "Product not found !!!" });
+      if (foundProd.prodQuantity < addedQuantity)
+        return res
+          .status(403)
+          .json({ isSuccess: false, message: "Product's quantity exceed !!!" });
       /// HANDLE ADD TO CART THEN RETURN UPDATED CART
       const updatedCart = await handleUserCart(
         req.userID,

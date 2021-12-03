@@ -3,17 +3,31 @@
 //     "danger": tomato,
 //     "success":green
 // );
+@import "react-datepicker/dist/react-datepicker.css";
+.react-datepicker__input-container input[type="text"] {
+  font-size: 1.3rem;
+  width: 100%;
+  height: 30px;
+  padding:0.5rem;
+}
+.react-datepicker,.react-datepicker__current-month,.react-datepicker-time__header{
+  font-size: 1.2rem !important;
 
+}
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 .form-control {
   font-size: 1.5rem !important;
 }
+
 .page-item {
   font-size: 1.5rem !important;
   .page-link {
     padding: 1rem !important;
   }
+}
+.invalid-feedback {
+  font-size: 1.3rem;
 }
 .nav-tabs {
   button {

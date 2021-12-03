@@ -75,7 +75,7 @@ export default function ContextProvider({ children }) {
       }
       const res = await authApi.loadUser();
       if (res.data.isSuccess) {
-        console.log(res.data.user);
+        // console.log(res.data.user);
         dispatch(
           cartSlice.actions.setCart({
             userCart: res.data.user.userCart,
@@ -251,7 +251,6 @@ export default function ContextProvider({ children }) {
         bg: "info",
       });
       if (isAuthenticated) {
-        console.log({ addedQuantity });
         const res = await cartApi.addToCart(_id, addedQuantity);
         setToast({
           toastShow: true,
@@ -318,6 +317,15 @@ export default function ContextProvider({ children }) {
       }
     } catch (error) {
       console.log(error);
+      if (error.response.status === 403)
+        return setToast({
+          toastShow: true,
+          title: "Failed to add to cart !!!",
+          content: error.response.data.message,
+          icon: "❌",
+          bg: "danger",
+        });
+
       setToast({
         toastShow: true,
         title: "Failed to add to cart !!!",

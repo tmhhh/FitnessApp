@@ -19,7 +19,7 @@ export default function DiscountForm({ handleSubmitVoucher, disabled }) {
     >
       {(formikProps) => {
         const { values } = formikProps;
-        console.log(values);
+        // console.log(values);
         return (
           <Form className="d-flex align-items-center ">
             <FastField

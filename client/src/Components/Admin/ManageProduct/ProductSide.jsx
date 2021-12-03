@@ -152,7 +152,10 @@ export default function ProductSide(props) {
   };
   const handleAddDiscount = async (prodID, discountPercent) => {
     try {
-      const res = await dispatch(addDiscount({ prodID, discountPercent }));
+    console.log(typeof startTime)
+    console.log( startTime)
+
+      const res = await dispatch(addDiscount({ prodID, discountPercent,startDate:startTime }));
       if (unwrapResult(res)) handleCloseProductDiscountModal();
     } catch (error) {
       console.log("ngoai");
@@ -166,6 +169,12 @@ export default function ProductSide(props) {
     } catch (error) {
       console.log({ error });
     }
+  };
+
+  //START TIME
+  const [startTime, setStartTime] = useState(new Date());
+  const handleStartTimeChange = (e) => {
+    setStartTime(e);
   };
   return (
     <Container className="admin-container mt-5">
@@ -212,6 +221,8 @@ export default function ProductSide(props) {
         handleAddDiscount={handleAddDiscount}
         handleResetDiscount={handleResetDiscount}
         handleClose={handleCloseProductDiscountModal}
+        handleStartTimeChange={handleStartTimeChange}
+        startTime={startTime}
       />
     </Container>
   );

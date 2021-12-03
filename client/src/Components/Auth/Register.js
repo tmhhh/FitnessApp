@@ -76,7 +76,13 @@ function Register() {
           .string()
           .email("Invalid email format")
           .required("This field is required"),
-        userPassword: yup.string().required("This field is required"),
+        userPassword: yup
+          .string()
+          .required("Please Enter your password")
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+          ),
         userPasswordConfirm: yup
           .string()
           .test("passwords-match", "Passwords must match", function (value) {

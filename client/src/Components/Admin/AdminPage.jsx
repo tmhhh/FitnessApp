@@ -4,7 +4,7 @@ import { useRouteMatch } from "react-router-dom";
 import AdminRoute from "./AdminRoute";
 import Sidebar from "./Sidebar";
 import "./style.scss";
-
+import { Helmet } from "react-helmet";
 export default function AdminPage() {
   let { path, url } = useRouteMatch();
   // console.log({ path, url });
@@ -18,6 +18,10 @@ export default function AdminPage() {
           backgroundColor: "rgba(238, 238, 238, 0.707)",
         }}
       >
+        <Helmet>
+          <title>Dashboard</title>
+          <meta name="description" content="Manage your application" />
+        </Helmet>
         <Row>
           <Col
             className="admin-sidebar d-flex"

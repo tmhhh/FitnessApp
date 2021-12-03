@@ -13,7 +13,7 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
   const timerRef = useRef(null);
 
   /////
-  const handleOnChange = (e) => {
+  const handleOnChange = async (e) => {
     setInput(e.target.value);
     const param = e.target.value;
     try {
@@ -44,6 +44,13 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
           }, 2000);
         } else {
           if (timerRef.current) clearTimeout(timerRef.current);
+          const res = await prodApi.searchProducts("");
+          dispatch(
+            prodSlice.actions.getProducts({
+              prodLoading: false,
+              listProducts: res.data.foundProd,
+            })
+          );
         }
       } else {
         if (e.target.value.trim() !== "") {

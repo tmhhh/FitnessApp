@@ -12,6 +12,7 @@ router.put(
 );
 //FOR MANAGE USER PROFILE INFO
 router.put("/profile", verifyToken, userCtl.updateProfile);
+router.put("/profile/password", verifyToken, userCtl.updatePassword);
 
 //FOR NUTRITION FEATURE PURPOSE
 router.put("/profile/tracking-info", verifyToken, userCtl.updateTrackingInfo);

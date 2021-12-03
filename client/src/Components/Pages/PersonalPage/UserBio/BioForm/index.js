@@ -3,10 +3,14 @@ import { FastField, Form, Formik } from "formik";
 import InputField from "../../../../Common/InputField";
 import { Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import authSlice from "../../../../../redux/slices/authSlice";
 import * as yup from "yup";
-import userApi from "../../../../../api/userApi";
-export default function BioForm({ userName, userEmail, userPhone }) {
+
+export default function BioForm({
+  userName,
+  userEmail,
+  userPhone,
+  updatedProfile,
+}) {
   //
   const dispatch = useDispatch();
 
@@ -21,17 +25,7 @@ export default function BioForm({ userName, userEmail, userPhone }) {
   });
 
   //
-  const updatedProfile = async (values) => {
-    try {
-      const data = { ...values };
-      delete data.userConfirmPassword;
-      const res = await userApi.updateProfile(data);
-      if (res.data.isSuccess)
-        return dispatch(authSlice.actions.setUserProfile(res.data.updatedUser));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   return (
     <Formik
       initialValues={{

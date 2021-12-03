@@ -13,6 +13,7 @@ router.get("/paypal/cancel", (req, res) => {
 
 //VNPAY
 router.post("/vnpay", verifyUser, vnpayCheckout.createPaymentURL);
+
 router.get("/vnpay_ipn", vnpayCheckout.IPN);
 router.get("/vnpay_return", vnpayCheckout.handleCallback);
 

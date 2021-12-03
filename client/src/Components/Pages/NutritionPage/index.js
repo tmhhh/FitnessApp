@@ -12,6 +12,7 @@ import "./style.scss";
 import TrackingModal from "./TrackingModal";
 import authSlice from "../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { Helmet } from "react-helmet";
 export default function NutritionPage() {
   const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
@@ -78,6 +79,10 @@ export default function NutritionPage() {
   return (
     <>
       <NutritionContainer>
+        <Helmet>
+          <title>Nutrition</title>
+          <meta name="description" content="Word of nutrition" />
+        </Helmet>
         <TrackingSidebar
           isAuthenticated={isAuthenticated}
           authLoading={authLoading}

@@ -68,7 +68,7 @@ export default function ShippingForm({
                 province_id: parseInt(values.province),
               },
             });
-            console.log(res.data);
+            // console.log(res.data);
             setAddressData({ ...addressData, districtsData: res.data.data });
           } catch (error) {
             console.log(error);
@@ -86,7 +86,7 @@ export default function ShippingForm({
                 district_id: parseInt(values.district),
               },
             });
-            console.log(res.data.data);
+            // console.log(res.data.data);
             setAddressData({ ...addressData, wardsData: res.data.data || [] });
           } catch (error) {
             console.log(error);
@@ -94,18 +94,25 @@ export default function ShippingForm({
         };
 
         if (parseInt(values.province) !== 0 && touched.province === true) {
-          touched.province = false;
-          // values.apartmentNumber = "128";
+          // VAN DE
+          // touched.province = false;
+          formikProps.setFieldTouched("province", false);
+
+          console.log("province change" + values.province);
           getDistrictsByProvinceID();
         }
         if (parseInt(values.district) !== 0 && touched.district === true) {
-          touched.district = false;
+          // touched.district = false;
+          formikProps.setFieldTouched("district", false);
+          console.log("district change" + values.district);
+
           getWardsByDistrictID();
         }
+
         return (
           <Form>
             <FastField
-              placeholder="Receiver phone number ..."
+              placeholder="Ex: xxx xxx xxx ..."
               label="Phone Number"
               required
               name="phoneNumber"

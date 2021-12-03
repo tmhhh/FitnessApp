@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ProductSide from "./ProductSide";
 import Sidebar from "./Sidebar";
 import "./style.scss";
-
+import { Helmet } from "react-helmet";
 export default function ShoppingPage() {
   const prodSelector = useSelector((state) => state.prodReducer);
   const { userInfo, isAuthenticated } = useSelector(
@@ -22,7 +22,7 @@ export default function ShoppingPage() {
   useEffect(() => {
     setProdSelectorCopy({ ...prodSelector });
   }, [prodSelector]);
-  console.log({ searchOption });
+  // console.log({ searchOption });
 
   /// HANDLE SEARCH BY CATE TYPE
   const handleSearchByCate = (cateOption) => {
@@ -62,10 +62,60 @@ export default function ShoppingPage() {
     });
     setSearchOption({ ...searchOption, byCateFilter: filterOption });
   };
+
+  //SEARCH BY PRICE
+  const handleSearchByPrice = (domain) => {
+    switch (domain) {
+      case 0: // 10-40
+        return setProdSelectorCopy({
+          ...prodSelectorCopy,
+          listProducts: prodSelector.listProducts.filter(
+            (prod) =>
+              prod.prodPrice *
+                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) >=
+                10 &&
+              prod.prodPrice *
+                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) <
+                40
+          ),
+        });
+      case 1: // 40-80
+        return setProdSelectorCopy({
+          ...prodSelectorCopy,
+          listProducts: prodSelector.listProducts.filter(
+            (prod) =>
+              prod.prodPrice *
+                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) >=
+                40 &&
+              prod.prodPrice *
+                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) <
+                80
+          ),
+        });
+      case 2: // 80-100
+        return setProdSelectorCopy({
+          ...prodSelectorCopy,
+          listProducts: prodSelector.listProducts.filter(
+            (prod) =>
+              prod.prodPrice *
+                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) >=
+                80 &&
+              prod.prodPrice *
+                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) <=
+                100
+          ),
+        });
+      default:
+        break;
+    }
+  };
   return (
     <>
-      <div className="container shopping_page_container">
-        <div></div>
+      <div className="container-fluid shopping_page_container">
+        <Helmet>
+          <title>Shopping</title>
+          <meta name="description" content="Stuff related to fitness" />
+        </Helmet>
         <Row>
           <Col md={3} lg={3}>
             <Sidebar
@@ -76,6 +126,7 @@ export default function ShoppingPage() {
               listCate={listCate}
               searchOption={searchOption}
               totalFavorite={userInfo.favoriteProducts?.length}
+              handleSearchByPrice={handleSearchByPrice}
               // setFilter={setFilter}
             />
           </Col>

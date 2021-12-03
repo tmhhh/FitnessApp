@@ -116,18 +116,32 @@ module.exports = {
     try {
       // console.log(req.files.filename);
       const foundUser = await userModel.findById(req.userID);
+      if (Object.keys(req.files).length <= 0) {
+        return res
+          .status(400)
+          .json({ isSuccess: false, message: "User haven't chosen image" });
+      }
       foundUser.userImage = req.files.userImage[0].filename;
       await foundUser.save();
       return res.status(200).json({ isSuccess: true });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ isSuccess: false, error });
     }
   },
   updateProfile: async (req, res) => {
     try {
-      const hashedPassword = await argon2.hash(req.body.userPassword);
+      const { userName, userEmail, userPhone } = req.body;
       const foundUser = await userModel
-        .findById(req.userID)
+        .findByIdAndUpdate(
+          req.userID,
+          {
+            userName,
+            userEmail,
+            userPhone,
+          },
+          { new: true }
+        )
         // .populate({
         //   path: "userCart.product",
         //   populate: {
@@ -136,12 +150,12 @@ module.exports = {
         // })
         .select("-userPassword");
 
-      foundUser.userName = req.body.userName;
-      foundUser.userPassword = hashedPassword;
-      foundUser.userEmail = req.body.userEmail;
-      foundUser.userPhone = parseInt(req.body.userPhone);
+      // foundUser.userName = req.body.userName;
+      // foundUser.userPassword = hashedPassword;
+      // foundUser.userEmail = req.body.userEmail;
+      // foundUser.userPhone = parseInt(req.body.userPhone);
 
-      await foundUser.save();
+      // await foundUser.save();
 
       // foundUser = foundUser.toObject();
       // //
@@ -167,6 +181,23 @@ module.exports = {
       // }
       return res.status(200).json({ isSuccess: true, updatedUser: foundUser });
     } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, error: "Internal Server Error" });
+    }
+  },
+  updatePassword: async (req, res) => {
+    try {
+      const { newPassword } = req.body;
+      const hashedPassword = await argon2.hash(newPassword);
+
+      const updatedUser = await userModel.findByIdAndUpdate(req.userID, {
+        userPassword: hashedPassword,
+      });
+      return res.status(200).json({ isSuccess: true });
+    } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .json({ isSuccess: false, error: "Internal Server Error" });

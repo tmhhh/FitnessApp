@@ -7,6 +7,7 @@ import {
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
 export default function BlogPage() {
+import { Helmet } from "react-helmet";
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
   const history = useHistory();
@@ -31,6 +32,10 @@ export default function BlogPage() {
         style={{ marginTop: "60px" }}
         className="d-flex align-items-center justify-content-between "
       >
+        <Helmet>
+          <title>Blog</title>
+          <meta name="description" content="Place to show your knowledge" />
+        </Helmet>
         <div>
           <button
             className="button3D p-3"

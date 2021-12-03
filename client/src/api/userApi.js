@@ -8,6 +8,11 @@ const userApi = {
   updateProfile: (newProfile) => {
     return axiosClient.put(BASE_API_URL + "/user/profile", { ...newProfile });
   },
+  updatePassword: (newPassword) => {
+    return axiosClient.put(BASE_API_URL + "/user/profile/password", {
+      newPassword,
+    });
+  },
   updateTrackingIno: (trackingInfo) => {
     return axiosClient.put(BASE_API_URL + "/user/profile/tracking-info", {
       trackingInfo,

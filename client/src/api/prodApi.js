@@ -22,10 +22,11 @@ const prodApi = {
       },
     }),
   totalNumbProds: () => axiosClient.get(BASE_API_URL + "/products/total"),
-  addDiscount: (prodID, discountPercent) => {
+  addDiscount: (prodID, discountPercent,startDate) => {
     return axiosClient.put(BASE_API_URL + `/products/discount/add`, {
       prodID,
       discountPercent,
+      startDate
     });
   },
   resetDiscount: (prodID) => {

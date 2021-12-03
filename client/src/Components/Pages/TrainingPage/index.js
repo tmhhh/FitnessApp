@@ -12,6 +12,7 @@ import SearchBar from "../../Common/SearchBar";
 import userApi from "../../../api/userApi";
 import authSlice from "../../../redux/slices/authSlice";
 import { Context } from "../../../Contexts";
+import { Helmet } from "react-helmet";
 export default function Training() {
   const dispatch = useDispatch();
   const { listExercises, exerciseLoading } = useSelector(
@@ -131,6 +132,10 @@ export default function Training() {
 
   return (
     <div className="exercise__page__container">
+      <Helmet>
+        <title>Exercise Training</title>
+        <meta name="description" content="World of training" />
+      </Helmet>
       <div className="exercise__sidebar__container">
         <div className="sidebar__title">Category</div>
         <div className="sidebar__items">
