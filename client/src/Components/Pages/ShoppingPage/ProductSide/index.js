@@ -1,10 +1,19 @@
 import { Row, Spinner, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { getProduct } from "../../../../redux/slices/prodSlice";
 import ProductCard from "../../../Card/ProductCard";
+import Pagination from "../../../Common/Pagination/Pagination";
 import SearchBar from "../../../Common/SearchBar";
 export default function ProductSide({
   prodSelector: { prodLoading, listProducts },
 }) {
-  console.log({ listProducts });
+  const dispatch = useDispatch();
+  // console.log({ listProducts });
+  const handlePageChange = (options) => {
+    dispatch(getProduct(options));
+  };
+
+  const totalPages = useSelector((state) => state.prodReducer.totalPages);
   return (
     <>
       <SearchBar />
@@ -62,6 +71,12 @@ export default function ProductSide({
             // )}
           }
         </Row>
+      </div>
+      <div className="w-100 d-flex justify-content-center mb-4">
+        <Pagination
+          numOfPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
       </div>
     </>
   );

@@ -30,6 +30,9 @@ export const fetchProductImage = (name) => PUBLIC_URL + `/img/products/${name}`;
 export const fetchUserImage = (name) => PUBLIC_URL + `/img/users/${name}`;
 export const fetchPostImage = (name) => PUBLIC_URL + `/img/posts/${name}`;
 
+//PAGINATION
+export const PAGE_SIZE = 4;
+
 //PAYPAL
 export const PAYPAL_CONFIG = {
   secret:
