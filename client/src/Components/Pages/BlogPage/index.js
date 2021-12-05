@@ -2,12 +2,13 @@ import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PostContainer from "../../Post/PostContainer";
+import { Helmet } from "react-helmet";
 import {
   getAvailablePosts,
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
 export default function BlogPage() {
-import { Helmet } from "react-helmet";
+
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
   const history = useHistory();
