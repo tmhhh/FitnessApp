@@ -10,6 +10,12 @@
   &:hover &_image {
     filter: brightness(50%);
   }
+  @include respond-to(small){
+    height: 300px;
+    width: 310px;
+    margin-left: 45px;
+    margin-bottom: 50px;
+  }
   &:hover &_noti {
     opacity: 1;
     // overflow: hidden;

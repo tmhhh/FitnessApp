@@ -38,6 +38,13 @@
   background-image: url("../../../assets/img/spoon_fork_plate.png");
   background-repeat: no-repeat;
   background-position: center;
+  background-size:auto;
+  @include respond-to(medium){
+    height:40%;
+  }
+  @include respond-to(small){
+    background-size:600px 300px;
+  }
 }
 .body {
   // background: #fff;

@@ -4,11 +4,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import "./App.scss";
-import ScrollToTop from "./Components/Partials/ScrollToTop/ScrollToTop";
 // import Toast from "./Components/Common/Toast";
-import ContextProvider from "./Contexts";
-import MainRouter from "./Router/Router";
-
+import ContextProvider from "Contexts";
+import MainRouter from "Router/Router"
+import ScrollToTop from "Components/Partials/ScrollToTop/ScrollToTop";
 export default function App() {
   const loading = useSelector((state) => state.prodReducer.prodLoading);
   return (
