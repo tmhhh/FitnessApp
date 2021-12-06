@@ -53,9 +53,9 @@ export default function SelectField(props) {
           <option value={""}>
             {optionDefaultName ? optionDefaultName : "Open this select menu"}
           </option>
-          {options.map((e, index) => (
-            <option key={index} value={e.value}>
-              {e.name}
+          {options.map((e) => (
+            <option key={e._id} value={e._id}>
+              {e.cateName || e.filterName}
             </option>
           ))}
         </Form.Select>

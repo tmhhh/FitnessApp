@@ -79,14 +79,14 @@ const prodSlice = createSlice({
   },
   extraReducers: {
     [getProduct.pending]: (state) => {
-      state.postLoading = true;
+      state.productLoading = true;
     },
     [getProduct.rejected]: (state) => {
-      state.postLoading = false;
+      state.productLoading = false;
     },
     [getProduct.fulfilled]: (state, action) => {
       const { payload } = action;
-      state.postLoading = false;
+      state.productLoading = false;
       state.listProducts = payload.listProducts;
       state.totalPages = payload.totalPages;
     },
