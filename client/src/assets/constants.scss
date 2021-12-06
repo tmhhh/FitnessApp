@@ -4,3 +4,15 @@ $primary_black: #34465c;
 $light_pink: #fcbec2;
 $light_blue: #8bd2d5;
 $light_purple: #debee0;
+$SM: 576px;
+$XL: 1200px;    
+
+@mixin respond-to($media) {
+  @if $media == small {
+    @media all and (max-width: $SM) { @content; }
+  }
+  @else if $media == medium {
+    @media all and (min-width: $SM +1) and (max-width: $XL - 1) { @content; }
+  }
+}
+

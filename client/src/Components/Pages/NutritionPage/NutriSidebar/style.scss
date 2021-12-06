@@ -10,10 +10,16 @@
     font-weight: 700;
     transform: translate(-50%, -50%);
     color: #00aeef;
+    @include respond-to(small){
+      font-size:17px;
+    }
+    @include respond-to(medium){
+      top:30%;
+      font-size:17px;
+    }
   }
   &_container {
     position: relative;
-
     // margin-top: 60px;
     margin-right: 60px;
     padding-left: 20px;
@@ -21,6 +27,9 @@
     width: 30%;
     min-height: calc(100vh - 60px);
     box-shadow: 0 0 10px black;
+    @include respond-to(small){
+      min-height:150px;
+    }
 
     .tracking_sidebar_header {
       margin-top: 20px;

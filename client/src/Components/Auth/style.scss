@@ -24,6 +24,13 @@
     right: 35px;
     top: -10px;
   }
+  @include respond-to(small){
+    width: 97%;
+    right: 0px;
+  }
+  @include respond-to(medium){
+    width:350px
+  }
 }
 // .form_active {
 //   display: block;

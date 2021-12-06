@@ -2,10 +2,12 @@ import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PostContainer from "../../Post/PostContainer";
+import { Helmet } from "react-helmet";
 import {
   getAvailablePosts,
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
+
 import { Helmet } from "react-helmet";
 export default function BlogPage() {
   const dispatch = useDispatch();
