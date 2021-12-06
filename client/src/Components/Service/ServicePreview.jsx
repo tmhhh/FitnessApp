@@ -23,9 +23,9 @@ export default function ServicePreview() {
           </div>
         </div>
       </div>
-      <div>
+      {/* <div>
         <QRCode value="Hello world" />
-      </div>
+      </div> */}
     </>
   );
 }

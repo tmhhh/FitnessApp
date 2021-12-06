@@ -1,17 +1,12 @@
 import { FastField, Form, Formik } from "formik";
 import React from "react";
 import { Col, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { fetchProductImage } from "../../assets/constants";
-import InputField from "../Common/InputField";
-import SelectField from "../Common/SelectField";
-import Thumbnail from "../Common/Thumbnail";
+import { fetchServiceImage } from "../../../assets/constants";
+import InputField from "../../Common/InputField";
+import Thumbnail from "../../Common/Thumbnail";
 
-export default function NewItemForm(props) {
+export default function ItemForm(props) {
   const { innerRef, onSubmit, initialValues, validationSchema } = props;
-  const listCate = useSelector((state) => state.cateReducer);
-  console.log(listCate);
-
   return (
     <>
       <Formik
@@ -23,13 +18,12 @@ export default function NewItemForm(props) {
       >
         {(formikProps) => {
           const { values } = formikProps;
-          console.log(values);
           return (
             <Form>
               <FastField
-                name="prodName"
-                label="Product name"
-                placeholder="Input the product's name"
+                name="name"
+                label="Service name"
+                placeholder="Input the Service's name"
                 required
                 component={InputField}
               />
@@ -37,7 +31,7 @@ export default function NewItemForm(props) {
                 <Col>
                   {" "}
                   <FastField
-                    name="prodPrice"
+                    name="price"
                     label="Price"
                     placeholder=" Price"
                     type="number"
@@ -48,9 +42,9 @@ export default function NewItemForm(props) {
                 <Col>
                   {" "}
                   <FastField
-                    name="prodQuantity"
-                    label="Quantity"
-                    placeholder="Quantity"
+                    name="slot"
+                    label="Slot"
+                    placeholder="Slot"
                     min={1}
                     type="number"
                     required
@@ -59,44 +53,31 @@ export default function NewItemForm(props) {
                 </Col>
               </Row>
               <FastField
-                fieldType={0}
-                name="prodCategory"
-                label="Category"
-                options={listCate}
-                component={SelectField}
-              />
-              {values.prodCategory && (
-                <FastField
-                  fieldType={0}
-                  name="prodCateFilter"
-                  label="Filter"
-                  options={
-                    listCate.find((e) => e._id === values.prodCategory)
-                      ?.cateFilter
-                  }
-                  component={SelectField}
-                />
-              )}
-
-              <FastField
-                fieldType={0}
-                asType="textarea"
-                name="prodDescription"
-                label="Product description"
-                placeholder="Description"
+                name="vendor"
+                label="Service vendor"
+                placeholder="Input the Service's Vendor"
+                required
                 component={InputField}
               />
               <FastField
+                asType="textarea"
+                name="description"
+                label="Service description"
+                placeholder="Description"
                 fieldType={0}
+                component={InputField}
+              />
+              <FastField
                 name="thumbnail"
-                label="Product thumbnail"
+                label="Service thumbnail"
                 type="file"
+                fieldType={0}
                 component={InputField}
               />
 
               <div className="d-flex justify-content-center">
                 {values.thumbnailFile === undefined ? (
-                  <Thumbnail url={fetchProductImage(values.prodThumbnail)} />
+                  <Thumbnail url={fetchServiceImage(values.prodThumbnail)} />
                 ) : (
                   <Thumbnail
                     url={
@@ -108,7 +89,7 @@ export default function NewItemForm(props) {
               </div>
               <FastField
                 name="images"
-                label="Product Images"
+                label="Service Images"
                 type="file"
                 fieldType={0}
                 multiple

@@ -1,8 +1,15 @@
 import { BASE_API_URL } from "../assets/constants";
+import { ConvertQueryString } from "../utils/QueryString";
 import axiosClient from "./axiosClient";
+
 const prodApi = {
   getAllProducts: () => {
     return axiosClient.get(BASE_API_URL + "/products", {});
+  },
+  getProducts: (options) => {
+    return axiosClient.get(
+      BASE_API_URL + `/products?${ConvertQueryString(options)}`
+    );
   },
   addProduct: (body) => {
     return axiosClient.post(BASE_API_URL + "/products", body);
@@ -22,11 +29,11 @@ const prodApi = {
       },
     }),
   totalNumbProds: () => axiosClient.get(BASE_API_URL + "/products/total"),
-  addDiscount: (prodID, discountPercent,startDate) => {
+  addDiscount: (prodID, discountPercent, startDate) => {
     return axiosClient.put(BASE_API_URL + `/products/discount/add`, {
       prodID,
       discountPercent,
-      startDate
+      startDate,
     });
   },
   resetDiscount: (prodID) => {

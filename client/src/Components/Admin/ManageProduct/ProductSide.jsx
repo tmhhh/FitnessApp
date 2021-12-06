@@ -10,16 +10,25 @@ import {
   addProduct,
   deleteProduct,
   editProduct,
+  getProduct,
   resetDiscount,
 } from "../../../redux/slices/prodSlice";
 import ItemForm from "../ItemForm";
 import ProductTable from "../ProductTable";
+import Pagination from "../../Common/Pagination/Pagination";
 export default function ProductSide(props) {
   const history = useHistory();
   const dispatch = useDispatch();
   const listProducts = useSelector((state) => state.prodReducer.listProducts);
   const [newModal, setNewModal] = useState(false);
   const [updateModal, setUpdateModal] = useState({ show: false, itemID: "" });
+
+  // console.log({ listProducts });
+  const handlePageChange = (options) => {
+    dispatch(getProduct(options));
+  };
+
+  const totalPages = useSelector((state) => state.prodReducer.totalPages);
 
   const newModalShow = () => {
     setNewModal(true);
@@ -152,10 +161,12 @@ export default function ProductSide(props) {
   };
   const handleAddDiscount = async (prodID, discountPercent) => {
     try {
-    console.log(typeof startTime)
-    console.log( startTime)
+      console.log(typeof startTime);
+      console.log(startTime);
 
-      const res = await dispatch(addDiscount({ prodID, discountPercent,startDate:startTime }));
+      const res = await dispatch(
+        addDiscount({ prodID, discountPercent, startDate: startTime })
+      );
       if (unwrapResult(res)) handleCloseProductDiscountModal();
     } catch (error) {
       console.log("ngoai");
@@ -202,6 +213,10 @@ export default function ProductSide(props) {
             deleteOnClick={handleDeleteProduct}
           />
         </div>
+        <Pagination
+          numOfPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
       </div>
       <ManipulateProductModal
         action={"update"}

@@ -6,9 +6,9 @@ const verifyAdmin = require("../middlewares/verifyAdmin");
 const serviceCtl = require("../controllers/service.controller");
 
 router
-  .get("/service", serviceCtl.getAll)
+  .get("/", serviceCtl.getAll)
   .post(
-    "/service",
+    "/",
     verifyToken,
     verifyAdmin,
     upload("services").fields([
@@ -18,7 +18,7 @@ router
     serviceCtl.create
   )
   .put(
-    "/service",
+    "/",
     verifyToken,
     verifyAdmin,
     upload("services").fields([
@@ -27,7 +27,8 @@ router
     ]),
     serviceCtl.update
   )
-  .delete("/service", verifyToken, verifyAdmin, serviceCtl.delete)
-  .post("/service/register", serviceCtl.register);
+  .delete("/", verifyToken, verifyAdmin, serviceCtl.delete)
+  .post("/register", verifyToken, serviceCtl.register)
+  .delete("/register/:id", verifyToken, serviceCtl.unregister);
 
 module.exports = router;

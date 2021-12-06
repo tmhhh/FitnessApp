@@ -1,12 +1,17 @@
 const productModel = require("../models/product.model");
 const cateModel = require("../models/cate.model");
+const { getQueryOptions } = require("../utils/queryOptions");
 module.exports = {
   getAllProducts: async (req, res) => {
+    const { skipItem, pageSize } = getQueryOptions(req.query);
     try {
+      const totalPages = Math.ceil((await productModel.count()) / pageSize);
+
       const listProducts = await productModel
         .find()
-        .populate("prodCategory.cateName")
-        .lean();
+        .skip(skipItem)
+        .limit(pageSize)
+        .populate("prodCategory.cateName");
       for (const prod of listProducts) {
         for (const filter of prod.prodCategory.cateName.cateFilter) {
           if (
@@ -22,7 +27,9 @@ module.exports = {
       for (const prod of listProducts) {
         delete prod.prodCategory.cateName.cateFilter;
       }
-      return res.status(200).json({ isSuccess: true, listProducts });
+      return res
+        .status(200)
+        .json({ isSuccess: true, listProducts, totalPages });
     } catch (error) {
       console.log(error);
       return res
@@ -140,12 +147,12 @@ module.exports = {
   },
   addDiscount: async (req, res) => {
     try {
-      const { prodID, discountPercent,startDate } = req.body;
-      console.log(startDate)
+      const { prodID, discountPercent, startDate } = req.body;
+      console.log(startDate);
       const updatedProd = await productModel.findByIdAndUpdate(
         prodID,
         {
-          "prodDiscount.startDate":startDate,
+          "prodDiscount.startDate": startDate,
           "prodDiscount.isDiscounted": true,
           "prodDiscount.discountPercent": discountPercent,
         },
@@ -167,7 +174,7 @@ module.exports = {
         prodID,
         {
           "prodDiscount.isDiscounted": false,
-          "prodDiscount.startDate":null,
+          "prodDiscount.startDate": null,
           "prodDiscount.discountPercent": "0",
         },
         { new: true }
