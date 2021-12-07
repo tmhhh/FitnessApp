@@ -44,7 +44,7 @@ export default function MainRouter() {
         <Route exact path="/shopping" component={ShoppingPage} />
         <Route exact path="/blog" component={BlogPage} />
         <Route exact path="/post/:postId" component={Post} />
-        <Route exact path="/create-post" component={NewPostPage} />
+        <ProtectedRoute exact path="/create-post" component={NewPostPage} />
         <Route exact path="/edit-post/:postId" component={EditPostPage} />
         <Route exact path="/service" component={ServicePreview} />
         <Route exact path="/" component={HomePage} />

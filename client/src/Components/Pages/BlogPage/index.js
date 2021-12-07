@@ -9,7 +9,6 @@ import {
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
 
-import { Helmet } from "react-helmet";
 export default function BlogPage() {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
@@ -48,17 +47,6 @@ export default function BlogPage() {
             flexDirection: "column",
           }}
         >
-          <h3
-            style={{
-              padding: "10px 0",
-              fontSize: "18px",
-              fontWeight: 700,
-              marginBottom: "20px",
-              borderTop: "1px solid black",
-            }}
-          >
-            BLOG
-          </h3>
           <p
             style={{
               cursor: "pointer",

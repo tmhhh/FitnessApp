@@ -44,14 +44,6 @@ export default function PostPreview({ post, handleShowConfirm }) {
           rounded
           fluid
         />
-        <div className="d-flex justify-content-center mt-1">
-          <Badge pill bg="dark" text="light">
-            {post.like?.count} voted
-          </Badge>
-        </div>
-        <div
-          className="d-flex justify-content-center mt-4 "
-          style={{ marginBottom: "30px" }}
 
         <h3
           style={{
