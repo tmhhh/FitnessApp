@@ -177,7 +177,7 @@ module.exports = {
         .populate("author")
         .populate({
           path: "replies",
-          populate: { path: "author", model: "User" },
+          populate: { path: "author", model: "Users" },
         });
       // PROBLEM
       // const listComment = comments.reduce((acc, comment) => {
@@ -238,7 +238,6 @@ module.exports = {
     }
   },
   reply: async (req, res) => {
-    console.log(req.body);
     const commentId = req.params.commentId;
     const { content } = req.body;
     const userId = req.userID;
@@ -248,7 +247,9 @@ module.exports = {
         content,
         of_comment: commentId,
       });
-
+      const comment = await commentModel.findById(commentId);
+      comment.replies.push(reply._id);
+      await commentModel.updateOne({ _id: commentId }, comment);
       await reply.save();
       return res.status(200).json({ isSuccess: true, reply });
     } catch (error) {

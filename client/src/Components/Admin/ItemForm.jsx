@@ -1,5 +1,5 @@
 import { FastField, Form, Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { fetchProductImage } from "../../assets/constants";
@@ -10,7 +10,6 @@ import Thumbnail from "../Common/Thumbnail";
 export default function NewItemForm(props) {
   const { innerRef, onSubmit, initialValues, validationSchema } = props;
   const listCate = useSelector((state) => state.cateReducer);
-  console.log(listCate);
 
   return (
     <>
@@ -23,7 +22,6 @@ export default function NewItemForm(props) {
       >
         {(formikProps) => {
           const { values } = formikProps;
-          console.log(values);
           return (
             <Form>
               <FastField

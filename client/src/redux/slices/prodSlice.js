@@ -36,7 +36,6 @@ export const addDiscount = createAsyncThunk(
       const res = await prodApi.addDiscount(prodID, discountPercent, startDate);
       if (res.data.isSuccess) return res.data.updatedProd;
     } catch (error) {
-      // return "trong gui ra";  WRONG WAY
       return Promise.reject(error); //CORRECT WAY
     }
   }
@@ -79,14 +78,14 @@ const prodSlice = createSlice({
   },
   extraReducers: {
     [getProduct.pending]: (state) => {
-      state.productLoading = true;
+      state.prodLoading = true;
     },
     [getProduct.rejected]: (state) => {
-      state.productLoading = false;
+      state.prodLoading = false;
     },
     [getProduct.fulfilled]: (state, action) => {
       const { payload } = action;
-      state.productLoading = false;
+      state.prodLoading = false;
       state.listProducts = payload.listProducts;
       state.totalPages = payload.totalPages;
     },

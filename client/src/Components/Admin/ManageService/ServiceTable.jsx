@@ -3,12 +3,8 @@ import { Image, Table, Button } from "react-bootstrap";
 import Thumbnail from "../../Common/Thumbnail";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import { fetchImage, fetchServiceImage } from "../../../assets/constants";
-export default function ListTable({
-  list,
-  updateModalShow,
-  deleteOnClick,
-  handleShowProductDiscountModal,
-}) {
+import ConfirmModal from "Components/Common/ConfirmModal";
+export default function ListTable({ list, updateModalShow, deleteOnClick }) {
   return (
     <>
       <Table
@@ -38,6 +34,7 @@ export default function ListTable({
                 />
               </td>
               <td>{item.name}</td>
+              <td>{item.vendor}</td>
               <td>{formatCurrency(item.price)}</td>
               <td>{item.slot}</td>
               {/* <td>{item.prodRating.star}</td> */}
@@ -57,18 +54,19 @@ export default function ListTable({
                 >
                   🗑
                 </Button>
-                <Button
-                  onClick={() => handleShowProductDiscountModal(item)}
-                  variant="info"
-                  className="myButton ms-2"
-                >
-                  <i className="fas fa-percentage"></i>
-                </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+
+      {/* <ConfirmModal
+        show={deleteConfirmShow}
+        handleConfirm={handleAccept}
+        handleClose={handleCloseApproveConfirm}
+        heading={"DELETE SERVICE"}
+        body={"💪 Are you sure ?? "}
+      /> */}
     </>
   );
 }

@@ -16,7 +16,6 @@ const post = new Schema(
       count: { type: Number, default: 0 },
       user: [{ type: Schema.Types.ObjectId, ref: "Users", default: null }],
     },
-    replies: [{ type: Schema.Types.ObjectId, ref: "Replies", default: null }],
   },
   {
     timestamps: true,
