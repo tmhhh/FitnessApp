@@ -13,13 +13,14 @@ app.use(
     secret: process.env.SESSION_SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    // cookie: { secure: true, sameSite: "none" },
+    cookie: { secure: true, sameSite: "none" },
   })
 );
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: process.env.client_URL,
+    // origin: "http://localhost:3000",
     // origin:"https://cdd7-171-250-98-85.ngrok.io"
   })
 );

@@ -122,19 +122,7 @@ export default function ShippingForm({
                     name="phoneNumber"
                     component={InputField}
                   />
-                  <FastField
-                    required
-                    label="Shipping Address"
-                    name="province"
-                    optionDefaultName="Province/City"
-                    options={provincesData.map((e) => ({
-                      value: parseInt(e.ProvinceID),
-                      name: e.ProvinceName,
-                    }))}
-                    fieldType={1}
-                    component={SelectField}
-                    disabled={false}
-                  />
+
                   <FastField
                     // label="Checkout Method"
                     placeholder="Choose your payment method "
@@ -189,6 +177,19 @@ export default function ShippingForm({
                   />
                 </Col>
                 <Col md={6} xs={12}>
+                  <FastField
+                    required
+                    label="Shipping Address"
+                    name="province"
+                    optionDefaultName="Province/City"
+                    options={provincesData.map((e) => ({
+                      value: parseInt(e.ProvinceID),
+                      name: e.ProvinceName,
+                    }))}
+                    fieldType={1}
+                    component={SelectField}
+                    disabled={false}
+                  />
                   <Field
                     required
                     name="district"

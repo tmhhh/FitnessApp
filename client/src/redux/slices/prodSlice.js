@@ -104,7 +104,6 @@ const prodSlice = createSlice({
     },
     [addProduct.fulfilled]: (state, action) => {
       state.prodLoading = false;
-      state.listProducts.push(action.payload);
     },
     [editProduct.pending]: (state) => {
       state.prodLoading = true;

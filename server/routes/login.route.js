@@ -55,7 +55,7 @@ passport.use(
       clientSecret: "VoKthWq43LJJ6mSd4jTU8pzO",
       callbackURL:
         // "https://apiserver-fitnessapp.herokuapp.com/api/auth/login/google/callback",
-        "http://localhost:4000/api/auth/login/google/callback",
+        process.env.server_URL + "/auth/login/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
@@ -144,8 +144,7 @@ passport.use(
     {
       clientID: "1061366784392713",
       clientSecret: "1518fc9d11dd2986c0d9d35febed8164",
-      callbackURL:
-        "https://apiserver-fitnessapp.herokuapp.com/api/auth/login/fb/callback",
+      callbackURL: process.env.server_URL + "/auth/login/fb/callback",
 
       // "https://df65-116-108-254-50.ngrok.io/api/auth/login/fb/callback",
       profileFields: ["email", "displayName"],
