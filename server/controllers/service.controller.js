@@ -21,12 +21,18 @@ module.exports = {
     }
   },
   async create(req, res) {
+    const { name, vendor, price } = req.body;
     try {
       const service = new serviceModel({
         name,
         vendor,
         price,
         slot: 1,
+        thumbnail:
+          req.files.thumbnailFile?.length > 0
+            ? req.files.thumbnailFile[0].filename
+            : "default-product.png",
+        images: req.files.imagesFile?.map((img) => img.filename),
       });
       await service.save();
       return res.status(200).json({ isSuccess: true, service });
@@ -67,8 +73,10 @@ module.exports = {
   async register(req, res) {
     const { first_name, last_name, phone, email, serviceId, expired } =
       req.body;
+    const user = req.userID;
     try {
       const register = new registerModel({
+        user,
         first_name,
         last_name,
         phone,
@@ -78,6 +86,16 @@ module.exports = {
       });
       await register.save();
       return res.status(200).json({ isSuccess: true, register });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
+  async unregister(req, res) {
+    const registerId = req.params.id;
+    try {
+      await registerModel.deleteOne({ _id: registerId });
+      return res.status(500).json({ isSuccess: true });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ isSuccess: false, error });

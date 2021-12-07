@@ -1,6 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import prodApi from "../../api/prodApi";
 
+export const getProduct = createAsyncThunk(
+  "product/getProduct",
+  async (options, thunkApi) => {
+    const res = await prodApi.getProducts(options);
+    return res.data;
+  }
+);
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (params, thunkApi) => {
@@ -23,10 +30,10 @@ export const deleteProduct = createAsyncThunk(
 );
 export const addDiscount = createAsyncThunk(
   "product/addDiscount",
-  async ({ prodID, discountPercent,startDate }, thunkApi) => {
+  async ({ prodID, discountPercent, startDate }, thunkApi) => {
     try {
-      console.log("slice"+startDate)
-      const res = await prodApi.addDiscount(prodID, discountPercent,startDate);
+      console.log("slice" + startDate);
+      const res = await prodApi.addDiscount(prodID, discountPercent, startDate);
       if (res.data.isSuccess) return res.data.updatedProd;
     } catch (error) {
       // return "trong gui ra";  WRONG WAY
@@ -56,7 +63,7 @@ export const resetDiscount = createAsyncThunk(
 
 const prodSlice = createSlice({
   name: "product",
-  initialState: { prodLoading: true, listProducts: [] },
+  initialState: { prodLoading: true, listProducts: [], totalPages: 1 },
   reducers: {
     pendingProducts: (state, action) => {
       return { ...state, prodLoading: true };
@@ -71,6 +78,18 @@ const prodSlice = createSlice({
     },
   },
   extraReducers: {
+    [getProduct.pending]: (state) => {
+      state.productLoading = true;
+    },
+    [getProduct.rejected]: (state) => {
+      state.productLoading = false;
+    },
+    [getProduct.fulfilled]: (state, action) => {
+      const { payload } = action;
+      state.productLoading = false;
+      state.listProducts = payload.listProducts;
+      state.totalPages = payload.totalPages;
+    },
     [addProduct.pending]: (state) => {
       state.prodLoading = true;
     },

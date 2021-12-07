@@ -51,7 +51,7 @@ export const deletePost = createAsyncThunk(
   "post/deletePost",
   async (postId, { dispatch }) => {
     const res = await postApi.delete(postId);
-    dispatch(getPosts());
+    dispatch(getAvailablePosts());
     return res.data.isSuccess;
   }
 );
@@ -59,7 +59,7 @@ export const likePost = createAsyncThunk(
   "post/likePost",
   async (postId, { dispatch }) => {
     const res = await postApi.like(postId);
-    dispatch(getPosts());
+    dispatch(getAvailablePosts());
     return res.data.isSuccess;
   }
 );
@@ -67,7 +67,7 @@ export const unLikePost = createAsyncThunk(
   "post/unLikePost",
   async (postId, { dispatch }) => {
     const res = await postApi.unlike(postId);
-    dispatch(getPosts());
+    dispatch(getAvailablePosts());
     return res.data.isSuccess;
   }
 );

@@ -7,6 +7,7 @@ import ExerciseSide from "./ManageExercise";
 import Dashboard from "./Dashboard";
 import PostSide from "./ManagePost/PostSide";
 import PostCheckSide from "./ManagePost/PostCheckSide";
+import ServiceSide from "./ManageService/ServiceSide";
 
 export default function AdminRoute({ path }) {
   // console.log(path);
@@ -18,6 +19,7 @@ export default function AdminRoute({ path }) {
         <Route exact path={path + "/voucher"} component={VoucherSide} />
         <Route exact path={path + "/category"} component={CateSide} />
         <Route exact path={path + "/exercise"} component={ExerciseSide} />
+        <Route exact path={path + "/service"} component={ServiceSide} />
         <Route exact path={path + "/post"} component={PostSide} />
         <Route exact path={path + "/post/:postId"} component={PostCheckSide} />
 

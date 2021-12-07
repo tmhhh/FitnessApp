@@ -7,8 +7,9 @@ import {
   getAvailablePosts,
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
-export default function BlogPage() {
 
+import { Helmet } from "react-helmet";
+export default function BlogPage() {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
   const history = useHistory();

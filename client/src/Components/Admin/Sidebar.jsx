@@ -43,12 +43,12 @@ export default function Sidebar({ url }) {
         <span>Posts</span>
       </NavLink>
       <NavLink
-        to={`${url}/review`}
+        to={`${url}/service`}
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2  "
       >
-        <span className="me-3">💬</span>
-        <span>Reviews</span>
+        <span className="me-3">💪🏻</span>
+        <span>Services</span>
       </NavLink>
       <NavLink
         to={`${url}/voucher`}

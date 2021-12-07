@@ -33,4 +33,8 @@ router.use("/user", require("./user.route"));
 
 //@@CHECKOUT
 router.use("/checkout", require("./checkout.route"));
+
+//@@SERVICE
+router.use("/services", require("./service.route"));
+
 module.exports = router;
