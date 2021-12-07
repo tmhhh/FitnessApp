@@ -118,7 +118,7 @@ $marginBottom: 10px;
     }
   }
   &_image {
-    width: 100%;
+    width: 40%;
     height: 100%;
     // align-self: center;
     & img {
@@ -130,6 +130,7 @@ $marginBottom: 10px;
   &_details {
     display: flex;
     flex-direction: column;
+    flex: 1;
     // justify-content: space-evenly;
     .line-through {
       text-decoration: line-through;
