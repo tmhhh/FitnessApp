@@ -169,9 +169,16 @@ export default function Training() {
             variant="info"
           />
         ) : (
-          <div className="card__wrapper">
+          <div
+            className={
+              listExercisesCop.length >= 6
+                ? "card__wrapper"
+                : "card__wrapper card__wrapper-none-grid"
+            }
+          >
             {listExercisesCop.map((e) => (
               <ExerciseCard
+                useGrid={listExercisesCop.length >= 6}
                 info={{
                   title: e.name,
                   img: e.thumbnail,

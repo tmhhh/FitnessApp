@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./style.scss";
+import Form from "react-bootstrap/Form";
 export default function Sidebar({
   listCate,
   handleSearchByCateType,
@@ -158,6 +159,7 @@ export default function Sidebar({
           </label>
           <br />
         </form>
+        {/* <Form.Range /> */}
       </div>
 
       {isAuthenticated && (

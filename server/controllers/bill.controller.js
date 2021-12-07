@@ -13,6 +13,17 @@ const calRevenueByMonth = (listRevenues, month) =>
   }, 0);
 
 module.exports = {
+  // updateAll: async (req, res) => {
+  //   const a = await billModel.find();
+  //   a.map((e) => {
+  //     console.log(e.status);
+  //     if (e.status !== "Pending") return e;
+  //     return { ...e, status: "Pending" };
+  //   });
+  //   for (const e of a) {
+  //     await e.save();
+  //   }
+  // },
   // billCheckOut: (req, res) => {
   //   const { listItems, shippingFee, discountUsedID } = req.body;
   //   console.log(listItems);
@@ -35,7 +46,7 @@ module.exports = {
         );
       }
       const prodAvailableCheck = await Promise.all([...listPromises_1]);
-      console.log(prodAvailableCheck);
+      // console.log(prodAvailableCheck);
       if (prodAvailableCheck.some((e) => Object.keys(e).length > 0))
         return res
           .status(400)
@@ -50,6 +61,10 @@ module.exports = {
       // console.log({ totalPrice, shippingFee });
       const addedBill = {
         ...req.body,
+        listItems: listItems.map((e) => ({
+          ...e,
+          prodDiscount: e.product.prodDiscount.discountPercent,
+        })),
         user: req.userID,
         shippingAddress: {
           province: req.body.province,
@@ -234,15 +249,86 @@ module.exports = {
     }
   },
 
-  getBillByCustomer: async (req, res) => {
+  getBillHistoryByCustomer: async (req, res) => {
     const { userID } = req;
     try {
       const bills = await billModel
-        .find({ user: userID })
+        .find({ user: userID, status: "Done" })
         .populate("listItems.product");
-      console.log(userID);
+      console.log(bills);
       return res.status(200).json({ bills });
     } catch (error) {
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  getIncompleteBill: async (req, res) => {
+    try {
+      const { userID } = req;
+      const foundBills = await billModel
+        .find({ user: userID, status: { $ne: "Done" } })
+        .populate("listItems.product");
+      foundBills.sort((a, b) => b.createdAt - a.createdAt);
+      return res.status(200).json({ isSuccess: true, foundBills });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  getBills: async (req, res) => {
+    try {
+      const { limit } = req.query;
+      console.log(limit);
+      const foundBills = await billModel
+        .find()
+        .populate("listItems.product user")
+        .sort({ _id: -1 })
+        .limit(limit * 5);
+      foundBills.sort((a, b) => b.createdAt - a.createdAt);
+      return res.status(200).json({ isSuccess: true, foundBills });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  updateBillStatus: async (req, res) => {
+    try {
+      const { billID, status } = req.body;
+      const updatedBills = await billModel.findByIdAndUpdate(billID, {
+        status,
+      });
+      return res.status(200).json({ isSuccess: true });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  getBillsByStatus: async (req, res) => {
+    try {
+      const { status } = req.query;
+      const foundBills = await billModel
+        .find({ status })
+        .populate("listItems.product user");
+      // console.log(foundBills);
+      return res.status(200).json({ isSuccess: true, foundBills });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
+  getTotalBillNumb: async (req, res) => {
+    try {
+      const totalNumb = await billModel.count();
+      return res.status(200).json({ isSuccess: true, totalNumb });
+    } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .json({ isSuccess: false, message: "Server Internal Error" });

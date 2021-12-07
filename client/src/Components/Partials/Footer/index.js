@@ -6,15 +6,15 @@ export default function Footer() {
       <div className="footer_info">
         <div className="footer_info_title">Company</div>
         <div className="footer_info_details">
-          <ion-icon name="nutrition-outline"></ion-icon>
+          <i className="fas fa-shopping-basket"></i>
+          <span>Shopping</span>
+        </div>
+        <div className="footer_info_details">
+          <i className="fas fa-utensils"></i>
           <span>Nutrition</span>
         </div>
         <div className="footer_info_details">
-          <ion-icon name="cash-outline"></ion-icon>
-          <span>Shop</span>
-        </div>
-        <div className="footer_info_details">
-          <ion-icon name="barbell-outline"></ion-icon>
+          <i className="fas fa-dumbbell"></i>
           <span>Training</span>
         </div>
       </div>

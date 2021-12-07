@@ -72,6 +72,7 @@ module.exports = {
 
       const post = {
         ...req.body,
+        author: req.userID,
         thumbnail: req.file ? req.file.filename : oldPost.thumbnail,
       };
       await postModel.updateOne({ _id: postId }, post);

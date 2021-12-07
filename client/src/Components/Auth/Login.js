@@ -49,7 +49,7 @@ function Login() {
         bg: "info",
       });
       // console.log(userNameID, userPassword);
-      const res = await authApi.userLogin(userNameID, userPassword);
+      const res = await authApi.userLogin(userNameID.trim(), userPassword);
       // console.log(res.data);
       if (res.data.isSuccess) {
         // event.resetForm();
@@ -184,6 +184,7 @@ function Login() {
               <FastField
                 name="userPassword"
                 label="Password"
+                type="password"
                 required
                 placeholder="Your password ..."
                 component={InputField}

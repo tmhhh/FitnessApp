@@ -28,26 +28,18 @@ export default function PostPreview({ post, handleShowConfirm }) {
     dispatch(unLikePost(post._id));
   };
   const onCmtClick = async (e) => {};
+
+  console.log({ post });
   return (
     <>
-      <div className="postPreviewContainer ">
-        <div className="d-flex align-items-center">
-          <Image
-            style={{ width: "50px", height: "50px" }}
-            src={fetchUserImage(post.author?.userImage)}
-            roundedCircle
-            thumbnail
-          />
-          <h6 style={{ color: "grey" }} className="ms-2">
-            {post.author?.userName}
-          </h6>
-        </div>
-
-        <h6 className="mt-2">{post.title}</h6>
-        <span style={{ color: "grey" }}>{post.createdAt}</span>
+      <div className="postPreviewContainer">
         <Image
-          className="imgPost"
-          style={{width: "100%" }}
+          style={{
+            height: "200px",
+            width: "100%",
+            objectFit: "cover",
+            marginBottom: "40px",
+          }}
           src={fetchPostImage(post.thumbnail)}
           rounded
           fluid
@@ -60,50 +52,124 @@ export default function PostPreview({ post, handleShowConfirm }) {
         <div
           className="d-flex justify-content-center mt-4 "
           style={{ marginBottom: "30px" }}
+
+        <h3
+          style={{
+            textTransform: "uppercase",
+            fontSize: "2rem",
+            fontWeight: 700,
+            height: "25px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}
         >
-          {post.like?.user?.includes(user._id) ? (
-            <button
-              className="default-button default-danger "
-              style={{ margin: "auto" }}
-              onClick={onUnLikeClick}
+          {post.title}
+        </h3>
+
+        <div style={{ flex: 1 }} className="body">
+          <div
+            style={{ marginRight: "20px" }}
+            className="d-flex align-items-center"
+          >
+            <Image
+              style={{ width: "50px", height: "50px" }}
+              src={fetchUserImage(post.author?.userImage)}
+              roundedCircle
+              thumbnail
+            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
             >
-              👎
-            </button>
-          ) : (
-            <button
+              <h3 style={{ color: "grey", fontSize: "1.5rem" }}>
+                {post.author?.userName}
+              </h3>
+              <Badge style={{ fontSize: "1rem" }} pill bg="dark" text="light">
+                {post.like?.count} voted
+              </Badge>
+            </div>
+          </div>
+          <span
+            style={{
+              display: "block",
+              position: "absolute",
+              right: "0",
+              top: "285px",
+              fontWeight: 500,
+              fontSize: "1.3rem",
+              color: "#999",
+            }}
+          >
+            ({new Date(post.createdAt).toLocaleDateString()})
+          </span>
+          <div
+            style={{
+              position: "absolute",
+              top: "280px",
+              right: "20px",
+            }}
+            className="d-flex mt-4 "
+          >
+            {post.like?.user?.includes(user._id) ? (
+              <button
+                className="default-button default-danger "
+                onClick={onUnLikeClick}
+              >
+                <ion-icon
+                  style={{ fontSize: "1.5rem" }}
+                  name="thumbs-down-outline"
+                ></ion-icon>
+              </button>
+            ) : (
+              <button
+                className="default-button"
+                style={{ margin: "auto" }}
+                onClick={onLikeClick}
+              >
+                <ion-icon
+                  style={{ fontSize: "1.5rem" }}
+                  name="thumbs-up-outline"
+                ></ion-icon>
+              </button>
+            )}
+            {/* <button
               className="default-button"
               style={{ margin: "auto" }}
-              onClick={onLikeClick}
+              onClick={onCmtClick}
             >
-              ☝
-            </button>
+              <ion-icon
+                style={{ fontSize: "1.5rem" }}
+                name="clipboard-outline"
+              ></ion-icon>
+            </button> */}
+          </div>
+          {/* <div className="content">
+            {post.}
+          </div> */}
+          {/* EDIT POST */}
+          {user?._id === post.author?._id && (
+            <>
+              <div className="operation d-flex">
+                <div className="edit-btn" onClick={onEditClick}>
+                  <ion-icon
+                    style={{ fontSize: "1.5rem" }}
+                    name="settings-outline"
+                  ></ion-icon>
+                </div>
+                <div className="edit-btn" onClick={onRemoveClick}>
+                  <ion-icon
+                    style={{ fontSize: "1.5rem" }}
+                    name="trash-outline"
+                  ></ion-icon>
+                </div>
+              </div>
+            </>
           )}
-
-          <button
-            className="default-button"
-            style={{ margin: "auto" }}
-            onClick={onCmtClick}
-          >
-            💬
-          </button>
-          <button className="default-button" style={{ margin: "auto" }}>
-            📖
-          </button>
         </div>
-
-        {/* EDIT POST */}
-        {user?._id === post.author?._id && (
-          <>
-            <div className="operation d-flex">
-              <div className="edit-btn" onClick={onEditClick}>
-                <span>✍</span>
-              </div>
-              <div className="edit-btn" onClick={onRemoveClick}>
-                <span>🗑</span>
-              </div>
-            </div>
-          </>
-        )}
       </div>
     </>
   );

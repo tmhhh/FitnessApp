@@ -1,6 +1,7 @@
 import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Button from "react-bootstrap/Button";
 import PostContainer from "../../Post/PostContainer";
 import { Helmet } from "react-helmet";
 import {
@@ -8,6 +9,7 @@ import {
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
 
+import { Helmet } from "react-helmet";
 export default function BlogPage() {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);
@@ -31,51 +33,86 @@ export default function BlogPage() {
     <>
       <div
         style={{ marginTop: "60px" }}
-        className="d-flex align-items-center justify-content-between "
+        className="d-flex blog__page__container"
       >
         <Helmet>
           <title>Blog</title>
           <meta name="description" content="Place to show your knowledge" />
         </Helmet>
-        <div>
-          <button
-            className="button3D p-3"
-            style={{ width: "fit-content", border: "3px solid black" }}
+        <div
+          className="blog__page__sidebar"
+          style={{
+            padding: "20px",
+            width: "25%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <h3
+            style={{
+              padding: "10px 0",
+              fontSize: "18px",
+              fontWeight: 700,
+              marginBottom: "20px",
+              borderTop: "1px solid black",
+            }}
+          >
+            BLOG
+          </h3>
+          <p
+            style={{
+              cursor: "pointer",
+              fontSize: "15px",
+              fontWeight: 500,
+              color: "#999",
+              margin: "0 0 10px 20px",
+            }}
+            className="d-flex align-items-center"
             onClick={() => {
               history.push("/create-post");
             }}
           >
-            Write your posts ⚡
-          </button>
+            <ion-icon
+              style={{ fontSize: "2rem", marginRight: "10px" }}
+              name="pencil-outline"
+            ></ion-icon>{" "}
+            Write your posts
+          </p>
           {!isAll && (
-            <button
-              className="button3D p-3 ms-2"
+            <p
               style={{
-                width: "fit-content",
-                border: "3px solid black",
-                backgroundColor: "#a3fff4",
+                cursor: "pointer",
+                fontSize: "15px",
+                fontWeight: 500,
+                color: "#999",
+                margin: "0 0 10px 80px",
               }}
+              className="d-flex align-items-center"
               onClick={onSeeAll}
             >
               See all
-            </button>
+            </p>
           )}
+          <p
+            style={{
+              cursor: "pointer",
+              fontSize: "15px",
+              fontWeight: 500,
+              color: "#999",
+              margin: "0 0 10px 20px",
+            }}
+            className="d-flex align-items-center"
+            onClick={fetchYourPost}
+          >
+            <ion-icon
+              style={{ fontSize: "2rem", marginRight: "10px" }}
+              name="newspaper-outline"
+            ></ion-icon>{" "}
+            Your posts{" "}
+          </p>
         </div>
-        <button
-          className="button3D p-3"
-          style={{
-            width: "fit-content",
-            border: "3px solid black",
-            fontSize: "18px",
-            height: "70px",
-            backgroundColor: "#d6bcff",
-          }}
-          onClick={fetchYourPost}
-        >
-          Your posts 😍
-        </button>
+        <PostContainer listPost={listPost} />
       </div>
-      <PostContainer listPost={listPost} />
     </>
   );
 }

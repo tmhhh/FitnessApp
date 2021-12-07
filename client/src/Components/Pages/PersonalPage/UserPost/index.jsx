@@ -83,7 +83,7 @@ export default function UserPost() {
                     </td>
                     <td>{post.title}</td>
                     <td>{post.author?.userName}</td>
-                    <td>{post.createdAt}</td>
+                    <td>{new Date(post.createdAt).toLocaleDateString()}</td>
                     <td>
                       {post.status === "approved" ? (
                         <Badge pill bg="success">

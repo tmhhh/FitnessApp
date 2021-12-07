@@ -37,12 +37,12 @@ function ProductDetailPage() {
     let current = new Date().getTime();
 
     let difference =
-      new Date(chosenProd?.prodDiscount.startDate).getTime() - current;
+      new Date(chosenProd?.prodDiscount?.startDate).getTime() - current;
     if (!prodLoading && difference > 0) {
       let timer = setInterval(() => {
         current = new Date().getTime();
         difference =
-          new Date(chosenProd.prodDiscount.startDate).getTime() - current;
+          new Date(chosenProd.prodDiscount?.startDate).getTime() - current;
 
         let daysDifference = Math.floor(difference / 1000 / 60 / 60 / 24);
         difference -= daysDifference * 1000 * 60 * 60 * 24;
@@ -104,7 +104,7 @@ function ProductDetailPage() {
             {countingClock && (
               <>
                 <div className="counting-items">
-                  {/* <h3 className="counting-title">Sale in:</h3> */}
+                  <h3 className="counting-title">Sale in</h3>
                   <div className="counting-item">
                     <p className="counting-item-value">
                       {countingClock.daysDifference}
@@ -170,7 +170,7 @@ function ProductDetailPage() {
                     )
                   </span>
                 </div>
-                {new Date(chosenProd.prodDiscount.startDate).getTime() -
+                {new Date(chosenProd.prodDiscount?.startDate).getTime() -
                   new Date().getTime() <
                 0 ? (
                   <>

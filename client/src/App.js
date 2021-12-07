@@ -9,7 +9,6 @@ import ContextProvider from "Contexts";
 import MainRouter from "Router/Router"
 import ScrollToTop from "Components/Partials/ScrollToTop/ScrollToTop";
 export default function App() {
-  const loading = useSelector((state) => state.prodReducer.prodLoading);
   return (
     <>
       <ContextProvider>

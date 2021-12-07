@@ -8,21 +8,35 @@ $marginBottom: 10px;
     transform: scale(1.1);
   }
 }
+@keyframes counting-clock-slide {
+  to {
+    top: 0px;
+  }
+}
+@keyframes product-appear {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
 .counting-items {
   display: flex;
   // width: 50%;
-  padding: 20px 0px;
+  padding: 25px 0px;
   position: absolute;
-  top: 0px;
+  top: -100%;
   left: 30%;
   font-size: 1.5rem;
   font-weight: 600;
   margin-left: -2rem;
   align-items: center;
-  &::before {
-    content: "SALE IN";
-    display: block;
+  animation: counting-clock-slide 0.5s ease-in-out forwards;
+  .counting-title {
+    position: absolute;
     font-size: 2rem;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     font-weight: 700;
     text-transform: uppercase;
   }
@@ -31,7 +45,7 @@ $marginBottom: 10px;
     position: absolute;
     top: 0px;
     left: calc(20px + 7.5rem / 2);
-    height: 20px;
+    height: 30px;
     width: 5px;
     background: #333;
   }
@@ -40,8 +54,8 @@ $marginBottom: 10px;
     position: absolute;
     top: 0px;
     right: calc(7.5rem / 2);
-    // right: calc(20px + 7.5rem / 2);
-    height: 20px;
+    // right: calc(30px + 7.5rem / 2);
+    height: 30px;
     width: 5px;
     background: #333;
   }
@@ -78,6 +92,10 @@ $marginBottom: 10px;
 .product_info {
   display: flex;
   flex-basis: 70%;
+  visibility: hidden;
+  opacity: 0;
+  animation: product-appear 0.5s ease-in-out forwards;
+
   &_container {
     background-color: #fff;
     position: relative;

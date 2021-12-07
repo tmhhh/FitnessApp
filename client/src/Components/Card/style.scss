@@ -89,6 +89,7 @@
     margin-right: 20px;
     width: calc(25% - 60px);
     .sidebar__title {
+      padding: 10px 0;
       font-size: 18px;
       font-weight: 700;
       color: #333;
@@ -111,6 +112,7 @@
   }
   .exercise__container {
     width: 75%;
+
     .card__wrapper {
       width: 100%;
       // margin: 0 auto;
@@ -201,6 +203,11 @@
           }
         }
       }
+    }
+    .card__wrapper-none-grid {
+      width: 100%;
+      display: flex;
+      gap: 2rem;
     }
   }
 }
@@ -358,5 +365,18 @@
 @media only screen and (max-width: 498px) {
   .product_card {
     margin: 0 auto 3rem auto;
+  }
+  .exercise__page__container {
+    flex-direction: column;
+    .exercise__sidebar__container {
+      width: 100%;
+    }
+    .exercise__container {
+      width: 100%;
+      .card__wrapper {
+        display: flex !important;
+        flex-wrap: wrap;
+      }
+    }
   }
 }
