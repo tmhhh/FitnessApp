@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const Bill = new Schema(
   {
+    status: { type: String, default: "Pending" }, // pending,approved,done
     user: { type: Schema.Types.ObjectId, ref: "Users", required: true },
     price: {
       totalPrice: { type: Number, required: true },
@@ -12,6 +13,7 @@ const Bill = new Schema(
     },
     listItems: [
       {
+        prodDiscount: { type: Number, default: null },
         product: {
           type: Schema.Types.ObjectId,
           ref: "Products",

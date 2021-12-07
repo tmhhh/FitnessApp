@@ -9,7 +9,11 @@ export default function ShoppingCard({ img, tag }) {
     history.push("/shopping");
   };
   return (
-    <Card className="shopping_card ">
+    <Card
+      style={{ cursor: "pointer" }}
+      onClick={handleOnClick}
+      className="shopping_card "
+    >
       <div className="shopping_card_tag">{tag}</div>
       <Card.Img
         className="shopping_card_image"
@@ -17,9 +21,9 @@ export default function ShoppingCard({ img, tag }) {
         src={img}
         alt={tag}
       />
-      <Card.Body className="shopping_card_noti" onClick={handleOnClick}>
+      {/* <Card.Body className="shopping_card_noti" >
         GET IN !!! <i className="far fa-hand-point-left"></i>
-      </Card.Body>
+      </Card.Body> */}
     </Card>
   );
 }

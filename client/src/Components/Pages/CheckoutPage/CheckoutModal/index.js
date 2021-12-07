@@ -238,6 +238,7 @@ export default function CheckoutModal({
       centered
       show={showModal}
       onHide={handleCloseModal}
+      size="lg"
     >
       <>
         <Modal.Header closeButton>

@@ -14,6 +14,16 @@
   font-size: 1.2rem !important;
 
 }
+.ql-editor > *{
+  font-size:1.5rem;
+}
+td{
+  font-size:15px;
+  p{
+  font-size:15px;
+
+  }
+}
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 .form-control {

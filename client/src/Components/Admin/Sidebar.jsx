@@ -13,7 +13,10 @@ export default function Sidebar({ url }) {
         className="list-group-item list-group-item-action py-2  "
         aria-current="true"
       >
-        <span className="me-3">
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
           <i className="fas fa-home"></i>
         </span>
         <span>Dashboard</span>
@@ -23,7 +26,12 @@ export default function Sidebar({ url }) {
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2   "
       >
-        <span className="me-3">🧩</span>
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
+          🧩
+        </span>
         <span>Categories</span>
       </NavLink>
       <NavLink
@@ -31,7 +39,12 @@ export default function Sidebar({ url }) {
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2   "
       >
-        <span className="me-3">📦</span>
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
+          📦
+        </span>
         <span>Products</span>
       </NavLink>
       <NavLink
@@ -39,7 +52,12 @@ export default function Sidebar({ url }) {
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2  "
       >
-        <span className="me-3">📮</span>
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
+          📮
+        </span>
         <span>Posts</span>
       </NavLink>
       <NavLink
@@ -47,7 +65,12 @@ export default function Sidebar({ url }) {
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2  "
       >
-        <span className="me-3">💬</span>
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
+          💬
+        </span>
         <span>Reviews</span>
       </NavLink>
       <NavLink
@@ -55,18 +78,39 @@ export default function Sidebar({ url }) {
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2  "
       >
-        <span className="me-3">🎟️</span>
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
+          🎟️
+        </span>
         <span>Vouchers</span>
       </NavLink>
       <NavLink
-        to={`${url}/exercise`}
+        to={`${url}/exercises`}
         activeClassName="sidebar-active"
         className="list-group-item list-group-item-action py-2  "
       >
-        <span className="me-3">
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
           <i className="fas fa-dumbbell"></i>
         </span>
-        <span>Exercise</span>
+        <span>Exercises</span>
+      </NavLink>
+      <NavLink
+        to={`${url}/bills`}
+        activeClassName="sidebar-active"
+        className="list-group-item list-group-item-action py-2  "
+      >
+        <span
+          style={{ display: "inline-block", width: "20px" }}
+          className="me-3"
+        >
+          <ion-icon name="newspaper-outline"></ion-icon>
+        </span>
+        <span>Bills</span>
       </NavLink>
     </>
   );

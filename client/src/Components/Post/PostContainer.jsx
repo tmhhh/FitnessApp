@@ -22,25 +22,27 @@ export default function PostContainer({ listPost }) {
     handleCloseConfirm();
   };
   return (
-    <Container style={{ height: "100vh" }} className="mt-5">
+    <Container style={{ minHeight: "100vh", flex: 1 }} className="mt-5">
       <ConfirmModal
         show={confirmShow}
         handleConfirm={handleConfirm}
         handleClose={handleCloseConfirm}
-        heading={"Delete your post 📮"}
-        body={"💪 Are you sure ?? "}
+        heading={"Delete your post "}
+        body={" Are you sure ?? "}
       />
-      <Row className="justify-content-center">
+      <Row>
         {listPost.map((post) => (
           <Col
+            style={{ marginBottom: "20px" }}
             key={post._id}
-            xxl={3}
-            xl={4}
-            md={6}
             xs={12}
-            className="mb-5 d-flex justify-content-center"
+            md={4}
+            xl={4}
           >
-            <div onClick={() => history.push(`/post/${post._id}`)}>
+            <div
+              // style={{ cursor: "pointer" }}
+              onClick={() => history.push(`/post/${post._id}`)}
+            >
               <PostPreview post={post} handleShowConfirm={handleShowConfirm} />
             </div>
           </Col>

@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
-import LineChart from "../../Common/Chart/LineChart.js";
 import { useSelector } from "react-redux";
-import "./style.scss";
 import { useHistory } from "react-router-dom";
-import {
-  USER_IMAGE_BASE_URL,
-  PROD_IMAGE_BASE_URL,
-} from "../../../assets/constants";
-import PieChart from "../../Common/Chart/PieChart";
-import BarChart from "../../Common/Chart/BarChart.js";
-import prodApi from "../../../api/prodApi.js";
-import userApi from "../../../api/userApi.js";
 import billApi from "../../../api/billApi.js";
 import postApi from "../../../api/postApi";
-import Spinner from "../../Common/Spinner";
+import prodApi from "../../../api/prodApi.js";
+import userApi from "../../../api/userApi.js";
+import {
+  PROD_IMAGE_BASE_URL,
+  USER_IMAGE_BASE_URL,
+} from "../../../assets/constants";
 import { formatCurrency } from "../../../utils/formatCurrency";
+import BarChart from "../../Common/Chart/BarChart.js";
+import LineChart from "../../Common/Chart/LineChart.js";
+import PieChart from "../../Common/Chart/PieChart";
+import Spinner from "../../Common/Spinner";
+import "./style.scss";
 export default function Dashboard() {
   const history = useHistory();
   //GET STATISTICAL DATA -- LOCAL STATE
