@@ -1,3 +1,4 @@
+import { USER_IMAGE_BASE_URL } from "assets/constants";
 import React from "react";
 import { Badge } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,15 +48,14 @@ export default function Review({ review }) {
             <div className="profile-img">
               <img
                 alt="avatar"
-                src={
-                  // user.userImage ||
-                  "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png"
-                }
+                src={USER_IMAGE_BASE_URL + "/" + curUser.userImage}
               />
             </div>
             <div className="name-user">
               <strong>{user.userName}</strong>
-              <span>{createdAt}</span>
+              <span style={{ fontSize: "1.3rem" }}>
+                {new Date(createdAt).toLocaleDateString()}
+              </span>
             </div>
           </div>
           <div className="reviews">
@@ -69,7 +69,7 @@ export default function Review({ review }) {
           </div>
         </div>
         <div className="client-comment">
-          <p>{content}</p>
+          <p style={{ fontSize: "1.3rem" }}>{content}</p>
         </div>
         <div className="review-like d-flex align-items-center">
           {like?.people?.indexOf(curUser?._id) < 0 ? (

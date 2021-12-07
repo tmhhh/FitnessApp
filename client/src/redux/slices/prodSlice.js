@@ -3,29 +3,35 @@ import prodApi from "../../api/prodApi";
 
 export const getProduct = createAsyncThunk(
   "product/getProduct",
-  async (options, thunkApi) => {
+  async (params, thunkApi) => {
+    // const res = await prodApi.getProducts(options);
+    // return res.data;
+    const options = params || thunkApi.getState().prodReducer.options;
     const res = await prodApi.getProducts(options);
-    return res.data;
+    return { data: res.data, options };
   }
 );
 export const addProduct = createAsyncThunk(
   "product/addProduct",
-  async (params, thunkApi) => {
+  async (params, { dispatch }) => {
     const res = await prodApi.addProduct(params);
-    return res.data.product;
+    // return res.data.newProduct;
+    await dispatch(getProduct());
   }
 );
 export const editProduct = createAsyncThunk(
   "product/editProduct",
-  async (params, thunkApi) => {
+  async (params, { dispatch }) => {
     const { postData, id } = params;
     await prodApi.editProduct(id, postData);
+    await dispatch(getProduct());
   }
 );
 export const deleteProduct = createAsyncThunk(
   "product/deleteProduct",
-  async (id, thunkApi) => {
+  async (id, { dispatch }) => {
     await prodApi.deleteProduct(id);
+    await dispatch(getProduct());
   }
 );
 export const addDiscount = createAsyncThunk(
@@ -86,8 +92,9 @@ const prodSlice = createSlice({
     [getProduct.fulfilled]: (state, action) => {
       const { payload } = action;
       state.prodLoading = false;
-      state.listProducts = payload.listProducts;
-      state.totalPages = payload.totalPages;
+      state.listProducts = payload.data.listProducts;
+      state.totalPages = payload.data.totalPages;
+      state.options = payload.options;
     },
     [addProduct.pending]: (state) => {
       state.prodLoading = true;

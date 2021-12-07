@@ -39,12 +39,13 @@ module.exports = {
   },
   create: async (req, res) => {
     const { prodCateFilter, ...product } = req.body;
+    console.log(req.body);
     try {
       const newProduct = new productModel({
         ...product,
         prodCategory: {
           cateName: req.body.prodCategory,
-          cateFilter: prodCateFilter,
+          cateFilter: { _id: prodCateFilter },
         },
         prodThumbnail:
           req.files.thumbnailFile?.length > 0

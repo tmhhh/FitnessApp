@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Row, Col } from "react-bootstrap";
+import { Table, Row, Col, Button } from "react-bootstrap";
 import billApi from "../../../../api/billApi";
 import { formatCurrency } from "../../../../utils/formatCurrency";
+import RatingModal from "./RatingModal";
 export default function UserBillHistory() {
   const [listBills, setListBills] = useState([]);
+  const [show, setShow] = useState({
+    isShown: false,
+    prodID: null,
+  });
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   useEffect(() => {
     (async () => {
       const res = await billApi.getBillHistoryByCustomer();
@@ -30,6 +38,7 @@ export default function UserBillHistory() {
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Total Price</th>
+                  <th>Feedback</th>
                 </tr>
               </thead>
               <tbody>
@@ -63,6 +72,16 @@ export default function UserBillHistory() {
                       ) : (
                         formatCurrency(item.quantity * item.product.prodPrice)
                       )}
+                    </td>
+                    <td>
+                      <Button
+                        onClick={() =>
+                          setShow({ isShown: true, prodID: item.product._id })
+                        }
+                        variant="warning"
+                      >
+                        <ion-icon name="star-outline"></ion-icon>{" "}
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -104,6 +123,11 @@ export default function UserBillHistory() {
             </Table>
           </div>
         ))}
+      <RatingModal
+        show={show}
+        handleClose={handleClose}
+        handleShow={handleShow}
+      />
     </div>
   );
 }

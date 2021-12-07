@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useReducer, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../api/authApi";
-import { NUTRI_API_CONFIG } from "../assets/constants";
+import { NUTRI_API_CONFIG, PAGE_SIZE } from "../assets/constants";
 import authSlice from "../redux/slices/authSlice";
 import cartSlice from "../redux/slices/cartSlice";
 import NutritionReducer from "./reducers/NutritionReducer";
@@ -109,7 +109,7 @@ export default function ContextProvider({ children }) {
       //       listProducts: res.data.listProducts,
       //     })
       //   );
-      await dispatch(getProduct({ page: 1, size: 2 }));
+      await dispatch(getProduct({ page: 1, size: PAGE_SIZE }));
     } catch (err) {
       console.log(err);
       // return dispatch(prod)

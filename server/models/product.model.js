@@ -27,7 +27,7 @@ const Products = new Schema({
   prodThumbnail: { type: String, required: true },
   prodImages: [{ type: String }],
   prodQuantity: { type: Number, default: 1 },
-  prodWeight: { type: Number, required: true },
+  prodWeight: { type: Number, default: 500 },
   prodDiscount: {
     startDate: { type: Date, default: null },
     isDiscounted: { type: Boolean, default: false },

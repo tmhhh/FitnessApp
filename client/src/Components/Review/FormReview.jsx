@@ -1,10 +1,11 @@
 import { FastField, Form, Formik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import { Button } from "react-bootstrap";
 import InputField from "../Common/InputField";
 import RatingForm from "../Common/RatingForm";
 import * as yup from "yup";
 import reviewApi from "../../api/reviewApi";
+import { Context } from "Contexts";
 
 const initialValues = {
   content: "",
@@ -16,9 +17,17 @@ const validationSchema = yup.object().shape({
 });
 
 export default function FormReview({ productId }) {
+  const { setToast } = useContext(Context);
   const handleSubmit = async (formData) => {
     formData = { ...formData, productId };
     await reviewApi.addReview(formData);
+    setToast({
+      toastShow: true,
+      title: "Feedback successfully",
+      content: "Keep gooingggg",
+      icon: "✔",
+      bg: "success",
+    });
   };
   return (
     <>
@@ -42,8 +51,8 @@ export default function FormReview({ productId }) {
                 label="Review Rating"
                 component={RatingForm}
               />
-              <Button variant="outline-dark" type="submit">
-                Send 💬
+              <Button variant="primary" type="submit">
+                Send
               </Button>
             </Form>
           );

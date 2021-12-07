@@ -1,5 +1,5 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -13,10 +13,13 @@ import {
   getProduct,
   resetDiscount,
 } from "../../../redux/slices/prodSlice";
+import { Context } from "Contexts";
 import ItemForm from "../ItemForm";
 import ProductTable from "../ProductTable";
 import Pagination from "../../Common/Pagination/Pagination";
+
 export default function ProductSide(props) {
+  const { setToast } = useContext(Context);
   const history = useHistory();
   const dispatch = useDispatch();
   const listProducts = useSelector((state) => state.prodReducer.listProducts);
@@ -60,6 +63,13 @@ export default function ProductSide(props) {
       } else postData.append(key, formData[key]);
     }
     await dispatch(addProduct(postData));
+    setToast({
+      toastShow: true,
+      title: "Add successfully",
+      content: "Keep gooingggg",
+      icon: "✔",
+      bg: "success",
+    });
   };
   const handleUpdateProduct = async (formData) => {
     let postData = new FormData();
@@ -72,9 +82,23 @@ export default function ProductSide(props) {
       } else postData.append(key, formData[key]);
     }
     await dispatch(editProduct({ postData, id: formData._id }));
+    setToast({
+      toastShow: true,
+      title: "Update successfully",
+      content: "Keep gooingggg",
+      icon: "✔",
+      bg: "success",
+    });
   };
   const handleDeleteProduct = async (id) => {
     await dispatch(deleteProduct(id));
+    setToast({
+      toastShow: true,
+      title: "Delete successfully",
+      content: "Keep gooingggg",
+      icon: "✔",
+      bg: "success",
+    });
   };
 
   const ManipulateProductModal = (props) => {
