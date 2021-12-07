@@ -38,8 +38,7 @@ export default function ListTable({
                 />
               </td>
               <td>{item.prodName}</td>
-              <td>{item.prodCategory?.cateFilter?.filterName}</td>
-              <td>{item.prodCategory.cateFilter.filterName}</td>
+              <td>{item.prodCategory?.cateName.cateName}</td>
               <td>{formatCurrency(item.prodPrice)}</td>
               <td>{item.prodQuantity}</td>
               <td>{item.prodRating.star}</td>

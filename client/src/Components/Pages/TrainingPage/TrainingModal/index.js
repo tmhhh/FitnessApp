@@ -28,9 +28,8 @@ export default function TrainingModal(props) {
           <iframe
             src={embeddedLink}
             //   frameborder="0"
-            allowfullscreen
+            allowfullscreen="true"
             allow="autoplay"
-            pla
           ></iframe>
         </div>
         <div className="training__modal-description">

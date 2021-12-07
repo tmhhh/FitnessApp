@@ -69,10 +69,10 @@ export default function ShippingForm({
                 province_id: parseInt(values.province),
               },
             });
-            // console.log(res.data);
+            console.log(res.data);
             setAddressData({ ...addressData, districtsData: res.data.data });
           } catch (error) {
-            console.log(error);
+            console.log({ error });
           }
         };
 

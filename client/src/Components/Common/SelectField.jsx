@@ -16,7 +16,9 @@ export default function SelectField(props) {
     required,
     options,
     optionDefaultName,
+    defaultValue,
   } = props;
+  console.log({ defaultValue });
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
   const error = errors[name] && touched[name];
@@ -46,16 +48,16 @@ export default function SelectField(props) {
         <Form.Select
           {...field}
           disabled={disabled}
-          // defaultValue={defaultValue}
+          defaultValue={defaultValue}
           isValid={touched[name] && !error}
           isInvalid={error}
         >
           <option value={""}>
             {optionDefaultName ? optionDefaultName : "Open this select menu"}
           </option>
-          {options.map((e) => (
-            <option key={e._id} value={e._id}>
-              {e.cateName || e.filterName}
+          {options.map((e, index) => (
+            <option key={index} value={e.value}>
+              {e.name}
             </option>
           ))}
         </Form.Select>

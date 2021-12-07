@@ -15,7 +15,7 @@ module.exports = {
       for (const prod of listProducts) {
         for (const filter of prod.prodCategory.cateName.cateFilter) {
           if (
-            filter._id.toString() ===
+            filter._id.toString() === prod.prodCategory.cateFilter._id &&
             prod.prodCategory.cateFilter._id.toString()
           ) {
             prod.prodCategory.cateFilter.filterName = filter.filterName;
@@ -63,7 +63,7 @@ module.exports = {
     }
   },
   update: async (req, res) => {
-    const product = { ...req.body };
+    let product = { ...req.body };
     if (req.files.thumbnailFile?.length > 0) {
       product["prodThumbnail"] = req.files.thumbnailFile[0].filename;
     }
@@ -73,9 +73,21 @@ module.exports = {
       );
     }
     try {
+      console.log(product);
+      product = {
+        ...product,
+        prodCategory: {
+          cateName: product.prodCategory,
+          cateFilter: {
+            _id: product.prodCateFilter,
+          },
+        },
+        prodQuantity: +product.prodQuantity,
+      };
       await productModel.updateOne({ _id: req.params.id }, product);
       return res.status(200).json({ isSuccess: true });
     } catch (err) {
+      console.log(err);
       return res
         .status(500)
         .json({ isSuccess: false, error: "Internal Server Error" });

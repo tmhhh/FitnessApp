@@ -8,13 +8,21 @@ import SelectField from "../Common/SelectField";
 import Thumbnail from "../Common/Thumbnail";
 
 export default function NewItemForm(props) {
-  const { innerRef, onSubmit, initialValues, validationSchema } = props;
+  const { innerRef, onSubmit, initialValues, validationSchema, action } = props;
   const listCate = useSelector((state) => state.cateReducer);
-
+  console.log({ initialValues, action });
   return (
     <>
       <Formik
-        initialValues={initialValues}
+        initialValues={
+          action === "update"
+            ? {
+                ...initialValues,
+                prodCategory: initialValues.prodCategory.cateName._id,
+                prodCateFilter: initialValues.prodCategory.cateFilter._id,
+              }
+            : { initialValues }
+        }
         enableReinitialize
         onSubmit={(values) => onSubmit(values)}
         validationSchema={validationSchema}
@@ -22,6 +30,7 @@ export default function NewItemForm(props) {
       >
         {(formikProps) => {
           const { values } = formikProps;
+          console.log({ values });
           return (
             <Form>
               <FastField
@@ -37,7 +46,7 @@ export default function NewItemForm(props) {
                   <FastField
                     name="prodPrice"
                     label="Price"
-                    placeholder=" Price"
+                    placeholder="Price"
                     type="number"
                     required
                     component={InputField}
@@ -56,11 +65,15 @@ export default function NewItemForm(props) {
                   />
                 </Col>
               </Row>
+
               <FastField
                 fieldType={0}
                 name="prodCategory"
                 label="Category"
-                options={listCate}
+                options={listCate.map((e) => ({
+                  name: e.cateName,
+                  value: e._id,
+                }))}
                 component={SelectField}
               />
               {values.prodCategory && (
@@ -68,10 +81,14 @@ export default function NewItemForm(props) {
                   fieldType={0}
                   name="prodCateFilter"
                   label="Filter"
-                  options={
-                    listCate.find((e) => e._id === values.prodCategory)
-                      ?.cateFilter
-                  }
+                  options={listCate
+                    .find(
+                      (e) => e._id.toString() === values.prodCategory.toString()
+                    )
+                    .cateFilter.map((ele) => ({
+                      name: ele.filterName,
+                      value: ele._id,
+                    }))}
                   component={SelectField}
                 />
               )}

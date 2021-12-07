@@ -10,7 +10,7 @@
   &:hover &_image {
     filter: brightness(50%);
   }
-  @include respond-to(small){
+  @include respond-to(small) {
     height: 300px;
     width: 310px;
     margin-left: 45px;
@@ -270,6 +270,9 @@
     font-size: 2rem;
     font-weight: 700;
     color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &_type {
     font-size: 15px;
