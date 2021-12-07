@@ -194,3 +194,9 @@
     }
   }
 }
+.dropdown .dropdown-menu.show{
+  inset: 0px 0px auto !important;
+  @include respond-to(small){
+    inset: 0px 0px auto auto !important;
+  }
+}
