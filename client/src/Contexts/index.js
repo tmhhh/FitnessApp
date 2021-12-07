@@ -109,7 +109,7 @@ export default function ContextProvider({ children }) {
       //       listProducts: res.data.listProducts,
       //     })
       //   );
-      await dispatch(getProduct({ page: 1, size: 2 })); //PROBLEM
+      await dispatch(getProduct({ page: 1, size: 2 }));
     } catch (err) {
       console.log(err);
       // return dispatch(prod)
