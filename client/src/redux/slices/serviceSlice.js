@@ -6,7 +6,6 @@ export const getServices = createAsyncThunk(
   "service/getServices",
   async (params, thunkApi) => {
     const options = params || thunkApi.getState().serviceReducer.options;
-    console.log(options);
     const res = await serviceApi.getServices(options);
     return { data: res.data, options };
   }
