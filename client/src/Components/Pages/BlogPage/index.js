@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import PostContainer from "../../Post/PostContainer";
+import { Helmet } from "react-helmet";
 import {
   getAvailablePosts,
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
+
 import { Helmet } from "react-helmet";
 export default function BlogPage() {
   const dispatch = useDispatch();

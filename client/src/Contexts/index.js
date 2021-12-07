@@ -7,7 +7,7 @@ import authSlice from "../redux/slices/authSlice";
 import cartSlice from "../redux/slices/cartSlice";
 import NutritionReducer from "./reducers/NutritionReducer";
 import prodApi from "../api/prodApi";
-import prodSlice from "../redux/slices/prodSlice";
+import prodSlice, { getProduct } from "../redux/slices/prodSlice";
 import cartApi from "../api/cartApi";
 import { getAllCate } from "../redux/slices/cateSlice";
 import { getAllExercise } from "../redux/slices/exerciseSlice";
@@ -101,14 +101,15 @@ export default function ContextProvider({ children }) {
   // //GET PRODUCTS
   const getProducts = useCallback(async () => {
     try {
-      const res = await prodApi.getAllProducts();
-      if (res.data.isSuccess)
-        return dispatch(
-          prodSlice.actions.getProducts({
-            prodLoading: false,
-            listProducts: res.data.listProducts,
-          })
-        );
+      // const res = await prodApi.getAllProducts();
+      // if (res.data.isSuccess)
+      //   return dispatch(
+      //     prodSlice.actions.getProducts({
+      //       prodLoading: false,
+      //       listProducts: res.data.listProducts,
+      //     })
+      //   );
+      await dispatch(getProduct({ page: 1, size: 2 })); //PROBLEM
     } catch (err) {
       console.log(err);
       // return dispatch(prod)

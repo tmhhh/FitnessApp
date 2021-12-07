@@ -238,6 +238,7 @@ module.exports = {
     }
   },
   reply: async (req, res) => {
+    console.log(req.body);
     const commentId = req.params.commentId;
     const { content } = req.body;
     const userId = req.userID;

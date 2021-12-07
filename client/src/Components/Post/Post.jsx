@@ -27,6 +27,7 @@ export default function Post() {
     const rs = await dispatch(getPostComments(postId));
     const comments = unwrapResult(rs);
     setComments(comments);
+    console.log(comments);
   };
   const handleCmtSubmit = async (content) => {
     const rs = await postApi.comment(postId, { content });
@@ -134,7 +135,7 @@ function Comment({ comment, getComments }) {
   const [replyTextShow, setReplyTextShow] = useState(false);
   const handleReply = async (content) => {
     setReplyTextShow(false);
-    const rs = await postApi.reply(comment._id, content);
+    const rs = await postApi.reply(comment._id, { content });
     if (rs.data.isSuccess) getComments();
   };
   return (
@@ -194,7 +195,7 @@ function Comment({ comment, getComments }) {
             <Col className="p-0">
               <button
                 className=" default-outline-button default-primary mt-3"
-                style={{ fontSize: "14px" }}
+                style={{ fontSize: "14px"}}
                 onClick={() => setReplyTextShow(true)}
               >
                 <i className="far fa-comment-dots"></i> Reply

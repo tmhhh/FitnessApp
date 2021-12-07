@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function Service() {
+export default function ServiceContainer() {
   return <div></div>;
 }

@@ -134,23 +134,6 @@ export default function ShoppingPage() {
             <ProductSide prodSelector={prodSelectorCopy} />
           </Col>
         </Row>
-        <Pagination
-          style={{
-            position: "relative",
-            top: "20px",
-            left: "50%",
-            width: "200px",
-            marginBottom: "50px",
-          }}
-        >
-          <Pagination.Prev />
-          <Pagination.Item active>{1} </Pagination.Item>
-          <Pagination.Item>{2}</Pagination.Item>
-
-          <Pagination.Item disabled>{3}</Pagination.Item>
-
-          <Pagination.Next />
-        </Pagination>
       </div>
     </>
   );

@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import * as yup from "yup";
 import {
-  addProduct,
-  deleteProduct,
-  editProduct,
-} from "../../../redux/slices/prodSlice";
-import ItemForm from "../ItemForm";
-import ProductTable from "../ProductTable";
+  addService,
+  deleteService,
+  editService,
+} from "../../../redux/slices/serviceSlice";
+import ItemForm from "./ServiceForm";
+import ServiceTable from "./ServiceTable";
 export default function ServiceSide(props) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const listServices = useSelector((state) => state.prodReducer.Services);
+  const listServices = useSelector((state) => state.serviceReducer.list);
   const [newModal, setNewModal] = useState(false);
   const [updateModal, setUpdateModal] = useState({ show: false, itemID: "" });
 
@@ -36,7 +36,7 @@ export default function ServiceSide(props) {
       show: false,
     });
   };
-  const handleAddProduct = async (formData) => {
+  const handleAddService = async (formData) => {
     let postData = new FormData();
     for (let key in formData) {
       if (key === "imagesFile") {
@@ -46,9 +46,9 @@ export default function ServiceSide(props) {
       } else if (!formData[key]) {
       } else postData.append(key, formData[key]);
     }
-    await dispatch(addProduct(postData));
+    await dispatch(addService(postData));
   };
-  const handleUpdateProduct = async (formData) => {
+  const handleUpdateService = async (formData) => {
     let postData = new FormData();
     for (let key in formData) {
       if (key === "imagesFile") {
@@ -58,28 +58,28 @@ export default function ServiceSide(props) {
       } else if (!formData[key]) {
       } else postData.append(key, formData[key]);
     }
-    await dispatch(editProduct({ postData, id: formData._id }));
+    await dispatch(editService({ postData, id: formData._id }));
   };
-  const handleDeleteProduct = async (id) => {
-    await dispatch(deleteProduct(id));
+  const handleDeleteService = async (id) => {
+    await dispatch(deleteService(id));
   };
 
-  const ManipulateProductModal = (props) => {
+  const ManipulateServiceModal = (props) => {
     const initialValues = {
-      prodName: "",
-      prodPrice: 1,
-      prodQuantity: 1,
-      prodCategory: "",
-      prodDescription: "",
+      name: "",
+      vendor: "",
+      slot: 1,
+      price: 1,
+      description: "",
       thumbnailFile: "",
       imagesFile: [],
     };
     const validationSchema = yup.object().shape({
-      prodName: yup.string().required(),
-      prodPrice: yup.number().required(),
-      prodQuantity: yup.number().required(),
-      prodCategory: yup.string().required(),
-      prodDescription: yup.string(),
+      name: yup.string().required(),
+      price: yup.number().required(),
+      vendor: yup.string().required(),
+      slot: yup.number().required(),
+      description: yup.string(),
     });
     const { action, handleAction, show, hide, itemID } = props;
     const [item, setItem] = useState(initialValues);
@@ -96,7 +96,9 @@ export default function ServiceSide(props) {
     const handleSubmit = () => {
       if (formRef.current) {
         formRef.current.handleSubmit();
-        if (action === "add") setItem(initialValues);
+        if (action === "add") {
+          setItem(initialValues);
+        }
       }
     };
     return (
@@ -137,39 +139,31 @@ export default function ServiceSide(props) {
   return (
     <Container className="admin-container mt-5">
       <div className="admin-content">
-        <h2 className="admin-content-title">Manage Product</h2>
+        <h2 className="admin-content-title">Manage Service</h2>
         <div className="d-flex justify-content-between mt-5">
           <Button variant="dark" className="myButton" onClick={newModalShow}>
             🆕 New item
           </Button>
-          <Button
-            onClick={() => history.push("/admin/category")}
-            variant="success"
-            className="myButton"
-            color="light"
-          >
-            🧩 Categories
-          </Button>
         </div>
         <div className="mt-5">
           {/* <ListTable list={listServices} updateModalShow={updateModalShow} /> */}
-          <ProductTable
-            productList={listServices}
+          <ServiceTable
+            list={listServices}
             updateModalShow={updateModalShow}
-            deleteOnClick={handleDeleteProduct}
+            deleteOnClick={handleDeleteService}
           />
         </div>
       </div>
-      <ManipulateProductModal
+      <ManipulateServiceModal
         action={"update"}
-        handleAction={handleUpdateProduct}
+        handleAction={handleUpdateService}
         show={updateModal.show}
         hide={updateModalClose}
         itemID={updateModal.itemID}
       />
-      <ManipulateProductModal
+      <ManipulateServiceModal
         action={"add"}
-        handleAction={handleAddProduct}
+        handleAction={handleAddService}
         show={newModal}
         hide={newModalClose}
       />

@@ -1,3 +1,5 @@
+@import "../../../../assets/constants.scss";
+
 $default_margin: 4rem;
 @mixin style_section_title {
   text-align: center;
@@ -30,6 +32,13 @@ $default_margin: 4rem;
     &::before {
       @include style_section_title_underline();
     }
+    @include respond-to(small){
+      font-weight: 700;
+      font-size: 20px;
+    }
+    @include respond-to(medium){
+      font-size:35px;
+    }
   }
   &_image {
     text-align: center;
@@ -40,6 +49,21 @@ $default_margin: 4rem;
     justify-content: center;
   }
 }
+.introduce_section .introduce_section_title_button{
+  @include respond-to(small){
+    font-size: 1.5rem!important;
+  }
+}
+@media only screen and (max-width: 520px) {
+  .section_item_title{
+    order:2;
+  }
+  .section_item_image{
+    order:1;
+    width:100%;
+  }
+}
+
 
 .shop_section {
   &_title {
@@ -66,5 +90,30 @@ $default_margin: 4rem;
     &::before {
       @include style_section_title_underline();
     }
+  }
+}
+
+@media only screen and (max-width: 499px) {
+  .introduce_section {
+    a {
+      margin-bottom: 2rem;
+      font-size: 2rem !important;
+    }
+    &_title {
+      margin: 2rem 0;
+    }
+  }
+}
+.btnToShop{
+  @include respond-to(small){
+    margin-left: 25px;
+  }
+}
+@media only screen and (max-width:520px){
+  .introduce_section a{
+    font-size: 1.5rem !important; ;
+  }
+  .introduce_section_title {
+    margin: 2rem 5rem;
   }
 }

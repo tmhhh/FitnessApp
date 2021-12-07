@@ -8,7 +8,7 @@ export default function ShoppingSection() {
   // const history = useHistory();
   return (
     <>
-      <div className="shop_section container">
+      <div className="shop_section container ">
         <h1 className="shop_section_title">Shop</h1>
         <Row>
           <Col md={4} xs={12}>
@@ -60,7 +60,7 @@ export default function ShoppingSection() {
               backgroundColor: "black",
               color: "white",
             }}
-            className="fa fa-arrow-right"
+            className="fa fa-arrow-right btnToShop"
             aria-hidden="true"
           ></i>
         </Link>

@@ -26,9 +26,18 @@ export const PROD_IMAGE_BASE_URL = `${PUBLIC_URL}/img/products/`;
 export const USER_IMAGE_BASE_URL = `${PUBLIC_URL}/img/users/`;
 export const BASE_IMAGE_BASE_URL = `${PUBLIC_URL}/img/base/`;
 
+export const fetchImage = (name, callback) => {
+  if (name.includes("http") || name.includes("https")) return name;
+  return callback(name);
+};
+
 export const fetchProductImage = (name) => PUBLIC_URL + `/img/products/${name}`;
 export const fetchUserImage = (name) => PUBLIC_URL + `/img/users/${name}`;
 export const fetchPostImage = (name) => PUBLIC_URL + `/img/posts/${name}`;
+export const fetchServiceImage = (name) => PUBLIC_URL + `/img/services/${name}`;
+
+//PAGINATION
+export const PAGE_SIZE = 4;
 
 //PAYPAL
 export const PAYPAL_CONFIG = {

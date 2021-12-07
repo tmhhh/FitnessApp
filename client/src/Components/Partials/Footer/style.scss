@@ -27,8 +27,15 @@
     font-weight: 900;
     color: #fff;
     position: relative;
+    @include respond-to(small){
+      margin-top:20px;
+      height:150px;
+    }
     &_title {
       margin-bottom: 20px;
+      @include respond-to(small){
+        font-size: 17px;
+      }
     }
     &_details {
       //  line-height: 28px;
@@ -39,11 +46,15 @@
         margin-left: 20px;
         font-size: 17px;
         font-weight: 600;
+        @include respond-to(small){
+          font-size: 13px;
+        }
       }
       i {
         height: 28px;
         width: 28px;
       }
+
     }
   }
   &::before {
