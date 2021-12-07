@@ -38,18 +38,22 @@ module.exports = {
     }
   },
   create: async (req, res) => {
+    const { prodCateFilter, ...product } = req.body;
     try {
-      const product = new productModel({
-        ...req.body,
+      const newProduct = new productModel({
+        ...product,
+        prodCategory: {
+          cateName: req.body.prodCategory,
+          cateFilter: prodCateFilter,
+        },
         prodThumbnail:
           req.files.thumbnailFile?.length > 0
             ? req.files.thumbnailFile[0].filename
             : "default-product.png",
         prodImages: req.files.imagesFile?.map((img) => img.filename),
       });
-      // console.log(product, req.files.imagesFile);
-      await product.save();
-      return res.status(200).json({ isSuccess: true, product });
+      await newProduct.save();
+      return res.status(200).json({ isSuccess: true, newProduct });
     } catch (error) {
       console.log(error);
       return res

@@ -1,38 +1,47 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PAGE_SIZE } from "assets/constants";
 import serviceApi from "../../api/serviceApi";
 
 export const getServices = createAsyncThunk(
   "service/getServices",
-  async (options, thunkApi) => {
+  async (params, thunkApi) => {
+    const options = params || thunkApi.getState().serviceReducer.options;
+    console.log(options);
     const res = await serviceApi.getServices(options);
-    return res.data;
+    return { data: res.data, options };
   }
 );
 export const addService = createAsyncThunk(
   "service/addService",
-  async (params, thunkApi) => {
-    console.log(params);
-    const res = await serviceApi.add(params);
-    return res.data.Service;
+  async (params, { dispatch }) => {
+    await serviceApi.add(params);
+    await dispatch(getServices());
   }
 );
 export const editService = createAsyncThunk(
   "service/editService",
-  async (params, thunkApi) => {
+  async (params, { dispatch }) => {
     const { postData, id } = params;
     await serviceApi.edit(id, postData);
+    await dispatch(getServices());
   }
 );
 export const deleteService = createAsyncThunk(
   "service/deleteService",
-  async (id, thunkApi) => {
+  async (id, { dispatch }) => {
     await serviceApi.delete(id);
+    await dispatch(getServices());
   }
 );
 
 const serviceSlice = createSlice({
   name: "service",
-  initialState: { loading: true, list: [], totalPages: 1 },
+  initialState: {
+    loading: false,
+    list: [],
+    totalPages: 1,
+    options: { page: 1, size: PAGE_SIZE },
+  },
   reducers: {},
   extraReducers: {
     [getServices.pending]: (state) => {
@@ -44,8 +53,9 @@ const serviceSlice = createSlice({
     [getServices.fulfilled]: (state, action) => {
       const { payload } = action;
       state.loading = false;
-      state.listServices = payload.listServices;
-      state.totalPages = payload.totalPages;
+      state.list = payload.data.listServices;
+      state.totalPages = payload.data.totalPages;
+      state.options = payload.options;
     },
     [addService.pending]: (state) => {
       state.loading = true;
@@ -55,7 +65,6 @@ const serviceSlice = createSlice({
     },
     [addService.fulfilled]: (state, action) => {
       state.loading = false;
-      state.listServices.push(action.payload);
     },
     [editService.pending]: (state) => {
       state.loading = true;

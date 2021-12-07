@@ -4,7 +4,7 @@ const Products = new Schema({
   prodName: { type: String, required: true },
   prodCategory: {
     cateName: {
-      //QUESTION
+      //PROBLEM
       type: Schema.Types.ObjectId,
       ref: "Categories",
       required: true,

@@ -7,6 +7,7 @@ import Thumbnail from "../../Common/Thumbnail";
 
 export default function ItemForm(props) {
   const { innerRef, onSubmit, initialValues, validationSchema } = props;
+
   return (
     <>
       <Formik

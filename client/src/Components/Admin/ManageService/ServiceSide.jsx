@@ -1,4 +1,5 @@
 import { unwrapResult } from "@reduxjs/toolkit";
+import Pagination from "../../Common/Pagination/Pagination";
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,15 +9,33 @@ import {
   addService,
   deleteService,
   editService,
+  getServices,
 } from "../../../redux/slices/serviceSlice";
 import ItemForm from "./ServiceForm";
 import ServiceTable from "./ServiceTable";
+import { PAGE_SIZE } from "assets/constants";
 export default function ServiceSide(props) {
-  const history = useHistory();
   const dispatch = useDispatch();
-  const listServices = useSelector((state) => state.serviceReducer.list);
+  const { list: listServices, totalPages } = useSelector(
+    (state) => state.serviceReducer
+  );
+
   const [newModal, setNewModal] = useState(false);
   const [updateModal, setUpdateModal] = useState({ show: false, itemID: "" });
+
+  useEffect(() => {
+    (async () => {
+      await dispatch(
+        getServices({
+          page: 1,
+          size: PAGE_SIZE,
+        })
+      );
+    })();
+  }, []);
+  const handlePageChange = (options) => {
+    dispatch(getServices(options));
+  };
 
   const newModalShow = () => {
     setNewModal(true);
@@ -167,6 +186,8 @@ export default function ServiceSide(props) {
         show={newModal}
         hide={newModalClose}
       />
+
+      <Pagination numOfPages={totalPages} handlePageChange={handlePageChange} />
     </Container>
   );
 }

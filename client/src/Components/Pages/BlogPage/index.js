@@ -8,7 +8,6 @@ import {
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
 
-import { Helmet } from "react-helmet";
 export default function BlogPage() {
   const dispatch = useDispatch();
   const listPost = useSelector((state) => state.postReducer.listPost);

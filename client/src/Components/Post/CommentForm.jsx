@@ -39,7 +39,10 @@ export default function CommentForm({ user, onHide, handleSubmit }) {
           />
         </FloatingLabel>
       </div>
-      <div className="mt-4 d-flex justify-content-between align-items-center">
+      <div
+        className=" d-flex justify-content-between align-items-center"
+        style={{ marginTop: "200px" }}
+      >
         <button className="default-button" onClick={onHide}>
           Dismiss
         </button>

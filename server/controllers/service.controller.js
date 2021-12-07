@@ -1,10 +1,29 @@
 const serviceModel = require("../models/service.model");
 const registerModel = require("../models/service_register.model");
+const { getQueryOptions } = require("../utils/queryOptions");
 module.exports = {
   async getAll(req, res) {
     try {
       const services = await serviceModel.find();
       return res.status(200).json({ isSuccess: true, services });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
+  async getMany(req, res) {
+    const { skipItem, pageSize } = getQueryOptions(req.query);
+
+    try {
+      const totalPages = Math.ceil((await serviceModel.count()) / pageSize);
+
+      const listServices = await serviceModel
+        .find()
+        .skip(skipItem)
+        .limit(pageSize);
+      return res
+        .status(200)
+        .json({ isSuccess: true, listServices, totalPages });
     } catch (error) {
       console.log(error);
       return res.status(500).json({ isSuccess: false, error });
@@ -21,12 +40,13 @@ module.exports = {
     }
   },
   async create(req, res) {
-    const { name, vendor, price } = req.body;
+    const { name, vendor, price, description } = req.body;
     try {
       const service = new serviceModel({
         name,
         vendor,
         price,
+        description,
         slot: 1,
         thumbnail:
           req.files.thumbnailFile?.length > 0
@@ -50,6 +70,7 @@ module.exports = {
       const service = {
         ...req.body,
       };
+
       await serviceModel.updateOne({ _id: serviceId }, service);
       return res.status(200).json({ isSuccess: true, service });
     } catch (error) {
