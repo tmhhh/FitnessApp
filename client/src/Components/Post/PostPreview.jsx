@@ -46,7 +46,8 @@ export default function PostPreview({ post, handleShowConfirm }) {
         <h6 className="mt-2">{post.title}</h6>
         <span style={{ color: "grey" }}>{post.createdAt}</span>
         <Image
-          style={{ height: "200px", width: "100%" }}
+          className="imgPost"
+          style={{width: "100%" }}
           src={fetchPostImage(post.thumbnail)}
           rounded
           fluid
@@ -58,7 +59,7 @@ export default function PostPreview({ post, handleShowConfirm }) {
         </div>
         <div
           className="d-flex justify-content-center mt-4 "
-          style={{ height: "30px" }}
+          style={{ marginBottom: "30px" }}
         >
           {post.like?.user?.includes(user._id) ? (
             <button
