@@ -194,7 +194,7 @@ function Comment({ comment, getComments }) {
             <Col className="p-0">
               <button
                 className=" default-outline-button default-primary mt-3"
-                style={{ fontSize: "14px" }}
+                style={{ fontSize: "14px"}}
                 onClick={() => setReplyTextShow(true)}
               >
                 <i className="far fa-comment-dots"></i> Reply
