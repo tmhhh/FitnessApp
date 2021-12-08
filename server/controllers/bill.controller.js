@@ -152,10 +152,8 @@ module.exports = {
         updatedCart: secondListRes[1].userCart,
       });
     } catch (error) {
-      console.log(error);
-      return res
-        .status(500)
-        .json({ isSuccess: false, error: "Internal Server Error" });
+      console.log({ error });
+      return res.status(500).json({ isSuccess: false, error });
     }
   },
   // getTotalNumbBills: async (req, res) => {

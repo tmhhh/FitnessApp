@@ -41,7 +41,7 @@ export default function ListTable({
               <td>{item.prodCategory?.cateName.cateName}</td>
               <td>{formatCurrency(item.prodPrice)}</td>
               <td>{item.prodQuantity}</td>
-              <td>{item.prodRating.star}</td>
+              <td>{item.prodRating.star !== 0 && item.prodRating.star}</td>
               <td>
                 <Button
                   variant="warning"

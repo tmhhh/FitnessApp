@@ -18,8 +18,8 @@ export const address_API_config = {
   shop_id: 2125275,
   shipping_fee_API_URL: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`,
 };
-// export const BASE_API_URL = `http://localhost:4000/api`;
-export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
+export const BASE_API_URL = `http://localhost:4000/api`;
+// export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
 
 // const PUBLIC_URL = `http://localhost:4000`;
 const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
@@ -47,8 +47,8 @@ export const PAYPAL_CONFIG = {
   clientID: `AZSA8xyQ8cQd0VUkehg2o08WdhfPA7Pe6TCTGwP3-VykHwG1dAClk7Kepuo9WPmjzhVtMbgqOD6jGg5n`,
 };
 
-// export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
-export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
+export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
+// export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
 
 export const YT_THUMBNAIL_BASE_URL = (id) =>
   `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
