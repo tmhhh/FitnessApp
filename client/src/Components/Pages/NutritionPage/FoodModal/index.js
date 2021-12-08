@@ -51,7 +51,7 @@ export default function FoodModal({
   //ADD FOOD FOR TRACKING
   const handleAddFood = async () => {
     try {
-      alert(typeof servingSize);
+      // alert(typeof servingSize);
       const date = new Date();
       const addedFood = {
         addedDate: date.toLocaleDateString(),

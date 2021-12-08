@@ -235,12 +235,16 @@ module.exports = {
 
       //CHECK IF USER HAS ADDED YET IN CURRENT DATE
       if (foundUser.trackingInfo.trackingFood.addedDate !== addedDate) {
-        updatedUser = await userModel.findByIdAndUpdate(req.userID, {
-          "trackingInfo.trackingFood": {
-            addedDate,
-            listFoods: { ...food, foodServing: foodServing.toString() },
+        updatedUser = await userModel.findByIdAndUpdate(
+          req.userID,
+          {
+            "trackingInfo.trackingFood": {
+              addedDate,
+              listFoods: { ...food, foodServing: foodServing.toString() },
+            },
           },
-        });
+          { new: true }
+        );
         return res.status(200).json({ isSuccess: true, updatedUser });
       }
       //USER HAS ADDED BEFORE IN THE DAY

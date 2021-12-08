@@ -48,7 +48,7 @@ export default function Review({ review }) {
             <div className="profile-img">
               <img
                 alt="avatar"
-                src={USER_IMAGE_BASE_URL + "/" + curUser.userImage}
+                src={USER_IMAGE_BASE_URL + "/" + user.userImage}
               />
             </div>
             <div className="name-user">

@@ -26,14 +26,13 @@ export default function DatePickerModal({
       </Modal.Header>
       <Modal.Body>
         <DatePicker
-          date
-          locale="us-uk"
-          minDate={new Date()}
-          calendarType="Arabic"
-          onChange={handleOnChange}
-          format={"y-MM-dd"}
           value={date}
           className="w-100"
+          minDate={new Date()}
+          // startDate={new Date()}
+          onChange={handleOnChange}
+          showTimeSelect
+          selected={date}
         />
       </Modal.Body>
       <Modal.Footer>
