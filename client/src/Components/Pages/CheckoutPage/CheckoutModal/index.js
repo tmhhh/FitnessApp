@@ -236,6 +236,7 @@ export default function CheckoutModal({
           icon: "❌",
           bg: "danger",
         });
+      history.push("/checkout/fail");
     }
   };
 
