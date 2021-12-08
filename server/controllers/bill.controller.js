@@ -104,7 +104,7 @@ module.exports = {
       }
       // console.log({ listUpdateProds });
       //SEND MAIL CONFIRM ORDER TO BUYER
-      const sendedEmail = nodemailer.billConfirm(
+      const sentMail = nodemailer.billConfirm(
         listRes[1].userEmail,
         addedBill,
         listRes[0]._id
@@ -123,7 +123,7 @@ module.exports = {
       let updatedCart = listRes[1].save();
 
       let secondListRes = await Promise.all([
-        sendedEmail,
+        sentMail,
         updatedCart,
         ...listUpdateProds,
       ]);

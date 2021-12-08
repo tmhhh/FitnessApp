@@ -13,6 +13,8 @@ import "./style.scss";
 import { useHistory } from "react-router-dom";
 import cartSlice from "../../../../redux/slices/cartSlice";
 import { Context } from "../../../../Contexts";
+import Spinner from "react-bootstrap/Spinner";
+
 export default function CheckoutModal({
   showModal,
   handleCloseModal,
@@ -22,6 +24,7 @@ export default function CheckoutModal({
   userInfo,
 }) {
   const { setToast } = useContext(Context);
+  const [spinner, setSpinner] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   //PROVINCE STATE
@@ -206,10 +209,13 @@ export default function CheckoutModal({
           }, 500);
         }
       } else {
+        setSpinner(true);
         const checkOutRes = await checkOutApi.billCheckout({
           ...formData.current,
         });
         if (checkOutRes.data.isSuccess) {
+          setSpinner(false);
+
           dispatch(
             cartSlice.actions.setCart({
               cartLoading: false,
@@ -220,6 +226,7 @@ export default function CheckoutModal({
         }
       }
     } catch (error) {
+      setSpinner(false);
       console.log({ error });
       if (error.response.status === 400)
         setToast({
@@ -389,6 +396,8 @@ export default function CheckoutModal({
             </Modal.Body>
 
             <Modal.Footer>
+              {spinner && <Spinner animation="border" variant="info" />}
+
               <Button onClick={() => setKey("Order")} variant="secondary">
                 Back
               </Button>

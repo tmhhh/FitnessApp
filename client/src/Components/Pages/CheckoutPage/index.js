@@ -11,6 +11,7 @@ import { formatCurrency } from "../../../utils/formatCurrency";
 import CheckoutModal from "./CheckoutModal";
 import DiscountForm from "./DiscountForm";
 import cartSlice from "../../../redux/slices/cartSlice";
+
 import "./style.scss";
 export default function CheckoutPage() {
   const dispatch = useDispatch();
@@ -217,7 +218,7 @@ export default function CheckoutPage() {
           <div className="shopping_cart_title">
             Cart (
             {userCart.reduce((sum, e) => {
-              if (e.isSelected) return sum + 1;
+              if (e.isSelected && !e.isOrdered) return sum + 1;
               return sum;
             }, 0)}{" "}
             items)
