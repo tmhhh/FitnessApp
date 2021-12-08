@@ -207,7 +207,7 @@ export default function ContextProvider({ children }) {
           console.log(res.data.removedFavorite);
           dispatch(
             authSlice.actions.removeFavoriteProduct({
-              removedFavorite: res.data.removedFavorite,
+              removedFavorite: id,
             })
           );
           setToast({
