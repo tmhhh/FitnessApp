@@ -165,7 +165,7 @@ module.exports = {
   addDiscount: async (req, res) => {
     try {
       const { prodID, discountPercent, startDate } = req.body;
-      console.log(startDate);
+      console.log(startDate, discountPercent);
       const updatedProd = await productModel.findByIdAndUpdate(
         prodID,
         {
@@ -190,8 +190,8 @@ module.exports = {
       const updatedProd = await productModel.findByIdAndUpdate(
         prodID,
         {
-          "prodDiscount.isDiscounted": false,
           "prodDiscount.startDate": null,
+          "prodDiscount.isDiscounted": false,
           "prodDiscount.discountPercent": "0",
         },
         { new: true }

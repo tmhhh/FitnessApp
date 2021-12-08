@@ -170,9 +170,10 @@ function ProductDetailPage() {
                     )
                   </span>
                 </div>
-                {new Date(chosenProd.prodDiscount?.startDate).getTime() -
+                {chosenProd.prodDiscount?.isDiscounted &&
+                new Date(chosenProd.prodDiscount?.startDate).getTime() -
                   new Date().getTime() <
-                0 ? (
+                  0 ? (
                   <>
                     <div className="line-through">
                       {formatCurrency(chosenProd.prodPrice)}

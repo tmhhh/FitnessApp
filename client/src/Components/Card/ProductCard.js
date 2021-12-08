@@ -74,8 +74,9 @@ export default function Product(props) {
       <div className="product_card_content">
         <p className="product_card_name">{prodName}</p>
         <p className="product_card_type">{prodType}</p>
-        {new Date(prodDiscount?.startDate).getTime() - new Date().getTime() <
-        0 ? (
+        {prodDiscount?.isDiscounted &&
+        new Date(prodDiscount?.startDate).getTime() - new Date().getTime() <
+          0 ? (
           <>
             <p className="product_card_price line-through ">
               {formatCurrency(prodPrice)}

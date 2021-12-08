@@ -23,6 +23,7 @@ export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
 
 // const PUBLIC_URL = `http://localhost:4000`;
 const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
+
 export const PROD_IMAGE_BASE_URL = `${PUBLIC_URL}/img/products/`;
 export const USER_IMAGE_BASE_URL = `${PUBLIC_URL}/img/users/`;
 export const BASE_IMAGE_BASE_URL = `${PUBLIC_URL}/img/base/`;
