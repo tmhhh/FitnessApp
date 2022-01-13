@@ -24,12 +24,18 @@ export const prodFilterSelector = (prodReducer, filterOptions) => {
       //       break;
       //   }
       checkPrice = price ? filterProd >= 0 && filterProd <= price : true;
-      return category !== "All"
-        ? prod.prodCategory.cateName._id.toString() === category &&
-          checkPrice &&
-          cateFilter
+      console.log(
+        cateFilter
           ? prod.prodCategory.cateFilter._id.toString() === cateFilter
           : true
+      );
+
+      return category !== "All"
+        ? prod.prodCategory.cateName._id.toString() === category &&
+            checkPrice &&
+            (cateFilter
+              ? prod.prodCategory.cateFilter._id.toString() === cateFilter
+              : true)
         : checkPrice;
     }),
   };
