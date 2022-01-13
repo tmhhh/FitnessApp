@@ -1,3 +1,4 @@
+const { calSubTotal, calTotalPrice } = require("../../utils/cartUtils");
 module.exports = {
   billConfirm: (bill, billID) => {
     const imgURL = "https://apiserver-fitnessapp.herokuapp.com/img/products/";
@@ -52,9 +53,9 @@ module.exports = {
                                                     bill.listItems.length
                                                   })
                                                 </td>
-                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 15px 10px 5px 10px; border-bottom: 1px solid black;"> $${
-                                                    bill.price.subTotal
-                                                  } </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 15px 10px 5px 10px; border-bottom: 1px solid black;"> $${calSubTotal(
+                                                    bill.listItems
+                                                  )} </td>
                                               </tr>
                                               ${bill.listItems.map(
                                                 (e) =>
@@ -66,9 +67,20 @@ module.exports = {
                                                    </td>
                                                    <td style= "padding: 15px 10px 5px
                                                    ;font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 700; line-height: 24px;">
-                                                $${e.product.prodPrice} x(${
-                                                    e.quantity
-                                                  })</td>
+                                                $${
+                                                  e.product.prodPrice *
+                                                  (new Date(
+                                                    e.product.prodDiscount?.startDate
+                                                  ).getTime() -
+                                                    new Date().getTime() <
+                                                  0
+                                                    ? 1 -
+                                                      (e.product.prodDiscount
+                                                        ?.discountPercent ||
+                                                        0) /
+                                                        100
+                                                    : 1)
+                                                } x(${e.quantity})</td>
                                                 </tr>`
                                               )}
                                                <tr>
@@ -81,14 +93,12 @@ module.exports = {
                                                   <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700;color: #333; line-height: 24px; padding: 5px 10px;"> Discount </td>
                                                   <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 5px 10px;"> ${
                                                     bill.price.discount
-                                                  } </td>
+                                                  }% </td>
                                               </tr>
                                               <tr>
                                                   <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700;color: #333; line-height: 24px; padding: 5px 10px;"> Payment Method </td>
                                                   <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 700; line-height: 24px; padding: 5px 10px;"> ${
-                                                    bill.paymentMethod === "COD"
-                                                      ? "COD"
-                                                      : "Paypal"
+                                                    bill.payment.method
                                                   } </td>
                                               </tr>
                                           </table>
@@ -99,9 +109,9 @@ module.exports = {
                                           <table cellspacing="0" cellpadding="0" border="0" width="100%">
                                               <tr>
                                                   <td width="75%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> TOTAL </td>
-                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> $${
-                                                    bill.price.totalPrice
-                                                  } </td>
+                                                  <td width="25%" align="left" style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;"> $${bill.price.totalPrice.toFixed(
+                                                    2
+                                                  )} </td>
                                               </tr>
                                           </table>
                                       </td>

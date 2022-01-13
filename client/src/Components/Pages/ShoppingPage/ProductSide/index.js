@@ -5,10 +5,11 @@ import ProductCard from "../../../Card/ProductCard";
 import Pagination from "../../../Common/Pagination/Pagination";
 import SearchBar from "../../../Common/SearchBar";
 export default function ProductSide({
-  prodSelector: { prodLoading, listProducts },
+  prodLoading,
+  listProducts,
+  searchOption,
 }) {
   const dispatch = useDispatch();
-  // console.log({ listProducts });
   const handlePageChange = (options) => {
     dispatch(getProduct(options));
   };
@@ -31,7 +32,7 @@ export default function ProductSide({
                 animation="border"
                 variant="info"
               />
-            ) : // ) : searchOption.byCate === "All" ? (
+            ) : // ) : searchOption.option === "All" ? (
             listProducts.length === 0 ? (
               <h3
                 style={{
@@ -72,12 +73,14 @@ export default function ProductSide({
           }
         </Row>
       </div>
+      {/* {listProducts.length !== 0 && ( */}
       <div className="w-100 d-flex justify-content-center mb-4">
         <Pagination
-          numOfPages={totalPages}
+          numOfPages={listProducts.length === 0 ? 0 : totalPages}
           handlePageChange={handlePageChange}
         />
       </div>
+      {/* )} */}
     </>
   );
 }

@@ -51,9 +51,13 @@ export default function ExerciseForm(props) {
         {(formikProps) => {
           const { values, touched, errors } = formikProps;
           // console.log(values);
+
           if (values.videoURL !== "" && touched.videoURL) {
             touched.videoURL = false;
-            const videoID = values.videoURL.split("?v=")[1];
+            const url = values.videoURL;
+            const videoID = url.includes("youtube")
+              ? values.videoURL.split("?v=")[1]
+              : values.videoURL.split("/")[3];
             formikProps.setFieldValue(
               "thumbnail",
               YT_THUMBNAIL_BASE_URL(videoID)

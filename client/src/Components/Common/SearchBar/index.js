@@ -4,6 +4,7 @@ import { Context } from "../../../Contexts";
 import { useLocation } from "react-router";
 import prodApi from "../../../api/prodApi";
 import prodSlice from "../../../redux/slices/prodSlice";
+import { getProduct } from "../../../redux/slices/prodSlice";
 import { useDispatch } from "react-redux";
 export default function SearchBar({ listExercises, setListExercisesCop }) {
   const location = useLocation();
@@ -44,13 +45,18 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
           }, 2000);
         } else {
           if (timerRef.current) clearTimeout(timerRef.current);
-          const res = await prodApi.searchProducts("");
-          dispatch(
-            prodSlice.actions.getProducts({
-              prodLoading: false,
-              listProducts: res.data.foundProd,
-            })
-          );
+
+          // 1st WAY BUT WITHOUT PAGINATION (TO USE WITH PAGINATION =>ADJUST QUERY LIMIT IN SERVER)
+          // const res = await prodApi.searchProducts("");
+          // dispatch(
+          //   prodSlice.actions.getProducts({
+          //     prodLoading: false,
+          //     listProducts: res.data.foundProd,
+          //   })
+          // );
+
+          // 2nd WAY
+          dispatch(getProduct());
         }
       } else {
         if (e.target.value.trim() !== "") {

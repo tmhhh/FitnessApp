@@ -18,7 +18,7 @@ export default function SelectField(props) {
     optionDefaultName,
     defaultValue,
   } = props;
-  console.log({ defaultValue });
+  // console.log({ defaultValue });
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
   const error = errors[name] && touched[name];

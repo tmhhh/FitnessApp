@@ -11,7 +11,9 @@ export default function ProtectedRoute({
   );
   return (
     <>
-      {authLoading ? null : isAuthenticated ? (
+      {authLoading ? (
+        <div style={{ height: "100vh" }}> </div>
+      ) : isAuthenticated ? (
         !exactPath ? (
           <Route path={path} component={Component} />
         ) : (

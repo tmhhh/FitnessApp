@@ -4,15 +4,24 @@ const verifyUser = require("../middlewares/verifyToken.mdw");
 const billController = require("../controllers/bill.controller");
 const paypalUtil = require("../utils/paypalSDK");
 const vnpayCheckout = require("../utils/vnpayCheckout");
+const { verifyProdBeforeCheckout } = require("../controllers/bill.controller");
 router.post("/", verifyUser, billController.billCheckOut);
-router.post("/paypal", verifyUser, paypalUtil.handleRequest);
+router.post(
+  "/paypal",
+  verifyUser,
+  verifyProdBeforeCheckout,
+  paypalUtil.handleRequest
+);
 router.get("/paypal/capture", paypalUtil.captureOrder);
-router.get("/paypal/cancel", (req, res) => {
-  res.send("cancel");
-});
+router.get("/paypal/cancel", paypalUtil.cancelOrder);
 
 //VNPAY
-router.post("/vnpay", verifyUser, vnpayCheckout.createPaymentURL);
+router.post(
+  "/vnpay",
+  verifyUser,
+  verifyProdBeforeCheckout,
+  vnpayCheckout.createPaymentURL
+);
 
 router.get("/vnpay_ipn", vnpayCheckout.IPN);
 router.get("/vnpay_return", vnpayCheckout.handleCallback);

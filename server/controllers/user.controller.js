@@ -14,6 +14,7 @@ module.exports = {
           },
         })
         .populate("workoutSchedule.exercise")
+        .populate("favoriteProducts")
         .select("-userPassword")
         .lean();
       //CHECK IF USER HAS ITEM IN CART
@@ -58,7 +59,7 @@ module.exports = {
       const userNameID = req.body.userNameID.toString();
       const user = await userModel
         .find({ userNameID })
-        .populate("userCart.product");
+        .populate("userCart.product favoriteProducts");
       if (user.length <= 0)
         return res.status(403).json({
           isSuccess: false,
@@ -229,7 +230,6 @@ module.exports = {
         food: { addedDate, id, foodServing, mealType },
         food,
       } = req.body;
-      // console.log(typeof foodServing);
       let updatedUser = null;
       const foundUser = await userModel.findById(req.userID);
 
@@ -318,10 +318,14 @@ module.exports = {
       const updatedProd = prodModel.findByIdAndUpdate(id, {
         $inc: { "prodRating.favorite_count": 1 },
       });
-      await Promise.all([foundUser.save(), updatedProd]);
-      // console.log(updatedUser);
+      let [updatedUser] = await Promise.all([foundUser.save(), updatedProd]);
 
-      return res.status(200).json({ isSuccess: true, addedFavorite: id });
+      //POPULATE FIELD
+      updatedUser = await updatedUser.populate("favoriteProducts");
+      console.log(updatedUser.favoriteProducts);
+      return res
+        .status(200)
+        .json({ isSuccess: true, addedFavorite: updatedUser.favoriteProducts });
     } catch (error) {
       console.log(error);
       return res
@@ -356,18 +360,25 @@ module.exports = {
     try {
       const { exerciseID, createdDate } = req.body;
       const foundUser = await userModel.findById(req.userID);
-      //CHECK IF THIS EXERCISE HAS ALREADY ADDED IN THE SAME DATE
-      if (
-        foundUser.workoutSchedule.some(
-          (e) =>
-            e.exercise.toString() === exerciseID.toString() &&
-            e.createdDate === createdDate
+      if (!foundUser)
+        return res
+          .status(401)
+          .json({ isSuccess: false, message: "User not found" });
+
+      if (foundUser.workoutSchedule.length > 0) {
+        //CHECK IF THIS EXERCISE HAS ALREADY ADDED IN THE SAME DATE
+        if (
+          foundUser.workoutSchedule.some(
+            (e) =>
+              e.exercise.toString() === exerciseID.toString() &&
+              e.createdDate === createdDate
+          )
         )
-      )
-        return res.status(400).json({
-          isSuccess: false,
-          message: "This exercise has already been added",
-        });
+          return res.status(400).json({
+            isSuccess: false,
+            message: "This exercise has already been added",
+          });
+      }
 
       foundUser.workoutSchedule.push({
         exercise: exerciseID,

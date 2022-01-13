@@ -24,5 +24,8 @@ const cartApi = {
       prodID,
     });
   },
+  getUserCart: () => {
+    return axiosClient.get(`${BASE_API_URL}/cart`);
+  },
 };
 export default cartApi;

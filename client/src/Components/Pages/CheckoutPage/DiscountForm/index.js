@@ -4,7 +4,11 @@ import DiscountField from "./DiscountField";
 import * as yup from "yup";
 import { Button } from "react-bootstrap";
 
-export default function DiscountForm({ handleSubmitVoucher, disabled }) {
+export default function DiscountForm({
+  handleSubmitVoucher,
+  disabled,
+  discountFormRef,
+}) {
   const validationSchema = yup.object().shape({
     vouCode: yup.string().required("Please input your discount code"),
   });
@@ -16,6 +20,7 @@ export default function DiscountForm({ handleSubmitVoucher, disabled }) {
       }}
       validationSchema={validationSchema}
       onSubmit={handleSubmitVoucher}
+      innerRef={discountFormRef}
     >
       {(formikProps) => {
         const { values } = formikProps;

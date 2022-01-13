@@ -1,7 +1,11 @@
 const checkoutNodeJssdk = require("@paypal/checkout-server-sdk");
 const userModel = require("../models/user.model");
-const vouModel = require("../models//voucher.model");
-const calTotalPrice = require("../utils/cartUtils");
+const vouModel = require("../models/voucher.model");
+const productModel = require("../models/product.model");
+const { calSubTotal, calTotalPrice } = require("../utils/cartUtils");
+const nodemailer = require("../utils//nodemailer");
+
+const billModel = require("../models/bill.model");
 function client() {
   return new checkoutNodeJssdk.core.PayPalHttpClient(environment());
 }
@@ -16,32 +20,31 @@ function environment() {
 }
 
 module.exports = {
+  cancelOrder: async (req, res) => {
+    try {
+      const id = req.query.token;
+      const deletedBill = await billModel.findOneAndDelete({
+        "payment.id": id,
+      });
+      res.redirect(process.env.client_URL + "/checkout/fail");
+    } catch (error) {
+      console.log(error);
+    }
+  },
   handleRequest: async function handleRequest(req, res) {
-    const { shippingFee, discountUsedID } = req.body;
-    console.log({ discountUsedID });
+    const { shippingFee, discountUsedID, listItems } = req.body;
+    const { foundVou, foundUser } = req;
     try {
       // 1st WAY => GET CART FROM DB
-      const foundUser = userModel
-        .findById(req.userID)
-        .populate("userCart.product");
-      const foundVou = vouModel.findById(discountUsedID);
-      const listRes = await Promise.all([foundUser, foundVou]);
+      // const foundUser = userModel
+      //   .findById(req.userID)
+      //   .populate("userCart.product");listRes
+      // const foundVou = pro.findById(discountUsedID);
+      // const listRes = await Promise.all([foundUser, foundVou]);
 
       //CART TOTAL PRICE
-      const cartTotalPrice = listRes[0].userCart.reduce((sum, current) => {
-        if (current.isSelected) {
-          return (
-            sum +
-            current.quantity *
-              current.product.prodPrice *
-              (1 -
-                parseFloat(current.product.prodDiscount?.discountPercent || 0) /
-                  100)
-          );
-        }
-        return sum;
-      }, 0);
-
+      const cartTotalPrice = calSubTotal(foundUser.userCart);
+      console.log({ cartTotalPrice });
       //CREATE ORDER
       const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
       request.prefer("return=representation");
@@ -57,13 +60,13 @@ module.exports = {
               currency_code: "USD",
               value: (
                 cartTotalPrice *
-                  (1 - (listRes[1] ? listRes[1].vouDiscount / 100 : 0)) +
+                  (1 - (foundVou ? foundVou.vouDiscount / 100 : 0)) +
                 shippingFee
               ).toFixed(2),
               breakdown: {
                 item_total: {
                   currency_code: "USD",
-                  value: cartTotalPrice.toFixed(2).toString(),
+                  value: cartTotalPrice.toFixed(2),
                 },
                 shipping: {
                   currency_code: "USD",
@@ -71,32 +74,33 @@ module.exports = {
                 },
                 discount: {
                   currency_code: "USD",
-                  value: listRes[1]
-                    ? (
-                        (cartTotalPrice * listRes[1].vouDiscount) /
-                        100
-                      ).toString()
+                  value: foundVou
+                    ? ((cartTotalPrice * foundVou.vouDiscount) / 100).toString()
                     : "0",
                 },
               },
             },
-            items: listRes[0].userCart
+            items: foundUser.userCart
               .filter((e) => {
-                if (e.isSelected) return true;
+                if (e.isSelected && !e.isOrdered) return true;
               })
-              .map((e) => ({
-                name: e.product.prodName,
+              .map((ele) => ({
+                name: ele.product.prodName,
                 description: "Supplements",
-                sku: e.product._id,
+                sku: ele.product._id,
                 unit_amount: {
                   currency_code: "USD",
                   value:
-                    e.product.prodPrice *
-                    (1 -
-                      parseFloat(e.product.prodDiscount?.discountPercent || 0) /
-                        100),
+                    ele.product.prodPrice *
+                    (new Date(ele.product.prodDiscount?.startDate).getTime() -
+                      new Date().getTime() <
+                    0
+                      ? 1 -
+                        (ele.product.prodDiscount?.discountPercent || 0) / 100
+                      : 1
+                    ).toFixed(2),
                 },
-                quantity: e.quantity.toString(),
+                quantity: ele.quantity.toString(),
                 category: "PHYSICAL_GOODS",
               })),
           },
@@ -110,6 +114,44 @@ module.exports = {
         (e) => e.rel === "approve"
       ).href;
 
+      //ADD INAPPROVED BILL TO DB
+      let listItems = foundUser.userCart
+        .filter((e) => {
+          if (e.isSelected && !e.isOrdered) return true;
+        })
+        .map((ele) => ({
+          ...ele,
+          prodDiscount: ele.product.prodDiscount.discountPercent,
+          isApproved: false,
+        }));
+      const inApprovedBill = {
+        ...req.body,
+        payment: {
+          method: req.body.payment.method,
+          id: order.result.id,
+        },
+        listItems,
+        user: req.userID,
+        shippingAddress: {
+          province: req.body.province,
+          district: req.body.district,
+          ward: req.body.ward,
+        },
+        price: {
+          totalPrice: calTotalPrice(
+            foundUser.userCart,
+            foundVou ? foundVou.vouDiscount : 0,
+            shippingFee
+          ),
+          subTotal: calSubTotal(foundUser.userCart),
+          shippingFee,
+          discount: foundVou ? foundVou.vouDiscount : 0,
+        },
+        discountUsed: discountUsedID,
+      };
+      await billModel.create(inApprovedBill);
+      // console.log(order.result.id);
+      // console.log(order.result.links);
       return res.status(200).json({ isSuccess: true, approveUrl });
     } catch (err) {
       // 4. Handle any errors from the call
@@ -127,9 +169,66 @@ module.exports = {
     });
     try {
       let executeRequest = await client().execute(request);
+
+      let approvingBill = await billModel
+        .findOneAndUpdate(
+          { "payment.id": id },
+          { "payment.isApproved": true },
+          { new: true }
+        )
+        .populate({
+          path: "user",
+          populate: {
+            path: "userCart.product",
+          },
+        })
+        .populate("listItems.product");
+
+      // //UPDATE BOUGHT PRODUCT QUANTITY
+      const listUpdateProds = [];
+      for (const item of approvingBill.listItems) {
+        listUpdateProds.push(
+          productModel.findByIdAndUpdate(
+            item.product._id,
+            {
+              $inc: { prodQuantity: -item.quantity },
+            },
+            { new: true }
+          )
+        );
+      }
+
+      //SEND MAIL CONFIRM ORDER TO BUYER
+      nodemailer.billConfirm(
+        approvingBill.user.userEmail,
+        approvingBill,
+        approvingBill._id
+      );
+
+      //UPDATE USER CART (ordered item: isOrdered => true)
+      for (const item of approvingBill.listItems) {
+        for (const prod of approvingBill.user.userCart) {
+          if (prod.product._id.toString() === item.product._id.toString()) {
+            prod.isOrdered = true;
+            prod.isSelected = false;
+          }
+        }
+      }
+      await Promise.all([
+        nodemailer.billConfirm(
+          approvingBill.user.userEmail,
+          approvingBill,
+          approvingBill._id
+        ),
+        userModel.findByIdAndUpdate(approvingBill.user._id, {
+          userCart: approvingBill.user.userCart,
+        }),
+        ...listUpdateProds,
+      ]);
+
       res.redirect(process.env.client_URL + "/checkout/success");
     } catch (error) {
-      console.log(JSON.parse(error));
+      console.log(error);
       return res
         .status(500)
         .json({ isSuccess: false, message: "Internal server error" });

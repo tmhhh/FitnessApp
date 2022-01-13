@@ -12,11 +12,12 @@ import checkOutApi from "../../../../api/checkoutApi";
 import "./style.scss";
 import { useHistory } from "react-router-dom";
 import cartSlice from "../../../../redux/slices/cartSlice";
+import { getCart } from "../../../../redux/slices/cartSlice";
 import { Context } from "../../../../Contexts";
-import Spinner from "react-bootstrap/Spinner";
 
 export default function CheckoutModal({
   showModal,
+  discountFormRef,
   handleCloseModal,
   listItems,
   usedDiscountRef,
@@ -24,7 +25,6 @@ export default function CheckoutModal({
   userInfo,
 }) {
   const { setToast } = useContext(Context);
-  const [spinner, setSpinner] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   //PROVINCE STATE
@@ -76,7 +76,9 @@ export default function CheckoutModal({
     }, 0);
     formData.current = {
       ...values,
-      paymentMethod: values.paymentMethod.value,
+      payment: {
+        method: values.paymentMethod.value,
+      },
       listItems: listItems.filter((e) => e.isSelected && !e.isOrdered),
       discountUsedID:
         usedDiscountRef.current.isUsed === true
@@ -84,6 +86,7 @@ export default function CheckoutModal({
           : null,
       itemsTotalWeight,
     };
+    delete formData.current.paymentMethod;
     try {
       console.log({ cartTotalPrice });
       console.log(cartTotalPrice * 23000);
@@ -122,113 +125,126 @@ export default function CheckoutModal({
     }
   };
 
+  const handleCheckoutSuccessfully = () => {
+    setKey("Order");
+    usedDiscountRef.current = {
+      isUsed: false,
+      discountPercent: 0,
+      discountCode: null,
+    };
+    dispatch(getCart());
+    dispatch(cartSlice.actions.setCartLoading({ cartLoading: false }));
+  };
+  const formatFormRefData = () => {
+    discountFormRef.current.resetForm();
+    formRef.current.resetForm();
+    handleCloseModal();
+    dispatch(cartSlice.actions.setCartLoading({ cartLoading: true }));
+  };
+
   //HANDLE CONFIRM ORDER
   const handleConfirmOrder = async () => {
     try {
-      if (formData.current.paymentMethod === "PAYPAL") {
-        console.log(formData.current);
+      if (formData.current.payment.method === "PAYPAL") {
         const res = await checkOutApi.paypalCheckout({ ...formData.current });
         let timer = null;
         if (res.data.isSuccess) {
+          formatFormRefData();
           const newWindow = window.open(
             res.data.approveUrl,
             "_blank",
             "width=500,height=600"
           );
 
-          // ****************
           timer = setInterval(async () => {
             try {
               if (newWindow.closed) {
-                console.log("User closes the window");
                 clearInterval(timer);
-              }
-              if (
-                newWindow.location.href.toString() ===
-                CLIENT_PUBLIC_URL + "/checkout/success"
-              ) {
-                //CAPTURE SUCCESS
-                clearInterval(timer);
-                newWindow.close();
-                const checkOutRes = await checkOutApi.billCheckout({
-                  ...formData.current,
-                });
-                if (checkOutRes.data.isSuccess) {
-                  dispatch(
-                    cartSlice.actions.setCart({
-                      cartLoading: false,
-                      userCart: checkOutRes.data.updatedCart,
-                    })
-                  );
-                  history.push("/checkout/success");
-                }
+                handleCheckoutSuccessfully();
+                console.log("close");
               }
             } catch (error) {
-              console.log("CORS");
+              console.log({ error });
             }
           }, 500);
         }
-      } else if (formData.current.paymentMethod === "VNPAY") {
+      } else if (formData.current.payment.method === "VNPAY") {
         const res = await checkOutApi.vnpayCheckout({ ...formData.current });
         let timer = null;
         if (res.data.isSuccess) {
+          formatFormRefData();
           const newWindow = window.open(
             res.data.approveUrl,
             "_blank",
             "width=500,height=600"
           );
+
           timer = setInterval(async () => {
-            try {
-              if (newWindow.closed) {
-                console.log("User closes the window");
-                clearInterval(timer);
-              }
-              if (
-                newWindow.location.href.toString() ===
-                CLIENT_PUBLIC_URL + "/checkout/success"
-              ) {
-                clearInterval(timer);
-                newWindow.close();
-                const checkOutRes = await checkOutApi.billCheckout({
-                  ...formData.current,
-                });
-                if (checkOutRes.data.isSuccess) {
-                  dispatch(
-                    cartSlice.actions.setCart({
-                      cartLoading: false,
-                      userCart: checkOutRes.data.updatedCart,
-                    })
-                  );
-                  history.push("/checkout/success");
-                }
-                console.log("vnpay success");
-              }
-            } catch (error) {
-              console.log("CORS");
+            if (newWindow.closed) {
+              clearInterval(timer);
+              handleCheckoutSuccessfully();
+              console.log("close");
             }
           }, 500);
         }
+        // const res = await checkOutApi.vnpayCheckout({ ...formData.current });
+        // let timer = null;
+        // if (res.data.isSuccess) {
+        //   const newWindow = window.open(
+        //     res.data.approveUrl,
+        //     "_blank",
+        //     "width=500,height=600"
+        //   );
+        //   timer = setInterval(async () => {
+        //     try {
+        //       if (newWindow.closed) {
+        //         console.log("User closes the window");
+        //         clearInterval(timer);
+        //       }
+        //       if (
+        //         newWindow.location.href.toString() ===
+        //         CLIENT_PUBLIC_URL + "/checkout/success"
+        //       ) {
+        //         clearInterval(timer);
+        //         newWindow.close();
+        //         const checkOutRes = await checkOutApi.billCheckout({
+        //           ...formData.current,
+        //         });
+        //         if (checkOutRes.data.isSuccess) {
+        //           dispatch(
+        //             cartSlice.actions.setCart({
+        //               cartLoading: false,
+        //               userCart: checkOutRes.data.updatedCart,
+        //             })
+        //           );
+        //           history.push("/checkout/success");
+        //         }
+        //         console.log("vnpay success");
+        //       }
+        //     } catch (error) {
+        //       console.log("CORS");
+        //     }
+        //   }, 500);
+        // }
       } else {
-        setSpinner(true);
         const checkOutRes = await checkOutApi.billCheckout({
           ...formData.current,
         });
         if (checkOutRes.data.isSuccess) {
-          setSpinner(false);
-
-          dispatch(
-            cartSlice.actions.setCart({
-              cartLoading: false,
-              userCart: checkOutRes.data.updatedCart,
-            })
-          );
+          formatFormRefData();
+          handleCheckoutSuccessfully();
+          // dispatch(
+          //   cartSlice.actions.setCart({
+          //     cartLoading: false,
+          //     userCart: checkOutRes.data.updatedCart,
+          //   })
+          // );
           history.push("/checkout/success");
         }
       }
     } catch (error) {
-      setSpinner(false);
       console.log({ error });
-      if (error.response.status === 400)
+      if (error.response?.status === 400)
         setToast({
           toastShow: true,
           title: "Failed to checkout  !!!",
@@ -236,7 +252,7 @@ export default function CheckoutModal({
           icon: "❌",
           bg: "danger",
         });
-      history.push("/checkout/fail");
+      // history.push("/checkout/fail");
     }
   };
 
@@ -397,8 +413,6 @@ export default function CheckoutModal({
             </Modal.Body>
 
             <Modal.Footer>
-              {spinner && <Spinner animation="border" variant="info" />}
-
               <Button onClick={() => setKey("Order")} variant="secondary">
                 Back
               </Button>

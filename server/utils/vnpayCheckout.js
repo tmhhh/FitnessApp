@@ -2,8 +2,13 @@ const querystring = require("qs");
 const crypto = require("crypto");
 var dateFormat = require("dateformat");
 
-const { calTotalPrice } = require("../utils/cartUtils");
+const { calTotalPrice, calSubTotal } = require("../utils/cartUtils");
 const vouModel = require("../models/voucher.model");
+const nodemailer = require("../utils//nodemailer");
+const userModel = require("../models/user.model");
+const productModel = require("../models/product.model");
+
+const billModel = require("../models/bill.model");
 
 function sortObject(obj) {
   var sorted = {};
@@ -24,8 +29,9 @@ function sortObject(obj) {
 module.exports = {
   createPaymentURL: async (req, res) => {
     try {
+      const { foundVou, foundUser } = req;
       const { listItems, shippingFee, discountUsedID } = req.body;
-      const foundVou = await vouModel.findById(discountUsedID);
+      // const foundVou = await vouModel.findById(discountUsedID);
 
       var ipAddr =
         req.headers["x-forwarded-for"] ||
@@ -44,7 +50,7 @@ module.exports = {
           foundVou ? foundVou.vouDiscount : 0,
           shippingFee
         ) * 23000;
-      console.log(Math.trunc(totalPrice));
+      // console.log(Math.trunc(totalPrice));
       var createDate = dateFormat(date, "yyyymmddHHmmss");
       var orderId = dateFormat(date, "HHmmss");
       var amount = Math.trunc(totalPrice).toString();
@@ -84,6 +90,42 @@ module.exports = {
       var signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
       vnp_Params["vnp_SecureHash"] = signed;
       vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
+      // //ADD INAPPROVED BILL TO DB
+      let items = foundUser.userCart
+        .filter((e) => {
+          if (e.isSelected && !e.isOrdered) return true;
+        })
+        .map((ele) => ({
+          ...ele,
+          prodDiscount: ele.product.prodDiscount.discountPercent,
+          isApproved: false,
+        }));
+      const inApprovedBill = {
+        ...req.body,
+        payment: {
+          method: req.body.payment.method,
+          id: orderId,
+        },
+        listItems: items,
+        user: req.userID,
+        shippingAddress: {
+          province: req.body.province,
+          district: req.body.district,
+          ward: req.body.ward,
+        },
+        price: {
+          totalPrice: calTotalPrice(
+            foundUser.userCart,
+            foundVou ? foundVou.vouDiscount : 0,
+            shippingFee
+          ),
+          subTotal: calSubTotal(foundUser.userCart),
+          shippingFee,
+          discount: foundVou ? foundVou.vouDiscount : 0,
+        },
+        discountUsed: discountUsedID,
+      };
+      await billModel.create(inApprovedBill);
 
       res.status(200).json({ isSuccess: true, approveUrl: vnpUrl });
     } catch (error) {
@@ -125,9 +167,9 @@ module.exports = {
   },
   handleCallback: async (req, res) => {
     try {
-      console.log("Callback");
       var vnp_Params = req.query;
 
+      const id = vnp_Params.vnp_TxnRef;
       var secureHash = vnp_Params["vnp_SecureHash"];
 
       delete vnp_Params["vnp_SecureHash"];
@@ -144,15 +186,62 @@ module.exports = {
         .update(new Buffer.from(signData, "utf-8"))
         .digest("hex");
 
-      //       if (secureHash === signed) {
-      //         //Kiem tra xem du lieu trong db co hop le hay khong va thong bao ket qua
-      //         res.redirect(process.env.client_URL + "/checkout/success");
-      //         // res.render("success", { code: vnp_Params["vnp_ResponseCode"] });
-      //       } else {
-      // res.send("<script>window.close()</script>")
+      let approvingBill = await billModel
+        .findOneAndUpdate(
+          { "payment.id": id },
+          { "payment.isApproved": true },
+          { new: true }
+        )
+        .populate({
+          path: "user",
+          populate: {
+            path: "userCart.product",
+          },
+        })
+        .populate("listItems.product");
 
-      //         // res.render("success", { code: "97" });
-      //       }
+      // //UPDATE BOUGHT PRODUCT QUANTITY
+      const listUpdateProds = [];
+      for (const item of approvingBill.listItems) {
+        listUpdateProds.push(
+          productModel.findByIdAndUpdate(
+            item.product._id,
+            {
+              $inc: { prodQuantity: -item.quantity },
+            },
+            { new: true }
+          )
+        );
+      }
+
+      //SEND MAIL CONFIRM ORDER TO BUYER
+      nodemailer.billConfirm(
+        approvingBill.user.userEmail,
+        approvingBill,
+        approvingBill._id
+      );
+
+      //UPDATE USER CART (ordered item: isOrdered => true)
+      for (const item of approvingBill.listItems) {
+        for (const prod of approvingBill.user.userCart) {
+          if (prod.product._id.toString() === item.product._id.toString()) {
+            prod.isOrdered = true;
+            prod.isSelected = false;
+          }
+        }
+      }
+      await Promise.all([
+        nodemailer.billConfirm(
+          approvingBill.user.userEmail,
+          approvingBill,
+          approvingBill._id
+        ),
+        userModel.findByIdAndUpdate(approvingBill.user._id, {
+          userCart: approvingBill.user.userCart,
+        }),
+        ...listUpdateProds,
+      ]);
+
       res.redirect(process.env.client_URL + "/checkout/success");
     } catch (error) {
       console.log(error);

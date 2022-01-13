@@ -1,114 +1,64 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Col, Pagination, Row } from "react-bootstrap";
+import { calculateFinalPrice } from "utils/calculate";
 import { useSelector } from "react-redux";
 import ProductSide from "./ProductSide";
 import Sidebar from "./Sidebar";
 import "./style.scss";
 import { Helmet } from "react-helmet";
+import { prodFilterSelector } from "redux/selectors/prodSelector";
 export default function ShoppingPage() {
-  const prodSelector = useSelector((state) => state.prodReducer);
+  const [searchOption, setSearchOption] = useState({
+    category: "All",
+    cateFilter: null,
+    price: null, //
+    favorite: {
+      isChosen: false,
+      listFavorites: [],
+    },
+  });
+  const { listProducts, prodLoading } = useSelector((state) =>
+    prodFilterSelector(state.prodReducer, searchOption)
+  );
+  console.log({ listProducts });
   const { userInfo, isAuthenticated } = useSelector(
     (state) => state.authReducer
   );
   const listCate = useSelector((state) => state.cateReducer);
 
-  const [prodSelectorCopy, setProdSelectorCopy] = useState({ ...prodSelector });
-  const [searchOption, setSearchOption] = useState({
-    byCate: "All",
-    byCateFilter: "",
-  });
-
-  //UPDATE PROD COPY WHEN THE ORIGINAL CHANGE
-  useEffect(() => {
-    setProdSelectorCopy({ ...prodSelector });
-  }, [prodSelector]);
-  // console.log({ searchOption });
-
-  /// HANDLE SEARCH BY CATE TYPE
-  const handleSearchByCate = (cateOption) => {
-    if (cateOption === "All") {
-      setProdSelectorCopy({ ...prodSelector });
-      return setSearchOption({ byCate: "All", byCateFilter: "" });
-    }
-    setProdSelectorCopy({
-      ...prodSelectorCopy,
-      listProducts: prodSelector.listProducts.filter(
-        (prod) => prod.prodCategory.cateName._id.toString() === cateOption
-      ),
-    });
-    setSearchOption({ byCate: cateOption, byCateFilter: "" });
-  };
-
-  // GET FAVORITE PRODUCTS
-  const handleShowFavoriteProds = () => {
-    const favoriteProds = [];
-    userInfo.favoriteProducts.forEach((e) => {
-      prodSelector.listProducts.forEach((prod) => {
-        if (e.toString() === prod._id.toString()) {
-          favoriteProds.push(prod);
-        }
-      });
-    });
-    setProdSelectorCopy({ ...prodSelector, listProducts: favoriteProds });
-    return setSearchOption({ byCate: "All", byCateFilter: "" });
-  };
-  //SEARCH BY FILTER
-  const handleSearchByCateFilter = (filterOption) => {
-    setProdSelectorCopy({
-      ...prodSelectorCopy,
-      listProducts: prodSelector.listProducts.filter(
-        (prod) => prod.prodCategory.cateFilter._id.toString() === filterOption
-      ),
-    });
-    setSearchOption({ ...searchOption, byCateFilter: filterOption });
-  };
-
   //SEARCH BY PRICE
   const handleSearchByPrice = (domain) => {
-    switch (domain) {
-      case 0: // 10-40
-        return setProdSelectorCopy({
-          ...prodSelectorCopy,
-          listProducts: prodSelector.listProducts.filter(
-            (prod) =>
-              prod.prodPrice *
-                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) >=
-                10 &&
-              prod.prodPrice *
-                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) <
-                40
-          ),
-        });
-      case 1: // 40-80
-        return setProdSelectorCopy({
-          ...prodSelectorCopy,
-          listProducts: prodSelector.listProducts.filter(
-            (prod) =>
-              prod.prodPrice *
-                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) >=
-                40 &&
-              prod.prodPrice *
-                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) <
-                80
-          ),
-        });
-      case 2: // 80-100
-        return setProdSelectorCopy({
-          ...prodSelectorCopy,
-          listProducts: prodSelector.listProducts.filter(
-            (prod) =>
-              prod.prodPrice *
-                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) >=
-                80 &&
-              prod.prodPrice *
-                (1 - (prod.prodDiscount?.discountPercent / 100 || 0)) <=
-                100
-          ),
-        });
-      default:
-        break;
-    }
+    // switch (domain) {
+    //   case 0: // 10-40
+    //     // console.log(3);
+    //     setProdSelectorCopy({
+    //       listProducts: prodSelectorCopy.listProducts.filter((prod) => {
+    //         const product = calculateFinalPrice(prod);
+    //         return product >= 10 && product < 40;
+    //       }),
+    //     });
+    //     break;
+    //   case 1: // 40-80
+    //     setProdSelectorCopy({
+    //       listProducts: prodSelectorCopy.listProducts.filter((prod) => {
+    //         const product = calculateFinalPrice(prod);
+    //         return product >= 40 && product < 80;
+    //       }),
+    //     });
+    //     break;
+    //   case 2: // 80-100
+    //     setProdSelectorCopy({
+    //       listProducts: prodSelectorCopy.listProducts.filter((prod) => {
+    //         const product = calculateFinalPrice(prod);
+    //         return product >= 80 && product <= 100;
+    //       }),
+    //     });
+    //     break;
+    //   default:
+    //     break;
+    // }
   };
+
   return (
     <>
       <div className="container-fluid shopping_page_container">
@@ -120,18 +70,24 @@ export default function ShoppingPage() {
           <Col md={3} lg={3}>
             <Sidebar
               isAuthenticated={isAuthenticated}
-              handleShowFavoriteProds={handleShowFavoriteProds}
-              handleSearchByCateType={handleSearchByCate}
-              handleSearchByCateFilter={handleSearchByCateFilter}
+              // handleShowFavoriteProds={handleShowFavoriteProds}
+              // handleSearchByCateType={handleSearchByCate}
+              // handleSearchByCateFilter={handleSearchByCateFilter}
               listCate={listCate}
+              setSearchOption={setSearchOption}
               searchOption={searchOption}
               totalFavorite={userInfo.favoriteProducts?.length}
+              listFavorites={userInfo.favoriteProducts}
               handleSearchByPrice={handleSearchByPrice}
               // setFilter={setFilter}
             />
           </Col>
           <Col md={9} lg={9}>
-            <ProductSide prodSelector={prodSelectorCopy} />
+            <ProductSide
+              listProducts={listProducts}
+              prodLoading={prodLoading}
+              // // searchOption={searchOption}
+            />
           </Col>
         </Row>
       </div>

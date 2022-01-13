@@ -46,8 +46,8 @@ const authSlice = createSlice({
         userInfo: {
           ...state.userInfo,
           favoriteProducts: [
-            ...state.userInfo.favoriteProducts,
-            payload.addedFavorite,
+            // ...state.userInfo.favoriteProducts,
+            ...payload.addedFavorite,
           ],
         },
       };
@@ -60,7 +60,7 @@ const authSlice = createSlice({
           ...state.userInfo,
           favoriteProducts: [
             ...state.userInfo.favoriteProducts.filter(
-              (e) => e.toString() !== payload.removedFavorite.toString()
+              (e) => e._id.toString() !== payload.removedFavorite.toString()
             ),
           ],
         },

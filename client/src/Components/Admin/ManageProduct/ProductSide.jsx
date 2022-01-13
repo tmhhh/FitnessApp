@@ -85,7 +85,7 @@ export default function ProductSide(props) {
       } else if (!formData[key]) {
       } else postData.append(key, formData[key]);
     }
-    console.log({formData})
+    console.log({ formData });
     await dispatch(editProduct({ postData, id: formData._id }));
     setToast({
       toastShow: true,

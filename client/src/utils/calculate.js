@@ -6,12 +6,25 @@ export const cartTotalPrice = (cart, userDiscount = 0) => {
         totalPrice +=
           e.product.prodPrice *
           e.quantity *
-          (1 - parseFloat(e.product.prodDiscount?.discountPercent || 0) / 100);
+          (new Date(e.product.prodDiscount?.startDate).getTime() -
+            new Date().getTime() <
+          0
+            ? 1 - (e.product.prodDiscount?.discountPercent || 0) / 100
+            : 1);
     });
   }
   return totalPrice * (1 - userDiscount / 100);
 };
-
+export const calculateFinalPrice = (product) => {
+  return (
+    product.prodPrice *
+    (new Date(product.prodDiscount?.startDate).getTime() -
+      new Date().getTime() <
+    0
+      ? 1 - (product.prodDiscount?.discountPercent || 0) / 100
+      : 1)
+  );
+};
 export const calculatePercentage = (total, number) => {
   return Math.trunc((number / total) * 100);
 };

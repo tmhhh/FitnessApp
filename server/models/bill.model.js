@@ -35,7 +35,14 @@ const Bill = new Schema(
       ward: { type: String, required: true },
     },
     phoneNumber: { type: Number, required: true },
-    paymentMethod: { type: String, required: true },
+    payment: {
+      isApproved: { type: Boolean, default: false },
+      method: {
+        type: String,
+        required: true,
+      },
+      id: { type: String, default: null },
+    },
   },
   {
     timestamps: true,

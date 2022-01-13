@@ -3,6 +3,7 @@ const router = express.Router();
 const verifyUser = require("../middlewares/verifyToken.mdw");
 const cartCtl = require("../controllers/cart.controller");
 
+router.get("/", verifyUser, cartCtl.getUserCart);
 router.route("/add").put(verifyUser, cartCtl.addingToCart);
 
 //

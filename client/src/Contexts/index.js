@@ -136,10 +136,10 @@ export default function ContextProvider({ children }) {
   //LOAD USER , PRODUCTS , CATE AFTER REFRESHING
   useEffect(() => {
     loadUser();
-    getProducts();
+    // getProducts();
     getCate();
     getAllExercises();
-  }, [loadUser, getProducts, getCate, getAllExercises]);
+  }, [loadUser, getCate, getAllExercises]);
 
   //CHECK IF PRODUCT EXIST IN CART
   // const checkExist = (cart, prodID) => {

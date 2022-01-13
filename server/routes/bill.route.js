@@ -4,7 +4,7 @@ const verifyToken = require("../middlewares/verifyToken.mdw");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 const billController = require("../controllers/bill.controller");
 
-// router.get("/abc", billController.updateAll);
+router.get("/abc", billController.updateAll);
 router.get(
   "/totalNumb",
   verifyToken,

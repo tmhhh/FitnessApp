@@ -100,7 +100,7 @@ export default function Product(props) {
         </div>
         {!userInfo.favoriteProducts?.find(
           // THE SAME AS userInfo.favoriteProducts && ...
-          (e) => e.toString() === _id.toString()
+          (e) => e._id.toString() === _id.toString()
         ) ? (
           <div
             onClick={() => handleAddFavorite(_id)}

@@ -80,6 +80,39 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
   }
 };
 module.exports = {
+  getUserCart: async (req, res) => {
+    try {
+      const user = await userModel
+        .findById(req.userID)
+        .populate({
+          path: "userCart.product",
+          populate: {
+            path: "prodCategory.cateName",
+          },
+        })
+        .lean();
+
+      for (const prod of user.userCart) {
+        for (const filter of prod.product.prodCategory.cateName.cateFilter) {
+          if (
+            filter._id.toString() ===
+            prod.product.prodCategory.cateFilter._id.toString()
+          ) {
+            prod.product.prodCategory.cateFilter.filterName = filter.filterName;
+          }
+        }
+      }
+
+      //REMOVE CATE FIlTER PROPERTIES IN CATE NAME OF PRODUCT
+      for (const prod of user.userCart) {
+        delete prod.product.prodCategory.cateName.cateFilter;
+      }
+      return res.status(200).json({ isSuccess: true, userCart: user.userCart });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ isSuccess: false, error });
+    }
+  },
   addingToCart: async (req, res) => {
     try {
       const { prodID, addedQuantity } = req.body;

@@ -8,14 +8,16 @@ export default function Sidebar({
   handleShowFavoriteProds,
   handleSearchByPrice,
   searchOption,
+  setSearchOption,
   isAuthenticated,
+  listFavorites,
   totalFavorite,
 }) {
   const [cb, setCb] = useState({ cb1: false, cb2: false, cb3: false });
   const listFilter = [];
-  if (searchOption.byCate !== "All") {
+  if (searchOption.category !== "All") {
     for (const cate of listCate) {
-      if (cate._id === searchOption.byCate) {
+      if (cate._id === searchOption.category) {
         for (const e of cate.cateFilter) {
           listFilter.push(e);
         }
@@ -26,6 +28,7 @@ export default function Sidebar({
   //HANDLE ON CLICK
 
   const handleOnCLick = (option, type) => {
+    console.log({ type });
     if (type === "cate") handleSearchByCateType(option);
     else if (type === "filter") handleSearchByCateFilter(option);
     else handleShowFavoriteProds();
@@ -46,8 +49,7 @@ export default function Sidebar({
         {listFilter.map((e, index) => (
           <p
             onClick={() => {
-              setCb({ cb1: false, cb2: false, cb3: false });
-              handleOnCLick(e._id, "filter");
+              setSearchOption({ ...searchOption, cateFilter: e._id });
             }}
             key={index}
           >
@@ -60,10 +62,16 @@ export default function Sidebar({
           CATEGORY<i className="fas fa-list"></i>
         </h3>
         <p
-          onClick={() => {
-            setCb({ cb1: false, cb2: false, cb3: false });
-            handleOnCLick("All", "cate");
-          }}
+          onClick={() =>
+            // setCb({ cb1: false, cb2: false, cb3: false });
+            // handleOnCLick("All", "cate");
+            setSearchOption({
+              ...searchOption,
+              category: "All",
+              cateFilter: null,
+              favorite: { isChosen: false, listFavorites: [] },
+            })
+          }
           className="other_products_item"
         >
           All
@@ -71,8 +79,11 @@ export default function Sidebar({
         {listCate.map((e) => (
           <p
             onClick={() => {
-              setCb({ cb1: false, cb2: false, cb3: false });
-              handleOnCLick(e._id, "cate");
+              setSearchOption({
+                ...searchOption,
+                cateFilter: null,
+                category: e._id,
+              });
             }}
             key={e._id}
             className="other_products_item"
@@ -83,14 +94,15 @@ export default function Sidebar({
       </div>
       <div className="other_products">
         <h3 className="other_products_title">
-          SORT<ion-icon name="funnel-outline"></ion-icon>
+          PRICE {searchOption.price && `($0 -> $${searchOption.price})`}
+          <ion-icon name="funnel-outline"></ion-icon>
         </h3>
-        <form>
+        {/* <form>
           <input
             checked={cb.cb1}
             onClick={() => {
               setCb({ cb1: true, cb2: false, cb3: false });
-              handleSearchByPrice(0);
+              setSearchOption({ ...searchOption, price: 0 });
             }}
             style={{ margin: "0 20px 10px 20px" }}
             type="radio"
@@ -114,7 +126,7 @@ export default function Sidebar({
             checked={cb.cb2}
             onClick={() => {
               setCb({ cb1: false, cb2: true, cb3: false });
-              handleSearchByPrice(1);
+              setSearchOption({ ...searchOption, price: 1 });
             }}
             style={{ margin: "0 20px 10px 20px" }}
             type="radio"
@@ -138,7 +150,7 @@ export default function Sidebar({
             checked={cb.cb3}
             onClick={() => {
               setCb({ cb1: false, cb2: false, cb3: true });
-              handleSearchByPrice(2);
+              setSearchOption({ ...searchOption, price: 2 });
             }}
             style={{ margin: "0 20px 10px 20px" }}
             type="radio"
@@ -158,14 +170,23 @@ export default function Sidebar({
             80$ -> 100$
           </label>
           <br />
-        </form>
-        {/* <Form.Range /> */}
+        </form> */}
+        <Form.Range
+          onChange={(e) =>
+            setSearchOption({ ...searchOption, price: e.target.value })
+          }
+        />
       </div>
 
       {isAuthenticated && (
         <h3
           style={{ cursor: "pointer" }}
-          onClick={() => handleOnCLick(null, "favorite")}
+          onClick={() =>
+            setSearchOption({
+              ...searchOption,
+              favorite: { listFavorites, isChosen: true },
+            })
+          }
           className="other_products_title"
         >
           FAVORITE ({totalFavorite})<i className="far fa-heart"></i>

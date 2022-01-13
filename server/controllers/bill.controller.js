@@ -13,21 +13,48 @@ const calRevenueByMonth = (listRevenues, month) =>
   }, 0);
 
 module.exports = {
-  // updateAll: async (req, res) => {
-  //   const a = await billModel.find();
-  //   a.map((e) => {
-  //     console.log(e.status);
-  //     if (e.status !== "Pending") return e;
-  //     return { ...e, status: "Pending" };
-  //   });
-  //   for (const e of a) {
-  //     await e.save();
-  //   }
-  // },
-  // billCheckOut: (req, res) => {
-  //   const { listItems, shippingFee, discountUsedID } = req.body;
-  //   console.log(listItems);
-  // },
+  updateAll: async (req, res) => {
+    let a = await billModel.find();
+    for (let e of a) {
+      e = e.toObject();
+      delete e.paymentMethod;
+      console.log(e);
+      await billModel.findByIdAndUpdate(e._id, {
+        ...e,
+        payment: { isApproved: true, method: "COD", id: null },
+      });
+    }
+  },
+  verifyProdBeforeCheckout: async (req, res, next) => {
+    try {
+      const { listItems, discountUsedID } = req.body;
+      const [foundVou, foundUser, ...rest] = await Promise.all([
+        vouModel.findById(discountUsedID),
+        userModel.findById(req.userID).populate("userCart.product").lean(),
+        ...listItems.map((item) =>
+          productModel.find({
+            _id: item.product._id,
+            prodQuantity: {
+              $lt: +item.quantity,
+            },
+          })
+        ),
+      ]);
+      req.foundUser = foundUser;
+      req.foundVou = foundVou;
+      //CHECK PRODUCT'S IN STOCK QUANTITY BEFORE CHECKOUT
+      if (rest.some((e) => Object.keys(e).length > 0))
+        return res
+          .status(400)
+          .json({ isSuccess: false, message: "Product's quantity exceed !!!" });
+      else next();
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: true, message: "Server internal error" });
+    }
+  },
   billCheckOut: async (req, res) => {
     try {
       //2nd WAY GET CART FROM USER'S POST REQUEST ( prefer 1st way *get cart from database)
@@ -51,14 +78,16 @@ module.exports = {
         return res
           .status(400)
           .json({ isSuccess: false, message: "Product's quantity exceed !!!" });
-      //
+      //END VERIFY
+
       //TOTAL PRICE
       const totalPrice = calTotalPrice(
         listItems,
         foundVou ? foundVou.vouDiscount : 0,
         shippingFee
       );
-      // console.log({ totalPrice, shippingFee });
+
+      console.log({ totalPrice });
       const addedBill = {
         ...req.body,
         listItems: listItems.map((e) => ({
@@ -128,7 +157,6 @@ module.exports = {
         ...listUpdateProds,
       ]);
       secondListRes[1] = secondListRes[1].toObject();
-      // console.log({ secondListRes[1] });
       //FIND PRODUCT FILTER NAME
       for (const prod of secondListRes[1].userCart) {
         for (const filter of prod.product.prodCategory.cateName.cateFilter) {

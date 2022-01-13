@@ -13,7 +13,7 @@ module.exports = {
     try {
       const imgURL = "https://apiserver-fitnessapp.herokuapp.com/img/products/";
 
-      console.log(bill.listItems[0]);
+      // console.log(bill.listItems[0]);
       let info = await transporter.sendMail({
         from: "Fitness Shop", // sender address
         to: receiver, // list of receivers
