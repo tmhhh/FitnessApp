@@ -2,6 +2,38 @@ const userModel = require("../models/user.model");
 const prodModel = require("../models/product.model");
 const argon2 = require("argon2");
 const jwt = require("jsonwebtoken");
+const mapFavoriteProdsCate = (user) => {
+  for (const prod of user.favoriteProducts) {
+    for (const filter of prod.prodCategory.cateName.cateFilter) {
+      if (
+        filter._id.toString() === prod.prodCategory.cateFilter._id.toString()
+      ) {
+        prod.prodCategory.cateFilter.filterName = filter.filterName;
+      }
+    }
+  }
+  for (const prod of user.favoriteProducts) {
+    delete prod.prodCategory.cateName.cateFilter;
+  }
+};
+const mapProdCategory = (user) => {
+  for (const prod of user.userCart) {
+    for (const filter of prod.product.prodCategory.cateName.cateFilter) {
+      if (
+        filter._id.toString() ===
+        prod.product.prodCategory.cateFilter._id.toString()
+      ) {
+        prod.product.prodCategory.cateFilter.filterName = filter.filterName;
+      }
+    }
+  }
+
+  //REMOVE CATE FIlTER PROPERTIES IN CATE NAME OF PRODUCT
+  for (const prod of user.userCart) {
+    delete prod.product.prodCategory.cateName.cateFilter;
+  }
+  mapFavoriteProdsCate(user);
+};
 module.exports = {
   userVerify: async (req, res) => {
     try {
@@ -14,28 +46,47 @@ module.exports = {
           },
         })
         .populate("workoutSchedule.exercise")
-        .populate("favoriteProducts")
+        .populate({
+          path: "favoriteProducts",
+          populate: {
+            path: "prodCategory.cateName",
+          },
+        })
         .select("-userPassword")
         .lean();
       //CHECK IF USER HAS ITEM IN CART
       if (user.userCart.length > 0) {
         //FIND PRODUCT FILTER NAME
-        for (const prod of user.userCart) {
-          for (const filter of prod.product.prodCategory.cateName.cateFilter) {
-            if (
-              filter._id.toString() ===
-              prod.product.prodCategory.cateFilter._id.toString()
-            ) {
-              prod.product.prodCategory.cateFilter.filterName =
-                filter.filterName;
-            }
-          }
-        }
-
-        //REMOVE CATE FIlTER PROPERTIES IN CATE NAME OF PRODUCT
-        for (const prod of user.userCart) {
-          delete prod.product.prodCategory.cateName.cateFilter;
-        }
+        // for (const prod of user.userCart) {
+        //   for (const filter of prod.product.prodCategory.cateName.cateFilter) {
+        //     if (
+        //       filter._id.toString() ===
+        //       prod.product.prodCategory.cateFilter._id.toString()
+        //     ) {
+        //       prod.product.prodCategory.cateFilter.filterName =
+        //         filter.filterName;
+        //     }
+        //   }
+        // }
+        // for (const prod of user.favoriteProducts) {
+        //   for (const filter of prod.product.prodCategory.cateName.cateFilter) {
+        //     if (
+        //       filter._id.toString() ===
+        //       prod.product.prodCategory.cateFilter._id.toString()
+        //     ) {
+        //       prod.product.prodCategory.cateFilter.filterName =
+        //         filter.filterName;
+        //     }
+        //   }
+        // }
+        // for (const prod of user.favoriteProducts) {
+        //   delete prod.product.prodCategory.cateName.cateFilter;
+        // }
+        // //REMOVE CATE FIlTER PROPERTIES IN CATE NAME OF PRODUCT
+        // for (const prod of user.userCart) {
+        //   delete prod.product.prodCategory.cateName.cateFilter;
+        // }
+        mapProdCategory(user);
       }
 
       return res.status(200).json({ isSuccess: true, user });
@@ -59,7 +110,20 @@ module.exports = {
       const userNameID = req.body.userNameID.toString();
       const user = await userModel
         .find({ userNameID })
-        .populate("userCart.product favoriteProducts");
+        // .populate("userCart.product favoriteProducts");
+        .populate({
+          path: "userCart.product",
+          populate: {
+            path: "prodCategory.cateName",
+          },
+        })
+        .populate("workoutSchedule.exercise")
+        .populate({
+          path: "favoriteProducts",
+          populate: {
+            path: "prodCategory.cateName",
+          },
+        });
       if (user.length <= 0)
         return res.status(403).json({
           isSuccess: false,
@@ -84,7 +148,9 @@ module.exports = {
       user[0] = user[0].toObject();
       delete user[0].userPassword;
       // console.log(user[0].trackingInfo);
-
+      if (user[0].userCart.length > 0) {
+        mapProdCategory(user[0]);
+      }
       return res
         .status(200)
         .json({ isSuccess: true, user: user[0], accessToken });
@@ -321,8 +387,14 @@ module.exports = {
       let [updatedUser] = await Promise.all([foundUser.save(), updatedProd]);
 
       //POPULATE FIELD
-      updatedUser = await updatedUser.populate("favoriteProducts");
+      updatedUser = await updatedUser.populate({
+        path: "favoriteProducts",
+        populate: {
+          path: "prodCategory.cateName",
+        },
+      });
       console.log(updatedUser.favoriteProducts);
+      mapFavoriteProdsCate(updatedUser);
       return res
         .status(200)
         .json({ isSuccess: true, addedFavorite: updatedUser.favoriteProducts });

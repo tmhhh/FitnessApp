@@ -10,7 +10,6 @@ import Thumbnail from "../Common/Thumbnail";
 export default function NewItemForm(props) {
   const { innerRef, onSubmit, initialValues, validationSchema, action } = props;
   const listCate = useSelector((state) => state.cateReducer);
-  console.log({ initialValues, action });
   return (
     <>
       <Formik
@@ -30,7 +29,6 @@ export default function NewItemForm(props) {
       >
         {(formikProps) => {
           const { values } = formikProps;
-          console.log({ values });
           return (
             <Form>
               <FastField

@@ -72,8 +72,8 @@ module.exports = {
         (image) => image.filename
       );
     }
+
     try {
-      console.log(product);
       product = {
         ...product,
         prodCategory: {
@@ -83,7 +83,10 @@ module.exports = {
           },
         },
         prodQuantity: +product.prodQuantity,
+        prodDiscount: JSON.parse(product.prodDiscount),
+        prodRating: JSON.parse(product.prodRating),
       };
+      console.log({ product });
       await productModel.updateOne({ _id: req.params.id }, product);
       return res.status(200).json({ isSuccess: true });
     } catch (err) {
