@@ -13,6 +13,7 @@ import userApi from "../../../api/userApi";
 import authSlice from "../../../redux/slices/authSlice";
 import { Context } from "../../../Contexts";
 import { Helmet } from "react-helmet";
+import NoResults from "../../Common/Placeholders/NoResults";
 export default function Training() {
   const dispatch = useDispatch();
   const { listExercises, exerciseLoading } = useSelector(
@@ -179,7 +180,9 @@ export default function Training() {
                 : "card__wrapper card__wrapper-none-grid"
             }
           >
-            {listExercisesCop.map((e) => (
+            {listExercisesCop.length === 0
+                ? (<NoResults/>)
+                : listExercisesCop.map((e) => (
               <ExerciseCard
                 useGrid={listExercisesCop.length >= 6}
                 info={{

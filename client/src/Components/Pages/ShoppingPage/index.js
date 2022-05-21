@@ -67,7 +67,7 @@ export default function ShoppingPage() {
           <meta name="description" content="Stuff related to fitness" />
         </Helmet>
         <Row>
-          <Col md={3} lg={3}>
+          <Col md={3} lg={3} className='common-float'>
             <Sidebar
               isAuthenticated={isAuthenticated}
               // handleShowFavoriteProds={handleShowFavoriteProds}
