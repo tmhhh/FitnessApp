@@ -1,11 +1,17 @@
-$white_smoke: rgba(238, 238, 238, 0.707);
+$white_smoke: rgba(246, 246, 246, 0.71);
 $primary_blue: #00aeef;
 $primary_black: #34465c;
 $light_pink: #fcbec2;
 $light_blue: #8bd2d5;
 $light_purple: #debee0;
+$light_green: #3cfa57;
 $SM: 576px;
-$XL: 1200px;    
+$XL: 1200px;
+
+$gold-medal: #f9ad0e;
+$silver-medal: #d1d7da;
+$bronze-medal: #df7e08;
+$neutral-medal: #d1d7da;
 
 @mixin respond-to($media) {
   @if $media == small {

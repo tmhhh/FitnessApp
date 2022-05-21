@@ -43,7 +43,7 @@ export default function Voucher() {
   };
   return (
     <div className="voucher_container">
-      <div className="voucher_form">
+      <div className="voucher_form common-float">
         <div className="voucher_form_title">VOUCHER GENERATOR </div>
         <VoucherForm handleAddVoucher={handleAddVoucher} listCate={listCate} />
       </div>

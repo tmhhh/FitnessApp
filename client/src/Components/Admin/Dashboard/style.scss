@@ -81,7 +81,7 @@
       &__item {
         &-title {
           font-size: 2.5rem;
-          font-weight: 500;
+          font-weight: bold;
           text-transform: capitalize;
           margin-bottom: 20px;
         }
@@ -144,14 +144,15 @@
     }
     &__bottom {
       display: flex;
-      margin-top: 40px;
+      margin-top: 20px;
       width: 100%;
       min-height: 50%;
       max-height: 100%;
       justify-content: space-around;
       &__chart {
         width: calc(40% - 20px);
-
+        height: fit-content;
+        margin-bottom: 20px;
         &-title {
           font-size: 3rem;
           font-weight: 800;

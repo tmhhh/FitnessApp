@@ -26,7 +26,9 @@
     padding-bottom: 60px;
     width: 30%;
     min-height: calc(100vh - 60px);
-    box-shadow: 0 0 10px black;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     @include respond-to(small){
       min-height:150px;
     }
@@ -81,7 +83,7 @@
         width: calc(100% + 20px);
         transform: translateX(-20px);
         background-color: $white_smoke;
-        padding-left: 20px;
+        padding: 3px;
         &_label {
           font-size: 15px;
           font-weight: 700;

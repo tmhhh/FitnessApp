@@ -15,7 +15,7 @@ export default function AdminPage() {
         style={{
           marginTop: "60px ",
           height: "100%",
-          backgroundColor: "rgba(238, 238, 238, 0.707)",
+          backgroundColor: "rgba(248,248,248,0.71)",
         }}
       >
         <Helmet>

@@ -77,7 +77,7 @@ export default function Dashboard() {
   return (
     <div className="dashboard__container">
       <div className="dashboard__left">
-        <div className="dashboard__left__header">
+        <div className="dashboard__left__header common-float">
           <h2 className="dashboard__left__header-title">Dashboard</h2>
           <div className="dashboard__left__header-settings">
             <i className="fas fa-cog"></i>
@@ -85,7 +85,7 @@ export default function Dashboard() {
         </div>
         <div className="dashboard__left__body">
           <div className="dashboard__left__body-summary">
-            <div className="summary__item">
+            <div className="summary__item common-float">
               <p className="summary__item-title">
                 Products
                 <i style={{ color: "#b4e2e4" }} className="fas fa-box-open"></i>
@@ -94,7 +94,7 @@ export default function Dashboard() {
                 {dataLoading ? <Spinner /> : totalNumbProds}
               </div>
             </div>
-            <div className="summary__item">
+            <div className="summary__item common-float">
               <p className="summary__item-title">
                 Customers
                 <i
@@ -106,7 +106,7 @@ export default function Dashboard() {
                 {dataLoading ? <Spinner /> : totalNumbCustomers}
               </div>
             </div>
-            <div className="summary__item">
+            <div className="summary__item common-float">
               <p className="summary__item-title">
                 Posts
                 <i
@@ -120,7 +120,7 @@ export default function Dashboard() {
             </div>
           </div>
           {/* <div className="dashboard__left__body-chart-title">Activity</div> */}
-          <div className="dashboard__left__body-chart">
+          <div className="dashboard__left__body-chart common-float">
             <LineChart
               listLabels={[
                 "January",
@@ -143,40 +143,48 @@ export default function Dashboard() {
       </div>
       <div className="dashboard__right">
         <div className="dashboard__right__item">
-          <h3 className="dashboard__right__item-title">
-            Top buyers this month
+          <h3 className="dashboard__right__item-title common-float">
+              🛍 Top buyers this month
           </h3>
-          {topCustomers.map((e) => (
-            <div key={e.user._id} className="dashboard__right__item__details">
-              <div className="dashboard__right__item__details-left">
-                <div className="item-image">
-                  <img
-                    src={
-                      e.user.userImage.includes("http")
-                        ? e.user.userImage
-                        : `${USER_IMAGE_BASE_URL}/${e.user.userImage}`
-                    }
-                    alt={e.user.userName}
-                  />
-                </div>
-                <div className="item-name">{e.user.userName}</div>
-              </div>
-              <div className="dashboard__right__item__details-center">
-                {e.user.userNameID}
-              </div>
+          <div className="dashboard__right__item__container">
+              {topCustomers.map((e, index) => (
+                <div key={e.user._id} className={
+                    "dashboard__right__item__details "
+                    + `common-rank-items-${index+1}`
+                }>
+                  <div className="dashboard__right__item__details-left">
+                    <div className="item-image">
+                      <img
+                        src={
+                          e.user.userImage.includes("http")
+                            ? e.user.userImage
+                            : `${USER_IMAGE_BASE_URL}/${e.user.userImage}`
+                        }
+                        alt={e.user.userName}
+                      />
+                    </div>
+                    <div className="item-name">{e.user.userName}</div>
+                  </div>
+                  <div className="dashboard__right__item__details-center">
+                    {e.user.userNameID}
+                  </div>
 
-              <div className="dashboard__right__item__details-right">
-                {formatCurrency(e.totalSpend)}
-              </div>
-            </div>
-          ))}
+                  <div className="dashboard__right__item__details-right">
+                    {formatCurrency(e.totalSpend)}
+                  </div>
+                </div>
+              ))}
+          </div>
         </div>
         <div className="dashboard__right__item">
-          <h3 className="dashboard__right__item-title">Best seller</h3>
-          {topProds.map((e) => (
+          <h3 className="dashboard__right__item-title common-float">💰 Best seller</h3>
+          {topProds.map((e, index) => (
             <div
               key={e.product._id}
-              className="dashboard__right__item__details"
+              className={
+                    "dashboard__right__item__details "
+                  + `common-rank-items-${index+1}`
+                }
             >
               <div className="dashboard__right__item__details-left">
                 <div className="item-image product-image">
@@ -201,11 +209,11 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="dashboard__bottom">
-        <div className="dashboard__bottom__chart">
+        <div className="dashboard__bottom__chart common-float">
           {/* <div className="dashboard__bottom__chart-title">Activity</div> */}
           <PieChart listData={prodPercentByCate} />
         </div>
-        <div className="dashboard__bottom__chart">
+        <div className="dashboard__bottom__chart common-float">
           {/* <div className="dashboard__bottom__chart-title">Activity</div> */}
           <BarChart listData={favoriteProds} />
         </div>

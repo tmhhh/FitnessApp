@@ -140,7 +140,10 @@ export default function Training() {
         <div className="sidebar__title">Category</div>
         <div className="sidebar__items">
           {listCate.map((e) => (
-            <div onClick={() => handleSearchByCate(e)} className="sidebar_item">
+            <div
+                onClick={() => handleSearchByCate(e)}
+                className="sidebar_item common-hover"
+            >
               {e}
             </div>
           ))}
@@ -150,7 +153,7 @@ export default function Training() {
           {listMuscles.map((e) => (
             <div
               onClick={() => handleSearchByMuscleActivate(e)}
-              className="sidebar_item"
+              className="sidebar_item common-hover"
             >
               {e}
             </div>

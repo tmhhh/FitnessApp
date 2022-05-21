@@ -18,7 +18,7 @@
 .product_type {
   margin: 20px 0;
   p {
-    animation: slide 0.25s linear forwards;
+    animation: slide 0.25s linear backwards;
   }
   &_title {
     display: flex;
