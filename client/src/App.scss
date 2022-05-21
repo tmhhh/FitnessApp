@@ -4,6 +4,7 @@
 //     "success":green
 // );
 @import "react-datepicker/dist/react-datepicker.css";
+@import "src/assets/constants.scss";
 .react-datepicker__input-container input[type="text"] {
   font-size: 1.3rem;
   width: 100%;
@@ -154,5 +155,29 @@ td{
   &:hover {
     background-color: #efefef;
     border-radius: 5px;
+    padding: 5px;
   }
+}
+
+.common-float {
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+  rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+
+.common-rank-items-1 {
+  @extend .common-float;
+  background-color: $gold-medal;
+}
+
+.common-rank-items-2 {
+  @extend .common-float;
+  background-color: silver;
+}
+
+.common-rank-items-3 {
+  @extend .common-float;
+  background-color: $bronze-medal;
 }

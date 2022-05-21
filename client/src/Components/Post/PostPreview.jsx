@@ -89,7 +89,7 @@ export default function PostPreview({ post, handleShowConfirm }) {
             style={{
               display: "block",
               position: "absolute",
-              right: "0",
+              right: "10px",
               top: "285px",
               fontWeight: 500,
               fontSize: "1.3rem",
@@ -101,14 +101,14 @@ export default function PostPreview({ post, handleShowConfirm }) {
           <div
             style={{
               position: "absolute",
-              top: "280px",
-              right: "20px",
+              bottom: "3px",
+              right: "15px",
             }}
             className="d-flex mt-4 "
           >
             {post.like?.user?.includes(user._id) ? (
               <button
-                className="default-button default-danger "
+                className="default-button default-danger py-2"
                 onClick={onUnLikeClick}
               >
                 <ion-icon
@@ -118,7 +118,7 @@ export default function PostPreview({ post, handleShowConfirm }) {
               </button>
             ) : (
               <button
-                className="default-button"
+                className="default-button py-2"
                 style={{ margin: "auto" }}
                 onClick={onLikeClick}
               >

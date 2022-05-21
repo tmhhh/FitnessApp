@@ -115,12 +115,12 @@ module.exports = {
     try {
       const oldPost = await postModel.findById(req.params.id);
       if (!oldPost) return res.status(404).json({ error: "Post is not found" });
-      if (oldPost.like.user.includes(req.userID))
+      if (oldPost.like?.user?.includes(req.userID))
         return res.json({ isSuccess: true });
       const update = {
         like: {
           count: ++oldPost.like.count,
-          user: oldPost.like.user.push(req.userID) && oldPost.like.user,
+          user: (oldPost.like?.user?.push(req.userID) && oldPost.like.user) ?? [],
         },
       };
       await postModel.updateOne({ _id: oldPost._id }, update);

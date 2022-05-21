@@ -1,4 +1,4 @@
-@import "../../../assets//constants.scss";
+@import "../../../assets/constants.scss";
 .nutrition {
   &_section {
     // width: 60%;
@@ -10,7 +10,8 @@
     overflow-y: auto;
     height: 70vh;
     background: white;
-    box-shadow: 0 0 10px black;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     margin-top: 100px;
     // scroll-padding-bottom: 20px;
   }
@@ -82,14 +83,13 @@
   }
 }
 
-.row:last-child()::after {
+.row:last-child::after {
   content: "";
   display: block;
   position: absolute;
 
   height: 20px;
   width: 100%;
-  background: red;
 }
 
 @media only screen and (max-width: 499px) {

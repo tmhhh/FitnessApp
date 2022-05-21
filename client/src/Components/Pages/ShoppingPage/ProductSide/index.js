@@ -4,6 +4,7 @@ import { getProduct } from "../../../../redux/slices/prodSlice";
 import ProductCard from "../../../Card/ProductCard";
 import Pagination from "../../../Common/Pagination/Pagination";
 import SearchBar from "../../../Common/SearchBar";
+import NoResults from "../../../Common/Placeholders/NoResults";
 export default function ProductSide({
   prodLoading,
   listProducts,
@@ -50,7 +51,7 @@ export default function ProductSide({
                   transform: "translate(-50%,-50%)",
                 }}
               >
-                No result for your request :(
+                  <NoResults/>
               </h3>
             ) : (
               listProducts.map((prod) => (

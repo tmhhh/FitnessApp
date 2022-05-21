@@ -28,13 +28,47 @@ export default function Sidebar({
   //HANDLE ON CLICK
 
   const handleOnCLick = (option, type) => {
-    console.log({ type });
     if (type === "cate") handleSearchByCateType(option);
     else if (type === "filter") handleSearchByCateFilter(option);
     else handleShowFavoriteProds();
   };
   return (
     <div className="side_bar">
+      <div className="other_products">
+        <h3 className="other_products_title">
+          CATEGORY<i className="fas fa-list"></i>
+        </h3>
+        <p
+            onClick={() =>
+                // setCb({ cb1: false, cb2: false, cb3: false });
+                // handleOnCLick("All", "cate");
+                setSearchOption({
+                  ...searchOption,
+                  category: "All",
+                  cateFilter: null,
+                  favorite: { isChosen: false, listFavorites: [] },
+                })
+            }
+            className="other_products_item common-hover"
+        >
+          All
+        </p>
+        {listCate.map((e) => (
+            <p
+                onClick={() => {
+                  setSearchOption({
+                    ...searchOption,
+                    cateFilter: null,
+                    category: e._id,
+                  });
+                }}
+                key={e._id}
+                className="other_products_item common-hover"
+            >
+              {e.cateName}
+            </p>
+        ))}
+      </div>
       <div className="product_type">
         <h3 className="product_type_title">
           FILTER
@@ -48,47 +82,13 @@ export default function Sidebar({
         </h3>
         {listFilter.map((e, index) => (
           <p
+            className="common-hover"
             onClick={() => {
               setSearchOption({ ...searchOption, cateFilter: e._id });
             }}
             key={index}
           >
             {e.filterName}
-          </p>
-        ))}
-      </div>
-      <div className="other_products">
-        <h3 className="other_products_title">
-          CATEGORY<i className="fas fa-list"></i>
-        </h3>
-        <p
-          onClick={() =>
-            // setCb({ cb1: false, cb2: false, cb3: false });
-            // handleOnCLick("All", "cate");
-            setSearchOption({
-              ...searchOption,
-              category: "All",
-              cateFilter: null,
-              favorite: { isChosen: false, listFavorites: [] },
-            })
-          }
-          className="other_products_item"
-        >
-          All
-        </p>
-        {listCate.map((e) => (
-          <p
-            onClick={() => {
-              setSearchOption({
-                ...searchOption,
-                cateFilter: null,
-                category: e._id,
-              });
-            }}
-            key={e._id}
-            className="other_products_item"
-          >
-            {e.cateName}
           </p>
         ))}
       </div>
@@ -172,7 +172,7 @@ export default function Sidebar({
           <br />
         </form> */}
         <Form.Range
-          onChange={(e) =>
+            onChange={(e) =>
             setSearchOption({ ...searchOption, price: e.target.value })
           }
         />
@@ -187,7 +187,7 @@ export default function Sidebar({
               favorite: { listFavorites, isChosen: true },
             })
           }
-          className="other_products_title"
+          className="other_products_title common-hover"
         >
           FAVORITE ({totalFavorite})<i className="far fa-heart"></i>
         </h3>
