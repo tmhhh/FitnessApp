@@ -5,6 +5,7 @@ import ProductCard from "../../../Card/ProductCard";
 import Pagination from "../../../Common/Pagination/Pagination";
 import SearchBar from "../../../Common/SearchBar";
 import NoResults from "../../../Common/Placeholders/NoResults";
+import CustomLoading from "../../../Common/Placeholders/CustomLoading";
 export default function ProductSide({
   prodLoading,
   listProducts,
@@ -23,16 +24,7 @@ export default function ProductSide({
         <Row>
           {
             prodLoading ? (
-              <Spinner
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  // transform: "translate(-50%,-50%)",
-                }}
-                animation="border"
-                variant="info"
-              />
+                <CustomLoading />
             ) : // ) : searchOption.option === "All" ? (
             listProducts.length === 0 ? (
               <h3
