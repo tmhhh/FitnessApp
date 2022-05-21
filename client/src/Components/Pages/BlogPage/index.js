@@ -54,8 +54,9 @@ export default function BlogPage() {
               fontWeight: 500,
               color: "#999",
               margin: "0 0 10px 20px",
+              borderRadius: "5px",
             }}
-            className="d-flex align-items-center"
+            className="d-flex align-items-center common-hover p-3"
             onClick={() => {
               history.push("/create-post");
             }}
@@ -74,8 +75,9 @@ export default function BlogPage() {
                 fontWeight: 500,
                 color: "#999",
                 margin: "0 0 10px 80px",
+                  borderRadius: "5px",
               }}
-              className="d-flex align-items-center"
+              className="d-flex align-items-center  common-hover p-3"
               onClick={onSeeAll}
             >
               See all
@@ -88,8 +90,9 @@ export default function BlogPage() {
               fontWeight: 500,
               color: "#999",
               margin: "0 0 10px 20px",
+                borderRadius: "5px",
             }}
-            className="d-flex align-items-center"
+            className="d-flex align-items-center common-hover p-3"
             onClick={fetchYourPost}
           >
             <ion-icon

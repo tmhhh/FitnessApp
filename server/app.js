@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const expressSession = require("express-session");
 const passport = require("passport");
+const morgan = require('morgan')
 require("dotenv").config();
 
 app.set("trust proxy", 1); // trust first proxy
@@ -19,8 +20,8 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: process.env.client_URL,
-    // origin: "http://localhost:3000",
+    // origin: process.env.client_URL,
+    origin: "http://localhost:3000",
   })
 );
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +29,7 @@ app.use(express.json());
 app.use(express.static("./public"));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(morgan('combined'));
 
 mongoose
   .connect(process.env.MONGO_DB_URI, {

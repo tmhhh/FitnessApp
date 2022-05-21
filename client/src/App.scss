@@ -147,3 +147,12 @@ td{
     border-bottom: 1px solid #2196f3;
   }
 }
+
+
+.common-hover {
+  transition: 0.3s;
+  &:hover {
+    background-color: #efefef;
+    border-radius: 5px;
+  }
+}
