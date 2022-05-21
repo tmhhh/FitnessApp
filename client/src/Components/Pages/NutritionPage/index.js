@@ -97,7 +97,7 @@ export default function NutritionPage() {
           {nutriState.isLoading ? (
             <CustomLoading/>
           ) : nutriState.listFoods ? (
-            nutriState.listFoods.length > 0
+            nutriState.listFoods.length <= 0
                 ? (
                     <NoResults/>
                 )
