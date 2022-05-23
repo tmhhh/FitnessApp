@@ -111,8 +111,9 @@
     }
   }
   .exercise__container {
-    width: 75%;
-
+    // width: 75%;
+    flex: 1;
+    padding: 10px;
     .card__wrapper {
       width: 100%;
       // margin: 0 auto;

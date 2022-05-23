@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
+import RecommendOption from "Components/Common/RecommendOption";
+import SearchBarV2 from "Components/Common/SearchBarV2";
+import useDebounce from "hooks/useDebounce";
+import React, { useContext, useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
-import { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { getPosts, getPostsByAuthor } from "../../../redux/slices/postSlice";
-import ExerciseCard from "../../Card/ExerciseCard";
-import PostContainer from "../../Post/PostContainer";
-import TrainingModal from "./TrainingModal";
-import "./style.scss";
-import SearchBar from "../../Common/SearchBar";
-import userApi from "../../../api/userApi";
-import authSlice from "../../../redux/slices/authSlice";
-import { Context } from "../../../Contexts";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import userApi from "../../../api/userApi";
+import { Context } from "../../../Contexts";
+import authSlice from "../../../redux/slices/authSlice";
+import ExerciseCard from "../../Card/ExerciseCard";
 import NoResults from "../../Common/Placeholders/NoResults";
+import "./style.scss";
+import TrainingModal from "./TrainingModal";
 export default function Training() {
+  const debounce = useDebounce();
   const dispatch = useDispatch();
   const { listExercises, exerciseLoading } = useSelector(
     (state) => state.exerciseReducer
   );
   const { isAuthenticated } = useSelector((state) => state.authReducer);
   const [listExercisesCop, setListExercisesCop] = useState([]);
+  const [listRecommendOptions, setListRecommendOptions] = useState([]);
   const { setToast } = useContext(Context);
 
   useEffect(() => {
@@ -131,6 +131,21 @@ export default function Training() {
     );
   };
 
+  //
+  const handleInputChange = (e) => {
+    const searchValue = e.target.value.toUpperCase();
+    debounce(() => {
+      if (searchValue.trim() !== "") {
+        setListRecommendOptions(
+          listExercisesCop.filter((e) =>
+            e.name.toUpperCase().includes(searchValue)
+          )
+        );
+      } else {
+        setListRecommendOptions([]);
+      }
+    }, 1000);
+  };
   return (
     <div className="exercise__page__container">
       <Helmet>
@@ -142,8 +157,8 @@ export default function Training() {
         <div className="sidebar__items">
           {listCate.map((e) => (
             <div
-                onClick={() => handleSearchByCate(e)}
-                className="sidebar_item common-hover"
+              onClick={() => handleSearchByCate(e)}
+              className="sidebar_item common-hover"
             >
               {e}
             </div>
@@ -162,10 +177,38 @@ export default function Training() {
         </div>
       </div>
       <div className="exercise__container">
-        <SearchBar
+        {/* <SearchBar
           listExercises={listExercises}
           setListExercisesCop={setListExercisesCop}
-        />
+        /> */}
+        <div className="search-box-container">
+          <SearchBarV2
+            placeholder="Ex: Shoulder Press,..."
+            onChange={handleInputChange}
+          />
+          <div className="recommend-options-container">
+            {/* {isLoading ? (
+              <Spinner
+                style={{
+                  alignSelf: "center",
+                  marginTop: ".5rem",
+                  marginBottom: ".5rem",
+                }}
+                animation="border"
+                variant="info"
+              />
+            ) : ( */}
+            {listRecommendOptions.map((item) => (
+              <RecommendOption
+                onClick={() => handleShow(item._id)}
+                image={item.thumbnail}
+                name={item.name}
+                description={item.description}
+              />
+            ))}
+            {/* )} */}
+          </div>
+        </div>
         {exerciseLoading ? (
           <Spinner
             style={{ position: "absolute", left: "50%", top: "50%" }}
@@ -180,26 +223,27 @@ export default function Training() {
                 : "card__wrapper card__wrapper-none-grid"
             }
           >
-            {listExercisesCop.length === 0
-                ? (<NoResults/>)
-                : listExercisesCop.map((e) => (
-              <ExerciseCard
-                useGrid={listExercisesCop.length >= 6}
-                info={{
-                  title: e.name,
-                  img: e.thumbnail,
-                  muscleTags: e.muscleActivate,
-                }}
-                handleShowModal={() => handleShow(e._id)}
-              />
-            ))}
+            {listExercisesCop.length === 0 ? (
+              <NoResults />
+            ) : (
+              listExercisesCop.map((e) => (
+                <ExerciseCard
+                  useGrid={listExercisesCop.length >= 6}
+                  info={{
+                    title: e.name,
+                    img: e.thumbnail,
+                    muscleTags: e.muscleActivate,
+                  }}
+                  handleShowModal={() => handleShow(e._id)}
+                />
+              ))
+            )}
           </div>
         )}
         <TrainingModal
           handleOpenDatePickerModal={handleOpenDatePickerModal}
           handleCloseDatePickerModal={handleCloseDatePickerModal}
           datePickerModalShow={datePickerModalShow}
-          handleAddToTrainingSchedule={handleAddToTrainingSchedule}
           handleAddToTrainingSchedule={handleAddToTrainingSchedule}
           handleClose={handleClose}
           show={show}

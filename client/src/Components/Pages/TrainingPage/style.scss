@@ -4,3 +4,27 @@
 //   flex-direction: row;
 //   flex-wrap: wrap;
 // }
+.search-box-container {
+  padding: 1rem;
+  display: flex;
+  width: 60%;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+}
+.recommend-options-container {
+  z-index: 10;
+  background-color: #f6f6f6;
+  width: 60%;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  overflow-x: hidden;
+  max-height: 270px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+}
+.card__wrapper {
+  margin-top: 8rem;
+}
