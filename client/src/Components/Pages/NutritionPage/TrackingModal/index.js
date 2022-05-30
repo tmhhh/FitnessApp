@@ -4,6 +4,9 @@ import TrackingForm from "./TrackingForm";
 import userApi from "../../../../api/userApi";
 import authSlice from "../../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
+import { Steps } from "antd";
+
+const { Step } = Steps;
 export default function TrackingModal({
   showTrackingModal,
   handleCloseTrackingModal,
@@ -43,6 +46,15 @@ export default function TrackingModal({
   };
   return (
     <Modal centered show={showTrackingModal}>
+      <Steps current={1}>
+        <Step title="Finished" description="This is a description." />
+        <Step
+          title="In Progress"
+          subTitle="Left 00:00:08"
+          description="This is a description."
+        />
+        <Step title="Waiting" description="This is a description." />
+      </Steps>
       <Modal.Header>
         <Modal.Title>Tracking Info</Modal.Title>
       </Modal.Header>

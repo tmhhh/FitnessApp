@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Context } from "../../../Contexts";
 import { Toast, ToastContainer } from "react-bootstrap";
-
+import { Alert } from "antd";
 export default function NotiToast() {
   const { toast, setToast } = useContext(Context);
   return (
@@ -27,5 +27,9 @@ export default function NotiToast() {
         <Toast.Body>{toast.content}</Toast.Body>
       </Toast>
     </ToastContainer>
+    // <Alert message={toast.content} type={"success"} showIcon />
+    // <Alert message="Informational Notes" type="info" showIcon />
+    // <Alert message="Warning" type="warning" showIcon closable />
+    // <Alert message="Error" type="error" showIcon />
   );
 }

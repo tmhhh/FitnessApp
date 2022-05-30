@@ -1,5 +1,6 @@
 import React from "react";
-import { Spinner } from "react-bootstrap";
+import { Spinner, OverlayTrigger } from "react-bootstrap";
+import { Tooltip } from "antd";
 import {
   calculateTotalCaloriesNeeded,
   calculateFoodTotalKCAL,
@@ -11,6 +12,7 @@ export default function TrackingSidebar({
   userInfo,
   handleShowTrackingModal,
   handleRemoveTrackingFood,
+  todayCaloriesWorkout,
 }) {
   //
   let body = null;
@@ -39,7 +41,8 @@ export default function TrackingSidebar({
       userInfo.trackingInfo.trackingFood.addedDate,
       userInfo.trackingInfo.trackingFood.listFoods
     );
-    const caloriesRemaining = caloriesGoal - caloriesFood;
+    const caloriesRemaining =
+      caloriesGoal - caloriesFood + todayCaloriesWorkout;
     body = (
       <>
         <div className="tracking_sidebar_header">
@@ -54,22 +57,36 @@ export default function TrackingSidebar({
             <div className="tracking_count_value">{caloriesGoal}</div>
             <div className="tracking_count_label">Goal</div>
           </div>
-          <div className="tracking_count_operator">-</div>
+          <div className="tracking_count_operator">=</div>
           <div className="tracking_count">
             <div className="tracking_count_value">{caloriesFood}</div>
             <div className="tracking_count_label">Food</div>
           </div>
-          <div className="tracking_count_operator">+</div>
+          <div className="tracking_count_operator">-</div>
 
           <div className="tracking_count">
-            <div className="tracking_count_value">0</div>
+            <div className="tracking_count_value">{todayCaloriesWorkout}</div>
             <div className="tracking_count_label">Exercise</div>
           </div>
-          <div className="tracking_count_operator">=</div>
+          <div className="tracking_count_operator">+</div>
           <div className="tracking_count ">
-            <div className="tracking_count_value total">
-              {caloriesRemaining}
-            </div>
+            <Tooltip
+              title={
+                caloriesRemaining > 0
+                  ? "Your diet is going very well. Keep going !"
+                  : "Warning !!! You have passed over your daily intake"
+              }
+              color={caloriesRemaining > 0 ? "green" : "red"}
+              placement="right"
+            >
+              <div
+                className={`tracking_count_value ${
+                  caloriesRemaining > 0 ? "positive" : "negative"
+                }`}
+              >
+                {caloriesRemaining}
+              </div>
+            </Tooltip>
             <div className="tracking_count_label">Remaining</div>
           </div>
         </div>

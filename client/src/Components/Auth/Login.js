@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import { authApi } from "../../api/authApi";
-import { BASE_API_URL } from "../../assets/constants";
+import { BASE_API_URL, fbLogo, googleLogo } from "../../assets/constants";
 import { Context } from "../../Contexts";
 import authSlice from "../../redux/slices/authSlice";
 import cartSlice from "../../redux/slices/cartSlice";
@@ -222,12 +222,12 @@ function Login() {
                 </Form.Label>
                 <OtherLoginButton
                   title="Login with Facebook"
-                  img="https://fullstack.edu.vn/assets/images/signin/facebook-18px.svg"
+                  img={fbLogo}
                   handleLogin={handleLoginWithFacebook}
                 />
                 <OtherLoginButton
                   title="Login with Google"
-                  img="https://fullstack.edu.vn/assets/images/signin/google-18px.svg"
+                  img={googleLogo}
                   handleLogin={handleLoginWithGoogle}
                 />
               </Form.Group>

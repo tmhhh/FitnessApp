@@ -15,12 +15,14 @@ import { useDispatch } from "react-redux";
 import { Helmet } from "react-helmet";
 import CustomLoading from "../../Common/Placeholders/CustomLoading";
 import NoResults from "../../Common/Placeholders/NoResults";
+import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
 export default function NutritionPage() {
   const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
   const { userInfo, isAuthenticated, authLoading } = useSelector(
     (state) => state.authReducer
   );
+  const todayCaloriesWorkout = useSelector(getTodayWorkoutCalories);
   const [modal, setModal] = useState({
     isShown: false,
     foodData: {},
@@ -86,6 +88,7 @@ export default function NutritionPage() {
           <meta name="description" content="Word of nutrition" />
         </Helmet>
         <TrackingSidebar
+          todayCaloriesWorkout={todayCaloriesWorkout}
           isAuthenticated={isAuthenticated}
           authLoading={authLoading}
           userInfo={userInfo}
@@ -95,61 +98,61 @@ export default function NutritionPage() {
         <div className="nutrition_section ">
           <SearchBar />
           {nutriState.isLoading ? (
-            <CustomLoading/>
+            <CustomLoading />
           ) : nutriState.listFoods ? (
-            nutriState.listFoods.length <= 0
-                ? (
-                    <NoResults/>
-                )
-                : (
-                    <>
-                      <Table striped bordered hover>
-                        <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>Image</th>
-                          <th>Serving</th>
-                          <th>Food</th>
-                          <th>Energy</th>
-                          <th>Nutrients</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {nutriState.listFoods.map((e, index) => (
-                            <tr
-                                key={index}
-                                role="button"
-                                onClick={() => handleShowModal(e.food.foodId)}
-                            >
-                              <td>{index + 1}</td>
-                              <td>
-                                <img
-                                    height="80"
-                                    width="80"
-                                    src={
-                                      e.food.image
-                                          ? e.food.image
-                                          : BASE_IMAGE_BASE_URL + "/dishes-default.png"
-                                    }
-                                    alt={e.food.label}
-                                />
-                              </td>
-                              <td>100gr</td>
-                              <td>{e.food.label}</td>
-                              <td> {Math.trunc(e.food.nutrients.ENERC_KCAL)}</td>
-                              <td>
-                                <div className="d-flex flex-column align-items-start pl-4 justify-content-start">
-                                  <p>Protein: {Math.trunc(e.food.nutrients.PROCNT)}g</p>
-                                  <p>Fat: {Math.trunc(e.food.nutrients.FAT)}g</p>
-                                  <p>Carbs: {Math.trunc(e.food.nutrients.FIBTG)}g</p>
-                                </div>
-                              </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                      </Table>
-                    </>
-                )
+            nutriState.listFoods.length <= 0 ? (
+              <NoResults />
+            ) : (
+              <>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Image</th>
+                      <th>Serving</th>
+                      <th>Food</th>
+                      <th>Energy</th>
+                      <th>Nutrients</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {nutriState.listFoods.map((e, index) => (
+                      <tr
+                        key={index}
+                        role="button"
+                        onClick={() => handleShowModal(e.food.foodId)}
+                      >
+                        <td>{index + 1}</td>
+                        <td>
+                          <img
+                            height="80"
+                            width="80"
+                            src={
+                              e.food.image
+                                ? e.food.image
+                                : BASE_IMAGE_BASE_URL + "/dishes-default.png"
+                            }
+                            alt={e.food.label}
+                          />
+                        </td>
+                        <td>100gr</td>
+                        <td>{e.food.label}</td>
+                        <td> {Math.trunc(e.food.nutrients.ENERC_KCAL)}</td>
+                        <td>
+                          <div className="d-flex flex-column align-items-start pl-4 justify-content-start">
+                            <p>
+                              Protein: {Math.trunc(e.food.nutrients.PROCNT)}g
+                            </p>
+                            <p>Fat: {Math.trunc(e.food.nutrients.FAT)}g</p>
+                            <p>Carbs: {Math.trunc(e.food.nutrients.FIBTG)}g</p>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              </>
+            )
           ) : (
             <div className="none_active"></div>
           )}

@@ -1,13 +1,12 @@
+import "antd/dist/antd.css"; // or 'antd/dist/antd.less'
 import "bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
-// import LoadingLayer from "./Components/Common/LoadingLayer";
-import { useSelector } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import "./App.scss";
+import ScrollToTop from "Components/Partials/ScrollToTop/ScrollToTop";
 // import Toast from "./Components/Common/Toast";
 import ContextProvider from "Contexts";
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import MainRouter from "Router/Router";
-import ScrollToTop from "Components/Partials/ScrollToTop/ScrollToTop";
+import "./App.scss";
 export default function App() {
   return (
     <>

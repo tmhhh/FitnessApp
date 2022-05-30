@@ -43,6 +43,10 @@ print(X_test)
 from sklearn.preprocessing import StandardScaler
 sc=StandardScaler()
 X_train = sc.fit_transform(X_train)
+print("@@@@@@@@@@");
+print(X_train)
+print("@@@@@@@@@@");
+
 X_test=sc.transform(X_test)
 print(X_train[0:15])
 
@@ -50,14 +54,14 @@ from sklearn.model_selection import cross_val_score
 from sklearn import linear_model
 LR_model= linear_model.LinearRegression()
 scores = cross_val_score(estimator=LR_model, X=X_train, y=y_train, cv=10)
-print("Giá trị trung bình :",scores.mean())
+print("Giá trị trung bình :c",scores.mean())
 LR_model.fit(X_train,y_train)
 joblib.dump(LR_model,'model/predict_body_fat' + '_model.pkl')
 # print("Hệ số góc:",LR_model.coef_)
 # print("Hệ số chặn",LR_model.intercept_)
 # print("Test input dâta",X_test)
 # y_pred = LR_model.predict(X_test)
-# print('R2:',LR_model.score(X_train, y_train))
+print('R2:',LR_model.score(X_train, y_train))
 # print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
 # print('MSE:', metrics.mean_squared_error(y_test, y_pred))
 # print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))

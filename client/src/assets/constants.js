@@ -53,3 +53,8 @@ export const PAYPAL_CONFIG = {
 
 export const YT_THUMBNAIL_BASE_URL = (id) =>
   `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+export const googleLogo =
+  "https://accounts.fullstack.edu.vn/assets/images/signin/google-18px.svg";
+export const fbLogo =
+  "https://accounts.fullstack.edu.vn/assets/images/signin/facebook-18px.svg";

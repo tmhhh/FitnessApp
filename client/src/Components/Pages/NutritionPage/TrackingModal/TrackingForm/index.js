@@ -178,13 +178,11 @@ export default function TrackingForm({
           if (groupBtn.every((e) => !e.isClicked))
             return setError("Please choose your type");
           const userActivityLevel = groupBtn.find((e) => e.isClicked).value;
-          console.log(userActivityLevel);
           formData.current = {
             ...formData.current,
             userActivityLevel,
             isFilled: true,
           };
-          console.log(formData.current);
           handleUpdateTrackingInfo();
           setActiveStep(0);
         }}
@@ -192,31 +190,6 @@ export default function TrackingForm({
         {(formikProps) => {
           return (
             <Form>
-              {/* <FastField
-                fieldType={1}
-                label={"What is your baseline activity level?"}
-                name="userActivityLevel"
-                optionDefaultName=" "
-                options={[
-                  {
-                    name: "Not Very Active - Spend most of the day sitting (e.g., bankteller, desk job)",
-                    value: 1.2,
-                  },
-                  {
-                    name: "Lightly Active - Spend a good part of the day on your feet (e.g., teacher, salesperson)",
-                    value: 1.375,
-                  },
-                  {
-                    name: "",
-                    value: 1.55,
-                  },
-                  {
-                    name: "Very Active - Spend a good part of the day doing heavy physical activity (e.g., bike messenger, carpenter)",
-                    value: 1.725,
-                  },
-                ]}
-                component={SelectField}
-              /> */}
               <div className="custom__button-container">
                 {groupBtn.map((btn) => (
                   <div

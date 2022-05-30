@@ -74,6 +74,7 @@ export default function ContextProvider({ children }) {
         return dispatch(authSlice.actions.setAuthFailed());
       }
       const res = await authApi.loadUser();
+      console.log(res.data.user);
       if (res.data.isSuccess) {
         // console.log(res.data.user);
         dispatch(

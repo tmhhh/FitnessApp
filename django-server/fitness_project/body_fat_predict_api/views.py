@@ -21,17 +21,17 @@ class WeatherNowView(APIView):
     def get(self, request):
         if request.method == "GET":
             import joblib
-            model_name = 'predict_body_fat'
+            model_name = 'predict_body_fat2'
             model = joblib.load('../model/' + model_name + '_model.pkl')
             userData= UserData(request.GET.get("age"),request.GET.get("weight"),request.GET.get("height"),request.GET.get("neck"),request.GET.get("chest"),request.GET.get("abdomen"),request.GET.get("hip"),request.GET.get("thigh") )
             #SCALLING
-            print([[float(request.GET.get("age")),float(request.GET.get("weight")),float(request.GET.get("height")),float(request.GET.get("neck")),float(request.GET.get("chest")),float(request.GET.get("abdomen")),float(request.GET.get("hip")),float(request.GET.get("thigh"))]])
+            # print([[float(request.GET.get("age")),float(request.GET.get("weight")),float(request.GET.get("height")),float(request.GET.get("neck")),float(request.GET.get("chest")),float(request.GET.get("abdomen")),float(request.GET.get("hip")),float(request.GET.get("thigh"))]])
             from sklearn.preprocessing import StandardScaler
             sc = StandardScaler()
-            predictData=sc.fit_transform([[float(request.GET.get("age")),float(request.GET.get("weight")),float(request.GET.get("height")),float(request.GET.get("neck")),float(request.GET.get("chest")),float(request.GET.get("abdomen")),float(request.GET.get("hip")),float(request.GET.get("thigh"))]])
+            predictData=[[float(request.GET.get("weight")),float(request.GET.get("chest")),float(request.GET.get("abdomen")),float(request.GET.get("hip")),float(request.GET.get("thigh")),float(request.GET.get("knee")),float(request.GET.get("biceps")),float(request.GET.get("neck"))]]
             #
             # #predict
-            print(predictData)
+            print(predictData[0][0])
             prediction = model.predict(predictData)
             print(prediction)
 
