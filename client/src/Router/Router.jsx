@@ -50,7 +50,7 @@ export default function MainRouter() {
         <Route exact path="/" component={HomePage} />
         <Route render={() => <div>NOT FOUND !!!</div>} />
       </Switch>
-      <NotiToast />
+      {/* <NotiToast /> */}
       {!location.pathname.startsWith("/admin") && <Footer />}
     </>
   );

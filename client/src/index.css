@@ -13,7 +13,8 @@ code {
 }
 *,
 p,
-div {
+div,
+span {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -34,4 +35,13 @@ body {
   html {
     font-size: 50%;
   }
+}
+
+/* ANTD */
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
+}
+.ant-picker-dropdown {
+  z-index: 10000;
 }

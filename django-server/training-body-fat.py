@@ -9,6 +9,7 @@ warnings.filterwarnings('ignore')
 plt.rcParams['figure.figsize']=(10,7)
 
 df=pd.read_csv("./data/bodyfat.csv")
+df=df.drop(columns=df.columns[0])
 
 df.head()
 print(df.shape)

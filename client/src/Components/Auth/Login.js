@@ -1,3 +1,5 @@
+import { message } from "antd";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
 import { FastField, Formik } from "formik";
 import React, { useContext, useState } from "react";
 import Button from "react-bootstrap/Button";
@@ -34,34 +36,15 @@ function Login() {
 
   //LOGIN
   const handleOnSubmit = async (values, event) => {
-    // e.preventDefault();
     const { userNameID, userPassword } = values;
     console.log(event);
-
-    // if (userNameID === "" || userPassword === "") return;
-
     try {
-      setToast({
-        toastShow: true,
-        title: "Login ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
-      // console.log(userNameID, userPassword);
+      messageAntd(messageTypes.loading, "Logging");
       const res = await authApi.userLogin(userNameID.trim(), userPassword);
-      // console.log(res.data);
       if (res.data.isSuccess) {
         // event.resetForm();
         // event.setTouched({});
         setAuthForm({ ...authForm, isShown: false });
-        setToast({
-          toastShow: true,
-          title: "Login successfully !!!",
-          content: "Welcome back !!!",
-          icon: "✔",
-          bg: "success",
-        });
         localStorage.setItem("USER_TOKEN", res.data.accessToken);
         dispatch(
           cartSlice.actions.setCart({
@@ -77,16 +60,11 @@ function Login() {
             userInfo: res.data.user,
           })
         );
+        messageAntd(messageTypes.success, "Login Successfully !");
       }
     } catch (err) {
       console.log(err);
-      setToast({
-        toastShow: true,
-        title: "Failed to login !!!",
-        content: "Username or password is incorrect !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Username or password is incorrect !!!");
     }
   };
 

@@ -2,13 +2,16 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "./style.scss";
+import { DatePicker } from "antd";
 import DatePickerModal from "./DatePickerModal";
 export default function TrainingModal(props) {
   const {
     show,
     handleClose,
-    handleAddToTrainingSchedule,
-    handleOpenDatePickerModal,
+    onOk,
+    onDateTimeChange,
+    handleShowDatePicker,
+    showDatePicker,
   } = props;
   const { selectedExercise, isShow } = show;
   const embeddedLink = `https://www.youtube.com/embed/${
@@ -27,7 +30,6 @@ export default function TrainingModal(props) {
         <div className="training__modal-video">
           <iframe
             src={embeddedLink}
-            //   frameborder="0"
             allowfullscreen="true"
             allow="autoplay"
           ></iframe>
@@ -43,20 +45,25 @@ export default function TrainingModal(props) {
               <div className="exercise-muscle ">#{e}</div>
             ))}
           </div>
-          <Button
-            onClick={handleOpenDatePickerModal}
-            style={{ position: "absolute", bottom: "10px", right: "20px" }}
-            variant="dark"
-          >
-            <i
-              style={{ padding: "0 10px" }}
-              className="far fa-calendar-plus"
-            ></i>{" "}
-            Add to schedule
-          </Button>
+          {showDatePicker ? (
+            <DatePicker
+              showTime={{ format: "HH:mm" }}
+              onChange={() => console.log("first")}
+              onOk={() => console.log("ok")}
+            />
+          ) : (
+            <Button onClick={handleShowDatePicker} variant="dark">
+              <i
+                style={{ padding: "0 10px" }}
+                className="far fa-calendar-plus"
+              ></i>{" "}
+              Add to schedule
+            </Button>
+          )}
         </div>
       </Modal>
-      <DatePickerModal {...props} />
+
+      {/* <DatePickerModal {...props} /> */}
     </>
   );
 }

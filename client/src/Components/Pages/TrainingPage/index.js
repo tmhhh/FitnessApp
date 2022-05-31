@@ -1,5 +1,6 @@
 import RecommendOption from "Components/Common/RecommendOption";
 import SearchBarV2 from "Components/Common/SearchBarV2";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
 import useDebounce from "hooks/useDebounce";
 import React, { useContext, useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
@@ -41,34 +42,20 @@ export default function Training() {
       ),
     });
   //DATE PICKER MODAL
-  const [datePickerModalShow, setDatePickerModalShow] = useState(false);
-  const handleCloseDatePickerModal = () => {
-    setDatePickerModalShow(false);
-    setShow({ ...show, isShow: true });
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const handleShowDatePicker = () => {
+    setShowDatePicker(true);
   };
-  const handleOpenDatePickerModal = () => {
-    setDatePickerModalShow(true);
-    setShow({ ...show, isShow: false });
+  const handleDateTimeChange = (value) => {
+    console.log({ value });
   };
-
   //HANDLE ADD TO TRAINING PLAN
   const handleAddToTrainingSchedule = async (id, addedDate) => {
     try {
-      setToast({
-        toastShow: true,
-        title: "Login ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
+      messageAntd(messageTypes.loading, "Adding ....");
       if (!isAuthenticated)
-        return setToast({
-          toastShow: true,
-          title: "Failed to add !!!",
-          content: "Please login to do this  !!!",
-          icon: "❌",
-          bg: "danger",
-        });
+        return messageAntd(messageTypes.error, "Failed to add !!!");
+
       const res = await userApi.addToWorkoutSchedule(
         id,
         addedDate.toLocaleDateString()
@@ -80,31 +67,14 @@ export default function Training() {
             addedExercise: res.data.addedExercise,
           })
         );
-        handleCloseDatePickerModal();
-        setToast({
-          toastShow: true,
-          title: "Add successfully !!!",
-          content: "Enjoy !!!",
-          icon: "✔",
-          bg: "success",
-        });
+        handleClose();
+        messageAntd(messageTypes.success, "Add successfully !!!");
       }
     } catch (error) {
-      if (error.response.status === 400)
-        return setToast({
-          toastShow: true,
-          title: "Failed to add !!!",
-          content: error.response.data.message,
-          icon: "❌",
-          bg: "danger",
-        });
-      setToast({
-        toastShow: true,
-        title: "Failed to add !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      if (error.response.status === 400) {
+        return messageAntd(messageTypes.error, error.response.data.message);
+      }
+      messageAntd(messageTypes.error, "Failed to add !!!");
     }
   };
 
@@ -241,12 +211,12 @@ export default function Training() {
           </div>
         )}
         <TrainingModal
-          handleOpenDatePickerModal={handleOpenDatePickerModal}
-          handleCloseDatePickerModal={handleCloseDatePickerModal}
-          datePickerModalShow={datePickerModalShow}
-          handleAddToTrainingSchedule={handleAddToTrainingSchedule}
+          handleShowDatePicker={handleShowDatePicker}
+          onOk={handleAddToTrainingSchedule}
           handleClose={handleClose}
           show={show}
+          onDateTimeChange={handleDateTimeChange}
+          showDatePicker={showDatePicker}
         />
       </div>
     </div>
