@@ -113,14 +113,14 @@ label.star:before {
   }
   .is-valid + .input__state-icon::after,
   .is-valid ~ .input__label {
-    content: "✔";
+    // content: "✔";
     color: green;
   }
 
   .is-invalid ~ .input__state-icon::after,
   .is-invalid ~ .input__label {
-    font-size: 1.5em;
-    content: "❌";
+    font-size: 1.2rem;
+    // content: "❌";
     color: red;
   }
   .is-invalid {

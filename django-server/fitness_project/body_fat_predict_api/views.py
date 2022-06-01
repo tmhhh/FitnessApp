@@ -20,21 +20,57 @@ class WeatherNowView(APIView):
 
     def get(self, request):
         if request.method == "GET":
-            import joblib
-            model_name = 'predict_body_fat2'
-            model = joblib.load('../model/' + model_name + '_model.pkl')
-            userData= UserData(request.GET.get("age"),request.GET.get("weight"),request.GET.get("height"),request.GET.get("neck"),request.GET.get("chest"),request.GET.get("abdomen"),request.GET.get("hip"),request.GET.get("thigh") )
-            #SCALLING
-            # print([[float(request.GET.get("age")),float(request.GET.get("weight")),float(request.GET.get("height")),float(request.GET.get("neck")),float(request.GET.get("chest")),float(request.GET.get("abdomen")),float(request.GET.get("hip")),float(request.GET.get("thigh"))]])
+            prediction="null"
+            import pandas as pd
             from sklearn.preprocessing import StandardScaler
             sc = StandardScaler()
-            predictData=[[float(request.GET.get("weight")),float(request.GET.get("chest")),float(request.GET.get("abdomen")),float(request.GET.get("hip")),float(request.GET.get("thigh")),float(request.GET.get("knee")),float(request.GET.get("biceps")),float(request.GET.get("neck"))]]
-            #
-            # #predict
-            print(predictData[0][0])
+            #LOAD DATA
+            pd.set_option('display.max_columns',None)
+            df=pd.read_csv("../data/bodyfat.csv")    
+            dfForPredictDensity=df.drop(["BodyFat","Density"], axis = 1)
+            #GET USER DATA
+            userWeight=float(request.GET.get("weight"))
+            userHeight=float(request.GET.get("height"))
+            userAge=float(request.GET.get("age"))
+            userNeck=float(request.GET.get("neck"))
+            userChest=float(request.GET.get("chest"))
+            userAbdomen=float(request.GET.get("abdomen"))
+            userHip=float(request.GET.get("hip"))
+            userThigh=float(request.GET.get("thigh"))
+            userWrist=float(request.GET.get("wrist"))
+            userBiceps=float(request.GET.get("biceps"))
+            userForearm=float(request.GET.get("forearm"))
+            userKnee=float(request.GET.get("knee"))
+            userAnkle=float(request.GET.get("ankle"))
+            userData= [[userAge,userWeight,userHeight,userNeck,userChest,userAbdomen,userHip,userThigh,userKnee,userAnkle,userBiceps,userForearm,userWrist]]
+            tempDf = pd.DataFrame(userData, columns=dfForPredictDensity.columns.values.tolist())
+            # dfForPredictDensity = dfForPredictDensity.append(tempDf, ignore_index=True)
+            scale_fit=sc.fit(dfForPredictDensity)
+            predictData=scale_fit.transform(userData)
+            import joblib
+            #PREDICT DENSITY OF USER
+            model_name="predict_density2"
+            model = joblib.load('../model/' + model_name + '_model.pkl')
+            userDensity=model.predict(predictData);
+            
+     
+            #PREDICT BODY FAT
+            df=df.drop(["BodyFat"], axis = 1)
+            # userData=userData[0].insert(0,userDensity)
+            userDensity=userDensity[0]
+            print("User density")
+            print(userDensity)
+            userData= [[userDensity,userAge,userWeight,userHeight,userNeck,userChest,userAbdomen,userHip,userThigh,userKnee,userAnkle,userBiceps,userForearm,userWrist]]
+            # tempDf = pd.DataFrame(userData, columns=df.columns.values.tolist())
+            print(tempDf)
+            # df = df.append(tempDf, ignore_index=True)
+            scale_fit=sc.fit(df)
+            predictData=scale_fit.transform(userData)
+            print("predict data /n",predictData)
+            model_name = 'predict_body_fat2'
+            model = joblib.load('../model/' + model_name + '_model.pkl')
             prediction = model.predict(predictData)
-            print(prediction)
-
+            # print(prediction)
             return Response({"data":prediction}, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Method not allowed"}, status=status.HTTP_400_BAD_REQUEST)

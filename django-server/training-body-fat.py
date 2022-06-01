@@ -9,7 +9,7 @@ warnings.filterwarnings('ignore')
 plt.rcParams['figure.figsize']=(10,7)
 
 df=pd.read_csv("./data/bodyfat.csv")
-df=df.drop(columns=df.columns[0])
+# df=df.drop(columns=df.columns[0])
 
 df.head()
 print(df.shape)
@@ -22,7 +22,10 @@ X=df.drop(["BodyFat"], axis = 1)
 y=df.BodyFat
 from sklearn.preprocessing import StandardScaler
 SC=StandardScaler()
+print("Before")
+print(X.head)
 X=SC.fit_transform(X)
+print("After",X[-1])
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42)
 print(X_train.shape) 
@@ -36,5 +39,39 @@ import joblib
 
 joblib.dump(LR_model,'model/predict_body_fat2' + '_model.pkl')
 
-y_pred = LR_model.predict(X_test)
-print(y_pred)
+# y_pred = LR_model.predict(X_test)
+# print(y_pred)
+# print("Body fat 2")
+
+
+
+###
+from sklearn.ensemble import ExtraTreesRegressor
+selection = ExtraTreesRegressor()
+selection.fit(X_train,y_train)
+print(selection , 'accuracy',selection.score(X_test,y_test)) # 99.5%
+joblib.dump(selection,'model/predict_density2' + '_model.pkl')
+
+from sklearn.ensemble import RandomForestRegressor
+model=RandomForestRegressor()
+RDF_model=model.fit(X_train,y_train)
+print(model , 'accuracy',RDF_model.score(X_test,y_test)) # 99.5%
+joblib.dump(RDF_model,'model/predict_density3' + '_model.pkl')
+
+
+##
+from sklearn.linear_model import Lasso
+model=Lasso(alpha=0.5)
+model.fit(X_train,y_train)
+print(model , 'accuracy',model.score(X_test,y_test)) # 99.5%
+
+from sklearn.linear_model import Ridge
+model=Ridge(alpha=0.5)
+model.fit(X_train,y_train)
+print(model , 'accuracy',model.score(X_test,y_test)) # 99.5%
+
+
+from sklearn.tree import DecisionTreeRegressor
+DT_model=DecisionTreeRegressor()
+DT_model.fit(X_train,y_train)
+print(DT_model , 'accuracy',DT_model.score(X_test,y_test)) # 99.5%

@@ -50,6 +50,7 @@ export default function TrainingModal(props) {
               showTime={{ format: "HH:mm" }}
               onChange={() => console.log("first")}
               onOk={() => console.log("ok")}
+              disabledDate={(current) => current < new Date()}
             />
           ) : (
             <Button onClick={handleShowDatePicker} variant="dark">

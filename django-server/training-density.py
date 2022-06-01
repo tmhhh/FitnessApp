@@ -9,8 +9,6 @@ warnings.filterwarnings('ignore')
 plt.rcParams['figure.figsize']=(10,7)
 
 df=pd.read_csv("./data/bodyfat.csv")
-# df=df.drop(columns=df.columns[0])
-# df=df.drop(columns=df.columns[0])
 
 df.head()
 print(df.shape)
@@ -19,11 +17,10 @@ print(df.columns)
 df.describe()
 plt.figure(figsize=(15,15))
 sns.heatmap(df.corr(),annot=True,cmap='RdYlGn',linewidths=2,linecolor='orange',annot_kws={'size':8,'color':'black'},fmt='.4f',square=True)
-X=df.drop(["BodyFat"], axis = 1)
-X=df.drop(["Density"], axis = 1)
+X=df.drop(["BodyFat","Density"], axis = 1)
+# X=df.drop(["Density"], axis = 1)
 y=df.Density
 print(y)
-print("After drop");
 print(df)
 from sklearn.preprocessing import StandardScaler
 SC=StandardScaler()
@@ -45,3 +42,35 @@ joblib.dump(LR_model,'model/predict_density' + '_model.pkl')
 y_pred = LR_model.predict(X) 
 
 print(y_pred)
+
+
+###
+from sklearn.ensemble import ExtraTreesRegressor
+selection = ExtraTreesRegressor()
+selection.fit(X_train,y_train)
+print(selection , 'accuracy',selection.score(X_test,y_test)) # 99.5%
+joblib.dump(selection,'model/predict_density2' + '_model.pkl')
+
+from sklearn.ensemble import RandomForestRegressor
+model=RandomForestRegressor()
+RDF_model=model.fit(X_train,y_train)
+print(model , 'accuracy',RDF_model.score(X_test,y_test)) # 99.5%
+joblib.dump(RDF_model,'model/predict_density3' + '_model.pkl')
+
+
+##
+from sklearn.linear_model import Lasso
+model=Lasso(alpha=0.5)
+model.fit(X_train,y_train)
+print(model , 'accuracy',model.score(X_test,y_test)) # 99.5%
+
+from sklearn.linear_model import Ridge
+model=Ridge(alpha=0.5)
+model.fit(X_train,y_train)
+print(model , 'accuracy',model.score(X_test,y_test)) # 99.5%
+
+
+from sklearn.tree import DecisionTreeRegressor
+DT_model=DecisionTreeRegressor()
+DT_model.fit(X_train,y_train)
+print(DT_model , 'accuracy',DT_model.score(X_test,y_test)) # 99.5%

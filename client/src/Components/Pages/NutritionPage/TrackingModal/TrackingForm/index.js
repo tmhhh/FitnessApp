@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Formik, Form, FastField } from "formik";
+import { Radio, Select } from "antd";
 import { Button } from "react-bootstrap";
 import FormBT from "react-bootstrap/Form";
 import * as yup from "yup";
@@ -7,12 +8,18 @@ import * as yup from "yup";
 import "./style.scss";
 import InputField from "../../../../Common/InputField";
 import SelectField from "../../../../Common/SelectField";
+import { Col, Divider, Row, Typography } from "antd";
+import { Option } from "antd/lib/mentions";
+import Lottie from "lottie-react";
+import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
+const { Title, Text, Paragraph } = Typography;
 export default function TrackingForm({
   activeStep,
   setActiveStep,
   formRef,
   formData,
   handleUpdateTrackingInfo,
+  listInputFields,
 }) {
   const [error, setError] = useState(null);
   const [groupBtn, setGroupBtn] = useState([
@@ -49,21 +56,100 @@ export default function TrackingForm({
       value: 1.725,
     },
   ]);
-
+  const dietGoals = [
+    { name: "Lose Weight", value: 0 },
+    { name: "Maintain Weight", value: 1 },
+    { name: "Gain Weight", value: 2 },
+  ];
+  console.log(listInputFields.length);
   if (activeStep === 0) {
     return (
       <Formik
         innerRef={formRef}
         validationSchema={yup.object().shape({
-          userGoal: yup
+          userHeight: yup
             .number()
-            .min(0, "Please choose your goal")
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userWeight: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userAge: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userNeck: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userBiceps: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userChest: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userForearm: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userAbdomen: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userWrist: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userHip: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userThigh: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userKnee: yup
+            .number()
+            .nullable()
+            .min(0)
+            .required("This field is required"),
+          userAnkle: yup
+            .number()
+            .nullable()
+            .min(0)
             .required("This field is required"),
         })}
         initialValues={{
-          userGoal: 0,
+          userHeight: null,
+          userWeight: null,
+          userAge: null,
+          userNeck: null,
+          userBiceps: null,
+          userChest: null,
+          userForearm: null,
+          userAbdomen: null,
+          userWrist: null,
+          userHip: null,
+          userThigh: null,
+          userKnee: null,
+          userAnkle: null,
         }}
         onSubmit={(e) => {
+          console.log({ e });
           formData.current = {
             trackingFood: {
               addedDate: new Date(),
@@ -78,18 +164,39 @@ export default function TrackingForm({
         {(formikProps) => {
           return (
             <Form>
-              <FastField
-                fieldType={1}
-                name="userGoal"
-                optionDefaultName=" "
-                options={[
-                  { name: "Lose Weight", value: 0 },
-                  { name: "Maintain Weight", value: 1 },
-                  { name: "Gain Weight", value: 2 },
-                ]}
-                label={"Choose Your Diet Goal"}
-                component={SelectField}
-              />
+              <Row>
+                {/* <Col span={24}>Descriptionnnnn</Col> */}
+                {listInputFields.map(({ group, data }) => (
+                  <>
+                    <Divider type="horizontal" />
+                    <Col span={4}>
+                      <Text>{group}</Text>
+                    </Col>
+                    <Col span={20}>
+                      <Row gutter={10}>
+                        {data.map((item) => (
+                          <>
+                            <Col span={12}>
+                              <FastField
+                                {...item}
+                                component={item.component()}
+                              />
+                            </Col>
+                            {item.name === "userAge" && (
+                              <Col span={12}>
+                                <Radio.Group name="userGender" defaultValue={0}>
+                                  <Radio value={0}>Male</Radio>
+                                  <Radio value={1}>Female</Radio>
+                                </Radio.Group>
+                              </Col>
+                            )}
+                          </>
+                        ))}
+                      </Row>
+                    </Col>
+                  </>
+                ))}
+              </Row>
             </Form>
           );
         }}
@@ -133,35 +240,31 @@ export default function TrackingForm({
         {(formikProps) => {
           return (
             <Form>
-              <FastField
-                name="userWeight"
-                label="Weight (kg)"
-                placeholder="Fill your current weight ..."
-                component={InputField}
-              />
-              <FastField
-                name="userHeight"
-                label="Height (cm)"
-                placeholder="Fill your current height ..."
-                component={InputField}
-              />
-              <FastField
-                name="userAge"
-                label="Age"
-                placeholder="Fill your current age ..."
-                component={InputField}
-              />
-              <FastField
-                fieldType={1}
-                name="userGender"
-                optionDefaultName=" "
-                options={[
-                  { name: "Male", value: 0 },
-                  { name: "Female", value: 1 },
-                ]}
-                label={"Choose your sex"}
-                component={SelectField}
-              />
+              <Paragraph>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
+                consequuntur error accusantium recusandae eius quaerat! Eius
+                soluta, porro modi iste et, asperiores ratione maxime quaerat,
+                cumque repellat cupiditate. Ut, adipisci!
+              </Paragraph>
+              <Row gutter={10}>
+                <Col span={12}>
+                  <Select defaultValue={0} style={{ width: "100%" }}>
+                    {dietGoals.map((item) => (
+                      <Option value={item.value}>{item.name}</Option>
+                    ))}
+                  </Select>
+                </Col>
+                <Col span={12}>
+                  <Select
+                    placeholder={"Your activity level"}
+                    style={{ width: "100%" }}
+                  >
+                    {groupBtn.map((item) => (
+                      <Option value={item.value}>{item.desc}</Option>
+                    ))}
+                  </Select>
+                </Col>
+              </Row>
             </Form>
           );
         }}
@@ -169,70 +272,14 @@ export default function TrackingForm({
     );
   } else if (activeStep === 2) {
     return (
-      <Formik
-        innerRef={formRef}
-        initialValues={{
-          userActivityLevel: 0,
-        }}
-        onSubmit={(e) => {
-          if (groupBtn.every((e) => !e.isClicked))
-            return setError("Please choose your type");
-          const userActivityLevel = groupBtn.find((e) => e.isClicked).value;
-          formData.current = {
-            ...formData.current,
-            userActivityLevel,
-            isFilled: true,
-          };
-          handleUpdateTrackingInfo();
-          setActiveStep(0);
-        }}
-      >
-        {(formikProps) => {
-          return (
-            <Form>
-              <div className="custom__button-container">
-                {groupBtn.map((btn) => (
-                  <div
-                    key={btn.id}
-                    onClick={() => {
-                      setGroupBtn(
-                        groupBtn.map((e) => {
-                          if (e.id === btn.id) {
-                            return { ...e, isClicked: true };
-                          }
-                          return { ...e, isClicked: false };
-                        })
-                      );
-                    }}
-                    className={`custom__button ${btn.isClicked && "clicked"}`}
-                  >
-                    <div className="custom__button__left">
-                      <img src={btn.img} alt="" />
-                    </div>
-                    <div className="custom__button__right">
-                      <h3 className="custom__button__right-title">
-                        {btn.title}
-                      </h3>
-                      <h5 className="custom__button__right-desc">{btn.desc}</h5>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {error && (
-                <div
-                  style={{
-                    color: "red",
-                    textAlign: "center",
-                    fontSize: "1.5rem",
-                  }}
-                >
-                  {error}
-                </div>
-              )}
-            </Form>
-          );
-        }}
-      </Formik>
+      <>
+        <Paragraph>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus in
+          non consequatur ipsa iste dolore illo ratione voluptas voluptatibus.
+          Totam praesentium soluta autem fugiat aperiam cum alias. A, ea dicta.
+        </Paragraph>
+        <Lottie animationData={doneLottie} style={{ height: "400px" }} />;
+      </>
     );
   }
 }

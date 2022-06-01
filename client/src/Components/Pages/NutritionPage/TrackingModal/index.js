@@ -5,8 +5,9 @@ import TrackingForm from "./TrackingForm";
 import userApi from "../../../../api/userApi";
 import authSlice from "../../../../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
-import { Steps } from "antd";
+import { Steps, Radio } from "antd";
 import "./style.scss";
+import InputField from "Components/Common/InputField";
 const { Step } = Steps;
 export default function TrackingModal({
   showTrackingModal,
@@ -14,24 +15,121 @@ export default function TrackingModal({
 }) {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
   const formRef = useRef(null);
   const formData = useRef({});
-  let action = null;
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  const listInputFields = [
+    {
+      group: "Overall",
+      data: [
+        {
+          name: "userHeight",
+          label: "Height (inch)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userWeight",
+          label: "Weight (lb)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userAge",
+          label: "Age",
+          component: () => InputField,
+          required: true,
+        },
+      ],
+    },
+    {
+      group: "Upper Body",
+      data: [
+        {
+          name: "userNeck",
+          label: "Neck (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userBiceps",
+          label: "Biceps (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userChest",
+          label: "Chest (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userForearm",
+          label: "Forearm (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userAbdomen",
+          label: "Abdomen (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userWrist",
+          label: "Wrist (cm)",
+          component: () => InputField,
+          required: true,
+        },
+      ],
+    },
+    {
+      group: "Lower Body",
+      data: [
+        {
+          name: "userHip",
+          label: "Hip",
+          component: () => InputField,
+        },
 
+        {
+          name: "userThigh",
+          label: "Thigh (cm)",
+          component: () => InputField,
+        },
+
+        {
+          name: "userKnee",
+          label: "Knee (cm)",
+          component: () => InputField,
+        },
+
+        {
+          name: "userAnkle",
+          label: "Ankle (cm)",
+          component: () => InputField,
+        },
+      ],
+    },
+  ];
   const showModal = () => {
     setIsModalVisible(true);
   };
 
   const handleOk = () => {
-    setIsModalVisible(false);
+    handleStep();
+    if (activeStep === 0) {
+      setConfirmLoading(true);
+    }
+    if (activeStep < 3) setActiveStep(activeStep + 1);
+    else setIsModalVisible(false);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false);
+    if (activeStep !== 0) setActiveStep(activeStep - 1);
+    else setIsModalVisible(false);
   };
-  if (activeStep === 0 || activeStep === 1) action = "Next";
-  else action = "Save Changes";
 
   //
   const handleUpdateTrackingInfo = async () => {
@@ -59,41 +157,15 @@ export default function TrackingModal({
     formRef.current.submitForm();
   };
   return (
-    // <Modal centered show={showTrackingModal}>
-    //   <Steps current={1}>
-    //     <Step title="Finished" description="This is a description." />
-    //     <Step
-    //       title="In Progress"
-    //       subTitle="Left 00:00:08"
-    //       description="This is a description."
-    //     />
-    //     <Step title="Waiting" description="This is a description." />
-    //   </Steps>
-    //   <Modal.Header>
-    //     <Modal.Title>Tracking Info</Modal.Title>
-    //   </Modal.Header>
-    //   <Modal.Body>
-    //     <TrackingForm
-    //       activeStep={activeStep}
-    //       setActiveStep={setActiveStep}
-    //       formRef={formRef}
-    //       formData={formData}
-    //       handleUpdateTrackingInfo={handleUpdateTrackingInfo}
-    //     />
-    //   </Modal.Body>
-    //   <Modal.Footer>
-    //     <Button variant="primary" onClick={handleStep}>
-    //       {action}
-    //     </Button>
-    //   </Modal.Footer>
-    // </Modal>
     <Modal
       title="Tracking Information"
       visible={isModalVisible}
       onOk={handleOk}
       onCancel={handleCancel}
-      centered
+      confirmLoading={confirmLoading}
       width={800}
+      okText={activeStep < 3 ? "Next" : "Done"}
+      cancelText={activeStep > 0 ? "Back" : "Cancel"}
     >
       <Steps className="steps-container" current={1}>
         <Step title="Personal Data" />
@@ -101,6 +173,7 @@ export default function TrackingModal({
         <Step title="Finish" />
       </Steps>
       <TrackingForm
+        listInputFields={listInputFields}
         activeStep={activeStep}
         setActiveStep={setActiveStep}
         formRef={formRef}
