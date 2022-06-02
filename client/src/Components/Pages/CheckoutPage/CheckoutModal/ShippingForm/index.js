@@ -59,9 +59,7 @@ export default function ShippingForm({
     >
       {(formikProps) => {
         const { values, touched, errors } = formikProps;
-        // console.log(values);
         const getDistrictsByProvinceID = async (provinceID) => {
-          console.log({ provinceID });
           try {
             const res = await axios.get(address_API_config.districts_API_URL, {
               headers: {
@@ -90,7 +88,6 @@ export default function ShippingForm({
                 district_id: parseInt(districtID),
               },
             });
-            console.log(res.data.data);
             setAddressData({ ...addressData, wardsData: res.data.data || [] });
           } catch (error) {
             console.log(error);
@@ -127,7 +124,6 @@ export default function ShippingForm({
                   >
                     <FormBT.Select
                       onChange={(e) => {
-                        console.log(e.target.value);
                         formikProps.setFieldValue("province", e.target.value);
                         formikProps.setFieldTouched("district", false);
                         formikProps.setFieldTouched("ward", false);

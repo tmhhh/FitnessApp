@@ -1,13 +1,13 @@
-import "./style.scss";
-import { useEffect, useState, useContext } from "react";
-import { Context } from "../../../../Contexts";
-import { useSelector, useDispatch } from "react-redux";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import TrainingModal from "Components/Pages/TrainingPage/TrainingModal";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import userApi from "../../../../api/userApi";
 import authSlice from "../../../../redux/slices/authSlice";
-export default function UserSchedule() {
-  const [date, setDate] = useState([]);
+import "./style.scss";
+export default function UserSchedule({ isAuthenticated, workoutSchedule }) {
   const dispatch = useDispatch();
-  const { setToast } = useContext(Context);
+  const [date, setDate] = useState([]);
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthNames = [
     "January",
@@ -23,11 +23,9 @@ export default function UserSchedule() {
     "November",
     "December",
   ];
-  const {
-    isAuthenticated,
-    userInfo: { workoutSchedule },
-  } = useSelector((state) => state.authReducer);
   const [page, setPage] = useState(0);
+
+  //
   useEffect(() => {
     const listDate = [];
     for (let i = 0; i <= 13; i++) {
@@ -39,51 +37,77 @@ export default function UserSchedule() {
     }
     setDate(listDate);
   }, [page]);
-
-  const handleRemoveFromTrainingSchedule = async (id, createdDate) => {
+  //
+  const handleRemoveFromTrainingSchedule = async (event, id, createdDate) => {
     try {
-      setToast({
-        toastShow: true,
-        title: "Login ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
+      event.stopPropagation(); // STOP PARENT EVENT TRIGGER
+      messageAntd(messageTypes.loading, "Removing ...");
       if (!isAuthenticated)
-        return setToast({
-          toastShow: true,
-          title: "Failed to remove !!!",
-          content: "Please login to do this   !!!",
-          icon: "❌",
-          bg: "danger",
-        });
+        return messageAntd(messageTypes.error, "Failed to remove !!!");
+
       const res = await userApi.removeFromWorkoutSchedule(id, createdDate);
       if (res.data.isSuccess) {
-        console.log(res.data);
         dispatch(
           authSlice.actions.removeFromWorkoutSchedule({
             removedExercise: res.data.removedExercise,
             createdDate: res.data.createdDate,
           })
         );
-        setToast({
-          toastShow: true,
-          title: "Remove successfully !!!",
-          content: "Enjoy !!!",
-          icon: "✔",
-          bg: "success",
-        });
+        return messageAntd(messageTypes.success, "Remove successfully !!!");
       }
     } catch (error) {
       console.log(error);
-      setToast({
-        toastShow: true,
-        title: "Failed to remove !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Failed to remove !!!");
     }
+  };
+  // TRAINING MODAL
+  const [show, setShow] = useState({
+    isShow: false,
+    selectedExercise: {},
+  });
+
+  const handleOnClickExercise = (exerciseId) => {
+    const selectedExercise = workoutSchedule.find(
+      (item) => item.exercise._id === exerciseId
+    ).exercise;
+    setShow({
+      isShow: true,
+      selectedExercise,
+    });
+  };
+  const handleCloseExerciseModal = () => {
+    setShow({ ...show, isShow: false });
+  };
+  const handleAddToTrainingSchedule = async (addedDate) => {
+    try {
+      messageAntd(messageTypes.loading, "Adding ....");
+      if (!isAuthenticated)
+        return messageAntd(messageTypes.error, "Failed to add !!!");
+
+      const res = await userApi.addToWorkoutSchedule(
+        show.selectedExercise._id,
+        new Date(addedDate._d).toLocaleDateString()
+      );
+      if (res.data.isSuccess) {
+        dispatch(
+          authSlice.actions.addToWorkoutSchedule({
+            addedExercise: res.data.addedExercise,
+          })
+        );
+        handleCloseExerciseModal();
+        messageAntd(messageTypes.success, "Add successfully !!!");
+      }
+    } catch (error) {
+      if (error.response?.status === 400) {
+        return messageAntd(messageTypes.error, error.response.data.message);
+      }
+      messageAntd(messageTypes.error, "Failed to add !!!");
+    }
+  };
+  //DATA PICKER
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const handleShowDatePicker = () => {
+    setShowDatePicker(true);
   };
 
   return (
@@ -134,7 +158,10 @@ export default function UserSchedule() {
                   (schedule) => schedule.createdDate === e.toLocaleDateString()
                 )
                 .map((ele) => (
-                  <div className="schedule__item__task">
+                  <div
+                    onClick={() => handleOnClickExercise(ele.exercise._id)}
+                    className="schedule__item__task"
+                  >
                     <p className="schedule__item__task-title">
                       {ele.exercise.name}
                     </p>
@@ -146,10 +173,11 @@ export default function UserSchedule() {
                         </span>
                       ) : (
                         <span className="schedule__item__task-time">
-                          {muscle}{" "}
+                          {muscle}
                           <i
-                            onClick={() =>
+                            onClick={(event) =>
                               handleRemoveFromTrainingSchedule(
+                                event,
                                 ele.exercise._id,
                                 e.toLocaleDateString()
                               )
@@ -165,6 +193,13 @@ export default function UserSchedule() {
           </div>
         ))}
       </div>
+      <TrainingModal
+        show={show}
+        handleClose={handleCloseExerciseModal}
+        handleShowDatePicker={handleShowDatePicker}
+        onOk={handleAddToTrainingSchedule}
+        showDatePicker={showDatePicker}
+      />
     </div>
   );
 }

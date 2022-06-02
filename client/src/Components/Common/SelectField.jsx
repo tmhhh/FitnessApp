@@ -24,7 +24,6 @@ export default function SelectField(props) {
   const error = errors[name] && touched[name];
 
   const handleOnChange = (value) => {
-    console.log({ value });
     // const selectedValue = isMulti ? value : value.value;
     onChange({ target: { name, value } });
   };

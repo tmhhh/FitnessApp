@@ -3,7 +3,7 @@ import { ListGroup, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar({ url }) {
-  console.log({ url });
+  // console.log({ url });
   return (
     <>
       <NavLink

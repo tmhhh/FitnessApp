@@ -54,12 +54,12 @@ function ProductDetailPage() {
         difference -= minutesDifference * 1000 * 60;
 
         let secondsDifference = Math.floor(difference / 1000);
-        console.log({
-          daysDifference,
-          hoursDifference,
-          minutesDifference,
-          secondsDifference,
-        });
+        // console.log({
+        //   daysDifference,
+        //   hoursDifference,
+        //   minutesDifference,
+        //   secondsDifference,
+        // });
         setCountingClock({
           daysDifference,
           hoursDifference,

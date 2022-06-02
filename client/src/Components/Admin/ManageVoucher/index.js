@@ -1,44 +1,25 @@
-import React, { useContext } from "react";
-import "./style.scss";
-import VoucherForm from "./VoucherForm";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import React from "react";
 import { useSelector } from "react-redux";
 import vouApi from "../../../api/vouApi";
-import { Context } from "../../../Contexts";
+import "./style.scss";
+import VoucherForm from "./VoucherForm";
 export default function Voucher() {
   const listCate = useSelector((state) => state.cateReducer);
-  const { setToast } = useContext(Context);
 
   //HANDLE ADD VOUCHER
   const handleAddVoucher = async (voucher) => {
     try {
-      setToast({
-        toastShow: true,
-        title: "Adding ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
+      messageAntd(messageTypes.loading, "Please wait a second ");
       const res = await vouApi.addVoucher({
         ...voucher,
         vouExpired: voucher.vouExpired,
       });
-      if (res.data.isSuccess)
-        return setToast({
-          toastShow: true,
-          title: "Adding successfully !!!",
-          content: "Happy Shopping :)",
-          icon: "✔",
-          bg: "success",
-        });
+      if (res.data.isSuccess) return;
+      messageAntd(messageTypes.success, "Add successfully !!!");
     } catch (error) {
       console.log({ error });
-      setToast({
-        toastShow: true,
-        title: "Failed !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Please try again later !!!");
     }
   };
   return (

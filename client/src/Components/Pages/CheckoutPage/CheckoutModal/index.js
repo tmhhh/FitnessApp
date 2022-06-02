@@ -1,19 +1,15 @@
 import axios from "axios";
-import { useContext, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import { useEffect, useRef, useState } from "react";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
-import {
-  address_API_config,
-  CLIENT_PUBLIC_URL,
-} from "../../../../assets/constants";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import checkOutApi from "../../../../api/checkoutApi";
+import { address_API_config } from "../../../../assets/constants";
+import cartSlice, { getCart } from "../../../../redux/slices/cartSlice";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import ShippingForm from "./ShippingForm";
-import checkOutApi from "../../../../api/checkoutApi";
 import "./style.scss";
-import { useHistory } from "react-router-dom";
-import cartSlice from "../../../../redux/slices/cartSlice";
-import { getCart } from "../../../../redux/slices/cartSlice";
-import { Context } from "../../../../Contexts";
 
 export default function CheckoutModal({
   showModal,
@@ -24,7 +20,6 @@ export default function CheckoutModal({
   cartTotalPrice,
   userInfo,
 }) {
-  const { setToast } = useContext(Context);
   const dispatch = useDispatch();
   const history = useHistory();
   //PROVINCE STATE
@@ -69,7 +64,6 @@ export default function CheckoutModal({
 
   //HANDLE ON SUBMIT
   const handleOnSubmit = async (values) => {
-    console.log({ values });
     // //COUNT TOTAL WEIGHT
     const itemsTotalWeight = listItems.reduce((sum, current) => {
       return sum + current.product.prodWeight * current.quantity;
@@ -88,8 +82,6 @@ export default function CheckoutModal({
     };
     delete formData.current.paymentMethod;
     try {
-      console.log({ cartTotalPrice });
-      console.log(cartTotalPrice * 23000);
       const shippingRes = await axios.get(
         address_API_config.shipping_fee_API_URL,
         {
@@ -161,7 +153,6 @@ export default function CheckoutModal({
               if (newWindow.closed) {
                 clearInterval(timer);
                 handleCheckoutSuccessfully();
-                console.log("close");
               }
             } catch (error) {
               console.log({ error });
@@ -183,7 +174,6 @@ export default function CheckoutModal({
             if (newWindow.closed) {
               clearInterval(timer);
               handleCheckoutSuccessfully();
-              console.log("close");
             }
           }, 500);
         }
@@ -245,14 +235,7 @@ export default function CheckoutModal({
     } catch (error) {
       console.log({ error });
       if (error.response?.status === 400)
-        setToast({
-          toastShow: true,
-          title: "Failed to checkout  !!!",
-          content: error.response.data.message + " !!!",
-          icon: "❌",
-          bg: "danger",
-        });
-      // history.push("/checkout/fail");
+        messageAntd(messageTypes.error, error.response.data.message + " !!!");
     }
   };
 

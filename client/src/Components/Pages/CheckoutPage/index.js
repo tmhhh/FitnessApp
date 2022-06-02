@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
+import Spinner from "react-bootstrap/Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import cartApi from "../../../api/cartApi";
 import vouApi from "../../../api/vouApi";
 import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
-import { Context } from "../../../Contexts";
+import cartSlice from "../../../redux/slices/cartSlice";
 import { cartTotalPrice } from "../../../utils/calculate";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import CheckoutModal from "./CheckoutModal";
 import DiscountForm from "./DiscountForm";
-import cartSlice from "../../../redux/slices/cartSlice";
-import Spinner from "react-bootstrap/Spinner";
 import "./style.scss";
 export default function CheckoutPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { setToast } = useContext(Context);
   const { userCart, cartLoading } = useSelector((state) => state.cartReducer);
   const { userInfo } = useSelector((state) => state.authReducer);
   const { isAuthenticated } = useSelector((state) => state.authReducer);
@@ -33,59 +32,33 @@ export default function CheckoutPage() {
       cartTotalPrice(userCart, usedDiscountRef.current.discountPercent)
     );
   }, [userCart]);
-
   //HANDLE MODAL
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => {
     const check = userCart.find((e) => e.isSelected);
     if (check) setShowModal(true);
-    else
-      setToast({
-        toastShow: true,
-        title: "Product not found !!!",
-        content: "Please choose your product !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+    else messageAntd(messageTypes.error, "Please choose your product !!!");
   };
+
   //HANDLE DELETE PRODUCT FROM CART
   const handleRemoveProduct = async (id) => {
     try {
-      setToast({
-        toastShow: true,
-        title: "Deleting ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
+      messageAntd(messageTypes.loading, "Deleting ...");
       if (isAuthenticated) {
         const res = await cartApi.removeFromCart(id);
         if (res.data.isSuccess) {
-          // console.log(res.data);
           dispatch(
             cartSlice.actions.deletingFromCart({
               prodID: res.data.deletedProdID,
             })
           );
-          return setToast({
-            toastShow: true,
-            title: "Delete Successfully !!!",
-            content: "Happy shopping :)",
-            icon: "✔",
-            bg: "success",
-          });
+          return messageAntd(messageTypes.success, "Delete successfully !!!");
         }
       } else {
       }
     } catch (err) {
       console.log(err);
-      setToast({
-        toastShow: true,
-        title: "Something happens !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Please try again later !!!");
     }
   };
   //UPDATE ITEM TO SELECTED
@@ -112,66 +85,32 @@ export default function CheckoutPage() {
   //HANDLE UPDATE QUANTITY
   const handleUpdateQuantity = async (prodID, quantity) => {
     try {
-      // if (action === "decrease" && quantity - 1 <= 0) return;
-      setToast({
-        toastShow: true,
-        title: "Updating ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
+      messageAntd(messageTypes.loading, "Updating ...");
       if (isAuthenticated) {
-        const res = await cartApi.updateCart(
-          prodID,
-          // action === "increase" ? quantity + 1 : quantity - 1
-          quantity
-        );
+        const res = await cartApi.updateCart(prodID, quantity);
         if (res.data.isSuccess) {
-          // console.log(res.data.userCart);
           dispatch(
             cartSlice.actions.setCart({
               cartLoading: false,
               userCart: res.data.userCart,
             })
           );
-          return setToast({
-            toastShow: true,
-            title: "Update Successfully !!!",
-            content: "Happy shopping :)",
-            icon: "✔",
-            bg: "success",
-          });
+          return messageAntd(messageTypes.success, "Update successfully !!!");
         }
       }
     } catch (error) {
       console.log(error);
-      setToast({
-        toastShow: true,
-        title: "Something happens !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Please try again later !!!");
     }
   };
 
   ///SUBMIT VOUCHER
   const handleSubmitVoucher = async ({ vouCode }) => {
     if (usedDiscountRef.current.isUsed)
-      return setToast({
-        toastShow: true,
-        title: "You have already used before !!!",
-        content: "Please try again next time !!!",
-        icon: "❌",
-        bg: "danger",
-      });
-    setToast({
-      toastShow: true,
-      title: "Checking ...",
-      content: "Please wait a second",
-      icon: "👀",
-      bg: "info",
-    });
+      return messageAntd(messageTypes.error, "Please try again later !!!");
+
+    messageAntd(messageTypes.loading, "Checking ...");
+
     try {
       const res = await vouApi.verifyVoucher(vouCode);
 
@@ -182,34 +121,17 @@ export default function CheckoutPage() {
           discountPercent: res.data.voucher.vouDiscount,
           discountCode: res.data.voucher._id,
         };
-        // setTotalPrice((totalPrice) => {
-        //   const newPrice =
-        //     totalPrice * (1 - usedDiscountRef.current.discountPercent / 100);
-        //   return newPrice;
-        // });
         setTotalPrice(
           cartTotalPrice(userCart, usedDiscountRef.current.discountPercent)
         );
-        setToast({
-          toastShow: true,
-          title: "Your code is valid !!!",
-          content: "Happy shopping :)",
-          icon: "✔",
-          bg: "success",
-        });
+        messageAntd(messageTypes.success, "Happy shopping :)");
         // usedDiscountRef.current = true;
 
         return;
       }
     } catch (error) {
       console.log({ error });
-      setToast({
-        toastShow: true,
-        title: "Code is invalid !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Please try again later !!!");
     }
   };
   return (

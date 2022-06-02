@@ -5,7 +5,9 @@ import Sidebar from "./Sidebar";
 import PersonalRoute from "./PersonalRoute";
 import { Helmet } from "react-helmet";
 export default function PersonalPage() {
-  const { userInfo } = useSelector((state) => state.authReducer);
+  const { isAuthenticated, userInfo } = useSelector(
+    (state) => state.authReducer
+  );
   return (
     <div className="personal_page_container">
       <Helmet>
@@ -13,7 +15,7 @@ export default function PersonalPage() {
         <meta name="description" content="Manage your personal information" />
       </Helmet>
       <Sidebar {...userInfo} />
-      <PersonalRoute />
+      <PersonalRoute {...userInfo} isAuthenticated={isAuthenticated} />
     </div>
   );
 }

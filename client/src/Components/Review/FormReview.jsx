@@ -1,11 +1,11 @@
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
 import { FastField, Form, Formik } from "formik";
-import React, { useContext } from "react";
+import React from "react";
 import { Button } from "react-bootstrap";
-import InputField from "../Common/InputField";
-import RatingForm from "../Common/RatingForm";
 import * as yup from "yup";
 import reviewApi from "../../api/reviewApi";
-import { Context } from "Contexts";
+import InputField from "../Common/InputField";
+import RatingForm from "../Common/RatingForm";
 
 const initialValues = {
   content: "",
@@ -17,17 +17,10 @@ const validationSchema = yup.object().shape({
 });
 
 export default function FormReview({ productId }) {
-  const { setToast } = useContext(Context);
   const handleSubmit = async (formData) => {
     formData = { ...formData, productId };
     await reviewApi.addReview(formData);
-    setToast({
-      toastShow: true,
-      title: "Feedback successfully",
-      content: "Keep gooingggg",
-      icon: "✔",
-      bg: "success",
-    });
+    messageAntd(messageTypes.success, "Feedback successfully");
   };
   return (
     <>

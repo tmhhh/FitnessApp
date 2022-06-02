@@ -92,14 +92,11 @@ router.get(
 );
 
 passport.serializeUser((user, done) => {
-  console.log("serial ");
-  console.log({ user });
   done(null, user._id);
 });
 
 passport.deserializeUser(async (userID, done) => {
   try {
-    console.log("deserializeUser");
     const deserializedUser = await userModel
       .findById(userID)
       .select("-userPassword");
@@ -151,7 +148,6 @@ passport.use(
     },
     async function (accessToken, refreshToken, profile, cb) {
       try {
-        console.log({ profile });
         const { name, picture, email } = profile._json;
         const foundUser = await userModel.findOne({
           userNameID: profile._json.email,

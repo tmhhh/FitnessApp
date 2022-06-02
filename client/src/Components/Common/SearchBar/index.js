@@ -35,7 +35,6 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(async () => {
             const res = await prodApi.searchProducts(param);
-            console.log(res.data);
             dispatch(
               prodSlice.actions.getProducts({
                 prodLoading: false,
@@ -64,12 +63,10 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
           timerRef.current = setTimeout(() => {
             const foundExercises = listExercises.filter((exercise) => {
               if (exercise.name.toUpperCase().includes(param.toUpperCase())) {
-                console.log("yrs");
                 return true;
               }
               return false;
             });
-            console.log({ foundExercises });
             setListExercisesCop(foundExercises);
           }, 2000);
         } else {

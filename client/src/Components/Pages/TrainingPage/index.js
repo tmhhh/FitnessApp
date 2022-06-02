@@ -2,12 +2,11 @@ import RecommendOption from "Components/Common/RecommendOption";
 import SearchBarV2 from "Components/Common/SearchBarV2";
 import messageAntd, { messageTypes } from "Components/Common/Toast/message";
 import useDebounce from "hooks/useDebounce";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Spinner from "react-bootstrap/Spinner";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import userApi from "../../../api/userApi";
-import { Context } from "../../../Contexts";
 import authSlice from "../../../redux/slices/authSlice";
 import ExerciseCard from "../../Card/ExerciseCard";
 import NoResults from "../../Common/Placeholders/NoResults";
@@ -22,7 +21,6 @@ export default function Training() {
   const { isAuthenticated } = useSelector((state) => state.authReducer);
   const [listExercisesCop, setListExercisesCop] = useState([]);
   const [listRecommendOptions, setListRecommendOptions] = useState([]);
-  const { setToast } = useContext(Context);
 
   useEffect(() => {
     setListExercisesCop(listExercises);
@@ -46,19 +44,18 @@ export default function Training() {
   const handleShowDatePicker = () => {
     setShowDatePicker(true);
   };
-  const handleDateTimeChange = (value) => {
-    console.log({ value });
-  };
+
   //HANDLE ADD TO TRAINING PLAN
-  const handleAddToTrainingSchedule = async (id, addedDate) => {
+  const handleAddToTrainingSchedule = async (addedDate) => {
     try {
+      console.log({ addedDate });
       messageAntd(messageTypes.loading, "Adding ....");
       if (!isAuthenticated)
         return messageAntd(messageTypes.error, "Failed to add !!!");
 
       const res = await userApi.addToWorkoutSchedule(
-        id,
-        addedDate.toLocaleDateString()
+        show.selectedExercise._id,
+        new Date(addedDate._d).toLocaleDateString()
       );
       if (res.data.isSuccess) {
         console.log(res.data.addedExercise);
@@ -71,7 +68,7 @@ export default function Training() {
         messageAntd(messageTypes.success, "Add successfully !!!");
       }
     } catch (error) {
-      if (error.response.status === 400) {
+      if (error.response?.status === 400) {
         return messageAntd(messageTypes.error, error.response.data.message);
       }
       messageAntd(messageTypes.error, "Failed to add !!!");
@@ -215,7 +212,6 @@ export default function Training() {
           onOk={handleAddToTrainingSchedule}
           handleClose={handleClose}
           show={show}
-          onDateTimeChange={handleDateTimeChange}
           showDatePicker={showDatePicker}
         />
       </div>

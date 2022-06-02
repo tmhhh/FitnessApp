@@ -61,7 +61,6 @@ export default function TrackingForm({
     { name: "Maintain Weight", value: 1 },
     { name: "Gain Weight", value: 2 },
   ];
-  console.log(listInputFields.length);
   if (activeStep === 0) {
     return (
       <Formik
@@ -149,7 +148,6 @@ export default function TrackingForm({
           userAnkle: null,
         }}
         onSubmit={(e) => {
-          console.log({ e });
           formData.current = {
             trackingFood: {
               addedDate: new Date(),
@@ -232,7 +230,6 @@ export default function TrackingForm({
             ...formData.current,
             ...e,
           };
-          console.log(e);
           setActiveStep(activeStep + 1);
         }}
         innerRef={formRef}

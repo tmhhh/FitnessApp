@@ -17,7 +17,6 @@ export default function UserBillHistory() {
       const res = await billApi.getBillHistoryByCustomer();
       const listBills = res.data.bills;
       setListBills(listBills);
-      console.log(listBills);
     })();
   }, []);
 

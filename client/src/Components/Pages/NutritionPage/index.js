@@ -49,7 +49,6 @@ export default function NutritionPage() {
     const foundFood = nutriState.listFoods.find(
       (e) => e.food.foodId === foodID
     );
-    console.log({ foundFood });
     setModal({
       foodData: foundFood,
       isShown: true,
@@ -76,7 +75,6 @@ export default function NutritionPage() {
   //
   useEffect(() => {
     if (!authLoading && isAuthenticated && !userInfo.trackingInfo.isFilled) {
-      console.log(userInfo);
       handleShowTrackingModal();
     }
   }, [userInfo]);

@@ -1,9 +1,9 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useEffect, useRef, useState, useContext } from "react";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import React, { useRef, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import ProductDiscountModal from "./ProductDiscountModal";
 import * as yup from "yup";
 import {
   addDiscount,
@@ -13,13 +13,12 @@ import {
   getProduct,
   resetDiscount,
 } from "../../../redux/slices/prodSlice";
-import { Context } from "Contexts";
+import Pagination from "../../Common/Pagination/Pagination";
 import ItemForm from "../ItemForm";
 import ProductTable from "../ProductTable";
-import Pagination from "../../Common/Pagination/Pagination";
+import ProductDiscountModal from "./ProductDiscountModal";
 
 export default function ProductSide(props) {
-  const { setToast } = useContext(Context);
   const history = useHistory();
   const dispatch = useDispatch();
   const listProducts = useSelector((state) => state.prodReducer.listProducts);
@@ -67,13 +66,7 @@ export default function ProductSide(props) {
     }
     await dispatch(addProduct(postData));
     newModalClose();
-    setToast({
-      toastShow: true,
-      title: "Add successfully",
-      content: "Keep gooingggg",
-      icon: "✔",
-      bg: "success",
-    });
+    messageAntd(messageTypes.success, "Add successfully ");
   };
   const handleUpdateProduct = async (formData) => {
     let postData = new FormData();
@@ -94,23 +87,11 @@ export default function ProductSide(props) {
     console.log({ formData });
     await dispatch(editProduct({ postData, id: formData._id }));
     updateModalClose();
-    setToast({
-      toastShow: true,
-      title: "Update successfully",
-      content: "Keep gooingggg",
-      icon: "✔",
-      bg: "success",
-    });
+    messageAntd(messageTypes.success, "Update successfully ");
   };
   const handleDeleteProduct = async (id) => {
     await dispatch(deleteProduct(id));
-    setToast({
-      toastShow: true,
-      title: "Delete successfully",
-      content: "Keep gooingggg",
-      icon: "✔",
-      bg: "success",
-    });
+    messageAntd(messageTypes.success, "Delete successfully ");
   };
 
   //DISCOUNT MODAL

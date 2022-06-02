@@ -18,7 +18,6 @@ module.exports = {
     for (let e of a) {
       e = e.toObject();
       delete e.paymentMethod;
-      console.log(e);
       await billModel.findByIdAndUpdate(e._id, {
         ...e,
         payment: { isApproved: true, method: "COD", id: null },
@@ -281,7 +280,7 @@ module.exports = {
       const bills = await billModel
         .find({ user: userID, status: "Done" })
         .populate("listItems.product");
-      console.log(bills);
+      bills;
       return res.status(200).json({ bills });
     } catch (error) {
       return res
@@ -306,7 +305,6 @@ module.exports = {
   getBills: async (req, res) => {
     try {
       const { limit } = req.query;
-      console.log(limit);
       const foundBills = await billModel
         .find()
         .populate("listItems.product user")

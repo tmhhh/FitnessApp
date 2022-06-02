@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import billApi from "../../../../api/billApi";
 import Table from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
+import billApi from "../../../../api/billApi";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import "./style.scss";
 export default function UserBill() {
@@ -12,7 +11,6 @@ export default function UserBill() {
       try {
         const res = await billApi.getIncompleteBill();
         if (res.data.isSuccess) setListBills(res.data.foundBills);
-        console.log(res.data.foundBills);
       } catch (error) {
         console.log(error);
       }

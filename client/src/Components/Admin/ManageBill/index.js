@@ -283,14 +283,13 @@
 //   );
 // }
 
-import { useEffect, useState, useContext, useRef } from "react";
-import Table from "react-bootstrap/Table";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import { useEffect, useRef, useState } from "react";
 import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
 import billApi from "../../../api/billApi";
-import { Context } from "../../../Contexts";
 import { formatCurrency } from "../../../utils/formatCurrency";
 export default function ManageBill() {
-  const { setToast } = useContext(Context);
   const sortValue = useRef();
   const [listBills, setListBills] = useState([]);
   const tableRef = useRef(null);
@@ -368,48 +367,36 @@ export default function ManageBill() {
   const fetchBillData = async () => {
     const res = await billApi.getBills(+limitRef.current.value);
     if (res.data.isSuccess) {
-      console.log(res.data.foundBills);
+      // console.log(res.data.foundBills);
       setListBills(res.data.foundBills);
     }
   };
   const handleStatusChange = async (e, billID) => {
     const value = e.target.value;
-    console.log(e.target.value + "----------------1");
+    // console.log(e.target.value + "----------------1");
     if (
       e.target.value !==
       listBills.find((e) => e._id.toString() === billID.toString()).status
     ) {
       // setShowConfirm(true);
       try {
-        console.log(e.target.value + "----------------2");
+        // console.log(e.target.value + "----------------2");
         e.persist();
 
         const res = await billApi.updateBillStatus(billID, e.target.value);
         if (res.data.isSuccess) {
           const updatedBills = listBills.map((bill) => {
             if (bill._id.toString() === billID.toString()) {
-              console.log(e.target.value + "----------------3");
+              // console.log(e.target.value + "----------------3");
               return { ...bill, status: value };
             } else return bill;
           });
           setListBills(updatedBills);
-          setToast({
-            toastShow: true,
-            title: "Successfully ...",
-            content: "Bill status has been updated",
-            icon: "✔",
-            bg: "success",
-          });
+          messageAntd(messageTypes.success, "Bill status has been updated");
         }
       } catch (error) {
         console.log({ error });
-        setToast({
-          toastShow: true,
-          title: "Failed ...",
-          content: "Please try a later",
-          icon: "❌",
-          bg: "danger",
-        });
+        messageAntd(messageTypes.error, "Please try again later");
       }
     }
   };
@@ -422,13 +409,7 @@ export default function ManageBill() {
       if (res.data.isSuccess) setListBills(res.data.foundBills);
     } catch (error) {
       console.log({ error });
-      setToast({
-        toastShow: true,
-        title: "Failed ...",
-        content: "Please try a later",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Please try a later");
     }
   };
 

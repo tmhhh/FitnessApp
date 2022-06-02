@@ -134,7 +134,6 @@ export default function TrackingModal({
   //
   const handleUpdateTrackingInfo = async () => {
     try {
-      console.log(formData.current);
       const res = await userApi.updateTrackingIno(formData.current);
       if (res.data.isSuccess) {
         dispatch(
@@ -146,7 +145,6 @@ export default function TrackingModal({
         );
         handleCloseTrackingModal();
       }
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }

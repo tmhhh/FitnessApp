@@ -3,17 +3,11 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import "./style.scss";
 import { DatePicker } from "antd";
-import DatePickerModal from "./DatePickerModal";
 export default function TrainingModal(props) {
-  const {
-    show,
-    handleClose,
-    onOk,
-    onDateTimeChange,
-    handleShowDatePicker,
-    showDatePicker,
-  } = props;
+  const { show, handleClose, onOk, handleShowDatePicker, showDatePicker } =
+    props;
   const { selectedExercise, isShow } = show;
+  console.log({ selectedExercise });
   const embeddedLink = `https://www.youtube.com/embed/${
     selectedExercise.videoURL?.split("?v=")[1]
   }?autoplay=1`;
@@ -48,8 +42,7 @@ export default function TrainingModal(props) {
           {showDatePicker ? (
             <DatePicker
               showTime={{ format: "HH:mm" }}
-              onChange={() => console.log("first")}
-              onOk={() => console.log("ok")}
+              onOk={onOk}
               disabledDate={(current) => current < new Date()}
             />
           ) : (

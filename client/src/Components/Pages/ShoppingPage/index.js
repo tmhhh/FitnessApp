@@ -20,7 +20,6 @@ export default function ShoppingPage() {
   const { listProducts, prodLoading } = useSelector((state) =>
     prodFilterSelector(state.prodReducer, searchOption)
   );
-  console.log({ listProducts });
   const { userInfo, isAuthenticated } = useSelector(
     (state) => state.authReducer
   );
@@ -67,7 +66,7 @@ export default function ShoppingPage() {
           <meta name="description" content="Stuff related to fitness" />
         </Helmet>
         <Row>
-          <Col md={3} lg={3} className='common-float'>
+          <Col md={3} lg={3} className="common-float">
             <Sidebar
               isAuthenticated={isAuthenticated}
               // handleShowFavoriteProds={handleShowFavoriteProds}

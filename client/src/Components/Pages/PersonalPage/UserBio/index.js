@@ -1,15 +1,14 @@
-import { useState, useRef, useContext } from "react";
-import { Button, Tabs, Tab } from "react-bootstrap";
+import messageAntd, { messageTypes } from "Components/Common/Toast/message";
+import { useRef, useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import userApi from "../../../../api/userApi";
+import { USER_IMAGE_BASE_URL } from "../../../../assets/constants";
+import authSlice from "../../../../redux/slices/authSlice";
 import BioForm from "./BioForm";
 import PasswordForm from "./PasswordForm";
 import "./style.scss";
-import { useSelector, useDispatch } from "react-redux";
-import { USER_IMAGE_BASE_URL } from "../../../../assets/constants";
-import authSlice from "../../../../redux/slices/authSlice";
-import userApi from "../../../../api/userApi";
-import { Context } from "../../../../Contexts";
 export default function UserBio() {
-  const { setToast } = useContext(Context);
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.authReducer);
   const [uploadedImage, setUploadedImage] = useState(null);
@@ -22,25 +21,13 @@ export default function UserBio() {
       formData.append("userImage", uploadedImage);
       const res = await userApi.updateAvatar(formData);
       if (res.data.isSuccess) {
-        setToast({
-          toastShow: true,
-          title: "Upload successfully",
-          content: "Have a great day :)",
-          icon: "✔",
-          bg: "success",
-        });
+        messageAntd(messageTypes.success, "Upload successfully ");
         return dispatch(authSlice.actions.setUserAvatar(uploadedImage.name));
       }
     } catch (error) {
       console.log(error);
       if (error.response.status === 400)
-        setToast({
-          toastShow: true,
-          title: "Failed to upload",
-          content: error.response.data.message,
-          icon: "❌",
-          bg: "warning",
-        });
+        messageAntd(messageTypes.error, "Please try again later ");
     }
   };
   const updatedProfile = async (values) => {
@@ -49,48 +36,22 @@ export default function UserBio() {
       delete data.userConfirmPassword;
       const res = await userApi.updateProfile(data);
       if (res.data.isSuccess) {
-        setToast({
-          toastShow: true,
-          title: "Update successfully",
-          content: "Have a great day :)",
-          icon: "✔",
-          bg: "success",
-        });
+        messageAntd(messageTypes.success, "Update successfully ");
         return dispatch(authSlice.actions.setUserProfile(res.data.updatedUser));
       }
     } catch (error) {
       console.log(error);
-      setToast({
-        toastShow: true,
-        title: "Failed to upload",
-        content: "Please try again later",
-        icon: "❌",
-        bg: "warning",
-      });
+      messageAntd(messageTypes.error, "Please try again later ");
     }
   };
-
   const handleChangePassword = async (values) => {
     try {
       const res = await userApi.updatePassword(values.userPassword);
-      if (res.data.isSuccess) {
-        setToast({
-          toastShow: true,
-          title: "Update successfully",
-          content: "Have a great day :)",
-          icon: "✔",
-          bg: "success",
-        });
-      }
+      if (res.data.isSuccess)
+        messageAntd(messageTypes.success, "Update successfully ");
     } catch (error) {
       console.log(error);
-      setToast({
-        toastShow: true,
-        title: "Failed to upload",
-        content: "Please try again later",
-        icon: "❌",
-        bg: "warning",
-      });
+      messageAntd(messageTypes.error, "Please try again later ");
     }
   };
 
@@ -149,9 +110,7 @@ export default function UserBio() {
               />
 
               <div
-                onClick={(e) => {
-                  console.log(imgRef.current.click());
-                }}
+                onClick={(e) => {}}
                 className="img_uploader"
                 for="userImageInput"
               >
