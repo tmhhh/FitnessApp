@@ -62,7 +62,7 @@ export default function Sidebar({ userImage, userName, parentPath }) {
             to={`/profile/schedule`}
             className="personal_information"
           >
-            Workout Schedule
+            Tracking Schedule
           </NavLink>
           <i className="fas fa-chevron-right"></i>
         </div>

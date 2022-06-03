@@ -94,8 +94,11 @@ export default function TrackingSidebar({
           <div className="tracking_meal">
             <div className="tracking_meal_label">BREAKFAST</div>
 
-            {userInfo.trackingInfo.trackingFood.listFoods
-              .filter((e) => {
+            {userInfo.trackingInfo.trackingFood
+              .filter(
+                (item) => item.addedDate === new Date().toLocaleDateString()
+              )
+              .listFoods.filter((e) => {
                 if (
                   e.mealType === 0 &&
                   new Date().toLocaleDateString() ===

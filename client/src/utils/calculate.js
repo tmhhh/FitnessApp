@@ -42,7 +42,6 @@ export const calculateTotalCaloriesNeeded = (
       parseFloat(activityLevel) +
       (goal === 0 ? -150 : goal === 1 ? 0 : +150)
   );
-
 export const calculateFoodTotalKCAL = (addedDate, listFoods) => {
   if (addedDate !== new Date().toLocaleDateString()) {
     return 0;

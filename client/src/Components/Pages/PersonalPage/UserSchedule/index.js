@@ -1,3 +1,4 @@
+import { Tabs } from "antd";
 import messageAntd, { messageTypes } from "Components/Common/Toast/message";
 import TrainingModal from "Components/Pages/TrainingPage/TrainingModal";
 import { useEffect, useState } from "react";
@@ -5,7 +6,21 @@ import { useDispatch } from "react-redux";
 import userApi from "../../../../api/userApi";
 import authSlice from "../../../../redux/slices/authSlice";
 import "./style.scss";
-export default function UserSchedule({ isAuthenticated, workoutSchedule }) {
+import { calculateTotalCaloriesNeeded } from "../../../../utils/calculate";
+const { TabPane } = Tabs;
+export default function UserSchedule({
+  isAuthenticated,
+  workoutSchedule,
+  trackingInfo,
+}) {
+  const {
+    userGender,
+    userAge,
+    userHeight,
+    userActivityLevel,
+    userGoal,
+    trackingFood,
+  } = trackingInfo;
   const dispatch = useDispatch();
   const [date, setDate] = useState([]);
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -153,42 +168,72 @@ export default function UserSchedule({ isAuthenticated, workoutSchedule }) {
               {e.getDate()}
             </div>
             <div className="schedule__item-bottom">
-              {workoutSchedule
-                .filter(
-                  (schedule) => schedule.createdDate === e.toLocaleDateString()
-                )
-                .map((ele) => (
-                  <div
-                    onClick={() => handleOnClickExercise(ele.exercise._id)}
-                    className="schedule__item__task"
-                  >
-                    <p className="schedule__item__task-title">
-                      {ele.exercise.name}
-                    </p>
-
-                    {ele.exercise.muscleActivate.map((muscle, index) =>
-                      index < ele.exercise.muscleActivate.length - 1 ? (
-                        <span className="schedule__item__task-time">
-                          {muscle} -
-                        </span>
-                      ) : (
-                        <span className="schedule__item__task-time">
-                          {muscle}
-                          <i
-                            onClick={(event) =>
-                              handleRemoveFromTrainingSchedule(
-                                event,
-                                ele.exercise._id,
-                                e.toLocaleDateString()
-                              )
-                            }
-                            className="far fa-trash-alt"
-                          ></i>
-                        </span>
+              <Tabs defaultActiveKey="2">
+                <TabPane tab="Training" key="1">
+                  {workoutSchedule.find(
+                    (item) => item.createdDate === e.toLocaleDateString()
+                  ) ? (
+                    workoutSchedule
+                      .filter(
+                        (schedule) =>
+                          schedule.createdDate === e.toLocaleDateString()
                       )
+                      .map((ele) => (
+                        <div
+                          onClick={() =>
+                            handleOnClickExercise(ele.exercise._id)
+                          }
+                          className="schedule__item__task"
+                        >
+                          <p className="schedule__item__task-title">
+                            {ele.exercise.name}
+                          </p>
+
+                          {ele.exercise.muscleActivate.map((muscle, index) =>
+                            index < ele.exercise.muscleActivate.length - 1 ? (
+                              <span className="schedule__item__task-time">
+                                {muscle} -
+                              </span>
+                            ) : (
+                              <span className="schedule__item__task-time">
+                                {muscle}
+                                <i
+                                  onClick={(event) =>
+                                    handleRemoveFromTrainingSchedule(
+                                      event,
+                                      ele.exercise._id,
+                                      e.toLocaleDateString()
+                                    )
+                                  }
+                                  className="far fa-trash-alt"
+                                ></i>
+                              </span>
+                            )
+                          )}
+                        </div>
+                      ))
+                  ) : (
+                    <p>You haven't added exercise yet</p>
+                  )}
+                </TabPane>
+                <TabPane tab="Diet" key="2">
+                  <p>Your achievement:</p>
+                  <p>
+                    {calculateTotalCaloriesNeeded(
+                      userGender,
+                      userAge,
+                      userHeight,
+                      userActivityLevel,
+                      userGoal
                     )}
-                  </div>
-                ))}
+                  </p>
+                  {/* {trackingFood
+                    .filter((item) => item.addedDate === e.toLocaleDateString())
+                    .listFoods.map((food) => (
+                      <p>{food.foodName}</p>
+                    ))} */}
+                </TabPane>
+              </Tabs>
             </div>
           </div>
         ))}

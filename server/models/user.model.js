@@ -49,19 +49,21 @@ const Users = new Schema({
     userWeight: { type: Number, default: null },
     userGoal: { type: Number, default: null },
     userActivityLevel: { type: String, default: null },
-    trackingFood: {
-      addedDate: { type: String, default: new Date().toLocaleDateString() },
-      listFoods: [
-        {
-          _id: false,
-          id: { type: String, default: null },
-          mealType: { type: Number, default: null },
-          foodName: { type: String, default: null },
-          foodServing: { type: String, default: null },
-          foodKCAL: { type: String, default: null },
-        },
-      ],
-    },
+    trackingFood: [
+      {
+        addedDate: { type: String, default: new Date().toLocaleDateString() },
+        listFoods: [
+          {
+            _id: false,
+            id: { type: String, default: null },
+            mealType: { type: Number, default: null },
+            foodName: { type: String, default: null },
+            foodServing: { type: String, default: null },
+            foodKCAL: { type: String, default: null },
+          },
+        ],
+      },
+    ],
   },
   workoutSchedule: [
     {

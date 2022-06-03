@@ -7,7 +7,7 @@ export default function TrainingModal(props) {
   const { show, handleClose, onOk, handleShowDatePicker, showDatePicker } =
     props;
   const { selectedExercise, isShow } = show;
-  console.log({ selectedExercise });
+
   const embeddedLink = `https://www.youtube.com/embed/${
     selectedExercise.videoURL?.split("?v=")[1]
   }?autoplay=1`;
