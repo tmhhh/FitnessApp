@@ -293,62 +293,48 @@ module.exports = {
   addTrackingFood: async (req, res) => {
     try {
       const {
-        food: { addedDate, id, foodServing, mealType },
+        food: {
+          addedDate,
+          // id,
+          // foodServing,
+          // mealType,
+          // foodKCAL,
+          // foodName,
+          goalKCAL,
+        },
         food,
       } = req.body;
-      let updatedUser = null;
       const foundUser = await userModel.findById(req.userID);
-
+      let updatedUser = null;
       //CHECK IF USER HAS ADDED YET IN CURRENT DATE
       const checkUserTrackingFood = foundUser.trackingInfo.trackingFood.find(
-        (item) => item.addedDate !== addedDate
+        (item) => item.addedDate === addedDate
       );
       if (checkUserTrackingFood) {
-        checkUserTrackingFood.push({
+        checkUserTrackingFood.listFoods.push({
           ...food,
-          foodServing: foodServing.toString(),
         });
-        await checkUserTrackingFood();
-        // updatedUser = await userModel.findByIdAndUpdate(
-        //   req.userID,
-        //   {
-        //     "trackingInfo.trackingFood": {
-        //       addedDate,
-        //       listFoods: { ...food, foodServing: foodServing.toString() },
-        //     },
-        //   },
-        //   { new: true }
-        // );
+        console.log(checkUserTrackingFood);
 
-        return res
-          .status(200)
-          .json({ isSuccess: true, updatedUser: checkUserTrackingFood });
+        updatedUser = await userModel.findByIdAndUpdate(
+          req.userID,
+          {
+            "trackingInfo.trackingFood": checkUserTrackingFood,
+          },
+          { new: true }
+        );
+        console.log("exist");
+        console.log(updatedUser.trackingInfo.trackingFood);
+      } else {
+        foundUser.trackingInfo.trackingFood.push({
+          goalKCAL,
+          listFoods: [{ ...food }],
+        });
+        updatedUser = await foundUser.save();
+        console.log("not exist");
+        console.log(updatedUser);
       }
-      //USER HAS ADDED BEFORE IN THE DAY
-      else {
-        //CHECK IF THAT FOOD EXIST IN DB OR NOT
-        const checkFoodExist =
-          foundUser.trackingInfo.trackingFood.listFoods.find(
-            (e) => e.id === id && e.mealType === mealType
-          );
-        if (!checkFoodExist) {
-          foundUser.trackingInfo.trackingFood.listFoods.push(food);
-          // console.log(foundUser.listFoods);
-          await foundUser.save();
-        } else {
-          // UPDATE FOOD SERVING
-          checkFoodExist.foodServing =
-            parseFloat(checkFoodExist.foodServing) + parseFloat(foodServing);
-          foundUser.trackingInfo.trackingFood.listFoods.map((food) => {
-            if (food.id === checkFoodExist.id) return checkFoodExist;
-            else return food;
-          });
-          await foundUser.save();
-        }
-        return res
-          .status(200)
-          .json({ isSuccess: true, updatedUser: foundUser });
-      }
+      return res.status(200).json({ isSuccess: true, updatedUser });
     } catch (error) {
       console.log(error);
       return res

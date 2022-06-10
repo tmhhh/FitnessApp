@@ -51,6 +51,7 @@ const Users = new Schema({
     userActivityLevel: { type: String, default: null },
     trackingFood: [
       {
+        goalKCAL: { type: Number, default: 0 },
         addedDate: { type: String, default: new Date().toLocaleDateString() },
         listFoods: [
           {

@@ -21,6 +21,7 @@ export default function FoodModal({
   setServingSize,
   servingSize,
   handleServingChange,
+  goalKCAL,
 }) {
   const dispatch = useDispatch();
   //  ADD FOOD MODAL
@@ -60,10 +61,12 @@ export default function FoodModal({
         foodKCAL: food.nutrients.ENERC_KCAL,
         mealType,
         id: food.foodId,
+        goalKCAL: 3000,
       };
       // console.log(addedFood.addedDate.toLocaleDateString());
       const res = await userApi.addTrackingFood(addedFood);
       if (res.data.isSuccess) {
+        console.log(res.data.updatedUser);
         dispatch(
           authSlice.actions.setAuth({
             authLoading: false,

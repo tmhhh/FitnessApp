@@ -37,12 +37,14 @@ export default function TrackingSidebar({
       userInfo.trackingInfo.userActivityLevel,
       userInfo.trackingInfo.userGoal
     );
-    const caloriesFood = calculateFoodTotalKCAL(
-      userInfo.trackingInfo.trackingFood.addedDate,
-      userInfo.trackingInfo.trackingFood.listFoods
+    const todayListFoods = userInfo.trackingInfo.trackingFood.find(
+      (item) => item.addedDate === new Date().toLocaleDateString()
     );
+    const caloriesFood = calculateFoodTotalKCAL(todayListFoods.listFoods);
     const caloriesRemaining =
       caloriesGoal - caloriesFood + todayCaloriesWorkout;
+
+    console.log({ todayListFoods });
     body = (
       <>
         <div className="tracking_sidebar_header">
@@ -94,18 +96,8 @@ export default function TrackingSidebar({
           <div className="tracking_meal">
             <div className="tracking_meal_label">BREAKFAST</div>
 
-            {userInfo.trackingInfo.trackingFood
-              .filter(
-                (item) => item.addedDate === new Date().toLocaleDateString()
-              )
-              .listFoods.filter((e) => {
-                if (
-                  e.mealType === 0 &&
-                  new Date().toLocaleDateString() ===
-                    userInfo.trackingInfo.trackingFood.addedDate
-                )
-                  return true;
-              })
+            {todayListFoods.listFoods
+              .filter((item) => item.mealType === 0)
               .map((e) => (
                 <div
                   style={{ marginLeft: "40px" }}
@@ -149,20 +141,12 @@ export default function TrackingSidebar({
                   </div>
                 </div>
               ))}
-            {/* <div className="tracking_meal_button">ADD FOOD</div> */}
           </div>
           <div className="tracking_meal">
             <div className="tracking_meal_label">LUNCH</div>
             <div className="tracking_meal_info">
-              {userInfo.trackingInfo.trackingFood.listFoods
-                .filter((e) => {
-                  if (
-                    e.mealType === 1 &&
-                    new Date().toLocaleDateString() ===
-                      userInfo.trackingInfo.trackingFood.addedDate
-                  )
-                    return true;
-                })
+              {todayListFoods.listFoods
+                .filter((item) => item.mealType === 1)
                 .map((e) => (
                   <div
                     style={{ marginLeft: "40px" }}
@@ -210,15 +194,8 @@ export default function TrackingSidebar({
           </div>
           <div className="tracking_meal">
             <div className="tracking_meal_label">SNACKS</div>
-            {userInfo.trackingInfo.trackingFood.listFoods
-              .filter((e) => {
-                if (
-                  e.mealType === 2 &&
-                  new Date().toLocaleDateString() ===
-                    userInfo.trackingInfo.trackingFood.addedDate
-                )
-                  return true;
-              })
+            {todayListFoods.listFoods
+              .filter((item) => item.mealType === 2)
               .map((e) => (
                 <div
                   style={{ marginLeft: "40px" }}
@@ -265,15 +242,8 @@ export default function TrackingSidebar({
           </div>
           <div className="tracking_meal">
             <div className="tracking_meal_label">DINNER</div>
-            {userInfo.trackingInfo.trackingFood.listFoods
-              .filter((e) => {
-                if (
-                  e.mealType === 3 &&
-                  new Date().toLocaleDateString() ===
-                    userInfo.trackingInfo.trackingFood.addedDate
-                )
-                  return true;
-              })
+            {todayListFoods.listFoods
+              .filter((item) => item.mealType === 3)
               .map((e) => (
                 <div
                   style={{ marginLeft: "40px" }}

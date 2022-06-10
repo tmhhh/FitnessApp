@@ -7,6 +7,7 @@ import userApi from "../../../../api/userApi";
 import authSlice from "../../../../redux/slices/authSlice";
 import "./style.scss";
 import { calculateTotalCaloriesNeeded } from "../../../../utils/calculate";
+import { convertStringToKCAL } from "utils/formatCurrency";
 const { TabPane } = Tabs;
 export default function UserSchedule({
   isAuthenticated,
@@ -217,21 +218,66 @@ export default function UserSchedule({
                   )}
                 </TabPane>
                 <TabPane tab="Diet" key="2">
-                  <p>Your achievement:</p>
-                  <p>
-                    {calculateTotalCaloriesNeeded(
-                      userGender,
-                      userAge,
-                      userHeight,
-                      userActivityLevel,
-                      userGoal
-                    )}
+                  <p
+                    style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Goal:
                   </p>
-                  {/* {trackingFood
-                    .filter((item) => item.addedDate === e.toLocaleDateString())
-                    .listFoods.map((food) => (
-                      <p>{food.foodName}</p>
-                    ))} */}
+                  <p
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: "400",
+                      color: "#00aeef",
+                    }}
+                  >
+                    {trackingInfo.trackingFood.find(
+                      (item) => item.addedDate === e.toLocaleDateString()
+                    )
+                      ? convertStringToKCAL(
+                          trackingInfo.trackingFood.find(
+                            (item) => item.addedDate === e.toLocaleDateString()
+                          ).goalKCAL
+                        )
+                      : convertStringToKCAL("0")}
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "1.5rem",
+                      fontWeight: "700",
+                    }}
+                  >
+                    Achievement:
+                  </p>
+                  <p
+                    style={{
+                      fontSize: "2rem",
+                      fontWeight: "400",
+                      color: "#00aeef",
+                    }}
+                  >
+                    {trackingInfo.trackingFood.find(
+                      (item) => item.addedDate === e.toLocaleDateString()
+                    )
+                      ? convertStringToKCAL(
+                          Math.trunc(
+                            trackingInfo.trackingFood
+                              .find(
+                                (item) =>
+                                  item.addedDate === e.toLocaleDateString()
+                              )
+                              .listFoods.reduce(
+                                (prev, current) =>
+                                  +prev +
+                                  current.foodKCAL * +current.foodServing,
+                                0
+                              )
+                          )
+                        )
+                      : convertStringToKCAL("0")}
+                  </p>
                 </TabPane>
               </Tabs>
             </div>
