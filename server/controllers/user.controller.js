@@ -290,6 +290,20 @@ module.exports = {
         .json({ isSuccess: false, message: "Internal Server Error" });
     }
   },
+  updateTrainingGoal: async (req, res) => {
+    try {
+      const { userGoal } = req.body;
+      await userModel.findByIdAndUpdate(req.userID, {
+        "trackingInfo.userGoal": userGoal,
+      });
+      return res.status(200).json({ isSuccess: true });
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ isSuccess: false, message: "Server Internal Error" });
+    }
+  },
   addTrackingFood: async (req, res) => {
     try {
       const {

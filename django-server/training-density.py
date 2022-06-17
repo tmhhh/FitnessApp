@@ -18,7 +18,6 @@ df.describe()
 plt.figure(figsize=(15,15))
 sns.heatmap(df.corr(),annot=True,cmap='RdYlGn',linewidths=2,linecolor='orange',annot_kws={'size':8,'color':'black'},fmt='.4f',square=True)
 X=df.drop(["BodyFat","Density"], axis = 1)
-# X=df.drop(["Density"], axis = 1)
 y=df.Density
 print(y)
 print(df)

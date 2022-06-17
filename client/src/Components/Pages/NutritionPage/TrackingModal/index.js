@@ -14,7 +14,7 @@ export default function TrackingModal({
   handleCloseTrackingModal,
 }) {
   const dispatch = useDispatch();
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(true);
   const formRef = useRef(null);

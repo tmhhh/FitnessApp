@@ -1,7 +1,7 @@
 @import "../../../../assets/constants.scss";
 .schedule__container {
   width: 100%;
-  //   min-height: calc(100% - 60px);
+  padding: 0 20px 0 0;
   .schedule {
     &__header {
       position: relative;
@@ -42,7 +42,7 @@
         margin-left: 40px;
         width: calc(100% / var(--col) - 40px);
         margin-bottom: 60px;
-        height: 400px;
+        height: 380px;
         overflow-y: auto;
         &-top {
           height: 100px;
@@ -60,6 +60,7 @@
           margin-bottom: 20px;
         }
         &-bottom {
+          padding: 1rem;
           .schedule__item__task {
             margin-bottom: 15px;
             &-title {
@@ -87,11 +88,17 @@
             }
           }
         }
-        .same-day {
+      }
+      .same-date {
+        border-color: $primary_blue;
+        border-width: 1px;
+        .schedule__item-bottom {
+        }
+        .schedule__item-top {
           color: $primary_blue;
           border-bottom: 3px solid $primary_blue;
         }
-        .same-date {
+        .schedule__item-body {
           color: $primary_blue;
         }
       }

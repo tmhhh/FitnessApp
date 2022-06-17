@@ -275,7 +275,7 @@ export default function TrackingForm({
           non consequatur ipsa iste dolore illo ratione voluptas voluptatibus.
           Totam praesentium soluta autem fugiat aperiam cum alias. A, ea dicta.
         </Paragraph>
-        <Lottie animationData={doneLottie} style={{ height: "400px" }} />;
+        <Lottie animationData={doneLottie} style={{ height: "400px" }} />
       </>
     );
   }

@@ -132,7 +132,6 @@ module.exports = {
         cloth: 0,
       };
       for (const prod of listProds) {
-        // console.log(prodNumbByCate);
         if (prod.prodCategory.cateName.cateName === "Supplement") {
           prodNumbByCate.supplement += 1;
         } else if (prod.prodCategory.cateName.cateName === "Equipment") {

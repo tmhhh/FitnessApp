@@ -40,7 +40,9 @@ export default function TrackingSidebar({
     const todayListFoods = userInfo.trackingInfo.trackingFood.find(
       (item) => item.addedDate === new Date().toLocaleDateString()
     );
-    const caloriesFood = calculateFoodTotalKCAL(todayListFoods.listFoods);
+    const caloriesFood = todayListFoods
+      ? calculateFoodTotalKCAL(todayListFoods.listFoods)
+      : 0;
     const caloriesRemaining =
       caloriesGoal - caloriesFood + todayCaloriesWorkout;
 
@@ -96,7 +98,7 @@ export default function TrackingSidebar({
           <div className="tracking_meal">
             <div className="tracking_meal_label">BREAKFAST</div>
 
-            {todayListFoods.listFoods
+            {todayListFoods?.listFoods
               .filter((item) => item.mealType === 0)
               .map((e) => (
                 <div
@@ -145,7 +147,7 @@ export default function TrackingSidebar({
           <div className="tracking_meal">
             <div className="tracking_meal_label">LUNCH</div>
             <div className="tracking_meal_info">
-              {todayListFoods.listFoods
+              {todayListFoods?.listFoods
                 .filter((item) => item.mealType === 1)
                 .map((e) => (
                   <div
@@ -194,7 +196,7 @@ export default function TrackingSidebar({
           </div>
           <div className="tracking_meal">
             <div className="tracking_meal_label">SNACKS</div>
-            {todayListFoods.listFoods
+            {todayListFoods?.listFoods
               .filter((item) => item.mealType === 2)
               .map((e) => (
                 <div
@@ -242,7 +244,7 @@ export default function TrackingSidebar({
           </div>
           <div className="tracking_meal">
             <div className="tracking_meal_label">DINNER</div>
-            {todayListFoods.listFoods
+            {todayListFoods?.listFoods
               .filter((item) => item.mealType === 3)
               .map((e) => (
                 <div

@@ -9,8 +9,6 @@ warnings.filterwarnings('ignore')
 plt.rcParams['figure.figsize']=(10,7)
 
 df=pd.read_csv("./data/bodyfat.csv")
-# df=df.drop(columns=df.columns[0])
-
 df.head()
 print(df.shape)
 df.info()
@@ -18,7 +16,7 @@ print(df.columns)
 df.describe()
 plt.figure(figsize=(15,15))
 sns.heatmap(df.corr(),annot=True,cmap='RdYlGn',linewidths=2,linecolor='orange',annot_kws={'size':8,'color':'black'},fmt='.4f',square=True)
-X=df.drop(["BodyFat"], axis = 1)
+X=df.drop(["BodyFat","Density"], axis = 1)
 y=df.BodyFat
 from sklearn.preprocessing import StandardScaler
 SC=StandardScaler()

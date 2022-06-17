@@ -181,3 +181,17 @@ td{
   @extend .common-float;
   background-color: $bronze-medal;
 }
+/* ANTD */
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
+}
+.ant-picker-dropdown {
+  z-index: 10000;
+}
+.ant-empty {
+  overflow: hidden;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color:$primary_blue;
+}
