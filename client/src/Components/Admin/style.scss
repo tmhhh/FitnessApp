@@ -41,6 +41,17 @@
     box-shadow: 0 5px 10px rgb(158, 158, 158);
   }
 }
+
+
+.approve-section {
+  position: fixed;
+  bottom: 40px;
+  right: 20px;
+  width: 350px;
+  padding: 20px;
+  border-radius: 5px;
+}
+
 @media only screen and (max-width: 499px) {
   .admin-sidebar {
     flex-direction: row;
