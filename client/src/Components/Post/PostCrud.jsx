@@ -49,13 +49,18 @@ export default function PostCrud({ postId }) {
           ) : (
             <h1> ✍ Write your post </h1>
           )}
-          <Button
-            variant="outline-primary"
-            style={{ borderRadius: "10px" }}
-            onClick={onSubmit}
-          >
-            <i className="far fa-paper-plane"></i> Publish
-          </Button>
+          <div className="approve-section common-float" style={{top: '80px', bottom: '780px', backgroundColor: 'black', color: 'white'}}>
+            <h2 style={{fontWeight: "bold"}}>Publish your post <i className="fas fa-check-circle" style={{color: "#55bb55"}}></i> </h2>
+            <div className="d-flex justify-content-end mt-4">
+              <button
+                  className="common-button common-button-blue"
+                  style={{ borderRadius: "5px", height: '40px', width: '100px' }}
+                  onClick={onSubmit}
+              >
+                <i className="far fa-paper-plane"></i> Publish
+              </button>
+            </div>
+          </div>
         </div>
         <hr />
         <PostForm

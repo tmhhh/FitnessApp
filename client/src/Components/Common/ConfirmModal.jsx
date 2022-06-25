@@ -10,7 +10,7 @@ export default function ConfirmModal({
 }) {
   const defaultConfirmMessage = (
       <>
-        <h1><i className="fas fa-dumbbell"></i> Are you sure ?</h1>
+        <h1>Are you sure 🤔 ?</h1>
       </>
   );
 
@@ -22,12 +22,12 @@ export default function ConfirmModal({
         </Modal.Header>
         <Modal.Body>{body || defaultConfirmMessage}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <button className="common-button common-button-red" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="success" onClick={handleConfirm}>
+          </button>
+          <button className="common-outline-button common-outline-button-green" onClick={handleConfirm}>
             Confirm
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>

@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import {Button} from "react-bootstrap";
 import {useDispatch} from "react-redux";
 import {useHistory, useParams} from "react-router";
 import {editPost} from "../../../redux/slices/postSlice";
@@ -44,10 +43,8 @@ export default function PostCheckSide() {
             <div className="approve-section common-float">
                 <h2 style={{fontWeight: "bold"}}>Process this post stick <i className="fas fa-check-circle" style={{color: "#55bb55"}}></i> </h2>
                 <div className="d-flex justify-content-end mt-4">
-                    <Button onClick={() => setApproveConfirmShow(true)}>Approve</Button>
-                    <Button className="ms-2" variant="danger" onClick={() => setRejectConfirmShow(true)}>
-                        Reject
-                    </Button>
+                    <button className="common-outline-button" onClick={() => setApproveConfirmShow(true)}>Approve</button>
+                    <button className="ms-2 common-button common-button-red" onClick={() => setRejectConfirmShow(true)}>Reject</button>
                 </div>
             </div>
 

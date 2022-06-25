@@ -181,3 +181,66 @@ td{
   @extend .common-float;
   background-color: $bronze-medal;
 }
+
+.common-outline-button {
+  border: 1.5px solid black;
+  border-radius: 3px;
+  background: transparent;
+  font-size: 120%;
+  padding: 5px 8px;
+  color: black;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+  }
+}
+
+.common-button {
+  border: none;
+  background: black;
+  border-radius: 3px;
+  font-size: 120%;
+  padding: 5px 8px;
+  color: white;
+  font-weight: 600;
+  transition: opacity 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
+.common-button-red {
+  background: #e02c2c;
+}
+
+.common-button-blue {
+  background: #0C6EFD;
+}
+
+.common-outline-button-blue {
+  border: 1.5px solid #0C6EFD;
+  color: #0C6EFD;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #0C6EFD;
+    color: white;
+  }
+}
+
+.common-outline-button-green {
+  border: 1.5px solid #2bc748;
+  color: #2bc748;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #2bc748;
+    color: white;
+  }
+}
