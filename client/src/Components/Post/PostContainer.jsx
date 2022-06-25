@@ -27,8 +27,7 @@ export default function PostContainer({ listPost }) {
         show={confirmShow}
         handleConfirm={handleConfirm}
         handleClose={handleCloseConfirm}
-        heading={"Delete your post "}
-        body={" Are you sure ?? "}
+        heading={<h3 style={{color: "red"}}>Delete your post 🗑</h3>}
       />
       <Row>
         {listPost.map((post) => (
