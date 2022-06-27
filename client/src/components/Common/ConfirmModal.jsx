@@ -8,20 +8,26 @@ export default function ConfirmModal({
   heading,
   body,
 }) {
+  const defaultConfirmMessage = (
+      <>
+        <h1>Are you sure 🤔 ?</h1>
+      </>
+  );
+
   return (
     <>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>{heading}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{body}</Modal.Body>
+        <Modal.Body>{body || defaultConfirmMessage}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <button className="common-button common-button-red" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="success" onClick={handleConfirm}>
+          </button>
+          <button className="common-outline-button common-outline-button-green" onClick={handleConfirm}>
             Confirm
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>
