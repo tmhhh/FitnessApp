@@ -12,7 +12,6 @@ $gold-medal: #f9ad0e;
 $silver-medal: #d1d7da;
 $bronze-medal: #df7e08;
 $neutral-medal: #d1d7da;
-
 @mixin respond-to($media) {
   @if $media == small {
     @media all and (max-width: $SM) { @content; }

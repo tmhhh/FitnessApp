@@ -9,23 +9,23 @@
   font-size: 1.3rem;
   width: 100%;
   height: 30px;
-  padding:0.5rem;
+  padding: 0.5rem;
 }
-.react-datepicker,.react-datepicker__current-month,.react-datepicker-time__header{
+.react-datepicker,
+.react-datepicker__current-month,
+.react-datepicker-time__header {
   font-size: 1.2rem !important;
-
 }
-.form-text{
-  font-size:1.2rem !important;
+.form-text {
+  font-size: 1.2rem !important;
 }
-.ql-editor > *{
-  font-size:1.5rem;
+.ql-editor > * {
+  font-size: 1.5rem;
 }
-td{
-  font-size:15px;
-  p{
-  font-size:15px;
-
+td {
+  font-size: 15px;
+  p {
+    font-size: 15px;
   }
 }
 /* import bootstrap to set changes */
@@ -149,7 +149,6 @@ td{
   }
 }
 
-
 .common-hover {
   transition: 0.3s;
   &:hover {
@@ -164,7 +163,7 @@ td{
   padding: 15px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
-  rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 }
 
 .common-rank-items-1 {
@@ -180,6 +179,23 @@ td{
 .common-rank-items-3 {
   @extend .common-float;
   background-color: $bronze-medal;
+}
+/* ANTD */
+.ant-message-custom-content {
+  display: flex;
+  align-items: center;
+}
+.ant-picker-dropdown {
+  z-index: 10000;
+}
+.ant-empty {
+  overflow: hidden;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: $primary_blue;
+}
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: $primary_blue;
 }
 
 .common-outline-button {
@@ -220,7 +236,7 @@ td{
 }
 
 .common-button-blue {
-  background: #0C6EFD;
+  background: #0c6efd;
 }
 
 .common-button-green {
@@ -236,12 +252,12 @@ td{
 }
 
 .common-outline-button-blue {
-  border: 1.5px solid #0C6EFD;
-  color: #0C6EFD;
+  border: 1.5px solid #0c6efd;
+  color: #0c6efd;
 
   &:hover {
     cursor: pointer;
-    background-color: #0C6EFD;
+    background-color: #0c6efd;
     color: white;
   }
 }

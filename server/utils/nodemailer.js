@@ -38,9 +38,6 @@ module.exports = {
     try {
       const listSendEmail = [];
       for (const user of listReceivers) {
-        console.log(user.userEmail);
-      }
-      for (const user of listReceivers) {
         listSendEmail.push(
           transporter.sendMail({
             from: "Fitness Shop", // sender address

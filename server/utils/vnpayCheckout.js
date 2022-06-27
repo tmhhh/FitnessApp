@@ -135,7 +135,6 @@ module.exports = {
   },
   IPN: async (req, res) => {
     try {
-      console.log("IPN");
       var vnp_Params = req.query;
       var secureHash = vnp_Params["vnp_SecureHash"];
 

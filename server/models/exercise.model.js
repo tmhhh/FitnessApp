@@ -8,6 +8,7 @@ const Exercises = new Schema({
   thumbnail: { type: String, required: true },
   muscleActivate: [{ type: String, required: true }],
   videoURL: { type: String, required: true },
+  calories: { type: Number, default: 150 },
 });
 
 module.exports = mongoose.model("Exercises", Exercises);

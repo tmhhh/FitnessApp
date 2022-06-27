@@ -1,0 +1,107 @@
+@import "../../../../assets/constants.scss";
+.schedule__container {
+  width: 100%;
+  padding: 0 20px 0 0;
+  .schedule {
+    &__header {
+      position: relative;
+      width: 50%;
+      margin-bottom: 40px;
+      &-title {
+        font-size: 3rem;
+        font-weight: 900;
+        color: black;
+        margin-bottom: 20px;
+      }
+      &__buttons {
+        position: absolute;
+        left: 50%;
+        top: 10px;
+        i {
+          cursor: pointer;
+          margin-left: 20px;
+          font-size: 1rem;
+          &:nth-child(2) {
+            font-size: 0.5rem;
+          }
+        }
+      }
+      &-description {
+        font-size: 1.3rem;
+        color: #999;
+        font-weight: 600;
+      }
+    }
+    &__items {
+      --col: 7;
+      display: flex;
+      margin-left: -40px;
+      flex-wrap: wrap;
+
+      .schedule__item {
+        margin-left: 40px;
+        width: calc(100% / var(--col) - 40px);
+        margin-bottom: 60px;
+        height: 380px;
+        overflow-y: auto;
+        &-top {
+          height: 100px;
+          text-transform: uppercase;
+          font-size: 1.8rem;
+          color: #abaaaa;
+          font-weight: 500;
+          border-bottom: 3px solid black;
+          margin-bottom: 20px;
+        }
+        &-body {
+          font-size: 2.8rem;
+          color: black;
+          font-weight: 700;
+          margin-bottom: 20px;
+        }
+        &-bottom {
+          padding: 1rem;
+          .schedule__item__task {
+            margin-bottom: 15px;
+            &-title {
+              font-weight: 700;
+              color: #333;
+              font-size: 1.4rem;
+              margin-bottom: 10px;
+            }
+            &-time {
+              font-weight: 450;
+              color: #999;
+              font-size: 1.3rem;
+            }
+            &:hover i {
+              visibility: visible;
+              opacity: 1;
+            }
+            i {
+              cursor: pointer;
+              font-size: 1.5rem;
+              margin-left: 0.5rem;
+              visibility: hidden;
+              opacity: 0;
+              transition: all 0.25s linear;
+            }
+          }
+        }
+      }
+      .same-date {
+        border-color: $primary_blue;
+        border-width: 1px;
+        .schedule__item-bottom {
+        }
+        .schedule__item-top {
+          color: $primary_blue;
+          border-bottom: 3px solid $primary_blue;
+        }
+        .schedule__item-body {
+          color: $primary_blue;
+        }
+      }
+    }
+  }
+}
