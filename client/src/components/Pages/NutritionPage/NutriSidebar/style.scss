@@ -1,0 +1,126 @@
+@import "../../../../assets/constants.scss";
+.tracking_sidebar {
+  &_noti {
+    text-transform: uppercase;
+    white-space: nowrap;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 20px;
+    font-weight: 700;
+    transform: translate(-50%, -50%);
+    color: #00aeef;
+    @include respond-to(small) {
+      font-size: 17px;
+    }
+    @include respond-to(medium) {
+      top: 30%;
+      font-size: 17px;
+    }
+  }
+  &_container {
+    position: relative;
+    // margin-top: 60px;
+    margin-right: 60px;
+    padding-left: 20px;
+    padding-bottom: 60px;
+    width: 30%;
+    min-height: calc(100vh - 60px);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+      rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+    @include respond-to(small) {
+      min-height: 150px;
+    }
+
+    .tracking_sidebar_header {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      paddingleft: 20px;
+      .tracking_sidebar_label {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      & i {
+        margin-right: 20px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+    .tracking_count {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      & .positive-tooltip {
+        text-transform: uppercase !important;
+      }
+      & .negative-tooltip {
+        text-transform: uppercase !important;
+        color: red !important;
+      }
+      &_container {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        min-height: 80px;
+        & .warning {
+          color: red;
+        }
+      }
+      &_value,
+      &_operator {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      &_label {
+        font-size: 15px;
+        font-weight: 400;
+        color: #999;
+      }
+
+      .positive {
+        font-size: 22px;
+        color: green;
+      }
+      .negative {
+        font-size: 22px;
+        color: red;
+      }
+    }
+
+    .tracking_meal_container {
+      // margin-top: 60px;
+      .tracking_meal {
+        width: calc(100% + 20px);
+        // transform: translateX(-20px);
+        // background-color: $white_smoke;
+        padding: 3px;
+        &_label {
+          font-size: 15px;
+          font-weight: 700;
+          margin-top: 20px;
+        }
+        &_button {
+          font-size: 15px;
+          margin-top: 20px;
+          font-weight: 700;
+          color: $primary_blue;
+        }
+        &_info {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+@media only screen and (max-width: 499px) {
+  .tracking_sidebar_container {
+    width: 90%;
+    margin: 60px auto;
+  }
+}

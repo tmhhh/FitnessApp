@@ -17,6 +17,7 @@ router.put("/profile/password", verifyToken, userCtl.updatePassword);
 //FOR NUTRITION FEATURE PURPOSE
 router.put("/profile/tracking-info", verifyToken, userCtl.updateTrackingInfo);
 router.put("/profile/food", verifyToken, userCtl.addTrackingFood);
+router.put("/profile/training-goal", verifyToken, userCtl.updateTrainingGoal);
 router.delete("/profile/food", verifyToken, userCtl.removeTrackingFood);
 
 //FOR STATISTIC PURPOSE

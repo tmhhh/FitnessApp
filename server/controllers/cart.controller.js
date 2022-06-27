@@ -74,7 +74,6 @@ const handleUserCart = async (userID, productID, addedQuantity) => {
       .select("-userPassword");
     return updatedUser.userCart;
   } catch (error) {
-    console.log("catch1");
     console.log(error);
     return Promise.reject(error);
   }

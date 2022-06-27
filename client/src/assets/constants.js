@@ -1,10 +1,10 @@
-// export const BASE_API_URL = `http://localhost:4000/api`;
-// const PUBLIC_URL = `http://localhost:4000`;
-// export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
+export const BASE_API_URL = `http://localhost:4000/api`;
+const PUBLIC_URL = `http://localhost:4000`;
+export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
 
-export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
-export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
-const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
+// export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
+// export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
+// const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
 
 export const NUTRI_API_CONFIG = (params) => {
   return {
@@ -53,3 +53,8 @@ export const PAYPAL_CONFIG = {
 
 export const YT_THUMBNAIL_BASE_URL = (id) =>
   `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+
+export const googleLogo =
+  "https://accounts.fullstack.edu.vn/assets/images/signin/google-18px.svg";
+export const fbLogo =
+  "https://accounts.fullstack.edu.vn/assets/images/signin/facebook-18px.svg";

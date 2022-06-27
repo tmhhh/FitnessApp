@@ -44,7 +44,6 @@ module.exports = {
 
       //CART TOTAL PRICE
       const cartTotalPrice = calSubTotal(foundUser.userCart);
-      console.log({ cartTotalPrice });
       //CREATE ORDER
       const request = new checkoutNodeJssdk.orders.OrdersCreateRequest();
       request.prefer("return=representation");

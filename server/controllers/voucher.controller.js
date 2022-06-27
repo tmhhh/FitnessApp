@@ -32,8 +32,6 @@ module.exports = {
         vouModel.findOne({ vouCode }).select("-vouQuantity"),
       ]);
       const [foundUser, foundVoucher] = result;
-      console.log({ foundVoucher });
-      console.log(foundVoucher);
       if (!foundVoucher)
         return res
           .status(403)

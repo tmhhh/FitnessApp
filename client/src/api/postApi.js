@@ -18,8 +18,8 @@ const postApi = {
     return axiosClient.post(BASE_API_URL + URL, body);
   },
   edit: (id, body) => {
-    console.log("do edit");
-    console.log(body);
+    // console.log("do edit");
+    // console.log(body);
     return axiosClient.put(BASE_API_URL + URL + `/${id}`, body);
   },
   delete: (id) => {
