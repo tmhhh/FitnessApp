@@ -49,14 +49,13 @@ export default function PasswordForm({ handleChangePassword }) {
               required
               component={InputField}
             />
-            <Button
+            <button
               style={{ right: "50%" }}
-              className="position-absolute"
+              className="position-absolute common-button common-button-blue"
               type="submit"
-              variant="primary"
             >
               Save Changes
-            </Button>
+            </button>
           </Form>
         );
       }}

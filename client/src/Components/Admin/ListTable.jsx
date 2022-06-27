@@ -33,17 +33,16 @@ export default function ListTable({ list, updateModalShow }) {
               )}
               {/*field[0] is field name && 1 is field value*/}
               <td>
-                <Button
-                  variant="warning"
-                  className="myButton"
+                <button
+                  className="common-button common-button-blue floatButton"
                   itemID={item.id}
                   onClick={updateModalShow}
                 >
-                  🛠
-                </Button>
-                <Button variant="danger" className="myButton ms-2">
+                  📝
+                </button>
+                <button className="common-button common-button-red floatButton ms-2">
                   🗑
-                </Button>
+                </button>
               </td>
             </tr>
           ))}

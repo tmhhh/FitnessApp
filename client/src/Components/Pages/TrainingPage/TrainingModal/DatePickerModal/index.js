@@ -36,17 +36,17 @@ export default function DatePickerModal({
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button
+        <button
           onClick={() =>
             handleAddToTrainingSchedule(selectedExercise._id, date)
           }
-          variant="primary"
+          className="common-button common-button-blue"
         >
           Add
-        </Button>
-        <Button onClick={handleCloseDatePickerModal} variant="secondary">
+        </button>
+        <button onClick={handleCloseDatePickerModal} className="common-button common-button-grey">
           Back
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

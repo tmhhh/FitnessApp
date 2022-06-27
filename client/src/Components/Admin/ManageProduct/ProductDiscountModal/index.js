@@ -67,21 +67,21 @@ if(input.trim()==="") return setError("Please input percent")
       </Modal.Body>
       <Modal.Footer>
         {product?.prodDiscount?.isDiscounted ? (
-          <Button
+          <button
             onClick={() => handleResetDiscount(product._id)}
-            variant="danger"
+            className="common-button common-button-blue"
           >
             Reset Discount
-          </Button>
+          </button>
         ) : (
-          <Button variant="secondary" onClick={handleClose}>
+          <button className="common-button common-button-red" onClick={handleClose}>
             Close
-          </Button>
+          </button>
         )}
 
-        <Button onClick={handleOnClick} variant="primary">
+        <button onClick={handleOnClick} className="common-button">
           Save Changes
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

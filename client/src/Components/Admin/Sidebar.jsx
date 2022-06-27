@@ -63,7 +63,8 @@ export default function Sidebar({ url }) {
       <NavLink
         to={`${url}/service`}
         activeClassName="sidebar-active"
-        className="list-group-item list-group-item-action py-2  "
+        className="list-group-item list-group-item-action py-2"
+        hidden="true"
       >
         <span
           style={{ display: "inline-block", width: "20px" }}

@@ -39,21 +39,19 @@ export default function ListTable({ list, updateModalShow, deleteOnClick }) {
               <td>{item.slot}</td>
               {/* <td>{item.prodRating.star}</td> */}
               <td>
-                <Button
-                  variant="warning"
-                  className="myButton"
+                <button
+                  className="common-button common-button-blue floatButton"
                   itemID={item._id}
                   onClick={updateModalShow}
                 >
-                  🛠
-                </Button>
-                <Button
-                  variant="danger"
-                  className="myButton ms-2"
+                  📝
+                </button>
+                <button
+                  className="common-button common-button-red floatButton ms-2"
                   onClick={() => deleteOnClick(item._id)}
                 >
                   🗑
-                </Button>
+                </button>
               </td>
             </tr>
           ))}

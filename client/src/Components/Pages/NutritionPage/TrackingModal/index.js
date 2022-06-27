@@ -56,9 +56,9 @@ export default function TrackingModal({
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="primary" onClick={handleStep}>
+        <button className="common-button common-button-blue" onClick={handleStep}>
           {action}
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

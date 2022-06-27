@@ -8,7 +8,7 @@ export default function IntroduceSection() {
       <Row>
         <Col className="introduce_section_item section_item_title" md="6" lg="6">
           <div className="introduce_section_title">From Beginner To Pro</div>
-          <Link to="/nutrition" className="btn btn-primary mx-auto introduce_section_title_button ">
+          <Link to="/nutrition" className="btn btn-primary common-button common-button-blue mx-auto introduce_section_title_button ">
             Search For Nutrition
           </Link>
         </Col>
@@ -35,7 +35,7 @@ export default function IntroduceSection() {
           <div className="introduce_section_title">
             Custom Programs & Technique guides for you{" "}
           </div>
-          <Link to="/training" className="btn btn-primary mx-auto">
+          <Link to="/training" className="btn btn-primary common-button common-button-blue mx-auto">
             Search For Exercise
           </Link>
         </Col>

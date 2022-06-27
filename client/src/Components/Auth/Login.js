@@ -209,9 +209,9 @@ function Login() {
                   </a>
                   !!!
                 </Form.Text>
-                <Button variant="primary" type="submit">
-                  Login
-                </Button>
+                <button className="common-outline-button common-outline-button-blue  w-100 my-3" type="submit">
+                  Login <i className="fas fa-sign-in-alt"></i>
+                </button>
               </div>
               <Form.Group
                 className="mb-3 text-center"
@@ -222,12 +222,12 @@ function Login() {
                 </Form.Label>
                 <OtherLoginButton
                   title="Login with Facebook"
-                  img="https://fullstack.edu.vn/assets/images/signin/facebook-18px.svg"
+                  img="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1365px-Facebook_f_logo_%282019%29.svg.png"
                   handleLogin={handleLoginWithFacebook}
                 />
                 <OtherLoginButton
                   title="Login with Google"
-                  img="https://fullstack.edu.vn/assets/images/signin/google-18px.svg"
+                  img="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/800px-Google_%22G%22_Logo.svg.png"
                   handleLogin={handleLoginWithGoogle}
                 />
               </Form.Group>

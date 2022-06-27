@@ -43,17 +43,17 @@ export default function TrainingModal(props) {
               <div className="exercise-muscle ">#{e}</div>
             ))}
           </div>
-          <Button
+          <button
             onClick={handleOpenDatePickerModal}
-            style={{ position: "absolute", bottom: "10px", right: "20px" }}
-            variant="dark"
+            className="common-outline-button"
+            style={{ position: "absolute", bottom: "20px", right: "20px" }}
           >
             <i
               style={{ padding: "0 10px" }}
               className="far fa-calendar-plus"
             ></i>{" "}
             Add to schedule
-          </Button>
+          </button>
         </div>
       </Modal>
       <DatePickerModal {...props} />

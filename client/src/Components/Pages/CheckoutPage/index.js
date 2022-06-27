@@ -265,30 +265,28 @@ export default function CheckoutPage() {
                               {prod.product.prodCategory.cateFilter.filterName}
                             </div>
                             <div className="cart_action">
-                              <Button
-                                className="cart_action_remove mt-4 rounded-0"
-                                variant="danger"
+                              <button
+                                className="cart_action_remove mt-4 rounded-0 common-button common-button-red"
                                 style={{ marginRight: "5px" }}
                                 onClick={() =>
                                   handleRemoveProduct(prod.product._id)
                                 }
                               >
                                 X REMOVE ITEM
-                              </Button>
-                              <Button
-                                className="cart_action_redirect_detail rounded-0 "
-                                variant="dark"
+                              </button>
+                              <button
+                                className="cart_action_redirect_detail rounded-0 common-button"
                                 onClick={() =>
                                   handleRedirectProduct(prod.product._id)
                                 }
                               >
                                 👁‍🗨 VIEW DETAILS
-                              </Button>
+                              </button>
                             </div>
                           </div>
                           <div className="product_check_box">
                             <input
-                              checked={prod.isSelected === true ? true : false}
+                              checked={prod.isSelected === true}
                               type="checkbox"
                               onChange={() =>
                                 handleSelectProduct(prod.product._id)
@@ -383,13 +381,12 @@ export default function CheckoutPage() {
                   </div>
                 )}
 
-                <Button
+                <button
                   onClick={handleShowModal}
-                  className="w-100  "
-                  variant="primary"
+                  className="w-100 common-button common-button-blue"
                 >
                   CHECK OUT
-                </Button>
+                </button>
               </div>
             </div>
           </>

@@ -107,9 +107,9 @@ export default function Post() {
                       }}
                   >
                     <h5>comments({comments?.length})</h5>
-                    <Button variant="dark" onClick={() => setCmtModalShow(true)}>
+                    <button className="common-button floatButton" onClick={() => setCmtModalShow(true)}>
                       🖊 Add a comment
-                    </Button>
+                    </button>
                     <CommentModal
                         show={cmtModalShow}
                         onHide={() => setCmtModalShow(false)}

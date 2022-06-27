@@ -30,7 +30,7 @@ export default function ShoppingSection() {
             />
           </Col>
         </Row>
-        {/* <Button
+        {/* <button
           onClick={() => history.push("/shopping")}
           style={{
             fontSize: "18.88px",
@@ -42,7 +42,7 @@ export default function ShoppingSection() {
         >
           {" "}
           View All
-        </Button> */}
+        </button> */}
         <Link
           style={{
             display: "block",

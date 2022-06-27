@@ -91,7 +91,6 @@ export default function ProductSide(props) {
         postData.append(key, formData[key]);
       }
     }
-    console.log({ formData });
     await dispatch(editProduct({ postData, id: formData._id }));
     updateModalClose();
     setToast({
@@ -158,17 +157,17 @@ export default function ProductSide(props) {
       <div className="admin-content">
         <h2 className="admin-content-title">Manage Product</h2>
         <div className="d-flex justify-content-between mt-5">
-          <Button variant="dark" className="myButton" onClick={newModalShow}>
-            🆕 New item
-          </Button>
-          <Button
+          <button className="common-button floatButton" onClick={newModalShow}>
+            <i className="fas fa-plus-circle"></i> New item
+          </button>
+          <button
             onClick={() => history.push("/admin/category")}
-            variant="success"
-            className="myButton"
+            className="common-button common-button-green floatButton"
             color="light"
+            style={{backgroundColor: "#2bc748", border: "none"}}
           >
-            🧩 Categories
-          </Button>
+            <i className="fas fa-puzzle-piece"></i> Categories
+          </button>
         </div>
         <div className="mt-5">
           {/* <ListTable list={listProducts} updateModalShow={updateModalShow} /> */}
@@ -264,17 +263,17 @@ const ManipulateProductModal = (props) => {
         />
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="danger" onClick={hide}>
+        <button className="common-button common-button-red floatButton" onClick={hide}>
           Close
-        </Button>
+        </button>
         {action === "add" ? (
-          <Button variant="dark" onClick={handleSubmit}>
+          <button className="common-button floatButton"  onClick={handleSubmit}>
             Add 📥
-          </Button>
+          </button>
         ) : (
-          <Button variant="dark" onClick={handleSubmit}>
+          <button className="common-button floatButton"  onClick={handleSubmit}>
             Update 🔧
-          </Button>
+          </button>
         )}
       </Modal.Footer>
     </Modal>

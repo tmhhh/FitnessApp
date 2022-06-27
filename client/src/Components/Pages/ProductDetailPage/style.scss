@@ -206,13 +206,13 @@ $marginBottom: 10px;
     justify-content: center;
     & button {
       // width: 30%;
+      height: 50px;
       flex-grow: 1;
       margin-left: 10px;
       border-radius: 0 !important;
       font-size: 15px;
       font-weight: 500;
       text-transform: uppercase;
-      color: $white_smoke;
       &:focus {
         border: none !important;
         box-shadow: none !important;
@@ -227,6 +227,13 @@ $marginBottom: 10px;
         align-items: center;
         & i {
           cursor: pointer;
+          color: $white_smoke;
+          &:hover {
+            color: white;
+          }
+        }
+        &:hover {
+          opacity: 1;
         }
       }
     }

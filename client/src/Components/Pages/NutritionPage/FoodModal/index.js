@@ -261,19 +261,19 @@ export default function FoodModal({
             </Container>
           </Modal.Body>
           <Modal.Footer>
-            <Button
-              variant="secondary"
+            <button
+              className="common-button common-button-grey"
               onClick={() => handleCloseModal("close")}
             >
               Close
-            </Button>
-            <Button
+            </button>
+            <button
               onClick={handleShowAddModal}
               type="submit"
-              variant="primary"
+              className="common-button common-button-blue"
             >
               Next
-            </Button>
+            </button>
           </Modal.Footer>
         </Modal>
       )}

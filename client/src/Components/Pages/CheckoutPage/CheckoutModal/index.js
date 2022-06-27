@@ -282,12 +282,12 @@ export default function CheckoutModal({
               />
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>
+              <button className="common-button common-button-red" onClick={handleCloseModal}>
                 Close
-              </Button>
-              <Button type="submit" variant="primary" onClick={triggerSubmit}>
+              </button>
+              <button type="submit" className="common-button common-button-blue" onClick={triggerSubmit}>
                 Next
-              </Button>
+              </button>
             </Modal.Footer>
           </Tab>
           <Tab disabled={true} eventKey="Confirm" title="Order Confirm ✅ ">
@@ -413,12 +413,12 @@ export default function CheckoutModal({
             </Modal.Body>
 
             <Modal.Footer>
-              <Button onClick={() => setKey("Order")} variant="secondary">
+              <button onClick={() => setKey("Order")} className="common-button common-button-grey">
                 Back
-              </Button>
-              <Button onClick={handleConfirmOrder} variant="primary">
+              </button>
+              <button onClick={handleConfirmOrder} className="common-button">
                 Confirm Order
-              </Button>
+              </button>
             </Modal.Footer>
           </Tab>
         </Tabs>
