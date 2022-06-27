@@ -72,13 +72,13 @@ export default function BioForm({
               component={InputField}
             />
 
-            <Button
+            <button
               style={{ position: "absolute", right: "50%" }}
               type="submit"
-              variant="primary"
+              className="common-button common-button-blue"
             >
               Save Changes
-            </Button>
+            </button>
           </Form>
         );
       }}

@@ -164,9 +164,9 @@ function Register() {
                   </p>
                   !!!
                 </FormBootStrap.Text>
-                <Button className="mb-4" variant="primary" type="submit">
+                <button className="common-outline-button common-outline-button-blue my-3 w-100" type="submit">
                   Submit
-                </Button>
+                </button>
               </div>
             </Form>
           )

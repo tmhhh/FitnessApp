@@ -44,9 +44,9 @@ export default function FormReview({ productId }) {
                 label="Review Rating"
                 component={RatingForm}
               />
-              <Button variant="primary" type="submit">
+              <button className="common-button common-button-blue" type="submit">
                 Send
-              </Button>
+              </button>
             </Form>
           );
         }}

@@ -36,8 +36,8 @@ export default function DiscountForm({
               placeholder="Discount Code"
               disabled={disabled}
             />
-            <Button
-              variant="secondary"
+            <button
+              className="common-button common-button-green"
               style={{
                 alignSelf: "end",
                 marginLeft: "10px",
@@ -46,7 +46,7 @@ export default function DiscountForm({
               type="submit"
             >
               Apply
-            </Button>
+            </button>
           </Form>
         );
       }}

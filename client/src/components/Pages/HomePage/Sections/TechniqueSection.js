@@ -34,18 +34,18 @@ export default function TechniqueSection() {
           />
         </Col>
       </Row>
-      <Button
+      <button
         style={{
           fontSize: "18.88px",
           padding: "12px 48px",
           display: "block",
           margin: "auto",
         }}
-        variant="dark"
+        className="common-button"
       >
         {" "}
         View All
-      </Button>
+      </button>
     </div>
   );
 }

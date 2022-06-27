@@ -187,9 +187,9 @@ function Login() {
                   </a>
                   !!!
                 </Form.Text>
-                <Button variant="primary" type="submit">
-                  Login
-                </Button>
+                <button className="common-outline-button common-outline-button-blue  w-100 my-3" type="submit">
+                  Login <i className="fas fa-sign-in-alt"></i>
+                </button>
               </div>
               <Form.Group
                 className="mb-3 text-center"

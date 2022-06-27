@@ -24,12 +24,12 @@ export default function AddFoodModal({
         </Form.Select>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <button className="common-button common-button-grey" onClick={handleClose}>
           Close
-        </Button>
-        <Button variant="primary" onClick={handleAddFood}>
+        </button>
+        <button className="common-button common-button-green" onClick={handleAddFood}>
           Add
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

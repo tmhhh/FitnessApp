@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
-import { Button, Modal } from "react-bootstrap";
+import React, {useRef} from "react";
+import {Modal} from "react-bootstrap";
 import ExerciseForm from "../ExerciseForm";
+
 export default function ExerciseModalForm(props) {
   const { action, handleSubmitAction, show, hide, updatedExerciseRef } = props;
   const formRef = useRef();
@@ -24,12 +25,12 @@ export default function ExerciseModalForm(props) {
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="dark" onClick={triggerFormikSubmit}>
+            <button className="common-button floatButton" onClick={triggerFormikSubmit}>
               Add 📥
-            </Button>
-            <Button variant="danger" onClick={hide}>
+            </button>
+            <button className="common-button common-button-red floatButton" onClick={hide}>
               Close
-            </Button>
+            </button>
           </Modal.Footer>
         </>
       ) : (
@@ -46,12 +47,12 @@ export default function ExerciseModalForm(props) {
             />
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="dark" onClick={triggerFormikSubmit}>
+            <button className="common-button floatButton" onClick={triggerFormikSubmit}>
               Update 🔧
-            </Button>
-            <Button variant="danger" onClick={hide}>
+            </button>
+            <button className="common-button common-button-red floatButton" onClick={hide}>
               Close
-            </Button>
+            </button>
           </Modal.Footer>
         </>
       )}

@@ -46,13 +46,13 @@ export default function TrainingModal(props) {
               disabledDate={(current) => current < new Date()}
             />
           ) : (
-            <Button onClick={handleShowDatePicker} variant="dark">
+            <button onClick={handleShowDatePicker} className="common-outline-button">
               <i
                 style={{ padding: "0 10px" }}
                 className="far fa-calendar-plus"
               ></i>{" "}
               Add to schedule
-            </Button>
+            </button>
           )}
         </div>
       </Modal>

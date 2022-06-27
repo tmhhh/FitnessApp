@@ -138,17 +138,17 @@ export default function ServiceSide(props) {
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" onClick={hide}>
+          <button className="common-button common-button-red floatButton" onClick={hide}>
             Close
-          </Button>
+          </button>
           {action === "add" ? (
-            <Button variant="dark" onClick={handleSubmit}>
+            <button className="common-button floatButton" onClick={handleSubmit}>
               Add 📥
-            </Button>
+            </button>
           ) : (
-            <Button variant="dark" onClick={handleSubmit}>
+            <button className="common-button floatButton" onClick={handleSubmit}>
               Update 🔧
-            </Button>
+            </button>
           )}
         </Modal.Footer>
       </Modal>
@@ -160,9 +160,9 @@ export default function ServiceSide(props) {
       <div className="admin-content">
         <h2 className="admin-content-title">Manage Service</h2>
         <div className="d-flex justify-content-between mt-5">
-          <Button variant="dark" className="myButton" onClick={newModalShow}>
+          <button className="common-button floatButton" onClick={newModalShow}>
             🆕 New item
-          </Button>
+          </button>
         </div>
         <div className="mt-5">
           {/* <ListTable list={listServices} updateModalShow={updateModalShow} /> */}

@@ -72,13 +72,12 @@ export default function CateSide() {
       <div className="admin-content">
         <h2 className="admin-content-title">Manage Category</h2>
         <div className="d-flex justify-content-between mt-5">
-          <Button
-            variant="dark"
-            className="myButton"
+          <button
+            className="common-button floatButton"
             onClick={() => newModalShow("add")}
           >
-            🆕 New Category
-          </Button>
+            <i className="fas fa-plus-circle"></i> New Category
+          </button>
         </div>
         <div className="mt-5">
           <CateTable

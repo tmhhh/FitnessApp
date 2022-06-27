@@ -101,16 +101,16 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               }}
               className="action_buttons"
             >
-              <Button onClick={handleGenerateCode} variant="primary">
+              <button onClick={handleGenerateCode} className="common-button common-button-blue">
                 Generate
-              </Button>
-              <Button
+              </button>
+              <button
                 type="submit"
                 style={{ marginLeft: "10px" }}
-                variant="dark"
+                className="common-button"
               >
                 Save Voucher
-              </Button>
+              </button>
             </div>
           </Form>
         );

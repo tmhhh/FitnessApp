@@ -46,9 +46,9 @@ export default function CommentForm({ user, onHide, handleSubmit }) {
         <button className="default-button" onClick={onHide}>
           Dismiss
         </button>
-        <Button variant="outline-primary" onClick={onSubmit}>
+        <button className="common-button common-button-blue" onClick={onSubmit}>
           Submit
-        </Button>
+        </button>
       </div>
     </>
   );

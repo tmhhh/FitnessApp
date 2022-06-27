@@ -210,10 +210,10 @@ function ProductDetailPage() {
                   {chosenProd.prodDescription}
                 </div>
                 <div className="product_info_action">
-                  <Button onClick={handleAddToCart} variant="dark">
+                  <button onClick={handleAddToCart} className="common-outline-button common-outline-button-green">
                     Add to cart
-                  </Button>
-                  <Button variant="dark">
+                  </button>
+                  <button className="common-button">
                     <i
                       onClick={() =>
                         quantity < chosenProd.prodQuantity &&
@@ -226,7 +226,7 @@ function ProductDetailPage() {
                       onClick={() => quantity > 1 && setQuantity(quantity - 1)}
                       className="fas fa-minus"
                     ></i>{" "}
-                  </Button>
+                  </button>
                 </div>
               </div>
             </div>

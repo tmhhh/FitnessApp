@@ -40,7 +40,7 @@ export default function ProgramSection({ title }) {
           />
         </Col>
       </Row>
-      <Button
+      <button
         onClick={() => history.push("/programs")}
         style={{
           fontSize: "18.88px",
@@ -48,11 +48,11 @@ export default function ProgramSection({ title }) {
           display: "block",
           margin: "auto",
         }}
-        variant="dark"
+        className="common-button"
       >
         {" "}
         View All
-      </Button>
+      </button>
     </div>
   );
 }

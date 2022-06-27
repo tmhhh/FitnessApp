@@ -40,22 +40,20 @@ export default function CateTable({
               <td>{exercise.thumbnail}</td>
               <td>{exercise.videoURL}</td>
               <td>
-                <Button
-                  variant="warning"
-                  className="myButton"
+                <button
+                  className="common-button common-button-blue floatButton"
                   exercise
                   ID={exercise._id}
                   onClick={() => updateModalShow("update", exercise._id)}
                 >
-                  🛠
-                </Button>
-                <Button
-                  variant="danger"
-                  className="myButton ms-2"
+                  📝
+                </button>
+                <button
+                  className="common-button common-button-red floatButton ms-2"
                   onClick={() => deleteOnClick(exercise._id)}
                 >
                   🗑
-                </Button>
+                </button>
               </td>
             </tr>
           ))}

@@ -73,14 +73,14 @@ export default function UserBillHistory() {
                       )}
                     </td>
                     <td>
-                      <Button
+                      <button
                         onClick={() =>
                           setShow({ isShown: true, prodID: item.product._id })
                         }
-                        variant="warning"
+                        className="common-button common-button-yellow"
                       >
                         <ion-icon name="star-outline"></ion-icon>{" "}
-                      </Button>
+                      </button>
                     </td>
                   </tr>
                 ))}
