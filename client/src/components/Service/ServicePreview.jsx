@@ -1,7 +1,6 @@
 import React from "react";
-import { Badge, Image } from "react-bootstrap";
-import { fetchPostImage, fetchUserImage } from "../../assets/constants";
-import QRCode from "react-qr-code";
+import {Image} from "react-bootstrap";
+import {fetchPostImage} from "../../assets/constants";
 
 export default function ServicePreview({ service }) {
   return (
