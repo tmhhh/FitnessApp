@@ -47,7 +47,7 @@ export default function ContextProvider({ children }) {
         payload: { isLoading: true, listFoods: {} },
       });
       const res = await axios.request(NUTRI_API_CONFIG(foodName));
-      // console.log(res.data);
+      console.log(res.data);
       nutriDispatch({
         type: "SET_NUTRI",
         payload: { isLoading: false, listFoods: res.data.hints },

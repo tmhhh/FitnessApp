@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from "react";
-import { Spinner, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import {Table} from "react-bootstrap";
+import {useDispatch, useSelector} from "react-redux";
 import userApi from "../../../api/userApi";
-import { BASE_IMAGE_BASE_URL } from "../../../assets/constants";
-import { Context } from "../../../contexts";
+import {BASE_IMAGE_BASE_URL} from "../../../assets/constants";
+import {Context} from "../../../contexts";
 import SearchBar from "../../Common/SearchBar";
 import NutritionContainer from "../../Containers/NutritionContainer";
 import FoodModal from "./FoodModal";
@@ -11,11 +11,16 @@ import TrackingSidebar from "./NutriSidebar";
 import "./style.scss";
 import TrackingModal from "./TrackingModal";
 import authSlice from "../../../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
-import { Helmet } from "react-helmet";
+import {Helmet} from "react-helmet";
 import CustomLoading from "../../Common/Placeholders/CustomLoading";
 import NoResults from "../../Common/Placeholders/NoResults";
-import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
+import {getTodayWorkoutCalories} from "redux/selectors/exerciseSelector";
+import {Button, Modal} from "antd";
+import {FastField, Form, Formik} from "formik";
+import SelectField from "../../Common/SelectField";
+import {filterNutrition} from "./constants";
+import RangeField from "../../Common/RangeField";
+
 export default function NutritionPage() {
   const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
@@ -27,6 +32,26 @@ export default function NutritionPage() {
     isShown: false,
     foodData: {},
   });
+
+  /**
+   * FILTER MODAL
+   */
+  const [filterModal, setFilterModal] = useState({
+    isShown: false,
+    isLoading: false,
+  });
+  const handleShowFilterModal = () => {
+    setFilterModal({
+      ...filterModal,
+      isShown: true
+    })
+  }
+  const handleCloseFilterModal = () => {
+    setFilterModal({
+      ...filterModal,
+      isShown: false
+    })
+  }
 
   //
   const [servingSize, setServingSize] = useState(1);
@@ -93,15 +118,24 @@ export default function NutritionPage() {
           handleShowTrackingModal={handleShowTrackingModal}
           handleRemoveTrackingFood={handleRemoveTrackingFood}
         />
-        <div className="nutrition_section ">
+        <div className="nutrition_section">
           <SearchBar />
           {nutriState.isLoading ? (
-            <CustomLoading />
+            <CustomLoading/>
           ) : nutriState.listFoods ? (
             nutriState.listFoods.length <= 0 ? (
               <NoResults />
             ) : (
               <>
+                <div className='d-flex justify-content-start'>
+                  <button
+                      className='common-outline-button common-outline-button-blue mb-3'
+                      style={{fontSize: '14px'}}
+                      onClick={handleShowFilterModal}>
+                    <i className="fas fa-filter"></i> Filter
+                  </button>
+                  <FilterModal visible={filterModal.isShown} handleCancel={handleCloseFilterModal}  />
+                </div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -167,5 +201,83 @@ export default function NutritionPage() {
         </div>
       </NutritionContainer>
     </>
+  );
+
+}
+
+const FilterModal = ({visible, handleCancel}) => {
+  const formRef = useRef();
+
+  const handleSubmit = () => {
+    if (formRef.current) {
+      formRef.current.handleSubmit();
+    }
+
+    handleCancel();
+  };
+
+  return (
+      <>
+        <Modal
+            visible={visible}
+            title="Filter"
+            onOk={handleSubmit}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="back" onClick={handleCancel}>
+                Cancel
+              </Button>,
+              <Button key="submit" type="primary">
+                Save
+              </Button>,
+            ]}
+        >
+          <Formik
+              initialValues={{}}
+              onSubmit={(values) => {
+              }}
+              innerRef={formRef}
+          >
+            {(formikProps) => {
+              const { values } = formikProps;
+              return (
+                  <Form>
+                    <FastField
+                        name="health"
+                        label="Health"
+                        placeholder="Choose your health regime"
+                        component={SelectField}
+                        options={filterNutrition.health}
+                    />
+                    <FastField
+                        name="category"
+                        label="Category"
+                        placeholder="Choose your food category"
+                        component={SelectField}
+                        options={filterNutrition.category}
+                    />
+                    <FastField
+                        name="calories"
+                        label="Calories range"
+                        marks={{
+                          0: '0°C',
+                          26: '26°C',
+                          37: '37°C',
+                          100: {
+                            style: {
+                              color: '#f50',
+                            },
+                            label: <strong>100°C</strong>,
+                          },
+                        }}
+                        component={RangeField}
+                    />
+                  </Form>
+              );
+            }}
+          </Formik>
+
+        </Modal>
+      </>
   );
 }
