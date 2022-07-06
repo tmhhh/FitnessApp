@@ -17,6 +17,7 @@ export default function RangeField(props) {
     min,
     asType,
     multiple,
+    range
   } = props;
   const { name, value, onChange, onBlur } = field;
   const { setFieldValue } = form;
@@ -40,7 +41,13 @@ export default function RangeField(props) {
               {label}
             </Form.Label>
         )}
-        <Slider range marks={marks} defaultValue={[26, 37]} onChange={handleSliderChange} />
+        <Slider
+            range
+            marks={marks}
+            defaultValue={defaultValue}
+            onChange={handleSliderChange}
+            min={range[0]}
+            max={range[1]}/>
         {error ? (
             <Form.Control.Feedback type="invalid">
               {errors[name]}

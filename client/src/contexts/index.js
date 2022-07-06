@@ -30,6 +30,8 @@ export default function ContextProvider({ children }) {
     bg: "",
   });
 
+  const [foodName, setFoodName] = useState('');
+
   //
   const { isAuthenticated } = useSelector((state) => state.authReducer);
 
@@ -40,14 +42,15 @@ export default function ContextProvider({ children }) {
   });
 
   //SEARCHING NUTRITION
-  const nutriSearching = async (foodName) => {
+  const nutriSearching = async (params) => {
     try {
       nutriDispatch({
         type: "SET_NUTRI",
         payload: { isLoading: true, listFoods: {} },
       });
-      const res = await axios.request(NUTRI_API_CONFIG(foodName));
-      console.log(res.data);
+      setFoodName(params.foodName);
+      const res = await axios.request(NUTRI_API_CONFIG(params));
+      // console.log(res.data);
       nutriDispatch({
         type: "SET_NUTRI",
         payload: { isLoading: false, listFoods: res.data.hints },
@@ -346,6 +349,7 @@ export default function ContextProvider({ children }) {
     authForm,
     setAuthForm,
     loadUser,
+    foodName,
     handleRemoveFavorite,
     handleAddFavorite,
   };

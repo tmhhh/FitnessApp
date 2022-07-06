@@ -9,11 +9,14 @@ export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
 export const NUTRI_API_CONFIG = (params) => {
   return {
     method: "GET",
-    url: "https://edamam-food-and-grocery-database.p.rapidapi.com/parser",
-    params: { ingr: params.toString() },
-    headers: {
-      "x-rapidapi-host": "edamam-food-and-grocery-database.p.rapidapi.com",
-      "x-rapidapi-key": "2afa2a5cddmsh1498ac601dd5c89p13573fjsn6fcfc992d860",
+    url: "https://api.edamam.com/api/food-database/v2/parser",
+    params: {
+      app_id: '078589f8',
+      app_key: '198df3fcdc85e53b7999f94b847d00fc',
+      ingr: params.foodName?.toString(),
+      health: params.health,
+      category: params.category,
+      calories: params.calories,
     },
   };
 };

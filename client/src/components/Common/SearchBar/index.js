@@ -22,7 +22,7 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
         if (e.target.value.trim() !== "") {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
-            nutriSearching(param);
+            nutriSearching({foodName: param});
           }, 2000);
         } else {
           if (timerRef.current) clearTimeout(timerRef.current);
