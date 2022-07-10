@@ -6,8 +6,23 @@ export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
 // export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
 // const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
 
-export const NUTRI_API_CONFIG = (params) => {
-  return {
+export const NUTRI_API_CONFIG = (params, searchType = null) => {
+  return searchType === 'dish' ? {
+    method: "GET",
+    url: "https://api.edamam.com/api/recipes/v2",
+    params: {
+      app_id: '4280966c',
+      app_key: '7bcd5756d10749b883cdeb125535ba75',
+      type: 'public',
+      q: params.foodName?.toString(),
+      diet: params.diet,
+      health: params.health,
+      cuisineType: params.cuisineType,
+      mealType: params.mealType,
+      calories: params.calories,
+      imageSize: 'THUMBNAIL'
+    },
+  } : {
     method: "GET",
     url: "https://api.edamam.com/api/food-database/v2/parser",
     params: {

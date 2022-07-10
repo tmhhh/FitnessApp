@@ -42,7 +42,7 @@ export const calculateTotalCaloriesNeeded = (
       parseFloat(activityLevel) +
       (goal === 0 ? -150 : goal === 1 ? 0 : +150)
   );
-export const calculateFoodTotalKCAL = (listFoods) => {
+export const calculateFoodTotalKCAL = (listFoods = []) => {
   return Math.trunc(
     listFoods.reduce((sum, current) => {
       return sum + current.foodKCAL * current.foodServing;

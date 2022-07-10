@@ -42,18 +42,18 @@ export default function ContextProvider({ children }) {
   });
 
   //SEARCHING NUTRITION
-  const nutriSearching = async (params) => {
+  const nutriSearching = async (params, searchType) => {
     try {
       nutriDispatch({
         type: "SET_NUTRI",
         payload: { isLoading: true, listFoods: {} },
       });
       setFoodName(params.foodName);
-      const res = await axios.request(NUTRI_API_CONFIG(params));
+      const res = await axios.request(NUTRI_API_CONFIG(params, searchType));
       // console.log(res.data);
       nutriDispatch({
         type: "SET_NUTRI",
-        payload: { isLoading: false, listFoods: res.data.hints },
+        payload: { isLoading: false, listFoods: searchType === 'dish' ? res.data.hits : res.data.hints },
       });
     } catch (error) {
       console.log({ error });

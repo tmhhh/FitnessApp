@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import userApi from "../../../api/userApi";
@@ -15,13 +15,12 @@ import {Helmet} from "react-helmet";
 import CustomLoading from "../../Common/Placeholders/CustomLoading";
 import NoResults from "../../Common/Placeholders/NoResults";
 import {getTodayWorkoutCalories} from "redux/selectors/exerciseSelector";
-import {Button, Modal} from "antd";
-import {FastField, Form, Formik} from "formik";
-import SelectField from "../../Common/SelectField";
-import {filterNutrition} from "./constants";
-import RangeField from "../../Common/RangeField";
+import {FilterFoodModal} from "./FilterModal";
+import {Radio} from "antd";
 
 export default function NutritionPage() {
+    const [searchType, setSearchType] = useState('food');
+
     const dispatch = useDispatch();
     const {nutriState, nutriSearching, foodName} = useContext(Context);
     const {userInfo, isAuthenticated, authLoading} = useSelector(
@@ -70,12 +69,9 @@ export default function NutritionPage() {
         if (action !== "next") setServingSize(1);
         setModal({...modal, isShown: false});
     };
-    const handleShowModal = (foodID) => {
-        const foundFood = nutriState.listFoods.find(
-            (e) => e.food.foodId === foodID
-        );
+    const handleShowModal = (index) => {
         setModal({
-            foodData: foundFood,
+            foodData: nutriState.listFoods[index],
             isShown: true,
         });
     };
@@ -131,7 +127,15 @@ export default function NutritionPage() {
                     handleRemoveTrackingFood={handleRemoveTrackingFood}
                 />
                 <div className="nutrition_section">
-                    <SearchBar/>
+                    <SearchBar searchType={searchType}/>
+                    <div className='d-flex justify-content-center align-items-center'>
+                        <h3 style={{color: '#a8a8a8'}}>Search by: </h3>
+                        <Radio.Group className='ms-3' defaultValue="food" value={searchType}
+                                     onChange={(e) => setSearchType(e.target.value)} buttonStyle="solid">
+                            <Radio.Button value="food">Ingredients</Radio.Button>
+                            <Radio.Button value="dish">Dishes</Radio.Button>
+                        </Radio.Group>
+                    </div>
                     {nutriState.isLoading ? (
                         <CustomLoading/>
                     ) : nutriState.listFoods ? (
@@ -146,8 +150,6 @@ export default function NutritionPage() {
                                         onClick={handleShowFilterModal}>
                                         <i className="fas fa-filter"></i> Filter
                                     </button>
-                                    <FilterFoodModal visible={filterModal.isShown} handleCancel={handleCloseFilterModal}
-                                                     handleSaveFilter={handleSaveFilter}/>
                                 </div>
                                 <Table striped bordered hover>
                                     <thead>
@@ -161,40 +163,44 @@ export default function NutritionPage() {
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {nutriState.listFoods.map((e, index) => (
-                                        <tr
-                                            key={index}
-                                            role="button"
-                                            onClick={() => handleShowModal(e.food.foodId)}
-                                        >
-                                            <td>{index + 1}</td>
-                                            <td>
-                                                <img
-                                                    height="80"
-                                                    width="80"
-                                                    src={
-                                                        e.food.image
-                                                            ? e.food.image
-                                                            : BASE_IMAGE_BASE_URL + "/dishes-default.png"
-                                                    }
-                                                    alt={e.food.label}
-                                                />
-                                            </td>
-                                            <td>100gr</td>
-                                            <td>{e.food.label}</td>
-                                            <td> {Math.trunc(e.food.nutrients.ENERC_KCAL)}</td>
-                                            <td>
-                                                <div
-                                                    className="d-flex flex-column align-items-start pl-4 justify-content-start">
-                                                    <p>
-                                                        Protein: {Math.trunc(e.food.nutrients.PROCNT)}g
-                                                    </p>
-                                                    <p>Fat: {Math.trunc(e.food.nutrients.FAT)}g</p>
-                                                    <p>Carbs: {Math.trunc(e.food.nutrients.FIBTG)}g</p>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                    {nutriState.listFoods.map((e, index) => {
+                                        const item = e.recipe || e.food;
+                                        const nutrients = item.totalNutrients || item.nutrients;
+                                        return (
+                                            <tr
+                                                key={index}
+                                                role="button"
+                                                onClick={() => handleShowModal(index)}
+                                            >
+                                                <td>{index + 1}</td>
+                                                <td>
+                                                    <img
+                                                        height="80"
+                                                        width="80"
+                                                        src={
+                                                            item.image
+                                                                ? item.image
+                                                                : BASE_IMAGE_BASE_URL + "/dishes-default.png"
+                                                        }
+                                                        alt={item.label}
+                                                    />
+                                                </td>
+                                                <td>{item.totalWeight || '100gr'}</td>
+                                                <td>{item.label}</td>
+                                                <td>{Math.trunc(nutrients.ENERC_KCAL.quantity || nutrients.ENERC_KCAL)}</td>
+                                                <td>
+                                                    <div
+                                                        className="d-flex flex-column align-items-start pl-4 justify-content-start">
+                                                        <p>
+                                                            Protein: {Math.trunc(nutrients.PROCNT.quantity || nutrients.PROCNT)}g
+                                                        </p>
+                                                        <p>Fat: {Math.trunc(nutrients.FAT.quantity || nutrients.FAT)}g</p>
+                                                        <p>Carbs: {Math.trunc(nutrients.FIBTG.quantity || nutrients.FIBTG)}g</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
                                     </tbody>
                                 </Table>
                             </>
@@ -212,215 +218,12 @@ export default function NutritionPage() {
                         showTrackingModal={showTrackingModal}
                         handleCloseTrackingModal={handleCloseTrackingModal}
                     />
+                    <FilterFoodModal visible={filterModal.isShown}
+                                     handleCancel={handleCloseFilterModal}
+                                     handleSaveFilter={handleSaveFilter}/>
                 </div>
             </NutritionContainer>
         </>
     );
 
-}
-
-const FilterFoodModal = ({visible, handleCancel, handleSaveFilter}) => {
-    const formRef = useRef();
-
-    const handleSubmit = () => {
-        if (formRef.current) {
-            formRef.current.handleSubmit();
-        }
-
-        handleCancel();
-    };
-
-    return (
-        <>
-            <Modal
-                visible={visible}
-                title="Filter"
-                onCancel={handleCancel}
-                footer={[
-                    <Button key="back" onClick={handleCancel}>
-                        Cancel
-                    </Button>,
-                    <Button key="submit" type="primary" onClick={handleSubmit}>
-                        Save
-                    </Button>,
-                ]}
-            >
-                <Formik
-                    initialValues={{
-                        calories: [1900, 2600]
-                    }}
-                    onSubmit={(values) => {
-                        handleSaveFilter(values)
-                    }}
-                    innerRef={formRef}
-                >
-                    {(formikProps) => {
-                        const {values} = formikProps;
-                        return (
-                            <Form>
-                                <FastField
-                                    name="health"
-                                    label="Health"
-                                    placeholder="Choose your health regime"
-                                    component={SelectField}
-                                    options={filterNutrition.health}
-                                />
-                                <FastField
-                                    name="category"
-                                    label="Category"
-                                    placeholder="Choose your food category"
-                                    component={SelectField}
-                                    options={filterNutrition.category}
-                                />
-                                <FastField
-                                    name="calories"
-                                    label="Calories range"
-                                    defaultValue={[300, 800]}
-                                    range={[0, 1000]}
-                                    marks={{
-                                        0: {
-                                            style: {
-                                                color: '#96f34b'
-                                            },
-                                            label: <strong>0</strong>
-                                        },
-                                        300: {
-                                            style: {
-                                                color: '#f5d672'
-                                            },
-                                            label: <strong><i className="far fa-salad"></i> Low Calories</strong>
-                                        },
-                                        800: {
-                                            style: {
-                                                color: '#fc7932'
-                                            },
-                                            label: <strong><i className="far fa-cheeseburger"></i> High
-                                                Calories</strong>
-                                        },
-                                        1000: {
-                                            style: {
-                                                color: '#ff2600',
-                                            },
-                                            label: <strong>1000</strong>,
-                                        }
-                                    }}
-                                    component={RangeField}
-                                />
-                            </Form>
-                        );
-                    }}
-                </Formik>
-            </Modal>
-        </>
-    );
-}
-
-const FilterDishModal = ({visible, handleCancel, handleSaveFilter}) => {
-    const formRef = useRef();
-
-    const handleSubmit = () => {
-        if (formRef.current) {
-            formRef.current.handleSubmit();
-        }
-
-        handleCancel();
-    };
-
-    return (
-        <>
-            <Modal
-                visible={visible}
-                title="Filter"
-                onCancel={handleCancel}
-                footer={[
-                    <Button key="back" onClick={handleCancel}>
-                        Cancel
-                    </Button>,
-                    <Button key="submit" type="primary" onClick={handleSubmit}>
-                        Save
-                    </Button>,
-                ]}
-            >
-                <Formik
-                    initialValues={{
-                        calories: [1900, 2600]
-                    }}
-                    onSubmit={(values) => {
-                        handleSaveFilter(values)
-                    }}
-                    innerRef={formRef}
-                >
-                    {(formikProps) => {
-                        const {values} = formikProps;
-                        return (
-                            <Form>
-                                <FastField
-                                    name="health"
-                                    label="Health"
-                                    placeholder="Choose your health regime"
-                                    component={SelectField}
-                                    options={filterNutrition.health}
-                                />
-                                <FastField
-                                    name="diet"
-                                    label="Diet"
-                                    placeholder="Choose your diet trend"
-                                    component={SelectField}
-                                    options={filterNutrition.diet}
-                                />
-                                <FastField
-                                    name="cuisineType"
-                                    label="Cuisine Type"
-                                    placeholder="Choose your cuisine type"
-                                    component={SelectField}
-                                    options={filterNutrition.cuisine}
-                                />
-                                <FastField
-                                    name="category"
-                                    label="Category"
-                                    placeholder="Choose your food category"
-                                    component={SelectField}
-                                    options={filterNutrition.category}
-                                />
-                                <FastField
-                                    name="calories"
-                                    label="Calories range"
-                                    defaultValue={[1900, 2600]}
-                                    range={[1200, 3500]}
-                                    marks={{
-                                        1200: {
-                                            style: {
-                                                color: '#f89e6e'
-                                            },
-                                            label: <strong><i className="fas fa-fire-alt"></i> Low</strong>
-                                        },
-                                        1900: {
-                                            style: {
-                                                color: 'pink'
-                                            },
-                                            label: <strong><i className="fas fa-venus"></i> Women</strong>
-                                        },
-                                        2600: {
-                                            style: {
-                                                color: '#5db9ff'
-                                            },
-                                            label: <strong><i className="fas fa-mars"></i> Men</strong>
-                                        },
-                                        3500: {
-                                            style: {
-                                                color: '#f50',
-                                            },
-                                            label: <strong><i
-                                                className="fas fa-exclamation-triangle"></i> High</strong>,
-                                        }
-                                    }}
-                                    component={RangeField}
-                                />
-                            </Form>
-                        );
-                    }}
-                </Formik>
-            </Modal>
-        </>
-    );
 }

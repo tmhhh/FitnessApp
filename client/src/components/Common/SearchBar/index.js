@@ -6,7 +6,7 @@ import prodApi from "../../../api/prodApi";
 import prodSlice from "../../../redux/slices/prodSlice";
 import { getProduct } from "../../../redux/slices/prodSlice";
 import { useDispatch } from "react-redux";
-export default function SearchBar({ listExercises, setListExercisesCop }) {
+export default function SearchBar({ listExercises, setListExercisesCop, searchType }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const { nutriSearching } = useContext(Context);
@@ -22,7 +22,7 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
         if (e.target.value.trim() !== "") {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
-            nutriSearching({foodName: param});
+            nutriSearching({foodName: param}, searchType);
           }, 2000);
         } else {
           if (timerRef.current) clearTimeout(timerRef.current);
