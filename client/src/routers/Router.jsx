@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import HomePage from "../components/Pages/HomePage";
 import TrainingPage from "../components/Pages/TrainingPage";
@@ -6,22 +5,21 @@ import TrainingPage from "../components/Pages/TrainingPage";
 import NutritionPage from "../components/Pages/NutritionPage";
 import ShoppingPage from "../components/Pages/ShoppingPage";
 
-import Navbar from "../components/Partials/Navbar";
 import Footer from "../components/Partials/Footer";
+import Navbar from "../components/Partials/Navbar";
 
+import ServicePage from "components/Pages/ServicePage";
+import { Helmet } from "react-helmet";
 import AdminPage from "../components/Admin/AdminPage";
+import BlogPage from "../components/Pages/BlogPage";
 import CheckoutWrapper from "../components/Pages/CheckoutPage/CheckoutPageWrapper";
+import PersonalPage from "../components/Pages/PersonalPage";
+import EditPostPage from "../components/Pages/PostPage/EditPostPage";
+import NewPostPage from "../components/Pages/PostPage/NewPostPage";
 import ProductDetail from "../components/Pages/ProductDetailPage";
-import NotiToast from "../components/Common/Toast";
+import Post from "../components/Post/Post";
 import AdminRoute from "../components/Routing/AdminRoute";
 import ProtectedRoute from "../components/Routing/ProtectedRoute";
-import Post from "../components/Post/Post";
-import NewPostPage from "../components/Pages/PostPage/NewPostPage";
-import EditPostPage from "../components/Pages/PostPage/EditPostPage";
-import PersonalPage from "../components/Pages/PersonalPage";
-import BlogPage from "../components/Pages/BlogPage";
-import { Helmet } from "react-helmet";
-import ServicePage from "components/Pages/ServicePage";
 
 export default function MainRouter() {
   const location = useLocation();
@@ -30,7 +28,7 @@ export default function MainRouter() {
       <Navbar />
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Fitness App</title>
+        <title>Fitness App</title>a
         <meta name="description" content="The world of fitness application" />
         <meta name="keyword" content="Fitness Application" />
       </Helmet>
@@ -50,7 +48,6 @@ export default function MainRouter() {
         <Route exact path="/" component={HomePage} />
         <Route render={() => <div>NOT FOUND !!!</div>} />
       </Switch>
-      {/* <NotiToast /> */}
       {!location.pathname.startsWith("/admin") && <Footer />}
     </>
   );

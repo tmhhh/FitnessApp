@@ -2,7 +2,7 @@ import { Form } from "formik";
 import { Row, Col, Select } from "antd";
 import { Option } from "antd/lib/mentions";
 import { Typography } from "antd";
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 
 const GoalDataForm = ({ ...props }) => {
   const groupBtn = [
@@ -47,10 +47,8 @@ const GoalDataForm = ({ ...props }) => {
   return (
     <Form {...props}>
       <Paragraph>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-        consequuntur error accusantium recusandae eius quaerat! Eius soluta,
-        porro modi iste et, asperiores ratione maxime quaerat, cumque repellat
-        cupiditate. Ut, adipisci!
+        After using your data for calculating your body fat. Your body fat is{" "}
+        <Text type="danger">15%</Text>
       </Paragraph>
       <Row gutter={10}>
         <Col span={12}>

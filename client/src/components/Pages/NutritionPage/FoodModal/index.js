@@ -1,16 +1,15 @@
 import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
-import CaloriesChart from "./CaloriesChart";
-import "./style.scss";
+import Modal from "react-bootstrap/Modal";
+import Row from "react-bootstrap/Row";
+import { useDispatch } from "react-redux";
+import userApi from "../../../../api/userApi";
+import authSlice from "../../../../redux/slices/authSlice";
 import { calculatePercentage } from "../../../../utils/calculate";
 import AddFoodModal from "./AddFoodModal";
-import { useDispatch } from "react-redux";
-import authSlice from "../../../../redux/slices/authSlice";
-import userApi from "../../../../api/userApi";
+import CaloriesChart from "./CaloriesChart";
+import "./style.scss";
 export default function FoodModal({
   handleCloseModal,
   modal: {
@@ -18,10 +17,8 @@ export default function FoodModal({
     foodData,
     foodData: { food },
   },
-  setServingSize,
   servingSize,
   handleServingChange,
-  goalKCAL,
 }) {
   const dispatch = useDispatch();
   //  ADD FOOD MODAL

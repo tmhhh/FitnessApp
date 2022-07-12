@@ -157,7 +157,9 @@ export default function TrackingSidebar({
                     <div className="tracking_meal_close_button d-flex justify-content-between align-items-center">
                       <i
                         style={{ color: "red", cursor: "pointer" }}
-                        onClick={() => handleRemoveTrackingFood(e.id)}
+                        onClick={() =>
+                          handleRemoveTrackingFood(e.id, e.foodServing, 1)
+                        }
                         className="fas fa-times"
                       ></i>
                       {/* <input
@@ -206,7 +208,9 @@ export default function TrackingSidebar({
                   <div className="tracking_meal_close_button d-flex justify-content-between align-items-center">
                     <i
                       style={{ color: "red", cursor: "pointer" }}
-                      onClick={() => handleRemoveTrackingFood(e.id)}
+                      onClick={() =>
+                        handleRemoveTrackingFood(e.id, e.foodServing, 2)
+                      }
                       className="fas fa-times"
                     ></i>
                     {/* <input
@@ -254,7 +258,9 @@ export default function TrackingSidebar({
                   <div className="tracking_meal_close_button d-flex justify-content-between align-items-center">
                     <i
                       style={{ color: "red", cursor: "pointer" }}
-                      onClick={() => handleRemoveTrackingFood(e.id)}
+                      onClick={() =>
+                        handleRemoveTrackingFood(e.id, e.foodServing, 3)
+                      }
                       className="fas fa-times"
                     ></i>
                     {/* <input

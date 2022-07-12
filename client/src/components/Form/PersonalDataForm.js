@@ -1,115 +1,34 @@
-import { Form, FastField } from "formik";
-import { Row, Col } from "antd";
-import { Radio, Divider, Typography } from "antd";
+import { Col, Divider, Popover, Radio, Row, Typography } from "antd";
+import { colors } from "assets/color";
+import { FastField, Form } from "formik";
 
-import InputField from "components/Common/InputField";
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
-const PersonalDataForm = () => {
-  const listInputFields = [
-    {
-      group: "Overall",
-      data: [
-        {
-          name: "userHeight",
-          label: "Height (inch)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userWeight",
-          label: "Weight (lb)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userAge",
-          label: "Age",
-          component: () => InputField,
-          required: true,
-        },
-      ],
-    },
-    {
-      group: "Upper Body",
-      data: [
-        {
-          name: "userNeck",
-          label: "Neck (cm)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userBiceps",
-          label: "Biceps (cm)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userChest",
-          label: "Chest (cm)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userForearm",
-          label: "Forearm (cm)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userAbdomen",
-          label: "Abdomen (cm)",
-          component: () => InputField,
-          required: true,
-        },
-        {
-          name: "userWrist",
-          label: "Wrist (cm)",
-          component: () => InputField,
-          required: true,
-        },
-      ],
-    },
-    {
-      group: "Lower Body",
-      data: [
-        {
-          name: "userHip",
-          label: "Hip",
-          component: () => InputField,
-        },
-
-        {
-          name: "userThigh",
-          label: "Thigh (cm)",
-          component: () => InputField,
-        },
-
-        {
-          name: "userKnee",
-          label: "Knee (cm)",
-          component: () => InputField,
-        },
-
-        {
-          name: "userAnkle",
-          label: "Ankle (cm)",
-          component: () => InputField,
-        },
-      ],
-    },
-  ];
+const PersonalDataForm = ({ listInputFieldsStep1 }) => {
   return (
     <Form>
+      <Paragraph>
+        In order to use this feature, first you need to provide us your ....
+        data. Don't know how to obtain these number? Don't worry, we are here to
+        help you.
+      </Paragraph>
       <Row>
-        {/* <Col span={24}>Descriptionnnnn</Col> */}
-        {listInputFields.map(({ group, data }) => (
+        {listInputFieldsStep1.map(({ group, data }) => (
           <>
             <Divider type="horizontal" />
+
             <Col span={4}>
-              <Text>{group}</Text>
+              <Row align="middle">
+                <Text style={{ marginRight: 10 }}>{group}</Text>
+                <Popover trigger="hover" content={<div>ABC</div>}>
+                  <ion-icon
+                    style={{ fontSize: 20, color: colors.primaryBlue }}
+                    name="information-circle-outline"
+                  ></ion-icon>
+                </Popover>
+              </Row>
             </Col>
+
             <Col span={20}>
               <Row gutter={10}>
                 {data.map((item) => (
