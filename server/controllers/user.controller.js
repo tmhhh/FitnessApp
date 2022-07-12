@@ -307,15 +307,7 @@ module.exports = {
   addTrackingFood: async (req, res) => {
     try {
       const {
-        food: {
-          addedDate,
-          // id,
-          // foodServing,
-          // mealType,
-          // foodKCAL,
-          // foodName,
-          goalKCAL,
-        },
+        food: { addedDate, goalKCAL },
         food,
       } = req.body;
       const foundUser = await userModel.findById(req.userID);
@@ -325,28 +317,46 @@ module.exports = {
         (item) => item.addedDate === addedDate
       );
       if (checkUserTrackingFood) {
-        checkUserTrackingFood.listFoods.push({
-          ...food,
-        });
-        console.log(checkUserTrackingFood);
-
-        updatedUser = await userModel.findByIdAndUpdate(
-          req.userID,
-          {
-            "trackingInfo.trackingFood": checkUserTrackingFood,
-          },
-          { new: true }
+        const isAddedBeforeFood = checkUserTrackingFood.listFoods.find(
+          (item) => item.id === food.id + food.mealType
         );
-        console.log("exist");
-        console.log(updatedUser.trackingInfo.trackingFood);
+        if (isAddedBeforeFood) {
+          checkUserTrackingFood.listFoods = checkUserTrackingFood.listFoods.map(
+            (item) => {
+              if (item.id === food.id + food.mealType) {
+                item.foodServing = +item.foodServing + +food.foodServing;
+                return item;
+              } else {
+                return item;
+              }
+            }
+          );
+          updatedUser = await userModel.findByIdAndUpdate(
+            req.userID,
+            {
+              "trackingInfo.trackingFood": checkUserTrackingFood,
+            },
+            { new: true }
+          );
+        } else {
+          checkUserTrackingFood.listFoods.push({
+            ...food,
+            id: food.id + food.mealType,
+          });
+          updatedUser = await userModel.findByIdAndUpdate(
+            req.userID,
+            {
+              "trackingInfo.trackingFood": checkUserTrackingFood,
+            },
+            { new: true }
+          );
+        }
       } else {
         foundUser.trackingInfo.trackingFood.push({
           goalKCAL,
-          listFoods: [{ ...food }],
+          listFoods: [{ ...food, id: food.id + food.mealType }], // id need to be unique in order to integrate with remove food API
         });
         updatedUser = await foundUser.save();
-        console.log("not exist");
-        console.log(updatedUser);
       }
       return res.status(200).json({ isSuccess: true, updatedUser });
     } catch (error) {
@@ -359,13 +369,25 @@ module.exports = {
   removeTrackingFood: async (req, res) => {
     try {
       const { id } = req.query;
+      const addedDate = new Date().toLocaleDateString();
       const foundUser = await userModel.findById(req.userID);
-      foundUser.trackingInfo.trackingFood.listFoods =
-        foundUser.trackingInfo.trackingFood.listFoods.filter(
-          (e) => e.id !== id
-        );
-      const updatedUser = await foundUser.save();
-      // console.log(updatedUser.trackingInfo.trackingFood);
+      foundUser.trackingInfo.trackingFood =
+        foundUser.trackingInfo.trackingFood.map((item) => {
+          if (item.addedDate === addedDate) {
+            return {
+              ...item.toObject(), //convert mongoose object to js object
+              listFoods: item.listFoods.filter((food) => food.id !== id),
+            };
+          } else return item;
+        });
+
+      const updatedUser = await userModel.findByIdAndUpdate(
+        req.userID,
+        {
+          "trackingInfo.trackingFood": foundUser.trackingInfo.trackingFood,
+        },
+        { new: true }
+      );
       return res.status(200).json({ isSuccess: true, updatedUser });
     } catch (error) {
       console.log(error);
@@ -404,7 +426,6 @@ module.exports = {
           path: "prodCategory.cateName",
         },
       });
-      console.log(updatedUser.favoriteProducts);
       mapFavoriteProdsCate(updatedUser);
       return res
         .status(200)
@@ -429,8 +450,6 @@ module.exports = {
         $inc: { "prodRating.favorite_count": -1 },
       });
       const listRes = await Promise.all([foundUser.save(), updatedProd]);
-      // console.log(foundUser.favoriteProducts);
-
       return res.status(200).json({ isSuccess: true, removedFavorite: id });
     } catch (error) {
       console.log(error);
@@ -489,7 +508,6 @@ module.exports = {
   removeWorkoutSchedule: async (req, res) => {
     try {
       const { exerciseID, createdDate } = req.body;
-      console.log({ exerciseID, createdDate });
       const foundUser = await userModel.findById(req.userID);
       foundUser.workoutSchedule = foundUser.workoutSchedule.filter((e) => {
         if (
@@ -501,7 +519,6 @@ module.exports = {
         }
         return false;
       });
-      console.log(foundUser.workoutSchedule);
       await foundUser.save();
       return res.status(200).json({
         isSuccess: true,

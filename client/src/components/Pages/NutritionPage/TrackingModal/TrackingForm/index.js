@@ -1,5 +1,4 @@
 import { Formik } from "formik";
-import { useState } from "react";
 import * as yup from "yup";
 
 import { Typography } from "antd";
@@ -14,12 +13,12 @@ export default function TrackingForm({
   formRef,
   formData,
   handleUpdateTrackingInfo,
+  listInputFieldsStep1,
   // listInputFields,
 }) {
-  const [error, setError] = useState(null);
-
+  let content;
   if (activeStep === 0) {
-    return (
+    content = (
       <Formik
         innerRef={formRef}
         validationSchema={yup.object().shape({
@@ -117,12 +116,17 @@ export default function TrackingForm({
         }}
       >
         {(formikProps) => {
-          return <PersonalDataForm {...formikProps} />;
+          return (
+            <PersonalDataForm
+              {...formikProps}
+              listInputFieldsStep1={listInputFieldsStep1}
+            />
+          );
         }}
       </Formik>
     );
   } else if (activeStep === 1) {
-    return (
+    content = (
       <Formik
         validationSchema={yup.object().shape({
           userHeight: yup
@@ -161,7 +165,7 @@ export default function TrackingForm({
       </Formik>
     );
   } else if (activeStep === 2) {
-    return (
+    content = (
       <>
         <Paragraph>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus in
@@ -172,4 +176,6 @@ export default function TrackingForm({
       </>
     );
   }
+
+  return <>{content}</>;
 }

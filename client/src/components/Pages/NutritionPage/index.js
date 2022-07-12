@@ -16,6 +16,7 @@ import { Helmet } from "react-helmet";
 import CustomLoading from "../../Common/Placeholders/CustomLoading";
 import NoResults from "../../Common/Placeholders/NoResults";
 import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
+import InputField from "components/Common/InputField";
 export default function NutritionPage() {
   const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
@@ -27,7 +28,100 @@ export default function NutritionPage() {
     isShown: false,
     foodData: {},
   });
+  const listInputFieldsStep1 = [
+    {
+      group: "Overall",
+      data: [
+        {
+          name: "userHeight",
+          label: "Height (inch)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userWeight",
+          label: "Weight (lb)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userAge",
+          label: "Age",
+          component: () => InputField,
+          required: true,
+        },
+      ],
+    },
+    {
+      group: "Upper Body",
+      data: [
+        {
+          name: "userNeck",
+          label: "Neck (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userBiceps",
+          label: "Biceps (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userChest",
+          label: "Chest (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userForearm",
+          label: "Forearm (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userAbdomen",
+          label: "Abdomen (cm)",
+          component: () => InputField,
+          required: true,
+        },
+        {
+          name: "userWrist",
+          label: "Wrist (cm)",
+          component: () => InputField,
+          required: true,
+        },
+      ],
+    },
+    {
+      group: "Lower Body",
+      data: [
+        {
+          name: "userHip",
+          label: "Hip",
+          component: () => InputField,
+        },
 
+        {
+          name: "userThigh",
+          label: "Thigh (cm)",
+          component: () => InputField,
+        },
+
+        {
+          name: "userKnee",
+          label: "Knee (cm)",
+          component: () => InputField,
+        },
+
+        {
+          name: "userAnkle",
+          label: "Ankle (cm)",
+          component: () => InputField,
+        },
+      ],
+    },
+  ];
   //
   const [servingSize, setServingSize] = useState(1);
 
@@ -163,6 +257,7 @@ export default function NutritionPage() {
           <TrackingModal
             showTrackingModal={showTrackingModal}
             handleCloseTrackingModal={handleCloseTrackingModal}
+            listInputFieldsStep1={listInputFieldsStep1}
           />
         </div>
       </NutritionContainer>
