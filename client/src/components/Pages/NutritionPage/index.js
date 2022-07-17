@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {Table} from "react-bootstrap";
 import {useDispatch, useSelector} from "react-redux";
 import userApi from "../../../api/userApi";
@@ -15,14 +15,15 @@ import {Helmet} from "react-helmet";
 import CustomLoading from "../../Common/Placeholders/CustomLoading";
 import NoResults from "../../Common/Placeholders/NoResults";
 import {getTodayWorkoutCalories} from "redux/selectors/exerciseSelector";
-import {FilterFoodModal} from "./FilterModal";
+import {FilterFoodModal, FilterModal} from "./FilterModal";
 import {Radio} from "antd";
 
 export default function NutritionPage() {
     const [searchType, setSearchType] = useState('food');
 
+    const searchBarRef = useRef(null);
     const dispatch = useDispatch();
-    const {nutriState, nutriSearching, foodName} = useContext(Context);
+    const {nutriState, nutriSearching, foodName, setFoodName} = useContext(Context);
     const {userInfo, isAuthenticated, authLoading} = useSelector(
         (state) => state.authReducer
     );
@@ -31,6 +32,12 @@ export default function NutritionPage() {
         isShown: false,
         foodData: {},
     });
+
+    useEffect(() => {
+        if (foodName) {
+            searchBarRef.current.searchNutrition();
+        }
+    }, [searchType])
 
     /**
      * FILTER MODAL
@@ -101,8 +108,20 @@ export default function NutritionPage() {
             health: values.health?.value,
             category: values.category?.value,
             calories: `${values.calories[0]}-${values.calories[1]}`,
+            diet: values.diet?.value,
+            cuisineType: values.cuisineType?.value,
             foodName,
-        })
+        }, searchType);
+    }
+
+    /**
+     * Handle view dishes from ingredient
+     */
+    const handleOnViewDishClick = (ingredient) => {
+        setFoodName(ingredient)
+        setSearchType('dish');
+
+        handleCloseModal('close');
     }
 
     //
@@ -127,7 +146,7 @@ export default function NutritionPage() {
                     handleRemoveTrackingFood={handleRemoveTrackingFood}
                 />
                 <div className="nutrition_section">
-                    <SearchBar searchType={searchType}/>
+                    <SearchBar searchType={searchType} ref={searchBarRef}/>
                     <div className='d-flex justify-content-center align-items-center'>
                         <h3 style={{color: '#a8a8a8'}}>Search by: </h3>
                         <Radio.Group className='ms-3' defaultValue="food" value={searchType}
@@ -185,17 +204,17 @@ export default function NutritionPage() {
                                                         alt={item.label}
                                                     />
                                                 </td>
-                                                <td>{item.totalWeight || '100gr'}</td>
+                                                <td>{Math.round((item.totalWeight || 100)  * 100) / 100 + 'g'}</td>
                                                 <td>{item.label}</td>
-                                                <td>{Math.trunc(nutrients.ENERC_KCAL.quantity || nutrients.ENERC_KCAL)}</td>
+                                                <td>{Math.trunc(nutrients.ENERC_KCAL?.quantity || nutrients.ENERC_KCAL)}</td>
                                                 <td>
                                                     <div
                                                         className="d-flex flex-column align-items-start pl-4 justify-content-start">
                                                         <p>
-                                                            Protein: {Math.trunc(nutrients.PROCNT.quantity || nutrients.PROCNT)}g
+                                                            Protein: {Math.trunc(nutrients.PROCNT?.quantity || nutrients.PROCNT)}g
                                                         </p>
-                                                        <p>Fat: {Math.trunc(nutrients.FAT.quantity || nutrients.FAT)}g</p>
-                                                        <p>Carbs: {Math.trunc(nutrients.FIBTG.quantity || nutrients.FIBTG)}g</p>
+                                                        <p>Fat: {Math.trunc(nutrients.FAT?.quantity || nutrients.FAT)}g</p>
+                                                        <p>Carbs: {Math.trunc(nutrients.FIBTG?.quantity || nutrients.FIBTG)}g</p>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -213,14 +232,18 @@ export default function NutritionPage() {
                         servingSize={servingSize}
                         modal={modal}
                         handleCloseModal={handleCloseModal}
+                        handleOnViewDishClick={handleOnViewDishClick}
                     />
                     <TrackingModal
                         showTrackingModal={showTrackingModal}
                         handleCloseTrackingModal={handleCloseTrackingModal}
                     />
-                    <FilterFoodModal visible={filterModal.isShown}
-                                     handleCancel={handleCloseFilterModal}
-                                     handleSaveFilter={handleSaveFilter}/>
+                    <FilterModal
+                        visible={filterModal.isShown}
+                        handleCancel={handleCloseFilterModal}
+                        handleSaveFilter={handleSaveFilter}
+                        searchType={searchType}
+                    />
                 </div>
             </NutritionContainer>
         </>

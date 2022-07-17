@@ -42,7 +42,7 @@ export default function ContextProvider({ children }) {
   });
 
   //SEARCHING NUTRITION
-  const nutriSearching = async (params, searchType) => {
+  const nutriSearching = async (params, searchType = 'food') => {
     try {
       nutriDispatch({
         type: "SET_NUTRI",
@@ -350,6 +350,7 @@ export default function ContextProvider({ children }) {
     setAuthForm,
     loadUser,
     foodName,
+    setFoodName,
     handleRemoveFavorite,
     handleAddFavorite,
   };

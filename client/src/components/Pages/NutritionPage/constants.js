@@ -152,4 +152,55 @@ export const filterNutrition = {
         },
     ],
 
+    measure: {
+        'ounce': {
+            color: '#FBCE4A'
+        },
+        'gram': {
+            color: '#AFBAC5'
+        },
+        'pound': {
+            color: '#5A68AD'
+        },
+        'kilogram': {
+            color: '#6E8598'
+        },
+        'pinch': {
+            color: '#2EBFBC'
+        },
+        'liter': {
+            color: '#59B2E2'
+        },
+        'leaf': {
+            color: '#55D26D'
+        },
+        'fluid ounce': {
+            color: '#E4E575'
+        },
+        'gallon': {
+            color: '#1A8BC9'
+        },
+        'pint': {
+            color: '#C9C93A'
+        },
+        'quart': {
+            color: '#E2D9D4'
+        },
+        'milliliter': {
+            color: '#42C5D9'
+        },
+        'drop': {
+            color: '#FFFFFF'
+        },
+        'cup': {
+            color: '#2EBFBC'
+        },
+        'tablespoon': {
+            color: '#8C9EB0'
+        },
+        'teaspoon': {
+            color: '#4D7391'
+        },
+    },
+
 }
