@@ -1,4 +1,4 @@
-import {useState, forwardRef} from "react";
+import {useState, forwardRef, useContext, useEffect} from "react";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,10 +11,11 @@ import authSlice from "../../../../redux/slices/authSlice";
 import userApi from "../../../../api/userApi";
 import messageAntd, {messageTypes} from "../../../Common/Toast/message";
 import {Dropdown} from "react-bootstrap";
-import {Image, Tabs, Tag} from 'antd';
+import {Button, Image, Tabs, Tag} from 'antd';
 import {BASE_IMAGE_BASE_URL} from "../../../../assets/constants";
 import { Typography } from 'antd';
 import {filterNutrition} from "../constants";
+import {Context} from "../../../../contexts";
 
 const { Text } = Typography;
 const { TabPane } = Tabs;
@@ -38,7 +39,6 @@ export default function FoodModal({
                                       modal: {
                                           isShown,
                                           foodData,
-                                          foodData: {food, recipe},
                                       },
                                       setServingSize,
                                       servingSize,
@@ -47,9 +47,18 @@ export default function FoodModal({
                                       handleOnViewDishClick
                                   }) {
     let nutrients = [];
-    let entity;
+    let entity = {};
 
     const dispatch = useDispatch();
+
+    const {nutriState, nutriSearchById} = useContext(Context);
+
+    const [previousDish, setPreviousDish] = useState(null);
+    const [entityData, setEntityData] = useState(foodData);
+    useEffect(() => {
+        setPreviousDish(null);
+        setEntityData(foodData);
+    }, [foodData])
 
     //  ADD FOOD
     const [mealType, setMealType] = useState(0);
@@ -63,7 +72,9 @@ export default function FoodModal({
     }
 
     let nutriPercent = {};
-    if (Object.keys(foodData).length > 0) {
+    if (Object.keys(entityData).length > 0) {
+        const {food, recipe} = entityData;
+
         entity = food || recipe;
         nutrients = food ? food.nutrients : {...recipe.totalNutrients};
         if (recipe) {
@@ -72,7 +83,6 @@ export default function FoodModal({
             }
         }
 
-        console.log(11111, typeof nutrients.ENERC_KCAL, nutrients);
         nutriPercent = {
             fat: calculatePercentage(
                 nutrients.ENERC_KCAL * servingSize,
@@ -100,7 +110,7 @@ export default function FoodModal({
                 foodServing: servingSize,
                 foodKCAL: nutrients.ENERC_KCAL,
                 mealType,
-                id: food ? entity.foodId : entity.uri?.substring(entity.uri.indexOf('#') + 1),
+                id: entityData.food ? entity.foodId : entity.uri?.substring(entity.uri.indexOf('#') + 1),
                 goalKCAL: 3000,
             };
             // console.log(addedFood.addedDate.toLocaleDateString());
@@ -120,6 +130,16 @@ export default function FoodModal({
             console.log(error);
         }
     };
+
+    const handleViewIngredientDetail = async (id) => {
+        setPreviousDish(foodData);
+        setEntityData(await nutriSearchById(id));
+    }
+
+    const backToDish = () => {
+        setEntityData(previousDish);
+        setPreviousDish(null);
+    }
 
     return (
         <>
@@ -146,6 +166,14 @@ export default function FoodModal({
                         </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
+                        {!!previousDish && (
+                            <div className='d-flex justify-content-end'>
+                                <Button className='p-0' type="link" onClick={backToDish}>
+                                    <i className="far fa-arrow-alt-circle-left me-2"></i>Back to {previousDish.recipe.label}
+                                </Button>
+                            </div>
+                        )}
+
                         <Tabs defaultActiveKey="1" >
                             <TabPane tab="Nutritional Ingredients" key="1">
                                 <Container>
@@ -217,9 +245,9 @@ export default function FoodModal({
                                             </div>
                                             {" "}
                                         </Col>
-                                        {food && (
+                                        {entityData.food && (
                                             <Col xs={6} md={6} className='d-flex justify-content-end align-items-start'>
-                                                <button className='common-outline-button common-outline-button-blue' style={{fontSize: '16px'}} onClick={() => handleOnViewDishClick(food.label)}>
+                                                <button className='common-outline-button common-outline-button-blue' style={{fontSize: '16px'}} onClick={() => handleOnViewDishClick(entityData.food.label)}>
                                                     🍲 See dishes made from this ingredient <i className="far fa-hand-point-right"></i>
                                                 </button>
                                             </Col>
@@ -316,7 +344,7 @@ export default function FoodModal({
                                     </Row>
                                 </Container>
                             </TabPane>
-                            {recipe && (
+                            {entityData.recipe && (
                                 <TabPane tab="Recipe" key="2">
                                     <Container>
                                         <div className="d-flex justify-content-center align-items-center">
@@ -325,10 +353,10 @@ export default function FoodModal({
                                                     <Col xs={6} md={6} xl={6} key={i}>
                                                         <div className='common-float mt-2 ms-3 d-flex position-relative' style={{height: 120}}>
                                                             <Image width={90} src={ingr.image}></Image>
-                                                            <div  className='ms-3'>
+                                                            <div  className='ms-3 d-flex flex-column align-items-start'>
                                                                 <Text italic>{ingr.text}</Text>
-                                                                <br/>
                                                                 <Text italic ><strong>Total weight: </strong>{Math.trunc(ingr.weight * servingSize)}g</Text>
+                                                                <Button className='p-0' type="link" onClick={() => handleViewIngredientDetail(ingr.foodId)}>View ingredient detail</Button>
                                                             </div>
                                                             <Tag color={filterNutrition.measure[ingr.measure]?.color} className='position-absolute bottom-0 end-0 translate-middle-y'>
                                                                 {ingr.quantity + ' '}{!ingr.measure || ingr.measure === '\<unit\>' ? 'unit' : ingr.measure}

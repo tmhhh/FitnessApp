@@ -61,6 +61,16 @@ export default function ContextProvider({ children }) {
     }
   };
 
+  const nutriSearchById = async (id, searchType = 'food') => {
+    try {
+      const res = await axios.request(NUTRI_API_CONFIG({foodName: id}, searchType));
+
+      return (searchType === 'dish' ? res.data.hits : res.data.hints)[0];
+    } catch (error) {
+      console.log({ error });
+    }
+  }
+
   // LOAD USER DATA
   const loadUser = useCallback(async () => {
     try {
@@ -343,6 +353,7 @@ export default function ContextProvider({ children }) {
   const contextData = {
     addToCart,
     nutriSearching,
+    nutriSearchById,
     nutriState,
     toast,
     setToast,
