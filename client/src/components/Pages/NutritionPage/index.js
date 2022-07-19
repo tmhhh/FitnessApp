@@ -204,17 +204,17 @@ export default function NutritionPage() {
                                                         alt={item.label}
                                                     />
                                                 </td>
-                                                <td>{Math.round((item.totalWeight || 100)  * 100) / 100 + 'g'}</td>
+                                                <td>{'100g'}</td>
                                                 <td>{item.label}</td>
-                                                <td>{Math.trunc(nutrients.ENERC_KCAL?.quantity || nutrients.ENERC_KCAL)}</td>
+                                                <td>{Math.trunc(nutrients.ENERC_KCAL?.quantity * 100 / item.totalWeight || nutrients.ENERC_KCAL)}</td>
                                                 <td>
                                                     <div
                                                         className="d-flex flex-column align-items-start pl-4 justify-content-start">
                                                         <p>
-                                                            Protein: {Math.trunc(nutrients.PROCNT?.quantity || nutrients.PROCNT)}g
+                                                            Protein: {Math.trunc(nutrients.PROCNT?.quantity * 100 / item.totalWeight || nutrients.PROCNT)}g
                                                         </p>
-                                                        <p>Fat: {Math.trunc(nutrients.FAT?.quantity || nutrients.FAT)}g</p>
-                                                        <p>Carbs: {Math.trunc(nutrients.FIBTG?.quantity || nutrients.FIBTG)}g</p>
+                                                        <p>Fat: {Math.trunc(nutrients.FAT?.quantity * 100 / item.totalWeight || nutrients.FAT)}g</p>
+                                                        <p>Carbs: {Math.trunc(nutrients.FIBTG?.quantity * 100 / item.totalWeight || nutrients.FIBTG)}g</p>
                                                     </div>
                                                 </td>
                                             </tr>

@@ -79,7 +79,7 @@ export default function FoodModal({
         nutrients = food ? food.nutrients : {...recipe.totalNutrients};
         if (recipe) {
             for(let index in nutrients) {
-                nutrients[index] = +nutrients[index]?.quantity;
+                nutrients[index] = +nutrients[index]?.quantity * 100/recipe.totalWeight;
             }
         }
 
