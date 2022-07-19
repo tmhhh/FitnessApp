@@ -1,12 +1,13 @@
-import { Formik } from "formik";
+import { FastField, Form, Formik } from "formik";
 import * as yup from "yup";
 
-import { Typography } from "antd";
-import { GoalDataForm, PersonalDataForm } from "components/Form";
+import { Col, Input, Row, Typography } from "antd";
+import { colors } from "assets/color";
+import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
 import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
 import "./style.scss";
-const { Paragraph } = Typography;
+const { Paragraph, Text } = Typography;
 export default function TrackingForm({
   activeStep,
   setActiveStep,
@@ -117,10 +118,203 @@ export default function TrackingForm({
       >
         {(formikProps) => {
           return (
-            <PersonalDataForm
-              {...formikProps}
-              listInputFieldsStep1={listInputFieldsStep1}
-            />
+            <Form>
+              <Paragraph>
+                In order to use this feature, we have to obtain your skin fold
+                measurements. Don't know how to obtain these number? Don't
+                worry, we are here to help you.
+              </Paragraph>
+              <Row>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Size
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Measurement 1
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Measurement 2
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Measurement 3
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Biceps
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="biceps1"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="biceps2"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="biceps3"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Triceps{" "}
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="triceps1"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="triceps2"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="triceps3"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Subscapular{" "}
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="subscapular1"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="subscapular2"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="subscapular3"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <Text
+                    style={{
+                      padding: "4px 11px",
+                      background: colors.black,
+                      color: colors.white,
+                      fontWeight: "700",
+                    }}
+                    className="d-block text-center  border"
+                  >
+                    Suprailiac{" "}
+                  </Text>
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="suprailiac1"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="suprailiac2"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+                <Col span={6}>
+                  <FastField
+                    required
+                    name="suprailiac3"
+                    component={(props) => <Input {...props} />}
+                  />
+                </Col>
+              </Row>
+            </Form>
           );
         }}
       </Formik>
