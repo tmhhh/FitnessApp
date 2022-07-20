@@ -4,7 +4,7 @@ export default function NoResults () {
     return (
         <div className="d-flex flex-column align-items-center w-100">
             <img src={noResults} alt="No results" />
-            <h2>No results match your search</h2>
+            <h2 style={{color: '#bcbdbe'}}>No results match your search</h2>
         </div>
     )
 }

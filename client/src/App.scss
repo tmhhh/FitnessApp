@@ -236,7 +236,7 @@ td {
 }
 
 .common-button-blue {
-  background: #0c6efd;
+  background: #41A9FF;
 }
 
 .common-button-green {
@@ -252,12 +252,12 @@ td {
 }
 
 .common-outline-button-blue {
-  border: 1.5px solid #0c6efd;
-  color: #0c6efd;
+  border: 1.5px solid #41A9FF;
+  color: #41A9FF;
 
   &:hover {
     cursor: pointer;
-    background-color: #0c6efd;
+    background-color: #41A9FF;
     color: white;
   }
 }
@@ -269,6 +269,28 @@ td {
   &:hover {
     cursor: pointer;
     background-color: #2bc748;
+    color: white;
+  }
+}
+
+.common-outline-button-grey {
+  border: 1.5px solid #b6b6b6;
+  color: #b6b6b6;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #b6b6b6;
+    color: white;
+  }
+}
+
+.common-outline-button-red {
+  border: 1.5px solid #e02c2c;
+  color: #e02c2c;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #e02c2c;
     color: white;
   }
 }

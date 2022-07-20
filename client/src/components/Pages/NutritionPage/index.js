@@ -1,23 +1,27 @@
-import { useContext, useState, useEffect } from "react";
-import { Spinner, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { Radio } from "antd";
+import InputField from "components/Common/InputField";
+import { useContext, useEffect, useRef, useState } from "react";
+import { Table } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
 import userApi from "../../../api/userApi";
 import { BASE_IMAGE_BASE_URL } from "../../../assets/constants";
 import { Context } from "../../../contexts";
+import authSlice from "../../../redux/slices/authSlice";
+import CustomLoading from "../../Common/Placeholders/CustomLoading";
+import NoResults from "../../Common/Placeholders/NoResults";
 import SearchBar from "../../Common/SearchBar";
 import NutritionContainer from "../../Containers/NutritionContainer";
+import { FilterModal } from "./FilterModal";
 import FoodModal from "./FoodModal";
 import TrackingSidebar from "./NutriSidebar";
 import "./style.scss";
 import TrackingModal from "./TrackingModal";
-import authSlice from "../../../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
-import { Helmet } from "react-helmet";
-import CustomLoading from "../../Common/Placeholders/CustomLoading";
-import NoResults from "../../Common/Placeholders/NoResults";
-import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
-import InputField from "components/Common/InputField";
 export default function NutritionPage() {
+  const [searchType, setSearchType] = useState("food");
+
+  const searchBarRef = useRef(null);
   const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
   const { userInfo, isAuthenticated, authLoading } = useSelector(
@@ -125,6 +129,32 @@ export default function NutritionPage() {
   //
   const [servingSize, setServingSize] = useState(1);
 
+  useEffect(() => {
+    if (foodName) {
+      searchBarRef.current.searchNutrition();
+    }
+  }, [searchType]);
+
+  /**
+   * FILTER MODAL
+   */
+  const [filterModal, setFilterModal] = useState({
+    isShown: false,
+    isLoading: false,
+  });
+  const handleShowFilterModal = () => {
+    setFilterModal({
+      ...filterModal,
+      isShown: true,
+    });
+  };
+  const handleCloseFilterModal = () => {
+    setFilterModal({
+      ...filterModal,
+      isShown: false,
+    });
+  };
+
   //TRACKING MODAL
   const [showTrackingModal, setShowTrackingModal] = useState(false);
   const handleCloseTrackingModal = () => setShowTrackingModal(false);
@@ -139,12 +169,9 @@ export default function NutritionPage() {
     if (action !== "next") setServingSize(1);
     setModal({ ...modal, isShown: false });
   };
-  const handleShowModal = (foodID) => {
-    const foundFood = nutriState.listFoods.find(
-      (e) => e.food.foodId === foodID
-    );
+  const handleShowModal = (index) => {
     setModal({
-      foodData: foundFood,
+      foodData: nutriState.listFoods[index],
       isShown: true,
     });
   };
@@ -164,6 +191,33 @@ export default function NutritionPage() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  /**
+   * Handle Save Filter
+   */
+  const handleSaveFilter = (values) => {
+    nutriSearching(
+      {
+        health: values.health?.value,
+        category: values.category?.value,
+        calories: `${values.calories[0]}-${values.calories[1]}`,
+        diet: values.diet?.value,
+        cuisineType: values.cuisineType?.value,
+        foodName,
+      },
+      searchType
+    );
+  };
+
+  /**
+   * Handle view dishes from ingredient
+   */
+  const handleOnViewDishClick = (ingredient) => {
+    setFoodName(ingredient);
+    setSearchType("dish");
+
+    handleCloseModal("close");
   };
 
   //
@@ -187,8 +241,21 @@ export default function NutritionPage() {
           handleShowTrackingModal={handleShowTrackingModal}
           handleRemoveTrackingFood={handleRemoveTrackingFood}
         />
-        <div className="nutrition_section ">
-          <SearchBar />
+        <div className="nutrition_section">
+          <SearchBar searchType={searchType} ref={searchBarRef} />
+          <div className="d-flex justify-content-center align-items-center">
+            <h3 style={{ color: "#a8a8a8" }}>Search by: </h3>
+            <Radio.Group
+              className="ms-3"
+              defaultValue="food"
+              value={searchType}
+              onChange={(e) => setSearchType(e.target.value)}
+              buttonStyle="solid"
+            >
+              <Radio.Button value="food">Ingredients</Radio.Button>
+              <Radio.Button value="dish">Dishes</Radio.Button>
+            </Radio.Group>
+          </div>
           {nutriState.isLoading ? (
             <CustomLoading />
           ) : nutriState.listFoods ? (
@@ -196,6 +263,15 @@ export default function NutritionPage() {
               <NoResults />
             ) : (
               <>
+                <div className="d-flex justify-content-start">
+                  <button
+                    className="common-outline-button common-outline-button-blue mb-3"
+                    style={{ fontSize: "14px" }}
+                    onClick={handleShowFilterModal}
+                  >
+                    <i className="fas fa-filter"></i> Filter
+                  </button>
+                </div>
                 <Table striped bordered hover>
                   <thead>
                     <tr>
@@ -208,39 +284,67 @@ export default function NutritionPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {nutriState.listFoods.map((e, index) => (
-                      <tr
-                        key={index}
-                        role="button"
-                        onClick={() => handleShowModal(e.food.foodId)}
-                      >
-                        <td>{index + 1}</td>
-                        <td>
-                          <img
-                            height="80"
-                            width="80"
-                            src={
-                              e.food.image
-                                ? e.food.image
-                                : BASE_IMAGE_BASE_URL + "/dishes-default.png"
-                            }
-                            alt={e.food.label}
-                          />
-                        </td>
-                        <td>100gr</td>
-                        <td>{e.food.label}</td>
-                        <td> {Math.trunc(e.food.nutrients.ENERC_KCAL)}</td>
-                        <td>
-                          <div className="d-flex flex-column align-items-start pl-4 justify-content-start">
-                            <p>
-                              Protein: {Math.trunc(e.food.nutrients.PROCNT)}g
-                            </p>
-                            <p>Fat: {Math.trunc(e.food.nutrients.FAT)}g</p>
-                            <p>Carbs: {Math.trunc(e.food.nutrients.FIBTG)}g</p>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                    {nutriState.listFoods.map((e, index) => {
+                      const item = e.recipe || e.food;
+                      const nutrients = item.totalNutrients || item.nutrients;
+                      return (
+                        <tr
+                          key={index}
+                          role="button"
+                          onClick={() => handleShowModal(index)}
+                        >
+                          <td>{index + 1}</td>
+                          <td>
+                            <img
+                              height="80"
+                              width="80"
+                              src={
+                                item.image
+                                  ? item.image
+                                  : BASE_IMAGE_BASE_URL + "/dishes-default.png"
+                              }
+                              alt={item.label}
+                            />
+                          </td>
+                          <td>{"100g"}</td>
+                          <td>{item.label}</td>
+                          <td>
+                            {Math.trunc(
+                              (nutrients.ENERC_KCAL?.quantity * 100) /
+                                item.totalWeight || nutrients.ENERC_KCAL
+                            )}
+                          </td>
+                          <td>
+                            <div className="d-flex flex-column align-items-start pl-4 justify-content-start">
+                              <p>
+                                Protein:{" "}
+                                {Math.trunc(
+                                  (nutrients.PROCNT?.quantity * 100) /
+                                    item.totalWeight || nutrients.PROCNT
+                                )}
+                                g
+                              </p>
+                              <p>
+                                Fat:{" "}
+                                {Math.trunc(
+                                  (nutrients.FAT?.quantity * 100) /
+                                    item.totalWeight || nutrients.FAT
+                                )}
+                                g
+                              </p>
+                              <p>
+                                Carbs:{" "}
+                                {Math.trunc(
+                                  (nutrients.FIBTG?.quantity * 100) /
+                                    item.totalWeight || nutrients.FIBTG
+                                )}
+                                g
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </Table>
               </>
@@ -253,11 +357,18 @@ export default function NutritionPage() {
             servingSize={servingSize}
             modal={modal}
             handleCloseModal={handleCloseModal}
+            handleOnViewDishClick={handleOnViewDishClick}
           />
           <TrackingModal
             showTrackingModal={showTrackingModal}
             handleCloseTrackingModal={handleCloseTrackingModal}
             listInputFieldsStep1={listInputFieldsStep1}
+          />
+          <FilterModal
+            visible={filterModal.isShown}
+            handleCancel={handleCloseFilterModal}
+            handleSaveFilter={handleSaveFilter}
+            searchType={searchType}
           />
         </div>
       </NutritionContainer>
