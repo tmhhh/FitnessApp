@@ -1,13 +1,14 @@
 import { FastField, Form, Formik } from "formik";
 import * as yup from "yup";
 
-import { Col, Input, Row, Typography } from "antd";
+import { Col, Input, Row, Select, Typography } from "antd";
 import { colors } from "assets/color";
 import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
 import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
 import "./style.scss";
 const { Paragraph, Text } = Typography;
+const { Option } = Select;
 export default function TrackingForm({
   activeStep,
   setActiveStep,
@@ -119,6 +120,58 @@ export default function TrackingForm({
         {(formikProps) => {
           return (
             <Form>
+              <Paragraph>
+                Before we proceed, we need some key information:
+              </Paragraph>
+              <Row className="mb-3" gutter={10}>
+                <Col span={8}>
+                  <FastField
+                    required
+                    name="gender"
+                    component={(props) => (
+                      <Select
+                        className="w-100"
+                        defaultValue={null}
+                        placeholder="Select your gender"
+                        {...props}
+                      >
+                        <Option value="male">Male</Option>
+                        <Option value="female">Female</Option>
+                      </Select>
+                    )}
+                  />
+                </Col>
+                <Col span={8}>
+                  <FastField
+                    required
+                    name="age"
+                    component={(props) => (
+                      <Input
+                        min={1}
+                        max={80}
+                        placeholder="Input your age"
+                        type="number"
+                        {...props}
+                      />
+                    )}
+                  />
+                </Col>
+                <Col span={8}>
+                  <FastField
+                    required
+                    name="bodyMask"
+                    component={(props) => (
+                      <Input
+                        min={1}
+                        max={80}
+                        placeholder="Input your body mask"
+                        type="number"
+                        {...props}
+                      />
+                    )}
+                  />
+                </Col>
+              </Row>
               <Paragraph>
                 In order to use this feature, we have to obtain your skin fold
                 measurements. Don't know how to obtain these number? Don't
