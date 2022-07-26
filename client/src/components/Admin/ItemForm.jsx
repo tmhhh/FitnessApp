@@ -1,5 +1,4 @@
 import { FastField, Form, Formik } from "formik";
-import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { fetchProductImage } from "../../assets/constants";

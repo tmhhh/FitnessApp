@@ -1,5 +1,3 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
 import "./style.scss";
 export default function ExerciseCard({
   info: { img, title, muscleTags },

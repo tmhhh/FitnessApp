@@ -1,8 +1,6 @@
-import React from "react";
-import { Formik, Form, FastField } from "formik";
-import DiscountField from "./DiscountField";
+import { FastField, Form, Formik } from "formik";
 import * as yup from "yup";
-import { Button } from "react-bootstrap";
+import DiscountField from "./DiscountField";
 
 export default function DiscountForm({
   handleSubmitVoucher,
@@ -23,8 +21,6 @@ export default function DiscountForm({
       innerRef={discountFormRef}
     >
       {(formikProps) => {
-        const { values } = formikProps;
-        // console.log(values);
         return (
           <Form className="d-flex align-items-center ">
             <FastField

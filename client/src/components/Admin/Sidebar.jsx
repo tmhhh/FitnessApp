@@ -1,5 +1,3 @@
-import React from "react";
-import { ListGroup, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 export default function Sidebar({ url }) {

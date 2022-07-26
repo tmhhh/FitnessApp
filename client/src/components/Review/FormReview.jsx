@@ -1,7 +1,5 @@
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
 import { FastField, Form, Formik } from "formik";
-import React from "react";
-import { Button } from "react-bootstrap";
 import * as yup from "yup";
 import reviewApi from "../../api/reviewApi";
 import InputField from "../Common/InputField";
@@ -44,7 +42,10 @@ export default function FormReview({ productId }) {
                 label="Review Rating"
                 component={RatingForm}
               />
-              <button className="common-button common-button-blue" type="submit">
+              <button
+                className="common-button common-button-blue"
+                type="submit"
+              >
                 Send
               </button>
             </Form>

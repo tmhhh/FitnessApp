@@ -1,9 +1,6 @@
-import React from "react";
 import { FastField, Form, Formik } from "formik";
-import InputField from "../../../../Common/InputField";
-import { Button } from "react-bootstrap";
-import { useDispatch } from "react-redux";
 import * as yup from "yup";
+import InputField from "../../../../Common/InputField";
 
 export default function BioForm({
   userName,

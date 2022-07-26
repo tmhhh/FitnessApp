@@ -1,9 +1,8 @@
-import React from "react";
-import { Spinner, OverlayTrigger } from "react-bootstrap";
 import { Tooltip } from "antd";
+import { Spinner } from "react-bootstrap";
 import {
-  calculateTotalCaloriesNeeded,
   calculateFoodTotalKCAL,
+  calculateTotalCaloriesNeeded,
 } from "../../../../utils/calculate";
 import "./style.scss";
 export default function TrackingSidebar({

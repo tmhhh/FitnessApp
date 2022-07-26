@@ -1,9 +1,7 @@
-import { unwrapResult } from "@reduxjs/toolkit";
-import Pagination from "../../Common/Pagination/Pagination";
-import React, { useEffect, useRef, useState } from "react";
-import { Button, Container, Modal } from "react-bootstrap";
+import { PAGE_SIZE } from "assets/constants";
+import { useEffect, useRef, useState } from "react";
+import { Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import * as yup from "yup";
 import {
   addService,
@@ -11,9 +9,9 @@ import {
   editService,
   getServices,
 } from "../../../redux/slices/serviceSlice";
+import Pagination from "../../Common/Pagination/Pagination";
 import ItemForm from "./ServiceForm";
 import ServiceTable from "./ServiceTable";
-import { PAGE_SIZE } from "assets/constants";
 export default function ServiceSide(props) {
   const dispatch = useDispatch();
   const { list: listServices, totalPages } = useSelector(
@@ -32,7 +30,7 @@ export default function ServiceSide(props) {
         })
       );
     })();
-  }, []);
+  }, [dispatch]);
   const handlePageChange = (options) => {
     dispatch(getServices(options));
   };
@@ -138,15 +136,24 @@ export default function ServiceSide(props) {
           />
         </Modal.Body>
         <Modal.Footer>
-          <button className="common-button common-button-red floatButton" onClick={hide}>
+          <button
+            className="common-button common-button-red floatButton"
+            onClick={hide}
+          >
             Close
           </button>
           {action === "add" ? (
-            <button className="common-button floatButton" onClick={handleSubmit}>
+            <button
+              className="common-button floatButton"
+              onClick={handleSubmit}
+            >
               Add 📥
             </button>
           ) : (
-            <button className="common-button floatButton" onClick={handleSubmit}>
+            <button
+              className="common-button floatButton"
+              onClick={handleSubmit}
+            >
               Update 🔧
             </button>
           )}

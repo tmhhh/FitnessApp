@@ -1,7 +1,6 @@
-import React from "react";
-import { NavLink, Link } from "react-router-dom";
-import "./style.scss";
+import { NavLink } from "react-router-dom";
 import { USER_IMAGE_BASE_URL } from "../../../../assets/constants";
+import "./style.scss";
 export default function Sidebar({ userImage, userName, parentPath }) {
   return (
     <div className="side_bar_container">

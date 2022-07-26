@@ -1,7 +1,6 @@
-import Button from "react-bootstrap/Button";
-import { Formik, Form, FastField } from "formik";
-import InputField from "../../../../Common/InputField";
+import { FastField, Form, Formik } from "formik";
 import * as yup from "yup";
+import InputField from "../../../../Common/InputField";
 export default function PasswordForm({ handleChangePassword }) {
   return (
     <Formik
@@ -14,7 +13,7 @@ export default function PasswordForm({ handleChangePassword }) {
           .string()
           .required("Please Enter your password")
           .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
             "Must contain AT LEAST 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special case character"
           ),
         userConfirmPassword: yup
@@ -37,14 +36,12 @@ export default function PasswordForm({ handleChangePassword }) {
               placeholder="Ex: ******"
               required
               component={InputField}
-              type="password"
             />
             <FastField
               type="password"
               name="userConfirmPassword"
               className="w-50 "
               label="Confirm your password"
-              type="password"
               placeholder="Ex: ****** "
               required
               component={InputField}

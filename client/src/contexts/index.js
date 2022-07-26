@@ -1,17 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useReducer, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../api/authApi";
+import cartApi from "../api/cartApi";
+import userApi from "../api/userApi";
 import { NUTRI_API_CONFIG, PAGE_SIZE } from "../assets/constants";
 import authSlice from "../redux/slices/authSlice";
 import cartSlice from "../redux/slices/cartSlice";
-import NutritionReducer from "./reducers/NutritionReducer";
-import prodApi from "../api/prodApi";
-import prodSlice, { getProduct } from "../redux/slices/prodSlice";
-import cartApi from "../api/cartApi";
 import { getAllCate } from "../redux/slices/cateSlice";
 import { getAllExercise } from "../redux/slices/exerciseSlice";
-import userApi from "../api/userApi";
+import { getProduct } from "../redux/slices/prodSlice";
+import NutritionReducer from "./reducers/NutritionReducer";
 //CONTEXT
 export const Context = React.createContext();
 export default function ContextProvider({ children }) {

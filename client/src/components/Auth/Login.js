@@ -1,8 +1,6 @@
-import { message } from "antd";
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
 import { FastField, Formik } from "formik";
-import React, { useContext, useState } from "react";
-import Button from "react-bootstrap/Button";
+import { useContext } from "react";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
@@ -17,22 +15,21 @@ import "./style.scss";
 function Login() {
   const dispatch = useDispatch();
   // TOAST
-  const { setToast } = useContext(Context);
 
   //AUTH FORM
   const { authForm, setAuthForm } = useContext(Context);
   const { isShown } = authForm;
 
   //INPUT
-  const [input, setInput] = useState({
-    userNameID: "",
-    userPassword: "",
-  });
+  // const [input, setInput] = useState({
+  //   userNameID: "",
+  //   userPassword: "",
+  // });
 
   //INPUT CHANGE
-  const handleInputOnChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
+  // const handleInputOnChange = (e) => {
+  //   setInput({ ...input, [e.target.name]: e.target.value });
+  // };
 
   //LOGIN
   const handleOnSubmit = async (values, event) => {
@@ -187,7 +184,10 @@ function Login() {
                   </a>
                   !!!
                 </Form.Text>
-                <button className="common-outline-button common-outline-button-blue  w-100 my-3" type="submit">
+                <button
+                  className="common-outline-button common-outline-button-blue  w-100 my-3"
+                  type="submit"
+                >
                   Login <i className="fas fa-sign-in-alt"></i>
                 </button>
               </div>

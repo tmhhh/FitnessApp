@@ -1,6 +1,5 @@
-import React from "react";
-import { Modal, Button, Form } from "react-bootstrap";
 import { useState } from "react";
+import { Form, Modal } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 
 export default function ProductDiscountMdal({
@@ -14,7 +13,7 @@ export default function ProductDiscountMdal({
   const [input, setInput] = useState("");
   const [error, setError] = useState(null);
   const handleOnClick = () => {
-if(input.trim()==="") return setError("Please input percent")   
+    if (input.trim() === "") return setError("Please input percent");
     const percent = input.split("-");
     if (percent.length > 1) return setError("The percent must larger than 1");
     if (parseFloat(input) > 100)
@@ -56,7 +55,7 @@ if(input.trim()==="") return setError("Please input percent")
           <Form.Label>Choose Start Date:</Form.Label>
 
           <DatePicker
-                  minDate={new Date()}
+            minDate={new Date()}
             // startDate={new Date()}
             onChange={handleStartTimeChange}
             showTimeSelect
@@ -74,7 +73,10 @@ if(input.trim()==="") return setError("Please input percent")
             Reset Discount
           </button>
         ) : (
-          <button className="common-button common-button-red" onClick={handleClose}>
+          <button
+            className="common-button common-button-red"
+            onClick={handleClose}
+          >
             Close
           </button>
         )}

@@ -1,7 +1,7 @@
 import { PAGE_SIZE } from "assets/constants";
 import Pagination from "components/Common/Pagination/Pagination";
 import ServiceContainer from "components/Service/ServiceContainer";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getServices } from "redux/slices/serviceSlice";
 
@@ -20,7 +20,7 @@ export default function ServicePage() {
         })
       );
     })();
-  }, []);
+  }, [dispatch]);
 
   const handlePageChange = (options) => {
     dispatch(getServices(options));

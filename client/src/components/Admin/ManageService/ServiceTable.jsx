@@ -1,4 +1,4 @@
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { fetchImage, fetchServiceImage } from "../../../assets/constants";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import Thumbnail from "../../Common/Thumbnail";

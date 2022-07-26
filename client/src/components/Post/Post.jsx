@@ -1,13 +1,13 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useEffect, useState } from "react";
-import { Col, Container, Image, Row, Button, Modal } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { Col, Container, Image, Modal, Row } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import postApi from "../../api/postApi";
 import { fetchPostImage, fetchUserImage } from "../../assets/constants";
 import { getPostById, getPostComments } from "../../redux/slices/postSlice";
-import CommentForm from "./CommentForm";
 import CustomLoading from "../Common/Placeholders/CustomLoading";
+import CommentForm from "./CommentForm";
 
 export default function Post() {
   const dispatch = useDispatch();
@@ -35,103 +35,105 @@ export default function Post() {
     if (rs.data.isSuccess) getComments();
   };
   return (
-    <div style={{minHeight: "calc(100vh - 60px)", marginTop: '30px'}}>
-      {!post
-          ? (<CustomLoading className='loading-overlay'/>)
-          : (
-              <Container fluid style={{ marginTop: "100px", marginBottom: "100px"}}>
-                {/* <Row>
+    <div style={{ minHeight: "calc(100vh - 60px)", marginTop: "30px" }}>
+      {!post ? (
+        <CustomLoading className="loading-overlay" />
+      ) : (
+        <Container fluid style={{ marginTop: "100px", marginBottom: "100px" }}>
+          {/* <Row>
           <Col xs={3}></Col>
           <Col xs={6}> */}
-                <Container
-                    style={{
-                      padding: "20px",
-                      width: "800px",
-                      borderRadius: "20px",
-                      boxShadow: "0 5px 15px 5px #f4f4f4",
-                      backgroundColor: "white",
-                    }}
-                >
-                  <div>
-                    <h1 className="px-5">{post?.title}</h1>
-                    <div className="px-5">
-                      <Image
-                          style={{ height: "400px", width: "100%" }}
-                          src={fetchPostImage(post?.thumbnail)}
-                          rounded
-                          fluid
-                      />
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="d-flex align-items-center">
-                    <div>
-                      <Image
-                          style={{ height: "100px", width: "100px" }}
-                          src={fetchUserImage(post?.author?.userImage)}
-                          roundedCircle
-                      />
-                    </div>
-                    <div className="ps-4">
-                      <h6>{post?.author?.userName}</h6>
-                      <span>Published on {post?.updatedAt}</span>
-                      <div>
-                        <a href="/" style={{ color: "grey" }}>
-                          <i className="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="/" className="ms-2" style={{ color: "grey" }}>
-                          <i className="fab fa-instagram"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className=" ql-editor">
-                    <div dangerouslySetInnerHTML={{ __html: post?.content }} />
-                  </div>
-                </Container>
+          <Container
+            style={{
+              padding: "20px",
+              width: "800px",
+              borderRadius: "20px",
+              boxShadow: "0 5px 15px 5px #f4f4f4",
+              backgroundColor: "white",
+            }}
+          >
+            <div>
+              <h1 className="px-5">{post?.title}</h1>
+              <div className="px-5">
+                <Image
+                  style={{ height: "400px", width: "100%" }}
+                  src={fetchPostImage(post?.thumbnail)}
+                  rounded
+                  fluid
+                />
+              </div>
+            </div>
+            <hr />
+            <div className="d-flex align-items-center">
+              <div>
+                <Image
+                  style={{ height: "100px", width: "100px" }}
+                  src={fetchUserImage(post?.author?.userImage)}
+                  roundedCircle
+                />
+              </div>
+              <div className="ps-4">
+                <h6>{post?.author?.userName}</h6>
+                <span>Published on {post?.updatedAt}</span>
+                <div>
+                  <a href="/" style={{ color: "grey" }}>
+                    <i className="fab fa-facebook-f"></i>
+                  </a>
+                  <a href="/" className="ms-2" style={{ color: "grey" }}>
+                    <i className="fab fa-instagram"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div className=" ql-editor">
+              <div dangerouslySetInnerHTML={{ __html: post?.content }} />
+            </div>
+          </Container>
 
-                {/* Comments💬 */}
-                <Container
-                    className="mt-5"
-                    style={{
-                      width: "800px",
-                    }}
-                >
-                  <div
-                      className="d-flex justify-content-between align-items-center w-100"
-                      style={{
-                        padding: "10px",
-                        borderRadius: "10px",
-                        border: "1px solid #c9c9c9",
-                      }}
-                  >
-                    <h5>comments({comments?.length})</h5>
-                    <button className="common-button floatButton" onClick={() => setCmtModalShow(true)}>
-                      🖊 Add a comment
-                    </button>
-                    <CommentModal
-                        show={cmtModalShow}
-                        onHide={() => setCmtModalShow(false)}
-                        handleSubmit={handleCmtSubmit}
-                    />
-                  </div>
+          {/* Comments💬 */}
+          <Container
+            className="mt-5"
+            style={{
+              width: "800px",
+            }}
+          >
+            <div
+              className="d-flex justify-content-between align-items-center w-100"
+              style={{
+                padding: "10px",
+                borderRadius: "10px",
+                border: "1px solid #c9c9c9",
+              }}
+            >
+              <h5>comments({comments?.length})</h5>
+              <button
+                className="common-button floatButton"
+                onClick={() => setCmtModalShow(true)}
+              >
+                🖊 Add a comment
+              </button>
+              <CommentModal
+                show={cmtModalShow}
+                onHide={() => setCmtModalShow(false)}
+                handleSubmit={handleCmtSubmit}
+              />
+            </div>
 
-                  {comments &&
-                      comments.map((comment) => (
-                          <Comment
-                              key={comment._id}
-                              comment={comment}
-                              getComments={getComments}
-                          />
-                      ))}
-                </Container>
-                {/* </Col>
+            {comments &&
+              comments.map((comment) => (
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  getComments={getComments}
+                />
+              ))}
+          </Container>
+          {/* </Col>
           <Col xs={3}></Col>
         </Row> */}
-              </Container>
-          )}
-
+        </Container>
+      )}
     </div>
   );
 }
@@ -200,7 +202,7 @@ function Comment({ comment, getComments }) {
             <Col className="p-0">
               <button
                 className=" default-outline-button default-primary mt-3"
-                style={{ fontSize: "14px"}}
+                style={{ fontSize: "14px" }}
                 onClick={() => setReplyTextShow(true)}
               >
                 <i className="far fa-comment-dots"></i> Reply

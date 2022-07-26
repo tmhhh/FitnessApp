@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Container, Button } from "react-bootstrap";
-import PostForm from "./PostForm";
+import { useEffect, useRef, useState } from "react";
+import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost, editPost } from "../../redux/slices/postSlice";
 import { useHistory } from "react-router";
+import { createPost, editPost } from "../../redux/slices/postSlice";
+import PostForm from "./PostForm";
 
 const initialValues = {
   title: "",
@@ -49,13 +49,27 @@ export default function PostCrud({ postId }) {
           ) : (
             <h1> ✍ Write your post </h1>
           )}
-          <div className="approve-section common-float" style={{top: '80px', bottom: '780px', backgroundColor: 'black', color: 'white'}}>
-            <h2 style={{fontWeight: "bold"}}>Publish your post <i className="fas fa-check-circle" style={{color: "#55bb55"}}></i> </h2>
+          <div
+            className="approve-section common-float"
+            style={{
+              top: "80px",
+              bottom: "780px",
+              backgroundColor: "black",
+              color: "white",
+            }}
+          >
+            <h2 style={{ fontWeight: "bold" }}>
+              Publish your post{" "}
+              <i
+                className="fas fa-check-circle"
+                style={{ color: "#55bb55" }}
+              ></i>{" "}
+            </h2>
             <div className="d-flex justify-content-end mt-4">
               <button
-                  className="common-button common-button-blue"
-                  style={{ borderRadius: "5px", height: '40px', width: '100px' }}
-                  onClick={onSubmit}
+                className="common-button common-button-blue"
+                style={{ borderRadius: "5px", height: "40px", width: "100px" }}
+                onClick={onSubmit}
               >
                 <i className="far fa-paper-plane"></i> Publish
               </button>

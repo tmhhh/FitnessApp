@@ -1,4 +1,4 @@
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 export default function CateTable({
   listExercises,
   updateModalShow,
@@ -40,20 +40,20 @@ export default function CateTable({
               <td>{exercise.thumbnail}</td>
               <td>{exercise.videoURL}</td>
               <td>
-                <button
-                  className="common-button common-button-blue floatButton"
-                  exercise
-                  ID={exercise._id}
+                <ion-icon
+                  style={{
+                    fontSize: "20px",
+                    marginRight: "5px",
+                    cursor: "pointer",
+                  }}
+                  name="settings-outline"
                   onClick={() => updateModalShow("update", exercise._id)}
-                >
-                  📝
-                </button>
-                <button
-                  className="common-button common-button-red floatButton ms-2"
+                ></ion-icon>
+                <ion-icon
+                  style={{ fontSize: "20px", cursor: "pointer" }}
+                  name="trash-bin-outline"
                   onClick={() => deleteOnClick(exercise._id)}
-                >
-                  🗑
-                </button>
+                ></ion-icon>
               </td>
             </tr>
           ))}

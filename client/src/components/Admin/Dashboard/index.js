@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import billApi from "../../../api/billApi.js";
 import postApi from "../../../api/postApi";
@@ -29,7 +28,6 @@ export default function Dashboard() {
     prodPercentByCate: [],
     favoriteProds: [],
   });
-  const { userInfo } = useSelector((state) => state.authReducer);
   const {
     dataLoading,
     totalNumbCustomers,
@@ -144,47 +142,52 @@ export default function Dashboard() {
       <div className="dashboard__right">
         <div className="dashboard__right__item">
           <h3 className="dashboard__right__item-title common-float">
-              🛍 Top buyers this month
+            🛍 Top buyers this month
           </h3>
           <div className="dashboard__right__item__container">
-              {topCustomers.map((e, index) => (
-                <div key={e.user._id} className={
-                    "dashboard__right__item__details "
-                    + `common-rank-items-${index+1}`
-                }>
-                  <div className="dashboard__right__item__details-left">
-                    <div className="item-image">
-                      <img
-                        src={
-                          e.user.userImage.includes("http")
-                            ? e.user.userImage
-                            : `${USER_IMAGE_BASE_URL}/${e.user.userImage}`
-                        }
-                        alt={e.user.userName}
-                      />
-                    </div>
-                    <div className="item-name">{e.user.userName}</div>
+            {topCustomers.map((e, index) => (
+              <div
+                key={e.user._id}
+                className={
+                  "dashboard__right__item__details " +
+                  `common-rank-items-${index + 1}`
+                }
+              >
+                <div className="dashboard__right__item__details-left">
+                  <div className="item-image">
+                    <img
+                      src={
+                        e.user.userImage.includes("http")
+                          ? e.user.userImage
+                          : `${USER_IMAGE_BASE_URL}/${e.user.userImage}`
+                      }
+                      alt={e.user.userName}
+                    />
                   </div>
-                  <div className="dashboard__right__item__details-center">
-                    {e.user.userNameID}
-                  </div>
-
-                  <div className="dashboard__right__item__details-right">
-                    {formatCurrency(e.totalSpend)}
-                  </div>
+                  <div className="item-name">{e.user.userName}</div>
                 </div>
-              ))}
+                <div className="dashboard__right__item__details-center">
+                  {e.user.userNameID}
+                </div>
+
+                <div className="dashboard__right__item__details-right">
+                  {formatCurrency(e.totalSpend)}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
         <div className="dashboard__right__item">
-          <h3 className="dashboard__right__item-title common-float">💰 Best seller</h3>
+          <h3 className="dashboard__right__item-title common-float">
+            💰 Best seller
+          </h3>
           {topProds.map((e, index) => (
             <div
               key={e.product._id}
               className={
-                    "dashboard__right__item__details "
-                  + `common-rank-items-${index+1}`
-                }
+                "dashboard__right__item__details " +
+                `common-rank-items-${index + 1}`
+              }
             >
               <div className="dashboard__right__item__details-left">
                 <div className="item-image product-image">

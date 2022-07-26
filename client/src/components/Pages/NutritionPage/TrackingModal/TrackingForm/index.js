@@ -1,10 +1,14 @@
 import { FastField, Form, Formik } from "formik";
 import * as yup from "yup";
 
-import { Col, Input, Row, Select, Typography } from "antd";
+import { Col, Image, Input, Popover, Row, Select, Typography } from "antd";
 import { colors } from "assets/color";
 import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
+import bicepsIllustrator from "../../../../../assets/img/biceps.png";
+import subscapularIllustrator from "../../../../../assets/img/subscapular.png";
+import suprailiacIllustrator from "../../../../../assets/img/suprailiac.png";
+import tricepsIllustrator from "../../../../../assets/img/triceps.png";
 import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
 import "./style.scss";
 const { Paragraph, Text } = Typography;
@@ -14,6 +18,7 @@ export default function TrackingForm({
   setActiveStep,
   formRef,
   formData,
+  setConfirmLoading,
   handleUpdateTrackingInfo,
   listInputFieldsStep1,
   // listInputFields,
@@ -24,86 +29,38 @@ export default function TrackingForm({
       <Formik
         innerRef={formRef}
         validationSchema={yup.object().shape({
-          userHeight: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userWeight: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userAge: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userNeck: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userBiceps: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userChest: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userForearm: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userAbdomen: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userWrist: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userHip: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userThigh: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userKnee: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userAnkle: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
+          bodyMask: yup.number().nullable().min(0).required(),
+          age: yup.number().nullable().min(0).required(),
+          gender: yup.number().nullable().required(),
+          biceps1: yup.number().nullable().min(0).required(),
+          biceps2: yup.number().nullable().min(0).required(),
+          biceps3: yup.number().nullable().min(0).required(),
+          triceps1: yup.number().nullable().min(0).required(),
+          triceps2: yup.number().nullable().min(0).required(),
+          triceps3: yup.number().nullable().min(0).required(),
+          subscapular1: yup.number().nullable().min(0).required(),
+          subscapular2: yup.number().nullable().min(0).required(),
+          subscapular3: yup.number().nullable().min(0).required(),
+          suprailiac1: yup.number().nullable().min(0).required(),
+          suprailiac2: yup.number().nullable().min(0).required(),
+          suprailiac3: yup.number().nullable().min(0).required(),
         })}
         initialValues={{
-          userHeight: null,
-          userWeight: null,
-          userAge: null,
-          userNeck: null,
-          userBiceps: null,
-          userChest: null,
-          userForearm: null,
-          userAbdomen: null,
-          userWrist: null,
-          userHip: null,
-          userThigh: null,
-          userKnee: null,
-          userAnkle: null,
+          age: null,
+          gender: null,
+          bodyMask: null,
+          biceps1: null,
+          biceps2: null,
+          biceps3: null,
+          triceps1: null,
+          triceps2: null,
+          triceps3: null,
+          subscapular1: null,
+          subscapular2: null,
+          subscapular3: null,
+          suprailiac1: null,
+          suprailiac2: null,
+          suprailiac3: null,
         }}
         onSubmit={(e) => {
           formData.current = {
@@ -117,7 +74,7 @@ export default function TrackingForm({
           setActiveStep(activeStep + 1);
         }}
       >
-        {(formikProps) => {
+        {({ errors }) => {
           return (
             <Form>
               <Paragraph>
@@ -128,45 +85,57 @@ export default function TrackingForm({
                   <FastField
                     required
                     name="gender"
-                    component={(props) => (
-                      <Select
-                        className="w-100"
-                        defaultValue={null}
-                        placeholder="Select your gender"
-                        {...props}
-                      >
-                        <Option value="male">Male</Option>
-                        <Option value="female">Female</Option>
-                      </Select>
-                    )}
+                    component={({ field }) => {
+                      console.log({ field });
+                      return (
+                        <Select
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange({
+                              target: { name: field.name, value: e },
+                            })
+                          }
+                          status={errors["gender"] && "error"}
+                          className="w-100"
+                          placeholder="Select your gender"
+                        >
+                          <Option value="0">Male</Option>
+                          <Option value="1">Female</Option>
+                        </Select>
+                      );
+                    }}
                   />
                 </Col>
                 <Col span={8}>
                   <FastField
                     required
                     name="age"
-                    component={(props) => (
-                      <Input
-                        min={1}
-                        max={80}
-                        placeholder="Input your age"
-                        type="number"
-                        {...props}
-                      />
-                    )}
+                    component={({ field }) => {
+                      return (
+                        <Input
+                          status={errors["age"] && "error"}
+                          min={1}
+                          max={80}
+                          placeholder="Input your age"
+                          type="number"
+                          {...field}
+                        />
+                      );
+                    }}
                   />
                 </Col>
                 <Col span={8}>
                   <FastField
                     required
                     name="bodyMask"
-                    component={(props) => (
+                    component={({ field }) => (
                       <Input
+                        status={errors["bodyMask"] && "error"}
                         min={1}
                         max={80}
                         placeholder="Input your body mask"
                         type="number"
-                        {...props}
+                        {...field}
                       />
                     )}
                   />
@@ -231,142 +200,309 @@ export default function TrackingForm({
                   </Text>
                 </Col>
                 <Col span={6}>
-                  <Text
-                    style={{
-                      padding: "4px 11px",
-                      background: colors.black,
-                      color: colors.white,
-                      fontWeight: "700",
-                    }}
-                    className="d-block text-center  border"
+                  <Popover
+                    trigger="hover"
+                    placement="bottom"
+                    content={() => (
+                      <Row>
+                        <Col span={6}>
+                          <Image
+                            height={200}
+                            width={200}
+                            src={bicepsIllustrator}
+                            alt="biceps"
+                          />
+                        </Col>
+                        <Col span={18}>
+                          <Text>
+                            <Text strong>Tips: </Text>
+                            Mid point on the muscle (generally this will be
+                            opposite the nipple). Mark the point halfway between
+                            the FLEXED bicep muscle. When taking the
+                            measurement, the muscle (arm) should be RELAXED and
+                            in a perpendicular position
+                          </Text>
+                        </Col>
+                      </Row>
+                    )}
                   >
-                    Biceps
-                  </Text>
+                    <Text
+                      style={{
+                        padding: "4px 11px",
+                        background: colors.black,
+                        color: colors.white,
+                        fontWeight: "700",
+                      }}
+                      className="d-block text-center  border"
+                    >
+                      Biceps
+                    </Text>
+                  </Popover>
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="biceps1"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input status={errors["biceps1"] && "error"} {...field} />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="biceps2"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input status={errors["biceps2"] && "error"} {...field} />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="biceps3"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input status={errors["biceps3"] && "error"} {...field} />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
-                  <Text
-                    style={{
-                      padding: "4px 11px",
-                      background: colors.black,
-                      color: colors.white,
-                      fontWeight: "700",
-                    }}
-                    className="d-block text-center  border"
+                  <Popover
+                    trigger="hover"
+                    placement="bottom"
+                    content={() => (
+                      <Row>
+                        <Col span={6}>
+                          <Image
+                            height={200}
+                            width={200}
+                            src={tricepsIllustrator}
+                            alt="triceps"
+                          />
+                        </Col>
+                        <Col span={18}>
+                          <Text>
+                            <Text strong>Tips: </Text>
+                            Between the tip of the olecranon process of the ulna
+                            (elbow) and the acromium of the scapula
+                            (shoulder).Mark the point on the back of the arm
+                            halfway between the tip of the elbow and the
+                            shoulder mark should be 1/2 way between caliper
+                            jaws.
+                          </Text>
+                        </Col>
+                      </Row>
+                    )}
                   >
-                    Triceps{" "}
-                  </Text>
+                    <Text
+                      style={{
+                        padding: "4px 11px",
+                        background: colors.black,
+                        color: colors.white,
+                        fontWeight: "700",
+                      }}
+                      className="d-block text-center  border"
+                    >
+                      Triceps{" "}
+                    </Text>
+                  </Popover>
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="triceps1"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["triceps1"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="triceps2"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["triceps2"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="triceps3"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["triceps3"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
-                  <Text
-                    style={{
-                      padding: "4px 11px",
-                      background: colors.black,
-                      color: colors.white,
-                      fontWeight: "700",
-                    }}
-                    className="d-block text-center  border"
+                  <Popover
+                    trigger="hover"
+                    placement="bottom"
+                    content={() => (
+                      <Row>
+                        <Col span={6}>
+                          <Image
+                            height={200}
+                            width={200}
+                            src={subscapularIllustrator}
+                            alt="Subscapular"
+                          />
+                        </Col>
+                        <Col span={18}>
+                          <Text>
+                            <Text strong>Tips: </Text>
+                            Below the tip of the inferior angle of the scapular,
+                            at an angle of 45 degrees to vertical (back, just
+                            under the shoulder blade). Mark the point just under
+                            the shoulder blade halfway between the spine and
+                            side. When taking the measurement, the skinfold
+                            caliper should be orientated at 45 degrees.
+                          </Text>
+                        </Col>
+                      </Row>
+                    )}
                   >
-                    Subscapular{" "}
-                  </Text>
+                    <Text
+                      style={{
+                        padding: "4px 11px",
+                        background: colors.black,
+                        color: colors.white,
+                        fontWeight: "700",
+                      }}
+                      className="d-block text-center  border"
+                    >
+                      Subscapular{" "}
+                    </Text>
+                  </Popover>
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="subscapular1"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["subscapular1"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="subscapular2"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["subscapular2"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="subscapular3"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["subscapular3"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
-                  <Text
-                    style={{
-                      padding: "4px 11px",
-                      background: colors.black,
-                      color: colors.white,
-                      fontWeight: "700",
-                    }}
-                    className="d-block text-center  border"
+                  <Popover
+                    trigger="hover"
+                    placement="bottom"
+                    content={() => (
+                      <Row>
+                        <Col span={6}>
+                          <Image
+                            height={200}
+                            width={200}
+                            src={suprailiacIllustrator}
+                            alt="Suprailiac"
+                          />
+                        </Col>
+                        <Col span={18}>
+                          <Text>
+                            <Text strong>Tips: </Text>
+                            Above the iliac crest in mid-axillary line (about
+                            one inch above the hip bone at an angle of 45
+                            degrees to vertical). Mark the point about one inch
+                            above the hip bone. When taking the measurement, the
+                            skinfold caliper should be orientated at 45 degrees.
+                          </Text>
+                        </Col>
+                      </Row>
+                    )}
                   >
-                    Suprailiac{" "}
-                  </Text>
+                    <Text
+                      style={{
+                        padding: "4px 11px",
+                        background: colors.black,
+                        color: colors.white,
+                        fontWeight: "700",
+                      }}
+                      className="d-block text-center  border"
+                    >
+                      Suprailiac{" "}
+                    </Text>
+                  </Popover>
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="suprailiac1"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["suprailiac1"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="suprailiac2"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["suprailiac2"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
                 <Col span={6}>
                   <FastField
                     required
                     name="suprailiac3"
-                    component={(props) => <Input {...props} />}
+                    component={({ field }) => (
+                      <Input
+                        status={errors["suprailiac3"] && "error"}
+                        {...field}
+                      />
+                    )}
                   />
                 </Col>
               </Row>
+              <Text
+                style={{ display: "block", textAlign: "right" }}
+                type="danger"
+              >
+                {Object.keys(errors).length > 0 && "Please fill all the input"}
+              </Text>
             </Form>
           );
         }}
@@ -376,26 +512,12 @@ export default function TrackingForm({
     content = (
       <Formik
         validationSchema={yup.object().shape({
-          userHeight: yup
-            .number()
-            .typeError("Input is not in correct format !")
-            .required("This field is required"),
-          userWeight: yup
-            .number()
-            .typeError("Input is not in correct format !")
-            .required("This field is required"),
-          userGender: yup.number().required("This field is required"),
-          userAge: yup
-            .number()
-            .typeError("Input is not in correct format !")
-            .min(10)
-            .required("This field is required"),
+          goal: yup.number().nullable().min(0).required(),
+          activityLevel: yup.number().nullable().min(0).required(),
         })}
         initialValues={{
-          userHeight: "",
-          userWeight: "",
-          userAge: "",
-          userGender: "",
+          goal: null,
+          activityLevel: null,
         }}
         onSubmit={(e) => {
           formData.current = {
@@ -403,6 +525,7 @@ export default function TrackingForm({
             ...e,
           };
           setActiveStep(activeStep + 1);
+          setConfirmLoading(true);
         }}
         innerRef={formRef}
       >

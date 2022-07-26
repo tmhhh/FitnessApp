@@ -1,4 +1,3 @@
-import React from "react";
 import { Tabs, Tag, Typography } from "antd";
 import { convertStringToKCAL } from "utils/formatCurrency";
 const { TabPane } = Tabs;

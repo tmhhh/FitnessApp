@@ -1,4 +1,3 @@
-import React from "react";
 import { Badge, Image } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -27,7 +26,7 @@ export default function PostPreview({ post, handleShowConfirm }) {
     e.stopPropagation();
     dispatch(unLikePost(post._id));
   };
-  const onCmtClick = async (e) => {};
+  // const onCmtClick = async (e) => {};
 
   console.log({ post });
   return (

@@ -1,8 +1,7 @@
-import React from "react";
-import { Image, Table, Button } from "react-bootstrap";
-import Thumbnail from "../Common/Thumbnail";
+import { Table } from "react-bootstrap";
 import { PROD_IMAGE_BASE_URL } from "../../assets/constants";
 import { formatCurrency } from "../../utils/formatCurrency";
+import Thumbnail from "../Common/Thumbnail";
 export default function ListTable({
   productList,
   updateModalShow,

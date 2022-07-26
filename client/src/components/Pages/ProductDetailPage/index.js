@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Button, Spinner } from "react-bootstrap";
-import "./style.scss";
-import { useParams, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useContext, useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
-import { formatCurrency } from "../../../utils/formatCurrency";
 import { Context } from "../../../contexts";
 import { getReview } from "../../../redux/slices/reviewSlice";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import ReviewSection from "../../Review/ReviewSection";
-import { Helmet } from "react-helmet";
+import "./style.scss";
 function ProductDetailPage() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -210,7 +210,10 @@ function ProductDetailPage() {
                   {chosenProd.prodDescription}
                 </div>
                 <div className="product_info_action">
-                  <button onClick={handleAddToCart} className="common-outline-button common-outline-button-green">
+                  <button
+                    onClick={handleAddToCart}
+                    className="common-outline-button common-outline-button-green"
+                  >
                     Add to cart
                   </button>
                   <button className="common-button">

@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext } from "react";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { PROD_IMAGE_BASE_URL } from "../../assets/constants";
 import { Context } from "../../contexts";
@@ -11,7 +11,6 @@ export default function Product(props) {
     useContext(Context);
 
   const { userInfo } = useSelector((state) => state.authReducer);
-  const dispatch = useDispatch();
   const history = useHistory();
 
   //
@@ -22,7 +21,7 @@ export default function Product(props) {
     prodPrice,
     prodThumbnail,
     _id,
-    prodWeight,
+    // prodWeight,
     prodDiscount,
     status,
   } = props;

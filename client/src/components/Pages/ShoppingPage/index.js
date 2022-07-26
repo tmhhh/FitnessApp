@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Col, Pagination, Row } from "react-bootstrap";
-import { calculateFinalPrice } from "utils/calculate";
+import { useState } from "react";
+import { Col, Row } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
+import { prodFilterSelector } from "redux/selectors/prodSelector";
 import ProductSide from "./ProductSide";
 import Sidebar from "./Sidebar";
 import "./style.scss";
-import { Helmet } from "react-helmet";
-import { prodFilterSelector } from "redux/selectors/prodSelector";
 export default function ShoppingPage() {
   const [searchOption, setSearchOption] = useState({
     category: "All",

@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
-import Button from "react-bootstrap/Button";
+import { FastField, Form, Formik } from "formik";
+import { useContext } from "react";
 import FormBootStrap from "react-bootstrap/Form";
-import "./style.scss";
-import { Context } from "../../contexts";
-import { Formik, Form, FastField } from "formik";
-import InputField from "../Common/InputField";
 import * as yup from "yup";
 import { authApi } from "../../api/authApi";
+import { Context } from "../../contexts";
+import InputField from "../Common/InputField";
+import "./style.scss";
 function Register() {
   //  AUTH CONTEXT
   const { authForm, setAuthForm, setToast } = useContext(Context);
@@ -28,7 +27,7 @@ function Register() {
   //   e.preventDefault();
   // };
   // const [err, setError] = useState(null);
-  const err = null;
+  let err = null;
   const handleRegisterUser = async (values) => {
     try {
       const res = await authApi.userRegister(values);
@@ -80,7 +79,7 @@ function Register() {
           .string()
           .required("Please Enter your password")
           .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
           ),
         userPasswordConfirm: yup
@@ -164,7 +163,10 @@ function Register() {
                   </p>
                   !!!
                 </FormBootStrap.Text>
-                <button className="common-outline-button common-outline-button-blue my-3 w-100" type="submit">
+                <button
+                  className="common-outline-button common-outline-button-blue my-3 w-100"
+                  type="submit"
+                >
                   Submit
                 </button>
               </div>

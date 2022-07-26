@@ -1,22 +1,23 @@
-import { useContext, useState, useEffect } from "react";
-import { Spinner, Table } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import InputField from "components/Common/InputField";
+import Lottie from "lottie-react";
+import { useContext, useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
 import userApi from "../../../api/userApi";
 import { BASE_IMAGE_BASE_URL } from "../../../assets/constants";
+import nutritionLottie from "../../../assets/lottie/salad-diet.json";
 import { Context } from "../../../contexts";
+import authSlice from "../../../redux/slices/authSlice";
+import NoResults from "../../Common/Placeholders/NoResults";
 import SearchBar from "../../Common/SearchBar";
 import NutritionContainer from "../../Containers/NutritionContainer";
 import FoodModal from "./FoodModal";
 import TrackingSidebar from "./NutriSidebar";
 import "./style.scss";
 import TrackingModal from "./TrackingModal";
-import authSlice from "../../../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
-import { Helmet } from "react-helmet";
-import CustomLoading from "../../Common/Placeholders/CustomLoading";
-import NoResults from "../../Common/Placeholders/NoResults";
-import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
-import InputField from "components/Common/InputField";
+
 export default function NutritionPage() {
   const dispatch = useDispatch();
   const { nutriState } = useContext(Context);
@@ -190,7 +191,17 @@ export default function NutritionPage() {
         <div className="nutrition_section ">
           <SearchBar />
           {nutriState.isLoading ? (
-            <CustomLoading />
+            <Lottie
+              style={{
+                height: "300px",
+                width: "300px",
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+              }}
+              animationData={nutritionLottie}
+            />
           ) : nutriState.listFoods ? (
             nutriState.listFoods.length <= 0 ? (
               <NoResults />

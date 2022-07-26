@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FloatingLabel, Button, Form, Image } from "react-bootstrap";
+import { useState } from "react";
+import { FloatingLabel, Form, Image } from "react-bootstrap";
 import { fetchUserImage } from "../../assets/constants";
 
 export default function CommentForm({ user, onHide, handleSubmit }) {

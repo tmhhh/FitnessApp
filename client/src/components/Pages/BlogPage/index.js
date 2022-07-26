@@ -1,13 +1,12 @@
-import { useHistory } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Button from "react-bootstrap/Button";
-import PostContainer from "../../Post/PostContainer";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   getAvailablePosts,
   getPostsByAuthor,
 } from "../../../redux/slices/postSlice";
+import PostContainer from "../../Post/PostContainer";
 
 export default function BlogPage() {
   const dispatch = useDispatch();
@@ -75,7 +74,7 @@ export default function BlogPage() {
                 fontWeight: 500,
                 color: "#999",
                 margin: "0 0 10px 80px",
-                  borderRadius: "5px",
+                borderRadius: "5px",
               }}
               className="d-flex align-items-center  common-hover p-3"
               onClick={onSeeAll}
@@ -90,7 +89,7 @@ export default function BlogPage() {
               fontWeight: 500,
               color: "#999",
               margin: "0 0 10px 20px",
-                borderRadius: "5px",
+              borderRadius: "5px",
             }}
             className="d-flex align-items-center common-hover p-3"
             onClick={fetchYourPost}
