@@ -31,7 +31,10 @@ td {
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 .form-control {
-  font-size: 1.5rem !important;
+  font-size: 1.3rem !important;
+  font-weight: 400;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .page-item {
@@ -68,7 +71,7 @@ td {
   font-size: 1.5rem !important;
 }
 .form-label {
-  font-size: 1.2rem !important;
+  font-size: 1.5rem !important;
 }
 .form-floating {
   height: 5rem;
@@ -202,8 +205,8 @@ td {
   border: 1.5px solid black;
   border-radius: 3px;
   background: transparent;
-  font-size: 120%;
-  padding: 5px 8px;
+  font-size: 160%;
+  padding: 10px 8px;
   color: black;
   font-weight: 600;
   transition: background-color 0.2s ease-in-out;
@@ -236,7 +239,7 @@ td {
 }
 
 .common-button-blue {
-  background: #41A9FF;
+  background: #41a9ff;
 }
 
 .common-button-green {
@@ -252,12 +255,12 @@ td {
 }
 
 .common-outline-button-blue {
-  border: 1.5px solid #41A9FF;
-  color: #41A9FF;
+  border: 1.5px solid #41a9ff;
+  color: #41a9ff;
 
   &:hover {
     cursor: pointer;
-    background-color: #41A9FF;
+    background-color: #41a9ff;
     color: white;
   }
 }

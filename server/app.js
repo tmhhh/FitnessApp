@@ -21,7 +21,7 @@ app.use(
   cors({
     credentials: true,
     // origin: process.env.client_URL,
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://hht-fitness-app.netlify.app"],
   })
 );
 app.use(express.urlencoded({ extended: true }));

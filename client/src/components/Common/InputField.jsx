@@ -1,9 +1,8 @@
-import React from "react";
 import { Form } from "react-bootstrap";
 import "./style.scss";
 export default function InputField(props) {
   const {
-    fieldType = 1,
+    fieldType = 0,
     field, // formik
     form, // formik
     type,
@@ -30,15 +29,10 @@ export default function InputField(props) {
   let body;
   if (fieldType === 0) {
     body = (
-      <Form.Group className="mb-4">
+      <Form.Group className="mb-2">
         <div className={`${type === "number" && "d-flex align-items-center "}`}>
           {label && (
             <Form.Label
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: "500",
-                color: "#999",
-              }}
               className={type === "number" && "flex-shrink-0"}
               htmlFor={name}
             >

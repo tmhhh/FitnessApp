@@ -1,12 +1,11 @@
-import React, { useState, useContext } from "react";
-import Button from "react-bootstrap/Button";
+import { FastField, Form, Formik } from "formik";
+import { useContext } from "react";
 import FormBootStrap from "react-bootstrap/Form";
-import "./style.scss";
-import { Context } from "../../contexts";
-import { Formik, Form, FastField } from "formik";
-import InputField from "../Common/InputField";
 import * as yup from "yup";
 import { authApi } from "../../api/authApi";
+import { Context } from "../../contexts";
+import InputField from "../Common/InputField";
+import "./style.scss";
 function Register() {
   //  AUTH CONTEXT
   const { authForm, setAuthForm, setToast } = useContext(Context);
@@ -46,16 +45,7 @@ function Register() {
         });
       }
     } catch (error) {
-      // alert(error.response.status);
       if (error.response.status === 400)
-        // setToast({
-        //   toastShow: true,
-        //   title: "Failed to register  !!!",
-        //   content: error.response.data.error + " !!!",
-        //   icon: "❌",
-        //   bg: "danger",
-        // });
-        // setError(error.response.data.error + " !!!");
         err = error.response.data.error + " !!!";
     }
   };
@@ -106,7 +96,6 @@ function Register() {
               <FastField
                 required
                 label="Your Username"
-                placeholder="Enter name ..."
                 name="userNameID"
                 type="text"
                 component={InputField}
@@ -114,7 +103,6 @@ function Register() {
               <FastField
                 required
                 label="Your name"
-                placeholder="Enter name ..."
                 name="userName"
                 type="text"
                 component={InputField}
@@ -122,7 +110,6 @@ function Register() {
               <FastField
                 required
                 label="Your Email"
-                placeholder="Enter email ..."
                 name="userEmail"
                 type="text"
                 component={InputField}
@@ -130,7 +117,6 @@ function Register() {
               <FastField
                 required
                 label="Your Password"
-                placeholder="Enter password ..."
                 name="userPassword"
                 type="password"
                 component={InputField}
@@ -138,7 +124,6 @@ function Register() {
               <FastField
                 required
                 label="Confirm Your Password"
-                placeholder="Enter password confirmation ..."
                 name="userPasswordConfirm"
                 type="password"
                 component={InputField}
@@ -164,7 +149,10 @@ function Register() {
                   </p>
                   !!!
                 </FormBootStrap.Text>
-                <button className="common-outline-button common-outline-button-blue my-3 w-100" type="submit">
+                <button
+                  className="common-outline-button common-outline-button-blue my-3 w-100"
+                  type="submit"
+                >
                   Submit
                 </button>
               </div>
