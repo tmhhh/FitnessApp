@@ -28,7 +28,6 @@ export default function Product(props) {
 
   // ADD TO CART
   const handleAddToCart = () => {
-    console.log(props);
     addToCart(props);
   };
   return status === "out_of_stock" ? (

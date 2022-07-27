@@ -5,7 +5,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const expressSession = require("express-session");
 const passport = require("passport");
-const morgan = require("morgan");
+const router = require("./routes/index.route");
+const nodemailer = require("./utils/nodemailer");
 require("dotenv").config();
 
 app.set("trust proxy", 1); // trust first proxy
@@ -17,11 +18,11 @@ app.use(
     cookie: { secure: true, sameSite: "none" },
   })
 );
+
 app.use(
   cors({
     credentials: true,
-    // origin: process.env.client_URL,
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://hht-fitness-app.netlify.app"],
   })
 );
 app.use(express.urlencoded({ extended: true }));
@@ -29,8 +30,11 @@ app.use(express.json());
 app.use(express.static("./public"));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(morgan("combined"));
-
+app.get("/testSendmail", async (req, res) => {
+  console.log("asd");
+  await nodemailer.testSendMail();
+  return res.json("Success");
+});
 mongoose
   .connect(process.env.MONGO_DB_URI, {
     useNewUrlParser: true,
