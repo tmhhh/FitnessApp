@@ -16,9 +16,9 @@
     font-size: 1.5rem;
   }
   .sidebar-active {
-    color: white;
+    color: white !important;
     font-weight: bold;
-    background-color: black;
+    background-color: black !important;
     box-shadow: 0 5px 15px rgb(51, 51, 51);
   }
 }
