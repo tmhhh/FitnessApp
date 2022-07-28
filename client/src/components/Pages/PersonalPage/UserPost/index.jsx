@@ -26,24 +26,24 @@ export default function UserPost() {
             className="badge-btn ms-3"
             onClick={() => setStatus("all")}
           >
-            {status === "all" && "👉 "}
-            All
+            {status === "all" && <i className="fas fa-hand-point-right"></i>}
+            {" "}All
           </Badge>
           <Badge
             bg="primary"
             className="badge-btn ms-3"
             onClick={() => setStatus("pending")}
           >
-            {status === "pending" && "👉 "}
-            Pending
+            {status === "pending" && <i className="fas fa-hand-point-right"></i>}
+            {" "}Pending
           </Badge>
           <Badge
             bg="success"
             className="badge-btn ms-3"
             onClick={() => setStatus("approved")}
           >
-            {status === "approved" && "👉 "}
-            Approved
+            {status === "approved" && <i className="fas fa-hand-point-right"></i>}
+            {" "}Approved
           </Badge>
 
           <Badge
@@ -51,8 +51,8 @@ export default function UserPost() {
             className="badge-btn ms-3"
             onClick={() => setStatus("rejected")}
           >
-            {status === "rejected" && "👉 "}
-            Rejected
+            {status === "rejected" && <i className="fas fa-hand-point-right"></i>}
+            {" "}Rejected
           </Badge>
         </div>
         <Table

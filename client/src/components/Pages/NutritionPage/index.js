@@ -23,7 +23,7 @@ export default function NutritionPage() {
 
   const searchBarRef = useRef(null);
   const dispatch = useDispatch();
-  const { nutriState } = useContext(Context);
+  const { nutriState, nutriSearching, foodName, setFoodName } = useContext(Context);
   const { userInfo, isAuthenticated, authLoading } = useSelector(
     (state) => state.authReducer
   );
@@ -133,7 +133,7 @@ export default function NutritionPage() {
     if (foodName) {
       searchBarRef.current.searchNutrition();
     }
-  }, [searchType]);
+  }, [searchType, foodName]);
 
   /**
    * FILTER MODAL
