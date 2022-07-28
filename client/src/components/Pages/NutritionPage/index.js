@@ -23,7 +23,8 @@ export default function NutritionPage() {
 
   const searchBarRef = useRef(null);
   const dispatch = useDispatch();
-  const { nutriState, nutriSearching, foodName, setFoodName } = useContext(Context);
+  const { nutriState, nutriSearching, foodName, setFoodName } =
+    useContext(Context);
   const { userInfo, isAuthenticated, authLoading } = useSelector(
     (state) => state.authReducer
   );

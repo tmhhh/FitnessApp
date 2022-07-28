@@ -1,11 +1,11 @@
-import React, { useContext, useRef } from "react";
+import { useContext, useRef } from "react";
 import { Dropdown, DropdownButton, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
+import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 import { Context } from "../../../contexts";
 import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
-import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 export default function Navbar() {
   const navRef = useRef(null);
   // const [showDropdown, setDropdown] = useState(false);

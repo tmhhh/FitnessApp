@@ -1,8 +1,6 @@
-import { message } from "antd";
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
 import { FastField, Formik } from "formik";
-import React, { useContext, useState } from "react";
-import Button from "react-bootstrap/Button";
+import { useContext, useState } from "react";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
@@ -154,7 +152,6 @@ function Login() {
             <Form onSubmit={formikProps.handleSubmit} className={"auth_form "}>
               <FastField
                 name="userNameID"
-                placeholder="Your username ..."
                 component={InputField}
                 required
                 label="Username"
@@ -164,7 +161,6 @@ function Login() {
                 label="Password"
                 type="password"
                 required
-                placeholder="Your password ..."
                 component={InputField}
               />
 
@@ -187,7 +183,10 @@ function Login() {
                   </a>
                   !!!
                 </Form.Text>
-                <button className="common-outline-button common-outline-button-blue  w-100 my-3" type="submit">
+                <button
+                  className="common-outline-button common-outline-button-blue  w-100 my-3"
+                  type="submit"
+                >
                   Login <i className="fas fa-sign-in-alt"></i>
                 </button>
               </div>

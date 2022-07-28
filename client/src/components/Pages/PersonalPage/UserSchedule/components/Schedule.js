@@ -1,4 +1,3 @@
-import React from "react";
 import { Tabs, Tag, Typography } from "antd";
 import { convertStringToKCAL } from "utils/formatCurrency";
 const { TabPane } = Tabs;
@@ -40,10 +39,10 @@ function Schedule({
                     className="schedule__item__task"
                   >
                     <p className="schedule__item__task-title">
-                      {workout.exercise.name}
+                      {workout.exercise?.name}
                     </p>
 
-                    {workout.exercise.muscleActivate.map((muscle, index) =>
+                    {workout.exercise?.muscleActivate.map((muscle, index) =>
                       index < workout.exercise.muscleActivate.length - 1 ? (
                         <span className="schedule__item__task-time">
                           {muscle} -
