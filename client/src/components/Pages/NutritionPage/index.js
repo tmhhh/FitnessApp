@@ -1,4 +1,4 @@
-import {Badge, Image, Radio} from "antd";
+import {Badge, Image, Radio, Segmented} from "antd";
 import InputField from "components/Common/InputField";
 import {useContext, useEffect, useRef, useState} from "react";
 import {Table} from "react-bootstrap";
@@ -244,22 +244,26 @@ export default function NutritionPage() {
                     handleShowTrackingModal={handleShowTrackingModal}
                     handleRemoveTrackingFood={handleRemoveTrackingFood}
                 />
-                <div className="nutrition_section overflow-hidden" style={{backgroundColor: '#fcfcfc'}}>
+                <div className="nutrition_section overflow-hidden p-5" style={{backgroundColor: '#fcfcfc', height: 700}}>
                     <div className="d-flex justify-content-center align-items-center">
                         <h3 className='m-0' style={{color: "#a8a8a8"}}>Search by: </h3>
-                        <Radio.Group
+                        <Segmented
                             className="ms-3"
                             defaultValue="food"
                             value={searchType}
-                            onChange={(e) => setSearchType(e.target.value)}
-                            buttonStyle="solid"
-                            size="small"
+                            onChange={(value) => setSearchType(value)}
                             disabled={nutriState.isLoading}
-                            style={{fontWeight: 'bold'}}
-                        >
-                            <Radio.Button value="food">Ingredients</Radio.Button>
-                            <Radio.Button value="dish">Dishes</Radio.Button>
-                        </Radio.Group>
+                            options={[
+                                {
+                                    label: 'Ingredients',
+                                    value: 'food',
+                                },
+                                {
+                                    label: 'Dishes',
+                                    value: 'dish',
+                                },
+                            ]}
+                        />
                     </div>
 
                     <SearchBar searchType={searchType} ref={searchBarRef}/>
@@ -284,68 +288,11 @@ export default function NutritionPage() {
                                     {nutriState.listFoods.map((e, index) => {
                                         const item = e.recipe || e.food;
                                         const nutrients = item.totalNutrients || item.nutrients;
-                                        // return (
-                                        //   <tr
-                                        //     key={index}
-                                        //     role="button"
-                                        //     onClick={() => handleShowModal(index)}
-                                        //   >
-                                        //     <td>{index + 1}</td>
-                                        //     <td>
-                                        //       <img
-                                        //         height="80"
-                                        //         width="80"
-                                        //         src={
-                                        //           item.image
-                                        //             ? item.image
-                                        //             : BASE_IMAGE_BASE_URL + "/dishes-default.png"
-                                        //         }
-                                        //         alt={item.label}
-                                        //       />
-                                        //     </td>
-                                        //     <td>{"100g"}</td>
-                                        //     <td>{item.label}</td>
-                                        //     <td>
-                                        //       {Math.trunc(
-                                        //         (nutrients.ENERC_KCAL?.quantity * 100) /
-                                        //           item.totalWeight || nutrients.ENERC_KCAL
-                                        //       )}
-                                        //     </td>
-                                        //     <td>
-                                        //       <div className="d-flex flex-column align-items-start pl-4 justify-content-start">
-                                        //         <p>
-                                        //           Protein:{" "}
-                                        //           {Math.trunc(
-                                        //             (nutrients.PROCNT?.quantity * 100) /
-                                        //               item.totalWeight || nutrients.PROCNT
-                                        //           )}
-                                        //           g
-                                        //         </p>
-                                        //         <p>
-                                        //           Fat:{" "}
-                                        //           {Math.trunc(
-                                        //             (nutrients.FAT?.quantity * 100) /
-                                        //               item.totalWeight || nutrients.FAT
-                                        //           )}
-                                        //           g
-                                        //         </p>
-                                        //         <p>
-                                        //           Carbs:{" "}
-                                        //           {Math.trunc(
-                                        //             (nutrients.FIBTG?.quantity * 100) /
-                                        //               item.totalWeight || nutrients.FIBTG
-                                        //           )}
-                                        //           g
-                                        //         </p>
-                                        //       </div>
-                                        //     </td>
-                                        //   </tr>
-                                        // );
                                         return (
                                             <div key={index}
                                                  className='p-3'>
                                                 <div
-                                                    className='common-float p-3 w-100 d-flex justify-content-between common-hover'
+                                                    className='p-3 w-100 d-flex justify-content-between common-hover'
                                                     onClick={() => handleShowModal(index)}>
                                                     <div className='d-flex'>
                                                         <Image width={120}
