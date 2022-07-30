@@ -11,8 +11,7 @@ import { useDispatch } from "react-redux";
 const SearchBar = forwardRef(({ listExercises, setListExercisesCop, searchType }, ref) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { nutriSearching, foodName } = useContext(Context);
-  const [input, setInput] = useState("");
+  const { nutriSearching, foodName, setFoodName } = useContext(Context);
   const timerRef = useRef(null);
 
   /**
@@ -26,8 +25,8 @@ const SearchBar = forwardRef(({ listExercises, setListExercisesCop, searchType }
 
   /////
   const handleOnChange = async (e) => {
-    setInput(e.target.value);
     const param = e.target.value;
+    setFoodName(param);
     try {
       if (location.pathname === "/nutrition") {
         if (e.target.value.trim() !== "") {
@@ -89,7 +88,7 @@ const SearchBar = forwardRef(({ listExercises, setListExercisesCop, searchType }
   return (
     <div className="search_bar_container">
       <input
-        value={input}
+        value={foodName}
         onChange={handleOnChange}
         className="search_bar"
         type="text"

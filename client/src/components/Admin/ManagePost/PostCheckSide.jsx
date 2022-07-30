@@ -41,9 +41,9 @@ export default function PostCheckSide() {
                 heading={<h3 style={{color: "#ff5454", fontWeight: "bold"}}>Reject this post 📮</h3>}
             />
             <div className="approve-section common-float">
-                <h2 style={{fontWeight: "bold"}}>Process this post stick <i className="fas fa-check-circle" style={{color: "#55bb55"}}></i> </h2>
+                <h2 style={{fontWeight: "bold"}}>Process this post <i className="fas fa-check-circle" style={{color: "#55bb55"}}></i> </h2>
                 <div className="d-flex justify-content-end mt-4">
-                    <button className="common-outline-button" onClick={() => setApproveConfirmShow(true)}>Approve</button>
+                    <button className="common-outline-button common-outline-button-green" onClick={() => setApproveConfirmShow(true)}>Approve</button>
                     <button className="ms-2 common-button common-button-red" onClick={() => setRejectConfirmShow(true)}>Reject</button>
                 </div>
             </div>

@@ -134,7 +134,7 @@ export default function NutritionPage() {
     if (foodName) {
       searchBarRef.current.searchNutrition();
     }
-  }, [searchType]);
+  }, [searchType, foodName]);
 
   /**
    * FILTER MODAL
