@@ -8,14 +8,15 @@ import "./style.scss";
 import TrackingForm from "./TrackingForm";
 const { Step } = Steps;
 export default function TrackingModal({
+  setShowTrackingModal,
   showTrackingModal,
   handleCloseTrackingModal,
-  listInputFieldsStep1,
+  // listInputFieldsStep1,
 }) {
   const dispatch = useDispatch();
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  // const [isModalVisible, setIsModalVisible] = useState(true);
   const formRef = useRef(null);
   const formData = useRef({});
 
@@ -29,7 +30,7 @@ export default function TrackingModal({
 
   const handleCancel = () => {
     if (activeStep !== 0) setActiveStep(activeStep - 1);
-    else setIsModalVisible(false);
+    else setShowTrackingModal(false);
   };
 
   //
@@ -54,12 +55,12 @@ export default function TrackingModal({
   return (
     <Modal
       title="Tracking Information"
-      visible={isModalVisible}
+      visible={showTrackingModal}
       onOk={handleTriggerSubmit}
       onCancel={handleCancel}
       confirmLoading={confirmLoading}
       width={800}
-      okText={activeStep < 3 ? "Next" : "Done"}
+      okText={activeStep !== 2 ? "Next" : "Done"}
       cancelText={activeStep > 0 ? "Back" : "Cancel"}
     >
       <Steps className="steps-container" current={1}>
@@ -68,7 +69,6 @@ export default function TrackingModal({
         <Step title="Finish" />
       </Steps>
       <TrackingForm
-        listInputFieldsStep1={listInputFieldsStep1}
         activeStep={activeStep}
         setActiveStep={setActiveStep}
         formRef={formRef}

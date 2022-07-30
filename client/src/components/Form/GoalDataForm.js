@@ -1,7 +1,7 @@
 import { Col, Image, Popover, Row, Select, Typography } from "antd";
 import { Option } from "antd/lib/mentions";
+import { colors } from "assets/color";
 import { FastField, Form } from "formik";
-import { Link } from "react-router-dom";
 import BodyFatTableMale from "../../assets/img/Body-Fat-Caliper-Chart-men.png";
 import BodyFatTableFemale from "../../assets/img/Body-Fat-Caliper-Chart-women.png";
 const { Paragraph, Text } = Typography;
@@ -59,27 +59,30 @@ const GoalDataForm = ({ userGender = 0, ...props }) => {
             />
           )}
         >
-          <Link>skin folds to body fat % conversion table. </Link>
+          <Text style={{ color: colors.primaryBlue }}>
+            skin folds to body fat % conversion table.{" "}
+          </Text>
         </Popover>
         <Text>
           Your corresponding body fat is
           <Text strong type="danger">
             {" "}
-            15%
+            34.75%
           </Text>
           <Text type="danger">
             {" "}
-            (which means your health is in danger zone)
+            (which means your health is in danger zone) and would benefit from
+            losing some body fat, placing them between 25% and 29%
           </Text>
-          . So we would recommend you to follow the below chosen options. (You
-          can change later).
+          . So we would recommend you dwo to follow the below chosen options.
+          {/* (You can change later). */}
         </Text>
       </Paragraph>
       <Row gutter={10}>
         <Col span={12}>
           <FastField
             name="goal"
-            component={({ field }) => (
+            component={({ field, form }) => (
               <Select
                 {...field}
                 onChange={(e) =>
@@ -89,6 +92,7 @@ const GoalDataForm = ({ userGender = 0, ...props }) => {
                 }
                 style={{ width: "100%" }}
                 placeholder="Your goal"
+                status={form.errors["goal"] && "error"}
               >
                 {dietGoals.map((item) => (
                   <Option value={item.value}>{item.name}</Option>
@@ -100,7 +104,7 @@ const GoalDataForm = ({ userGender = 0, ...props }) => {
         <Col span={12}>
           <FastField
             name="activityLevel"
-            component={({ field }) => (
+            component={({ field, form }) => (
               <Select
                 {...field}
                 onChange={(e) =>
@@ -108,6 +112,7 @@ const GoalDataForm = ({ userGender = 0, ...props }) => {
                     target: { name: field.name, value: e },
                   })
                 }
+                status={form.errors["activityLevel"] && "error"}
                 placeholder={"Your activity level"}
                 style={{ width: "100%" }}
               >
