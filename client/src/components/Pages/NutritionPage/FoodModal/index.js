@@ -394,7 +394,9 @@ export default function FoodModal({
                               className="common-float mt-2 ms-3 d-flex position-relative"
                               style={{ height: 120 }}
                             >
-                              <Image width={90} src={ingr.image}></Image>
+                              <Image width={90} src={ingr.image
+                                  ? ingr.image
+                                  : BASE_IMAGE_BASE_URL + "/dishes-default.png"}></Image>
                               <div className="ms-3 d-flex flex-column align-items-start">
                                 <Text italic>{ingr.text}</Text>
                                 <Text italic>
