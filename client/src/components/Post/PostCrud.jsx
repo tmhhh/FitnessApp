@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -38,11 +39,23 @@ export default function PostCrud({ postId }) {
       history.push("/blog");
     }
   };
+
+  const back = () => {
+    history.goBack();
+  };
   return (
     <>
       <Container
-        style={{ marginTop: "200px", marginBottom: "100px", width: "900px" }}
+        style={{ marginTop: "100px", marginBottom: "100px", width: "900px" }}
       >
+        <Button
+          className="px-0 mb-4"
+          style={{ fontSize: 18 }}
+          type="link"
+          onClick={back}
+        >
+          <i className="far fa-arrow-alt-circle-left me-2"></i> Back
+        </Button>
         <div className="d-flex justify-content-between">
           {postId ? (
             <h1> 📝 Change for the new things</h1>
@@ -51,19 +64,14 @@ export default function PostCrud({ postId }) {
           )}
           <div
             className="approve-section common-float"
-            style={{
-              top: "80px",
-              bottom: "780px",
-              backgroundColor: "black",
-              color: "white",
-            }}
+            style={{ backgroundColor: "black" }}
           >
-            <h2 style={{ fontWeight: "bold" }}>
+            <h2 style={{ fontWeight: "bold", color: "white" }}>
               Publish your post{" "}
               <i
                 className="fas fa-check-circle"
                 style={{ color: "#55bb55" }}
-              ></i>{" "}
+              ></i>
             </h2>
             <div className="d-flex justify-content-end mt-4">
               <button

@@ -6,7 +6,7 @@ import ConfirmModal from "../Common/ConfirmModal";
 import { useDispatch } from "react-redux";
 import { deletePost } from "../../redux/slices/postSlice";
 
-export default function PostContainer({ listPost }) {
+export default function PostContainer({ listPost, isYourPost }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [confirmShow, setConfirmShow] = useState(false);
@@ -42,7 +42,7 @@ export default function PostContainer({ listPost }) {
               // style={{ cursor: "pointer" }}
               onClick={() => history.push(`/post/${post._id}`)}
             >
-              <PostPreview post={post} handleShowConfirm={handleShowConfirm} />
+              <PostPreview post={post} handleShowConfirm={handleShowConfirm} isYourPost={isYourPost} />
             </div>
           </Col>
         ))}

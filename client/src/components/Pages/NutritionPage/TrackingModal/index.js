@@ -11,7 +11,6 @@ export default function TrackingModal({
   setShowTrackingModal,
   showTrackingModal,
   handleCloseTrackingModal,
-  // listInputFieldsStep1,
 }) {
   const dispatch = useDispatch();
   const [activeStep, setActiveStep] = useState(0);

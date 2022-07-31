@@ -45,16 +45,7 @@ function Register() {
         });
       }
     } catch (error) {
-      // alert(error.response.status);
       if (error.response.status === 400)
-        // setToast({
-        //   toastShow: true,
-        //   title: "Failed to register  !!!",
-        //   content: error.response.data.error + " !!!",
-        //   icon: "❌",
-        //   bg: "danger",
-        // });
-        // setError(error.response.data.error + " !!!");
         err = error.response.data.error + " !!!";
     }
   };
@@ -105,7 +96,6 @@ function Register() {
               <FastField
                 required
                 label="Your Username"
-                placeholder="Enter name ..."
                 name="userNameID"
                 type="text"
                 component={InputField}
@@ -113,7 +103,6 @@ function Register() {
               <FastField
                 required
                 label="Your name"
-                placeholder="Enter name ..."
                 name="userName"
                 type="text"
                 component={InputField}
@@ -121,7 +110,6 @@ function Register() {
               <FastField
                 required
                 label="Your Email"
-                placeholder="Enter email ..."
                 name="userEmail"
                 type="text"
                 component={InputField}
@@ -129,7 +117,6 @@ function Register() {
               <FastField
                 required
                 label="Your Password"
-                placeholder="Enter password ..."
                 name="userPassword"
                 type="password"
                 component={InputField}
@@ -137,7 +124,6 @@ function Register() {
               <FastField
                 required
                 label="Confirm Your Password"
-                placeholder="Enter password confirmation ..."
                 name="userPasswordConfirm"
                 type="password"
                 component={InputField}

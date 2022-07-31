@@ -6,7 +6,7 @@ import { likePost, unLikePost } from "../../redux/slices/postSlice";
 
 import "./style.scss";
 
-export default function PostPreview({ post, handleShowConfirm }) {
+export default function PostPreview({ post, handleShowConfirm, isYourPost }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.authReducer.userInfo);
@@ -26,9 +26,8 @@ export default function PostPreview({ post, handleShowConfirm }) {
     e.stopPropagation();
     dispatch(unLikePost(post._id));
   };
-  // const onCmtClick = async (e) => {};
+  const onCmtClick = async (e) => {};
 
-  console.log({ post });
   return (
     <>
       <div className="postPreviewContainer">
@@ -44,19 +43,38 @@ export default function PostPreview({ post, handleShowConfirm }) {
           fluid
         />
 
-        <h3
-          style={{
-            textTransform: "uppercase",
-            fontSize: "2rem",
-            fontWeight: 700,
-            height: "25px",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {post.title}
-        </h3>
+        <div className="d-flex align-items-center justify-content-between">
+          <h3
+            style={{
+              textTransform: "uppercase",
+              fontSize: "2rem",
+              fontWeight: 700,
+              height: "25px",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {post.title}
+          </h3>
+          {isYourPost && (
+            <div style={{ fontSize: 12 }}>
+              {post.status === "approved" ? (
+                <Badge pill bg="success">
+                  Approved
+                </Badge>
+              ) : post.status === "rejected" ? (
+                <Badge pill bg="danger">
+                  Rejected
+                </Badge>
+              ) : (
+                <Badge pill bg="primary">
+                  Pending
+                </Badge>
+              )}
+            </div>
+          )}
+        </div>
 
         <div style={{ flex: 1 }} className="body">
           <div

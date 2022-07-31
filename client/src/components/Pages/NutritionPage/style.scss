@@ -40,6 +40,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size:auto;
+  opacity: 0.4;
   @include respond-to(medium){
     height:40%;
   }

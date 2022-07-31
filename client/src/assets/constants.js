@@ -5,23 +5,42 @@ export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
 // export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
 export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
 const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
-
 //DJANGO SERVER
 export const PREDICT_BODY_FAT_API_URL = `http://127.0.0.1:8000/api/body-fat-predict/`;
 // export const PREDICT_BODY_FAT_API_URL =
 //   "https://test-deploy-dj.herokuapp.com/api/body-fat-predict/";
 
 //
-export const NUTRI_API_CONFIG = (params) => {
-  return {
-    method: "GET",
-    url: "https://edamam-food-and-grocery-database.p.rapidapi.com/parser",
-    params: { ingr: params.toString() },
-    headers: {
-      "x-rapidapi-host": "edamam-food-and-grocery-database.p.rapidapi.com",
-      "x-rapidapi-key": "2afa2a5cddmsh1498ac601dd5c89p13573fjsn6fcfc992d860",
-    },
-  };
+export const NUTRI_API_CONFIG = (params, searchType = null) => {
+  return searchType === "dish"
+    ? {
+        method: "GET",
+        url: "https://api.edamam.com/api/recipes/v2",
+        params: {
+          app_id: "4280966c",
+          app_key: "7bcd5756d10749b883cdeb125535ba75",
+          type: "public",
+          q: params.foodName?.toString(),
+          diet: params.diet,
+          health: params.health,
+          cuisineType: params.cuisineType,
+          mealType: params.mealType,
+          calories: params.calories,
+          imageSize: "THUMBNAIL",
+        },
+      }
+    : {
+        method: "GET",
+        url: "https://api.edamam.com/api/food-database/v2/parser",
+        params: {
+          app_id: "078589f8",
+          app_key: "198df3fcdc85e53b7999f94b847d00fc",
+          ingr: params.foodName?.toString(),
+          health: params.health,
+          category: params.category,
+          calories: params.calories,
+        },
+      };
 };
 export const address_API_config = {
   provinces_API_URL:

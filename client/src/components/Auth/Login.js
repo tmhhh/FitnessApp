@@ -151,7 +151,6 @@ function Login() {
             <Form onSubmit={formikProps.handleSubmit} className={"auth_form "}>
               <FastField
                 name="userNameID"
-                placeholder="Your username ..."
                 component={InputField}
                 required
                 label="Username"
@@ -161,7 +160,6 @@ function Login() {
                 label="Password"
                 type="password"
                 required
-                placeholder="Your password ..."
                 component={InputField}
               />
 

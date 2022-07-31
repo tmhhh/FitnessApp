@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, {useState, useRef, useContext, forwardRef, useImperativeHandle} from "react";
 import "./style.scss";
 import { Context } from "../../../contexts";
 import { useLocation } from "react-router";
@@ -6,12 +6,26 @@ import prodApi from "../../../api/prodApi";
 import prodSlice from "../../../redux/slices/prodSlice";
 import { getProduct } from "../../../redux/slices/prodSlice";
 import { useDispatch } from "react-redux";
-export default function SearchBar({ listExercises, setListExercisesCop }) {
+
+
+const SearchBar = forwardRef(({ listExercises, setListExercisesCop, searchType }, ref) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { nutriSearching } = useContext(Context);
+  const { nutriSearching, foodName } = useContext(Context);
   const [input, setInput] = useState("");
   const timerRef = useRef(null);
+
+  /**
+   * Export search function
+   */
+  useImperativeHandle(ref, () => ({
+    searchNutrition() {
+      nutriSearching({foodName}, searchType);
+    },
+    setInput(input) {
+      setInput(input);
+    },
+  }))
 
   /////
   const handleOnChange = async (e) => {
@@ -22,7 +36,7 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
         if (e.target.value.trim() !== "") {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
-            nutriSearching(param);
+            nutriSearching({foodName: param || foodName}, searchType);
           }, 2000);
         } else {
           if (timerRef.current) clearTimeout(timerRef.current);
@@ -62,10 +76,7 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
           if (timerRef.current) clearTimeout(timerRef.current);
           timerRef.current = setTimeout(() => {
             const foundExercises = listExercises.filter((exercise) => {
-              if (exercise.name.toUpperCase().includes(param.toUpperCase())) {
-                return true;
-              }
-              return false;
+              return exercise.name.toUpperCase().includes(param.toUpperCase());
             });
             setListExercisesCop(foundExercises);
           }, 2000);
@@ -96,4 +107,6 @@ export default function SearchBar({ listExercises, setListExercisesCop }) {
       <i className="search_bar_icon fas fa-search"></i>
     </div>
   );
-}
+});
+
+export default SearchBar;
