@@ -54,12 +54,7 @@ function ProductDetailPage() {
         difference -= minutesDifference * 1000 * 60;
 
         let secondsDifference = Math.floor(difference / 1000);
-        // console.log({
-        //   daysDifference,
-        //   hoursDifference,
-        //   minutesDifference,
-        //   secondsDifference,
-        // });
+
         setCountingClock({
           daysDifference,
           hoursDifference,
@@ -76,8 +71,8 @@ function ProductDetailPage() {
   const relatedProds = listProducts.reduce((acc, prod) => {
     if (
       prod._id !== prodID &&
-      prod.prodCategory.cateFilter.filterName ===
-        chosenProd.prodCategory.cateFilter.filterName &&
+      prod.prodCategory?.cateFilter?.filterName ===
+        chosenProd.prodCategory?.cateFilter?.filterName &&
       acc.length < 3
     ) {
       return [...acc, prod];
@@ -200,8 +195,8 @@ function ProductDetailPage() {
                 )}
 
                 <div className="product_info_cate">
-                  {chosenProd.prodCategory.cateName.cateName} |{" "}
-                  {chosenProd.prodCategory.cateFilter.filterName}{" "}
+                  {chosenProd.prodCategory?.cateName?.cateName} |{" "}
+                  {chosenProd.prodCategory?.cateFilter?.filterName}{" "}
                 </div>
                 {/* <div className="product_info_weight">
                   {chosenProd.prodWeight}g
@@ -256,8 +251,8 @@ function ProductDetailPage() {
                       {formatCurrency(prod.prodPrice)}
                     </div>
                     <div className="product_related_info_cate">
-                      {prod.prodCategory.cateName.cateName} |{" "}
-                      {prod.prodCategory.cateFilter.filterName}
+                      {prod.prodCategory?.cateName?.cateName} |{" "}
+                      {prod.prodCategory?.cateFilter?.filterName}
                     </div>
                     <div className="product_related_info_weight">
                       {prod.prodWeight}g

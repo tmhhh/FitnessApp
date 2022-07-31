@@ -63,7 +63,11 @@ function SkinFoldForm({ formData, formRef }) {
           <Form>
             <Divider type="horizontal" />
             <Paragraph>
-              Before we proceed, we need some key information:
+              Before we proceed, you need a skin fold caliper to estimate the
+              following field. Don't have this tool? You can get it from{" "}
+              <a href="https://hht-fitness-app.netlify.app/product/62e563c1a57b0cb434f9921c">
+                here
+              </a>
             </Paragraph>
 
             {listInputFieldsForSkinFold.map(({ group, data }) => (

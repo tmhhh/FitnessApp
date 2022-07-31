@@ -25,6 +25,7 @@ export default function TrackingModal({
   // };
 
   const handleTriggerSubmit = () => {
+    if (activeStep === 2) return handleUpdateTrackingInfo();
     formRef.current.submitForm();
   };
 

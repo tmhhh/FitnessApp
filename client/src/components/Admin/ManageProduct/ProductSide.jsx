@@ -195,7 +195,7 @@ const ManipulateProductModal = (props) => {
     prodCategory: "",
     prodDescription: "",
     thumbnailFile: "",
-    imagesFile: [],
+    // imagesFile: [],
   };
   const validationSchema = yup.object().shape({
     prodName: yup.string().required(),

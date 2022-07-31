@@ -118,7 +118,7 @@ export default function NewItemForm(props) {
                   />
                 )}
               </div>
-              <FastField
+              {/* <FastField
                 name="images"
                 label="Product Images"
                 type="file"
@@ -144,7 +144,7 @@ export default function NewItemForm(props) {
                       </div>
                     ))}
                 </div>
-              )}
+              )} */}
             </Form>
           );
         }}

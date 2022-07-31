@@ -8,19 +8,19 @@ export const listInputFieldsForPredict = [
     group: "Overall",
     data: [
       {
-        name: "userHeight",
-        label: "Height (inch)",
+        name: "height",
+        label: "Height (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userWeight",
-        label: "Weight (lb)",
+        name: "weight",
+        label: "Weight (kg)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userAge",
+        name: "age",
         label: "Age",
         component: () => InputField,
         required: true,
@@ -31,37 +31,37 @@ export const listInputFieldsForPredict = [
     group: "Upper Body",
     data: [
       {
-        name: "userNeck",
+        name: "neck",
         label: "Neck (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userBiceps",
+        name: "biceps",
         label: "Biceps (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userChest",
+        name: "chest",
         label: "Chest (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userForearm",
+        name: "forearm",
         label: "Forearm (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userAbdomen",
+        name: "abdomen",
         label: "Abdomen (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userWrist",
+        name: "wrist",
         label: "Wrist (cm)",
         component: () => InputField,
         required: true,
@@ -72,25 +72,25 @@ export const listInputFieldsForPredict = [
     group: "Lower Body",
     data: [
       {
-        name: "userHip",
+        name: "hip",
         label: "Hip",
         component: () => InputField,
       },
 
       {
-        name: "userThigh",
+        name: "thigh",
         label: "Thigh (cm)",
         component: () => InputField,
       },
 
       {
-        name: "userKnee",
+        name: "knee",
         label: "Knee (cm)",
         component: () => InputField,
       },
 
       {
-        name: "userAnkle",
+        name: "ankle",
         label: "Ankle (cm)",
         component: () => InputField,
       },

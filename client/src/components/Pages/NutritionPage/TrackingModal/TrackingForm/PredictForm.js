@@ -8,96 +8,88 @@ import {
   Row,
   Typography,
 } from "antd";
+import { PREDICT_BODY_FAT_API_URL } from "assets/constants";
+import axios from "axios";
 import { FastField, Formik } from "formik";
 import * as yup from "yup";
 import { listInputFieldsForPredict } from "./TrackingFields";
 const { Panel } = Collapse;
 const { Text, Paragraph } = Typography;
-function PredictForm({ formRef, activeStep, setActiveStep, formData }) {
+function PredictForm({
+  formRef,
+  activeStep,
+  setActiveStep,
+  formData,
+  setConfirmLoading,
+}) {
   return (
     <Formik
       innerRef={formRef}
       validationSchema={yup.object().shape({
-        userHeight: yup
+        height: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userWeight: yup
+        weight: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userAge: yup
+        age: yup.number().nullable().min(0).required("This field is required"),
+        neck: yup.number().nullable().min(0).required("This field is required"),
+        biceps: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userNeck: yup
+        chest: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userBiceps: yup
+        forearm: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userChest: yup
+        abdomen: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userForearm: yup
+        wrist: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userAbdomen: yup
+        hip: yup.number().nullable().min(0).required("This field is required"),
+        thigh: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
-        userWrist: yup
-          .number()
-          .nullable()
-          .min(0)
-          .required("This field is required"),
-        userHip: yup
-          .number()
-          .nullable()
-          .min(0)
-          .required("This field is required"),
-        userThigh: yup
-          .number()
-          .nullable()
-          .min(0)
-          .required("This field is required"),
-        userKnee: yup
-          .number()
-          .nullable()
-          .min(0)
-          .required("This field is required"),
-        userAnkle: yup
+        knee: yup.number().nullable().min(0).required("This field is required"),
+        ankle: yup
           .number()
           .nullable()
           .min(0)
           .required("This field is required"),
       })}
       initialValues={{
-        userHeight: null,
-        userWeight: null,
-        userAge: null,
-        userNeck: null,
-        userBiceps: null,
-        userChest: null,
-        userForearm: null,
-        userAbdomen: null,
-        userWrist: null,
-        userHip: null,
-        userThigh: null,
-        userKnee: null,
-        userAnkle: null,
+        height: 186,
+        weight: 75,
+        age: 22,
+        neck: 40,
+        biceps: 38,
+        chest: 90,
+        forearm: 28,
+        abdomen: 75,
+        wrist: 15,
+        hip: 90,
+        thigh: 55,
+        knee: 38,
+        ankle: 22,
       }}
       onSubmit={async (e) => {
         formData.current = {
@@ -107,17 +99,30 @@ function PredictForm({ formRef, activeStep, setActiveStep, formData }) {
           },
           ...formData.current,
           ...e,
+          height: e.height * 0.393701,
+          weight: e.weight * 2.2,
         };
-        console.log("@@@@@@@@@");
-        console.log(formData.current);
-        // setActiveStep(activeStep + 1);
 
         //CALL API
-        // try {
-        //   const res = await axiosClient;
-        // } catch (error) {
-        //   console.log({ error });
-        // }
+        try {
+          setConfirmLoading(true);
+          const response = await axios.get(PREDICT_BODY_FAT_API_URL, {
+            params: {
+              ...formData.current,
+            },
+          });
+          console.log({ response });
+          formData.current = {
+            ...formData.current,
+            bodyFat: response.data.data[0],
+          };
+          setTimeout(() => {
+            setActiveStep(activeStep + 1);
+            setConfirmLoading(false);
+          }, 3000);
+        } catch (error) {
+          console.log({ error });
+        }
       }}
     >
       {({ errors }) => {

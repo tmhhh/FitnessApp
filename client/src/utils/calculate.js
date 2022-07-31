@@ -2333,3 +2333,73 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
 
   return healthData;
 };
+export const covertHealStatus = (gender, bodyFat) => {
+  let result;
+  if (gender === 0) {
+    if (bodyFat < 2) {
+      result = {
+        status: "Above Average Zone",
+        message: "gain Weight",
+        type: 3,
+      };
+    } else if (bodyFat >= 2 && bodyFat <= 6) {
+      result = {
+        status: "Lean Zone",
+        message: "maintain weight or gain a bit weight",
+        type: 0,
+      };
+    } else if (bodyFat > 6 && bodyFat <= 13) {
+      result = {
+        status: "Healthy Zone",
+        message: "maintain weight or lose a bit weight",
+        type: 1,
+      };
+    } else if (bodyFat > 13 && bodyFat <= 22) {
+      result = {
+        status: "Average Zone",
+        message: "lose weight",
+        type: 2,
+      };
+    } else if (bodyFat > 22) {
+      result = {
+        status: "Danger Zone",
+        message: "lose weight",
+        type: 3,
+      };
+    }
+  } else {
+    if (bodyFat < 2) {
+      result = {
+        status: "Above Average Zone",
+        message: "Gain Weight",
+        type: 3,
+      };
+    } else if (bodyFat >= 2 && bodyFat <= 8) {
+      result = {
+        status: "Lean Zone",
+        message: "maintain weight or gain a bit weight",
+        type: 0,
+      };
+    } else if (bodyFat > 8 && bodyFat <= 14) {
+      result = {
+        status: "Healthy Zone",
+        message: "maintain weight or lose a bit weight",
+        type: 1,
+      };
+    } else if (bodyFat > 14 && bodyFat <= 23) {
+      result = {
+        status: "Average Zone",
+        message: "lose weight",
+        type: 2,
+      };
+    } else if (bodyFat > 23) {
+      result = {
+        status: "Danger Zone",
+        message: "lose weight",
+        type: 3,
+      };
+    }
+  }
+
+  return result;
+};

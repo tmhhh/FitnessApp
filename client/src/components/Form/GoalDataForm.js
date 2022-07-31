@@ -1,12 +1,27 @@
-import { Col, Image, Popover, Row, Select, Typography } from "antd";
+import {
+  Col,
+  Divider,
+  Image,
+  Popover,
+  Row,
+  Select,
+  Timeline,
+  Typography,
+} from "antd";
 import { Option } from "antd/lib/mentions";
 import { colors } from "assets/color";
 import { FastField, Form } from "formik";
+import { covertHealStatus } from "utils/calculate";
 import BodyFatTableMale from "../../assets/img/Body-Fat-Caliper-Chart-men.png";
 import BodyFatTableFemale from "../../assets/img/Body-Fat-Caliper-Chart-women.png";
 const { Paragraph, Text } = Typography;
 
-const GoalDataForm = ({ userGender = 0, ...props }) => {
+const GoalDataForm = ({
+  userGender = 0,
+  formData,
+  predictMethod,
+  ...props
+}) => {
   const groupBtn = [
     {
       id: 1,
@@ -46,38 +61,57 @@ const GoalDataForm = ({ userGender = 0, ...props }) => {
     { name: "Maintain Weight", value: 1 },
     { name: "Gain Weight", value: 2 },
   ];
+
+  const healStatus = covertHealStatus(
+    formData.current.gender,
+    formData.current.bodyFat
+  );
   return (
     <Form {...props}>
-      <Paragraph>
-        After calculating your average number is 48. Refer to the{" "}
-        <Popover
-          trigger="hover"
-          content={() => (
-            <Image
-              preview={false}
-              src={userGender === 0 ? BodyFatTableFemale : BodyFatTableMale}
-            />
-          )}
-        >
-          <Text style={{ color: colors.primaryBlue }}>
-            skin folds to body fat % conversion table.{" "}
-          </Text>
-        </Popover>
-        <Text>
+      <Divider />
+      <Timeline>
+        {predictMethod === 1 && (
+          <Popover
+            trigger="hover"
+            content={() => (
+              <Image
+                preview={false}
+                src={userGender === 0 ? BodyFatTableFemale : BodyFatTableMale}
+              />
+            )}
+          >
+            <Timeline.Item>
+              After calculating your average number is{" "}
+              {formData.current.averageNumber}. Refer to the{" "}
+              <Text style={{ color: colors.primaryBlue, cursor: "help" }}>
+                skin folds to body fat % conversion table.{" "}
+              </Text>
+            </Timeline.Item>
+          </Popover>
+        )}
+
+        <Timeline.Item>
           Your corresponding body fat is
           <Text strong type="danger">
             {" "}
-            34.75%
+            {formData.current.bodyFat.toFixed(2)}%
           </Text>
-          <Text type="danger">
+        </Timeline.Item>
+
+        <Timeline.Item>
+          Which means your health is in
+          <Text strong type="danger">
             {" "}
-            (which means your health is in danger zone) and would benefit from
-            losing some body fat, placing them between 25% and 29%
+            {healStatus.status}
           </Text>
-          . So we would recommend you dwo to follow the below chosen options.
-          {/* (You can change later). */}
-        </Text>
-      </Paragraph>
+          .
+        </Timeline.Item>
+        <Timeline.Item style={{ marginBottom: -30 }}>
+          So we recommend you to select the
+          <Text strong> {healStatus.message} </Text>
+          option below .
+        </Timeline.Item>
+      </Timeline>
       <Row gutter={10}>
         <Col span={12}>
           <FastField

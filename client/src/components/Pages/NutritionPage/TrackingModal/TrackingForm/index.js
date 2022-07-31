@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import { Radio, Space, Timeline, Typography } from "antd";
+import { Divider, Radio, Timeline, Typography } from "antd";
 import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
 import { useState } from "react";
@@ -39,6 +39,7 @@ export default function TrackingForm({
             formRef={formRef}
             activeStep={activeStep}
             setActiveStep={setActiveStep}
+            setConfirmLoading={setConfirmLoading}
           />
         ) : (
           <SkinFoldForm
@@ -66,36 +67,62 @@ export default function TrackingForm({
             ...formData.current,
             ...e,
           };
+          console.log({ e });
           setActiveStep(activeStep + 1);
-          setConfirmLoading(true);
         }}
         innerRef={formRef}
       >
         {(formikProps) => {
-          return <GoalDataForm {...formikProps} />;
+          return <GoalDataForm formData={formData} {...formikProps} />;
         }}
       </Formik>
     );
   } else if (activeStep === 2) {
+    const bodyFatMask = (
+      ((formData.current.weight / 2.2) * formData.current.bodyFat) /
+      100
+    ).toFixed(1);
+    const leanMask = formData.current.weight / 2.2 - bodyFatMask;
+    let ideaBodyFat;
+    let goalAction;
+    if (formData.current.goal === 0) {
+      ideaBodyFat = formData.current.bodyFat - 2;
+      goalAction = "loose";
+    } else if (formData.current.goal === 1) {
+      ideaBodyFat = formData.current.bodyFat;
+      goalAction = "maintain";
+    } else {
+      ideaBodyFat = formData.current.bodyFat + 2;
+      goalAction = "gain";
+    }
+    const targetMask = Math.abs((leanMask / (1 - ideaBodyFat)).toFixed(1));
+    const targetWeek = Math.abs(Math.round(targetMask / 0.5));
     content = (
-      <Space style={{ margin: "20px 10px" }}>
+      <>
+        <Divider />
         <Timeline>
           <Timeline.Item>
-            Your body fat mask is <Text strong>25.5kg</Text>
+            Your body fat mask is <Text strong>{bodyFatMask}kg</Text>
           </Timeline.Item>
           <Timeline.Item>
-            Your lean mask is 47.9kg (including muscle, bone and organs)
+            Your lean mask is<Text strong> {leanMask}kg </Text>(including
+            muscle, bone and organs)
           </Timeline.Item>
           <Timeline.Item>
             {/* Target mass = lean mass / (1- desired body fat %) */}
-            We assume that you idea body fat is 27%. So you has a target body
-            mass of 65.6kg
+            We assume that you idea body fat is {ideaBodyFat.toFixed(1)}%. So
+            you have a target body mass of{" "}
+            {Math.abs(formData.current.weight / 2.2 - targetMask)}kg
           </Timeline.Item>
           <Timeline.Item>
             {/* 7.8 /0.5 */}
-            The goal of this plan is to help you reduce{" "}
-            <Text strong>7.8kg </Text>in approximately
-            <Text bold>16 weeks</Text>.
+            The goal of this plan is to help you {goalAction}
+            <Text strong> {targetMask}kg</Text> in approximately
+            <Text strong bold>
+              {" "}
+              {targetWeek} week(s)
+            </Text>
+            .
           </Timeline.Item>
         </Timeline>
         <Lottie
@@ -103,7 +130,7 @@ export default function TrackingForm({
           animationData={doneLottie}
           style={{ height: "200px", transform: "translateY(-15%)" }}
         />
-      </Space>
+      </>
     );
   }
 
