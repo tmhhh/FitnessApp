@@ -154,6 +154,7 @@ td {
 
 .common-hover {
   transition: 0.3s;
+  cursor: pointer;
   &:hover {
     background-color: #efefef;
     border-radius: 5px;
