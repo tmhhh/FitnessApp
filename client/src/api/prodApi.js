@@ -6,6 +6,9 @@ const prodApi = {
   getAllProducts: () => {
     return axiosClient.get(BASE_API_URL + "/products", {});
   },
+  getProductById: (id) => {
+    return axiosClient.get(BASE_API_URL + `/products/${id}`);
+  },
   getProducts: (options) => {
     return axiosClient.get(
       BASE_API_URL + `/products?${ConvertQueryString(options)}`
