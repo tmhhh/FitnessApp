@@ -110,7 +110,7 @@ export default function Navbar() {
                 className="user_image"
                 alt={userInfo.userImage}
                 src={
-                  userInfo.userImage.includes("http")
+                  userInfo.userImage?.includes("http")
                     ? userInfo.userImage
                     : `${USER_IMAGE_BASE_URL}/${userInfo.userImage}`
                 }
