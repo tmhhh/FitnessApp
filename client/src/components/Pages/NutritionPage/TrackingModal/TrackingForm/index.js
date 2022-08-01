@@ -86,11 +86,12 @@ export default function TrackingForm({
       </Formik>
     );
   } else if (activeStep === 2) {
+    console.log(formData.current);
     const bodyFatMask = (
       ((formData.current.weight / 2.2) * formData.current.bodyFat) /
       100
     ).toFixed(1);
-    const leanMask = formData.current.weight / 2.2 - bodyFatMask;
+    const leanMask = (formData.current.weight / 2.2 - bodyFatMask).toFixed(1);
     let ideaBodyFat;
     let goalAction;
     if (formData.current.goal === 0) {
@@ -103,7 +104,7 @@ export default function TrackingForm({
       ideaBodyFat = formData.current.bodyFat + 2;
       goalAction = "gain";
     }
-    const targetMask = Math.abs((leanMask / (1 - ideaBodyFat)).toFixed(1));
+    const targetMask = Math.abs(leanMask / (1 - ideaBodyFat)).toFixed(1);
     const targetWeek = Math.abs(Math.round(targetMask / 0.5));
     content = (
       <>
@@ -120,7 +121,7 @@ export default function TrackingForm({
             {/* Target mass = lean mass / (1- desired body fat %) */}
             We assume that you idea body fat is {ideaBodyFat.toFixed(1)}%. So
             you have a target body mass of{" "}
-            {Math.abs(formData.current.weight / 2.2 - targetMask)}kg
+            {Math.abs(formData.current.weight / 2.2 - targetMask).toFixed()}kg
           </Timeline.Item>
           <Timeline.Item>
             {/* 7.8 /0.5 */}

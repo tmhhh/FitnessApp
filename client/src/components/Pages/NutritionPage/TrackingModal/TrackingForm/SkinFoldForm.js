@@ -6,12 +6,12 @@ import * as yup from "yup";
 import { listInputFieldsForSkinFold } from "./TrackingFields";
 const { Panel } = Collapse;
 const { Text, Paragraph } = Typography;
-function SkinFoldForm({ formData, formRef }) {
+function SkinFoldForm({ formData, formRef, setActiveStep, activeStep }) {
   return (
     <Formik
       innerRef={formRef}
       validationSchema={yup.object().shape({
-        bodyMask: yup.number().nullable().min(0).required(),
+        weight: yup.number().nullable().min(0).required(),
         height: yup.number().nullable().min(0).required(),
         age: yup.number().nullable().min(0).required(),
         gender: yup.number().nullable().required(),
@@ -29,24 +29,36 @@ function SkinFoldForm({ formData, formRef }) {
         suprailiac3: yup.number().nullable().min(0).required(),
       })}
       initialValues={{
-        age: null,
-        gender: null,
-        bodyMask: null,
-        height: null,
-        biceps1: null,
-        biceps2: null,
-        biceps3: null,
-        triceps1: null,
-        triceps2: null,
-        triceps3: null,
-        subscapular1: null,
-        subscapular2: null,
-        subscapular3: null,
-        suprailiac1: null,
-        suprailiac2: null,
-        suprailiac3: null,
+        age: 22,
+        gender: 0,
+        weight: 75,
+        height: 186,
+        biceps1: 10,
+        biceps2: 11,
+        biceps3: 10,
+        triceps1: 14,
+        triceps2: 13,
+        triceps3: 14,
+        subscapular1: 20,
+        subscapular2: 21,
+        subscapular3: 20,
+        suprailiac1: 25,
+        suprailiac2: 24,
+        suprailiac3: 25,
       }}
       onSubmit={(e) => {
+        const averageUserData =
+          ((e.subscapular1 + e.subscapular2 + e.subscapular3) / 3 +
+            (e.biceps1 + e.biceps2 + e.biceps3) / 3 +
+            (e.triceps1 + e.triceps2 + e.triceps1) / 3 +
+            (e.suprailiac1 + e.suprailiac2 + e.suprailiac3) / 3) /
+          12;
+
+        const healthData = convertDataToHealthData({
+          age: e.age,
+          gender: e.gender,
+          averageUserData,
+        });
         formData.current = {
           trackingFood: {
             addedDate: new Date(),
@@ -54,20 +66,10 @@ function SkinFoldForm({ formData, formRef }) {
           },
           ...formData.current,
           ...e,
-          averageUserData:
-            ((e.subscapular1 + e.subscapular2 + e.subscapular3) / 3 +
-              (e.biceps1 + e.biceps2 + e.biceps3) / 3 +
-              (e.triceps1 + e.triceps2 + e.triceps1) / 3 +
-              (e.suprailiac1 + e.suprailiac2 + e.suprailiac3) / 3) /
-            12,
+          averageUserData,
+          bodyFat: +healthData.bodyFat.split("-")[0],
         };
-        // setActiveStep(activeStep + 1);
-        console.log(
-          convertDataToHealthData({
-            averageUserData: formData.current.averageUserData,
-            ...e,
-          })
-        );
+        setActiveStep(activeStep + 1);
       }}
     >
       {({ errors }) => {

@@ -53,10 +53,11 @@ export const calculateFoodTotalKCAL = (listFoods = []) => {
 export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
   let healthData = null;
   if (gender === 0) {
+    console.log(1);
     //MEN
-    switch (age) {
+    switch (true) {
       case age >= 18 && age <= 20:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 2:
             healthData = {
               bodyFat: "2-3",
@@ -65,6 +66,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
             };
             break;
           case averageUserData > 2 && averageUserData <= 3.9:
+            console.log(2);
             healthData = {
               bodyFat: "4-5",
               status: "Lean",
@@ -182,7 +184,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 21 && age <= 25:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 2.5:
             healthData = {
               bodyFat: "2-3",
@@ -309,7 +311,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
 
         break;
       case age >= 26 && age <= 30:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 3.5:
             healthData = {
               bodyFat: "2-3",
@@ -435,7 +437,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 31 && age <= 35:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 4.5:
             healthData = {
               bodyFat: "2-3",
@@ -561,7 +563,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 36 && age <= 40:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 5.6:
             healthData = {
               bodyFat: "2-3",
@@ -687,7 +689,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 41 && age <= 45:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 6.7:
             healthData = {
               bodyFat: "2-3",
@@ -813,7 +815,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 46 && age <= 50:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 7.7:
             healthData = {
               bodyFat: "2-3",
@@ -939,7 +941,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 51 && age <= 55:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 8.8:
             healthData = {
               bodyFat: "2-3",
@@ -1064,7 +1066,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 56:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 9.9:
             healthData = {
               bodyFat: "2-3",
@@ -1192,9 +1194,9 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         break;
     }
   } else if (gender === 1) {
-    switch (age) {
+    switch (true) {
       case age >= 18 && age <= 20:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 2:
             healthData = {
               bodyFat: "2-3",
@@ -1320,7 +1322,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 21 && age <= 25:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 2.5:
             healthData = {
               bodyFat: "2-3",
@@ -1447,7 +1449,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
 
         break;
       case age >= 26 && age <= 30:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 3.5:
             healthData = {
               bodyFat: "2-3",
@@ -1573,7 +1575,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 31 && age <= 35:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 4.5:
             healthData = {
               bodyFat: "2-3",
@@ -1699,7 +1701,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 36 && age <= 40:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 5.6:
             healthData = {
               bodyFat: "2-3",
@@ -1825,7 +1827,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 41 && age <= 45:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 6.7:
             healthData = {
               bodyFat: "2-3",
@@ -1951,7 +1953,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 46 && age <= 50:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 7.7:
             healthData = {
               bodyFat: "2-3",
@@ -2077,7 +2079,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 51 && age <= 55:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 8.8:
             healthData = {
               bodyFat: "2-3",
@@ -2202,7 +2204,7 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
         }
         break;
       case age >= 56:
-        switch (averageUserData) {
+        switch (true) {
           case averageUserData <= 9.9:
             healthData = {
               bodyFat: "2-3",
