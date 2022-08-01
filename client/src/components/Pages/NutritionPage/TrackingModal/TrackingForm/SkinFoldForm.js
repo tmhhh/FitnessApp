@@ -1,12 +1,14 @@
-import { Col, Collapse, Divider, Image, Popover, Row, Typography } from "antd";
+import {Button, Col, Collapse, Divider, Image, Popover, Row, Typography} from "antd";
 import { CLIENT_PUBLIC_URL } from "assets/constants";
 import { FastField, Form, Formik } from "formik";
 import { convertDataToHealthData } from "utils/calculate";
 import * as yup from "yup";
 import { listInputFieldsForSkinFold } from "./TrackingFields";
+import {useHistory} from "react-router-dom";
 const { Panel } = Collapse;
 const { Text, Paragraph } = Typography;
 function SkinFoldForm({ formData, formRef }) {
+    const history = useHistory();
   return (
     <Formik
       innerRef={formRef}
@@ -77,9 +79,9 @@ function SkinFoldForm({ formData, formRef }) {
             <Paragraph>
               Before we proceed, you need a skin fold caliper to estimate the
               following field. Don't have this tool? You can get it from{" "}
-              <a href={CLIENT_PUBLIC_URL + `/product/62e563c1a57b0cb434f9921c`}>
+              <Button className='p-0' onClick={() => history.push('/product/62e563c1a57b0cb434f9921c')} type="link">
                 here
-              </a>
+              </Button>
             </Paragraph>
 
             <Collapse defaultActiveKey={["0"]} style={{ width: "100%" }}>
