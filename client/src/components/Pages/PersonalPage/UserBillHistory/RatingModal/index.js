@@ -1,7 +1,5 @@
-import { useState } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import FormReview from "components/Review/FormReview";
+import Modal from "react-bootstrap/Modal";
 export default function RatingModal({
   show: { isShown, prodID },
   handleClose,

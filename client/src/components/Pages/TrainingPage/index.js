@@ -2,11 +2,12 @@ import RecommendOption from "components/Common/RecommendOption";
 import SearchBarV2 from "components/Common/SearchBarV2";
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
 import useDebounce from "hooks/useDebounce";
-import React, { useEffect, useState } from "react";
-import Spinner from "react-bootstrap/Spinner";
+import Lottie from "lottie-react";
+import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import userApi from "../../../api/userApi";
+import exerciseLottie from "../../../assets/lottie/workout.json";
 import authSlice from "../../../redux/slices/authSlice";
 import ExerciseCard from "../../Card/ExerciseCard";
 import NoResults from "../../Common/Placeholders/NoResults";
@@ -144,27 +145,12 @@ export default function Training() {
         </div>
       </div>
       <div className="exercise__container">
-        {/* <SearchBar
-          listExercises={listExercises}
-          setListExercisesCop={setListExercisesCop}
-        /> */}
         <div className="search-box-container">
           <SearchBarV2
             placeholder="Ex: Shoulder Press,..."
             onChange={handleInputChange}
           />
           <div className="recommend-options-container">
-            {/* {isLoading ? (
-              <Spinner
-                style={{
-                  alignSelf: "center",
-                  marginTop: ".5rem",
-                  marginBottom: ".5rem",
-                }}
-                animation="border"
-                variant="info"
-              />
-            ) : ( */}
             {listRecommendOptions.map((item) => (
               <RecommendOption
                 onClick={() => handleShow(item._id)}
@@ -173,14 +159,22 @@ export default function Training() {
                 description={item.description}
               />
             ))}
-            {/* )} */}
           </div>
         </div>
         {exerciseLoading ? (
-          <Spinner
-            style={{ position: "absolute", left: "50%", top: "50%" }}
-            animation="border"
-            variant="info"
+          // <Spinner
+          //   style={{ position: "absolute", left: "50%", top: "50%" }}
+          //   animation="border"
+          //   variant="info"
+          // />
+          <Lottie
+            style={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+            animationData={exerciseLottie}
           />
         ) : (
           <div

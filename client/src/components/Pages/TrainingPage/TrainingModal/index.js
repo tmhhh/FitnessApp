@@ -1,8 +1,6 @@
-import React from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import "./style.scss";
 import { DatePicker } from "antd";
+import Modal from "react-bootstrap/Modal";
+import "./style.scss";
 export default function TrainingModal(props) {
   const { show, handleClose, onOk, handleShowDatePicker, showDatePicker } =
     props;
@@ -23,6 +21,7 @@ export default function TrainingModal(props) {
         <i onClick={handleClose} className="fas fa-times close-button"></i>
         <div className="training__modal-video">
           <iframe
+            title="title"
             src={embeddedLink}
             allowfullscreen="true"
             allow="autoplay"
@@ -46,7 +45,10 @@ export default function TrainingModal(props) {
               disabledDate={(current) => current < new Date()}
             />
           ) : (
-            <button onClick={handleShowDatePicker} className="common-outline-button">
+            <button
+              onClick={handleShowDatePicker}
+              className="common-outline-button"
+            >
               <i
                 style={{ padding: "0 10px" }}
                 className="far fa-calendar-plus"

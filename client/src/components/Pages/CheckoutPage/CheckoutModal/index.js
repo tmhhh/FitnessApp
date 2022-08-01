@@ -1,7 +1,7 @@
 import axios from "axios";
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
 import { useEffect, useRef, useState } from "react";
-import { Button, Modal, Tab, Tabs } from "react-bootstrap";
+import { Modal, Tab, Tabs } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import checkOutApi from "../../../../api/checkoutApi";
@@ -265,10 +265,17 @@ export default function CheckoutModal({
               />
             </Modal.Body>
             <Modal.Footer>
-              <button className="common-button common-button-red" onClick={handleCloseModal}>
+              <button
+                className="common-button common-button-red"
+                onClick={handleCloseModal}
+              >
                 Close
               </button>
-              <button type="submit" className="common-button common-button-blue" onClick={triggerSubmit}>
+              <button
+                type="submit"
+                className="common-button common-button-blue"
+                onClick={triggerSubmit}
+              >
                 Next
               </button>
             </Modal.Footer>
@@ -396,7 +403,10 @@ export default function CheckoutModal({
             </Modal.Body>
 
             <Modal.Footer>
-              <button onClick={() => setKey("Order")} className="common-button common-button-grey">
+              <button
+                onClick={() => setKey("Order")}
+                className="common-button common-button-grey"
+              >
                 Back
               </button>
               <button onClick={handleConfirmOrder} className="common-button">

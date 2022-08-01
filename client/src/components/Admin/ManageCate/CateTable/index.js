@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Table } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 export default function CateTable({
   listCate,
   updateModalShow,

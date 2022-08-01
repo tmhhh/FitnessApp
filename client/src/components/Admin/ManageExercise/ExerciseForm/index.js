@@ -1,13 +1,10 @@
-import { FastField, Form, Formik, Field } from "formik";
-import React from "react";
-import InputField from "../../../Common/InputField";
-import * as yup from "yup";
-import { useRef } from "react";
-import SelectField from "../../../Common/SelectField";
+import { FastField, Field, Form, Formik } from "formik";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
+import * as yup from "yup";
 import { YT_THUMBNAIL_BASE_URL } from "../../../../assets/constants";
-import { string } from "yup/lib/locale";
+import InputField from "../../../Common/InputField";
+import SelectField from "../../../Common/SelectField";
 export default function ExerciseForm(props) {
   const { innerRef, handleSubmitAction, action, updatedExerciseRef } = props;
   let initialValues = {
@@ -17,17 +14,16 @@ export default function ExerciseForm(props) {
     thumbnail: "",
     muscleActivate: "",
     videoURL: "",
+    calories: 50,
   };
   const validationSchema = yup.object().shape({
     name: yup.string().required("This field is required"),
     category: yup.string().required("This field is required"),
     description: yup.string().required("This field is required"),
     thumbnail: yup.string().required("This field is required"),
-    muscleActivate: yup
-      .array()
-      // .of(yup.string())
-      .required("This field is required"),
+    muscleActivate: yup.array().required("This field is required"),
     videoURL: yup.string().required("This field is required"),
+    calories: yup.number().required("This field is required"),
   });
 
   if (action === "update") {
@@ -49,8 +45,7 @@ export default function ExerciseForm(props) {
         innerRef={innerRef}
       >
         {(formikProps) => {
-          const { values, touched, errors } = formikProps;
-          // console.log(values);
+          const { values, touched } = formikProps;
 
           if (values.videoURL !== "" && touched.videoURL) {
             touched.videoURL = false;
@@ -100,6 +95,15 @@ export default function ExerciseForm(props) {
                     ]}
                     component={SelectField}
                   />
+                  <FastField
+                    label="Calories burned:"
+                    required
+                    placeholder="..."
+                    type="number"
+                    name="calories"
+                    fieldType={0}
+                    component={InputField}
+                  />
                 </Col>
                 <Col xs={12} sm={12} md={6} lg={6}>
                   <FastField
@@ -127,7 +131,7 @@ export default function ExerciseForm(props) {
                     name="description"
                     fieldType={2}
                     component={InputField}
-                  ></FastField>
+                  />
                 </Col>
               </Row>
             </Form>

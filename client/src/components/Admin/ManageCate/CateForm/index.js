@@ -1,8 +1,6 @@
 import { FastField, Form, Formik } from "formik";
-import React from "react";
-import InputField from "../../../Common/InputField";
 import * as yup from "yup";
-import { useRef } from "react";
+import InputField from "../../../Common/InputField";
 
 export default function CateForm(props) {
   const { innerRef, handleSubmitAction, action, updatedCateRef } = props;
@@ -27,7 +25,6 @@ export default function CateForm(props) {
     initialValues.cateName = updatedCateRef.cateName;
     initialValues.cateFilter = cateFilter;
   }
-  const checkRef = useRef(false);
   return (
     <>
       <Formik

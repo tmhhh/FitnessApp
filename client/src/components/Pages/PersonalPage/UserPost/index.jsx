@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Badge, Table, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Badge, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { fetchPostImage } from "../../../../assets/constants";

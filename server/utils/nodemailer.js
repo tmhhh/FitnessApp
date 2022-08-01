@@ -2,13 +2,31 @@ const nodemailer = require("nodemailer");
 const emailTemplate = require("./mailTemplate/mailTemplate");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
-    user: process.env.SERVICE_EMAIL_ID,
-    pass: process.env.SERVICE_EMAIL_PASSWORD,
+    user: "mail.service.hcmute@gmail.com",
+    // user: process.env.SERVICE_EMAIL_ID,
+    pass: "yxhdrlgykztnrawp",
   },
 });
 module.exports = {
+  testSendMail: async () => {
+    try {
+      console.log(transporter);
+      console.log(process.env.SERVICE_EMAIL_ID);
+      let info = await transporter.sendMail({
+        from: "Fitness Shop", // sender address
+        to: "tmhoangs1206@gmail.com", // list of receivers
+        subject: "Thanks for your shopping ❤ ", // Subject line
+        text: "Order details", // plain text body
+        html: `<h1>hello </h1>`,
+      });
+    } catch (error) {
+      console.log({ error });
+    }
+  },
   billConfirm: async (receiver, bill, billID) => {
     try {
       const imgURL = "https://apiserver-fitnessapp.herokuapp.com/img/products/";
@@ -62,7 +80,3 @@ module.exports = {
     }
   },
 };
-// ${listItems.map(
-//   (e) =>
-//     `<p> Product name:${e.product.prodName} </p><p> Quantity:${e.quantity} </p><p> Price ${e.product.prodPrice} </p>`
-// )}

@@ -1,12 +1,11 @@
-import { Form, Formik, FastField, Field } from "formik";
-import * as yup from "yup";
-import SelectField from "../../../../Common/SelectField";
-import InputField from "../../../../Common/InputField";
-import CheckField from "../../../../Common/CheckField";
-import { address_API_config } from "../../../../../assets/constants";
-import { Row, Col, Container, FloatingLabel } from "react-bootstrap";
-import FormBT from "react-bootstrap/Form";
 import axios from "axios";
+import { FastField, Form, Formik } from "formik";
+import { Col, Container, FloatingLabel, Row } from "react-bootstrap";
+import FormBT from "react-bootstrap/Form";
+import * as yup from "yup";
+import { address_API_config } from "../../../../../assets/constants";
+import InputField from "../../../../Common/InputField";
+import SelectField from "../../../../Common/SelectField";
 
 export default function ShippingForm({
   provincesData,

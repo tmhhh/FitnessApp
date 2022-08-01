@@ -1,15 +1,15 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useState, useRef } from "react";
-import { Button, Container } from "react-bootstrap";
+import messageAntd, { messageTypes } from "components/Common/Toast/message";
+import { useRef, useState } from "react";
+import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import ExerciseTable from "./ExerciseTable";
-import ExerciseModalForm from "./ExerciseModal";
 import {
   addExercise,
   deleteExercise,
   updateExercise,
 } from "../../../redux/slices/exerciseSlice";
-import messageAntd, { messageTypes } from "components/Common/Toast/message";
+import ExerciseModalForm from "./ExerciseModal";
+import ExerciseTable from "./ExerciseTable";
 
 export default function ExerciseSide() {
   const { listExercises } = useSelector((state) => state.exerciseReducer);

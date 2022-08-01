@@ -1,5 +1,4 @@
-import { Modal, Button } from "react-bootstrap";
-import React from "react";
+import { Modal } from "react-bootstrap";
 
 export default function ConfirmModal({
   show,
@@ -9,9 +8,9 @@ export default function ConfirmModal({
   body,
 }) {
   const defaultConfirmMessage = (
-      <>
-        <h1>Are you sure 🤔 ?</h1>
-      </>
+    <>
+      <h1>Are you sure 🤔 ?</h1>
+    </>
   );
 
   return (
@@ -22,10 +21,16 @@ export default function ConfirmModal({
         </Modal.Header>
         <Modal.Body>{body || defaultConfirmMessage}</Modal.Body>
         <Modal.Footer>
-          <button className="common-button common-button-red" onClick={handleClose}>
+          <button
+            className="common-button common-button-red"
+            onClick={handleClose}
+          >
             Close
           </button>
-          <button className="common-outline-button common-outline-button-green" onClick={handleConfirm}>
+          <button
+            className="common-outline-button common-outline-button-green"
+            onClick={handleConfirm}
+          >
             Confirm
           </button>
         </Modal.Footer>

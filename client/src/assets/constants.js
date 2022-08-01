@@ -1,11 +1,17 @@
 // export const BASE_API_URL = `http://localhost:4000/api`;
 // const PUBLIC_URL = `http://localhost:4000`;
-export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
+// export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
 
-// export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
+export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
 export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
 const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
 
+//DJANGO SERVER
+export const PREDICT_BODY_FAT_API_URL = `https://fitness-app-2022.herokuapp.com/api/body-fat-predict/`;
+// export const PREDICT_BODY_FAT_API_URL =
+//   "https://test-deploy-dj.herokuapp.com/api/body-fat-predict/";
+
+//
 export const NUTRI_API_CONFIG = (params, searchType = null) => {
   return searchType === "dish"
     ? {

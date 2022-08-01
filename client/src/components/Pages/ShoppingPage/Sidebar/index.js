@@ -1,6 +1,5 @@
-import { useState } from "react";
-import "./style.scss";
 import Form from "react-bootstrap/Form";
+import "./style.scss";
 export default function Sidebar({
   listCate,
   handleSearchByCateType,
@@ -13,7 +12,7 @@ export default function Sidebar({
   listFavorites,
   totalFavorite,
 }) {
-  const [cb, setCb] = useState({ cb1: false, cb2: false, cb3: false });
+  // const [cb, setCb] = useState({ cb1: false, cb2: false, cb3: false });
   const listFilter = [];
   if (searchOption.category !== "All") {
     for (const cate of listCate) {
@@ -27,11 +26,11 @@ export default function Sidebar({
 
   //HANDLE ON CLICK
 
-  const handleOnCLick = (option, type) => {
-    if (type === "cate") handleSearchByCateType(option);
-    else if (type === "filter") handleSearchByCateFilter(option);
-    else handleShowFavoriteProds();
-  };
+  // const handleOnCLick = (option, type) => {
+  //   if (type === "cate") handleSearchByCateType(option);
+  //   else if (type === "filter") handleSearchByCateFilter(option);
+  //   else handleShowFavoriteProds();
+  // };
   return (
     <div className="side_bar">
       <div className="other_products">
@@ -39,34 +38,34 @@ export default function Sidebar({
           CATEGORY<i className="fas fa-list"></i>
         </h3>
         <p
-            onClick={() =>
-                // setCb({ cb1: false, cb2: false, cb3: false });
-                // handleOnCLick("All", "cate");
-                setSearchOption({
-                  ...searchOption,
-                  category: "All",
-                  cateFilter: null,
-                  favorite: { isChosen: false, listFavorites: [] },
-                })
-            }
-            className="other_products_item common-hover"
+          onClick={() =>
+            // setCb({ cb1: false, cb2: false, cb3: false });
+            // handleOnCLick("All", "cate");
+            setSearchOption({
+              ...searchOption,
+              category: "All",
+              cateFilter: null,
+              favorite: { isChosen: false, listFavorites: [] },
+            })
+          }
+          className="other_products_item common-hover"
         >
           All
         </p>
         {listCate.map((e) => (
-            <p
-                onClick={() => {
-                  setSearchOption({
-                    ...searchOption,
-                    cateFilter: null,
-                    category: e._id,
-                  });
-                }}
-                key={e._id}
-                className="other_products_item common-hover"
-            >
-              {e.cateName}
-            </p>
+          <p
+            onClick={() => {
+              setSearchOption({
+                ...searchOption,
+                cateFilter: null,
+                category: e._id,
+              });
+            }}
+            key={e._id}
+            className="other_products_item common-hover"
+          >
+            {e.cateName}
+          </p>
         ))}
       </div>
       <div className="product_type">
@@ -172,7 +171,7 @@ export default function Sidebar({
           <br />
         </form> */}
         <Form.Range
-            onChange={(e) =>
+          onChange={(e) =>
             setSearchOption({ ...searchOption, price: e.target.value })
           }
         />

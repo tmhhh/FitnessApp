@@ -1,5 +1,4 @@
 import { FastField, Form, Formik } from "formik";
-import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { fetchProductImage } from "../../assets/constants";
@@ -119,7 +118,7 @@ export default function NewItemForm(props) {
                   />
                 )}
               </div>
-              <FastField
+              {/* <FastField
                 name="images"
                 label="Product Images"
                 type="file"
@@ -145,7 +144,7 @@ export default function NewItemForm(props) {
                       </div>
                     ))}
                 </div>
-              )}
+              )} */}
             </Form>
           );
         }}

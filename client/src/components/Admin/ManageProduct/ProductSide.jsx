@@ -1,7 +1,7 @@
 import { unwrapResult } from "@reduxjs/toolkit";
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
-import React, { useRef, useState } from "react";
-import { Button, Container, Modal } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Container, Modal } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import * as yup from "yup";
@@ -115,7 +115,6 @@ export default function ProductSide(props) {
       );
       if (unwrapResult(res)) handleCloseProductDiscountModal();
     } catch (error) {
-      console.log("ngoai");
       console.log({ error });
     }
   };
@@ -145,7 +144,7 @@ export default function ProductSide(props) {
             onClick={() => history.push("/admin/category")}
             className="common-button common-button-green floatButton"
             color="light"
-            style={{backgroundColor: "#2bc748", border: "none"}}
+            style={{ backgroundColor: "#2bc748", border: "none" }}
           >
             <i className="fas fa-puzzle-piece"></i> Categories
           </button>
@@ -196,7 +195,7 @@ const ManipulateProductModal = (props) => {
     prodCategory: "",
     prodDescription: "",
     thumbnailFile: "",
-    imagesFile: [],
+    // imagesFile: [],
   };
   const validationSchema = yup.object().shape({
     prodName: yup.string().required(),
@@ -206,18 +205,7 @@ const ManipulateProductModal = (props) => {
     prodDescription: yup.string(),
   });
   const { action, handleAction, show, hide, chosenItem } = props;
-  const [item, setItem] = useState(initialValues);
   const formRef = useRef();
-
-  //Get item by ID to fill all field (For update purpose)
-  // useEffect(() => {
-  //   if (itemID) {
-  //     const item = listProducts.find((item) => item._id === itemID);
-  //     console.log({ item });
-  //     setItem(item);
-
-  //   }
-  // }, [itemID]);
 
   const handleSubmit = () => {
     if (formRef.current) {
@@ -244,15 +232,18 @@ const ManipulateProductModal = (props) => {
         />
       </Modal.Body>
       <Modal.Footer>
-        <button className="common-button common-button-red floatButton" onClick={hide}>
+        <button
+          className="common-button common-button-red floatButton"
+          onClick={hide}
+        >
           Close
         </button>
         {action === "add" ? (
-          <button className="common-button floatButton"  onClick={handleSubmit}>
+          <button className="common-button floatButton" onClick={handleSubmit}>
             Add 📥
           </button>
         ) : (
-          <button className="common-button floatButton"  onClick={handleSubmit}>
+          <button className="common-button floatButton" onClick={handleSubmit}>
             Update 🔧
           </button>
         )}

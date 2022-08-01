@@ -1,5 +1,4 @@
-import React from "react";
-import { Modal, Button, Form } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 export default function AddFoodModal({
   show,
   handleClose,
@@ -24,10 +23,16 @@ export default function AddFoodModal({
         </Form.Select>
       </Modal.Body>
       <Modal.Footer>
-        <button className="common-button common-button-grey" onClick={handleClose}>
+        <button
+          className="common-button common-button-grey"
+          onClick={handleClose}
+        >
           Close
         </button>
-        <button className="common-button common-button-green" onClick={handleAddFood}>
+        <button
+          className="common-button common-button-green"
+          onClick={handleAddFood}
+        >
           Add
         </button>
       </Modal.Footer>

@@ -14,7 +14,7 @@ export const getProduct = createAsyncThunk(
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (params, { dispatch }) => {
-    const res = await prodApi.addProduct(params);
+    await prodApi.addProduct(params);
     // return res.data.newProduct;
     await dispatch(getProduct());
   }

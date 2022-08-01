@@ -14,6 +14,18 @@ const userApi = {
     });
   },
   updateTrackingIno: (trackingInfo) => {
+    console.log({ trackingInfo });
+    trackingInfo = {
+      ...trackingInfo,
+      isFilled: true,
+      userHeight: trackingInfo.height,
+      userAge: trackingInfo.age,
+      userGender: trackingInfo.gender,
+      userWeight: trackingInfo.weight,
+      userGoal: trackingInfo.goal,
+      userActivityLevel: trackingInfo.activityLevel,
+      userBodyFat: trackingInfo.bodyFat,
+    };
     return axiosClient.put(BASE_API_URL + "/user/profile/tracking-info", {
       trackingInfo,
     });

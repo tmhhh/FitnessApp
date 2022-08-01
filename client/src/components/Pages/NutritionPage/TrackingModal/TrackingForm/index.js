@@ -1,178 +1,143 @@
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import { Typography } from "antd";
-import { GoalDataForm, PersonalDataForm } from "components/Form";
+import { Divider, Radio, Timeline, Typography } from "antd";
+import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
+import { useState } from "react";
+
+import { covertHealthStatus } from "utils/calculate";
 import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
+import { filterNutrition } from "../../constants";
+import PredictForm from "./PredictForm";
+import SkinFoldForm from "./SkinFoldForm";
 import "./style.scss";
-const { Paragraph } = Typography;
+
+const { Text } = Typography;
 export default function TrackingForm({
   activeStep,
   setActiveStep,
   formRef,
   formData,
+  setConfirmLoading,
   handleUpdateTrackingInfo,
-  listInputFieldsStep1,
-  // listInputFields,
 }) {
+  const [predictMethod, setPredictMethod] = useState(1);
+
   let content;
   if (activeStep === 0) {
     content = (
-      <Formik
-        innerRef={formRef}
-        validationSchema={yup.object().shape({
-          userHeight: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userWeight: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userAge: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userNeck: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userBiceps: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userChest: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userForearm: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userAbdomen: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userWrist: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userHip: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userThigh: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userKnee: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-          userAnkle: yup
-            .number()
-            .nullable()
-            .min(0)
-            .required("This field is required"),
-        })}
-        initialValues={{
-          userHeight: null,
-          userWeight: null,
-          userAge: null,
-          userNeck: null,
-          userBiceps: null,
-          userChest: null,
-          userForearm: null,
-          userAbdomen: null,
-          userWrist: null,
-          userHip: null,
-          userThigh: null,
-          userKnee: null,
-          userAnkle: null,
-        }}
-        onSubmit={(e) => {
-          formData.current = {
-            trackingFood: {
-              addedDate: new Date(),
-              listFoods: [],
-            },
-            ...formData.current,
-            ...e,
-          };
-          setActiveStep(activeStep + 1);
-        }}
-      >
-        {(formikProps) => {
-          return (
-            <PersonalDataForm
-              {...formikProps}
-              listInputFieldsStep1={listInputFieldsStep1}
-            />
-          );
-        }}
-      </Formik>
+      <>
+        <Radio.Group
+          onChange={(e) => setPredictMethod(e.target.value)}
+          value={predictMethod}
+        >
+          <Radio value={1}>Using AI</Radio>
+          <Radio value={2}>Using skin fold measurement method</Radio>
+        </Radio.Group>
+        {predictMethod === 1 ? (
+          <PredictForm
+            formData={formData}
+            formRef={formRef}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            setConfirmLoading={setConfirmLoading}
+          />
+        ) : (
+          <SkinFoldForm
+            formData={formData}
+            formRef={formRef}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+          />
+        )}
+      </>
     );
   } else if (activeStep === 1) {
+    console.log(formData.current);
     content = (
       <Formik
         validationSchema={yup.object().shape({
-          userHeight: yup
-            .number()
-            .typeError("Input is not in correct format !")
-            .required("This field is required"),
-          userWeight: yup
-            .number()
-            .typeError("Input is not in correct format !")
-            .required("This field is required"),
-          userGender: yup.number().required("This field is required"),
-          userAge: yup
-            .number()
-            .typeError("Input is not in correct format !")
-            .min(10)
-            .required("This field is required"),
+          goal: yup.number().nullable().min(0).required(),
+          activityLevel: yup.number().nullable().min(0).required(),
         })}
         initialValues={{
-          userHeight: "",
-          userWeight: "",
-          userAge: "",
-          userGender: "",
+          goal: filterNutrition.goal[
+            covertHealthStatus(
+              formData.current.gender,
+              formData.current.bodyFat
+            )?.message.split(" ")[0]
+          ],
+          activityLevel: null,
         }}
         onSubmit={(e) => {
           formData.current = {
             ...formData.current,
             ...e,
           };
+          console.log({ e });
           setActiveStep(activeStep + 1);
         }}
         innerRef={formRef}
       >
         {(formikProps) => {
-          return <GoalDataForm {...formikProps} />;
+          return <GoalDataForm formData={formData} {...formikProps} />;
         }}
       </Formik>
     );
   } else if (activeStep === 2) {
+    const bodyFatMask = (
+      ((formData.current.weight / 2.2) * formData.current.bodyFat) /
+      100
+    ).toFixed(1);
+    const leanMask = formData.current.weight / 2.2 - bodyFatMask;
+    let ideaBodyFat;
+    let goalAction;
+    if (formData.current.goal === 0) {
+      ideaBodyFat = formData.current.bodyFat - 2;
+      goalAction = "loose";
+    } else if (formData.current.goal === 1) {
+      ideaBodyFat = formData.current.bodyFat;
+      goalAction = "maintain";
+    } else {
+      ideaBodyFat = formData.current.bodyFat + 2;
+      goalAction = "gain";
+    }
+    const targetMask = Math.abs((leanMask / (1 - ideaBodyFat)).toFixed(1));
+    const targetWeek = Math.abs(Math.round(targetMask / 0.5));
     content = (
       <>
-        <Paragraph>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus in
-          non consequatur ipsa iste dolore illo ratione voluptas voluptatibus.
-          Totam praesentium soluta autem fugiat aperiam cum alias. A, ea dicta.
-        </Paragraph>
-        <Lottie animationData={doneLottie} style={{ height: "400px" }} />
+        <Divider />
+        <Timeline>
+          <Timeline.Item>
+            Your body fat mask is <Text strong>{bodyFatMask}kg</Text>
+          </Timeline.Item>
+          <Timeline.Item>
+            Your lean mask is<Text strong> {leanMask}kg </Text>(including
+            muscle, bone and organs)
+          </Timeline.Item>
+          <Timeline.Item>
+            {/* Target mass = lean mass / (1- desired body fat %) */}
+            We assume that you idea body fat is {ideaBodyFat.toFixed(1)}%. So
+            you have a target body mass of{" "}
+            {Math.abs(formData.current.weight / 2.2 - targetMask)}kg
+          </Timeline.Item>
+          <Timeline.Item>
+            {/* 7.8 /0.5 */}
+            The goal of this plan is to help you {goalAction}
+            <Text strong> {targetMask}kg</Text> in approximately
+            <Text strong bold>
+              {" "}
+              {targetWeek} week(s)
+            </Text>
+            .
+          </Timeline.Item>
+        </Timeline>
+        <Lottie
+          loop={false}
+          animationData={doneLottie}
+          style={{ height: "200px", transform: "translateY(-15%)" }}
+        />
       </>
     );
   }

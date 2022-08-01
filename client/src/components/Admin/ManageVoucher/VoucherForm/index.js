@@ -1,10 +1,8 @@
 import { FastField, Form, Formik } from "formik";
 import { nanoid } from "nanoid";
-import { Button } from "react-bootstrap";
 import * as yup from "yup";
 import DatePickerField from "../../../Common/DatePickerField";
 import InputField from "../../../Common/InputField";
-import SelectField from "../CateField";
 export default function VoucherForm({ listCate, handleAddVoucher }) {
   const date = new Date().toLocaleDateString();
 
@@ -79,8 +77,8 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               name="vouExpired"
               label="Expired Date"
               required
-                    minDate={new Date()}
-            showTimeSelect
+              minDate={new Date()}
+              showTimeSelect
               component={DatePickerField}
               // minDate={date}
             />
@@ -101,7 +99,10 @@ export default function VoucherForm({ listCate, handleAddVoucher }) {
               }}
               className="action_buttons"
             >
-              <button onClick={handleGenerateCode} className="common-button common-button-blue">
+              <button
+                onClick={handleGenerateCode}
+                className="common-button common-button-blue"
+              >
                 Generate
               </button>
               <button

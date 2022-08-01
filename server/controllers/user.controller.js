@@ -272,12 +272,12 @@ module.exports = {
   },
   updateTrackingInfo: async (req, res) => {
     try {
+      console.log("HELLO");
       const { trackingInfo } = req.body;
-      console.log({ trackingInfo });
       const updatedUser = await userModel.findByIdAndUpdate(
         req.userID,
         {
-          trackingInfo,
+          trackingInfo: trackingInfo,
         },
         { new: true }
       );

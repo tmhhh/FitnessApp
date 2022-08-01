@@ -1,17 +1,17 @@
 import axios from "axios";
-import React, { useEffect, useReducer, useState, useCallback } from "react";
+import messageAntd, { messageTypes } from "components/Common/Toast/message";
+import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authApi } from "../api/authApi";
+import cartApi from "../api/cartApi";
+import userApi from "../api/userApi";
 import { NUTRI_API_CONFIG, PAGE_SIZE } from "../assets/constants";
 import authSlice from "../redux/slices/authSlice";
 import cartSlice from "../redux/slices/cartSlice";
-import NutritionReducer from "./reducers/NutritionReducer";
-import prodApi from "../api/prodApi";
-import prodSlice, { getProduct } from "../redux/slices/prodSlice";
-import cartApi from "../api/cartApi";
 import { getAllCate } from "../redux/slices/cateSlice";
 import { getAllExercise } from "../redux/slices/exerciseSlice";
-import userApi from "../api/userApi";
+import { getProduct } from "../redux/slices/prodSlice";
+import NutritionReducer from "./reducers/NutritionReducer";
 //CONTEXT
 export const Context = React.createContext();
 export default function ContextProvider({ children }) {
@@ -30,7 +30,7 @@ export default function ContextProvider({ children }) {
     bg: "",
   });
 
-  const [foodName, setFoodName] = useState('');
+  const [foodName, setFoodName] = useState("");
 
   //
   const { isAuthenticated } = useSelector((state) => state.authReducer);
@@ -42,7 +42,7 @@ export default function ContextProvider({ children }) {
   });
 
   //SEARCHING NUTRITION
-  const nutriSearching = async (params, searchType = 'food') => {
+  const nutriSearching = async (params, searchType = "food") => {
     try {
       nutriDispatch({
         type: "SET_NUTRI",
@@ -53,7 +53,10 @@ export default function ContextProvider({ children }) {
       // console.log(res.data);
       nutriDispatch({
         type: "SET_NUTRI",
-        payload: { isLoading: false, listFoods: searchType === 'dish' ? res.data.hits : res.data.hints },
+        payload: {
+          isLoading: false,
+          listFoods: searchType === "dish" ? res.data.hits : res.data.hints,
+        },
       });
     } catch (error) {
       console.log({ error });
@@ -61,15 +64,17 @@ export default function ContextProvider({ children }) {
     }
   };
 
-  const nutriSearchById = async (id, searchType = 'food') => {
+  const nutriSearchById = async (id, searchType = "food") => {
     try {
-      const res = await axios.request(NUTRI_API_CONFIG({foodName: id}, searchType));
+      const res = await axios.request(
+        NUTRI_API_CONFIG({ foodName: id }, searchType)
+      );
 
-      return (searchType === 'dish' ? res.data.hits : res.data.hints)[0];
+      return (searchType === "dish" ? res.data.hits : res.data.hints)[0];
     } catch (error) {
       console.log({ error });
     }
-  }
+  };
 
   // LOAD USER DATA
   const loadUser = useCallback(async () => {
@@ -115,18 +120,9 @@ export default function ContextProvider({ children }) {
   // //GET PRODUCTS
   const getProducts = useCallback(async () => {
     try {
-      // const res = await prodApi.getAllProducts();
-      // if (res.data.isSuccess)
-      //   return dispatch(
-      //     prodSlice.actions.getProducts({
-      //       prodLoading: false,
-      //       listProducts: res.data.listProducts,
-      //     })
-      //   );
       await dispatch(getProduct({ page: 1, size: PAGE_SIZE }));
     } catch (err) {
       console.log(err);
-      // return dispatch(prod)
     }
   }, [dispatch]);
 
@@ -153,24 +149,13 @@ export default function ContextProvider({ children }) {
     getProducts();
     getCate();
     getAllExercises();
-  }, [loadUser, getCate, getAllExercises]);
+  }, [loadUser, getProducts, getCate, getAllExercises]);
 
-  //CHECK IF PRODUCT EXIST IN CART
-  // const checkExist = (cart, prodID) => {
-  //   return cart.find((e) => e.product._id === prodID);
-  // };
-
-  //
   const handleAddFavorite = async (id) => {
     try {
       if (isAuthenticated) {
-        setToast({
-          toastShow: true,
-          title: "Adding ...",
-          content: "Please wait a second",
-          icon: "👀",
-          bg: "info",
-        });
+        messageAntd(messageTypes.loading, "Adding ...");
+
         const res = await userApi.addFavoriteProduct(id);
         if (res.data.isSuccess) {
           dispatch(
@@ -178,13 +163,7 @@ export default function ContextProvider({ children }) {
               addedFavorite: res.data.addedFavorite,
             })
           );
-          setToast({
-            toastShow: true,
-            title: "Adding successfully !!!",
-            content: "You can check it in your personal cart !!!",
-            icon: "✔",
-            bg: "success",
-          });
+          messageAntd(messageTypes.success, "Adding successfully !!!");
         }
       } else {
         setToast({
@@ -194,28 +173,18 @@ export default function ContextProvider({ children }) {
           icon: "❌",
           bg: "danger",
         });
+        messageAntd(messageTypes.error, "Failed to add to cart !!!");
       }
     } catch (error) {
-      setToast({
-        toastShow: true,
-        title: "Failed to add to cart !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Failed to add to cart !!!");
       console.log(error);
     }
   };
   const handleRemoveFavorite = async (id) => {
     try {
       if (isAuthenticated) {
-        setToast({
-          toastShow: true,
-          title: "Removing ...",
-          content: "Please wait a second",
-          icon: "👀",
-          bg: "info",
-        });
+        messageAntd(messageTypes.loading, "Removing ...");
+
         const res = await userApi.removeFavoriteProduct(id);
         if (res.data.isSuccess) {
           console.log(res.data.removedFavorite);
@@ -224,32 +193,14 @@ export default function ContextProvider({ children }) {
               removedFavorite: id,
             })
           );
-          setToast({
-            toastShow: true,
-            title: "Removed successfully !!!",
-            content: "You can check it in your personal cart !!!",
-            icon: "✔",
-            bg: "success",
-          });
+          messageAntd(messageTypes.success, "Removing successfully !!!");
         }
       } else {
-        setToast({
-          toastShow: true,
-          title: "Failed to add to cart !!!",
-          content: "Please login to do this!!!",
-          icon: "❌",
-          bg: "danger",
-        });
+        messageAntd(messageTypes.error, "Failed to remove from cart!!!");
       }
     } catch (error) {
       console.log(error);
-      setToast({
-        toastShow: true,
-        title: "Failed to add to cart !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+      messageAntd(messageTypes.error, "Failed to remove from cart!!!");
     }
   };
   //ADD TO CART
@@ -258,22 +209,12 @@ export default function ContextProvider({ children }) {
     addedQuantity = 1
   ) => {
     try {
-      setToast({
-        toastShow: true,
-        title: "Adding ...",
-        content: "Please wait a second",
-        icon: "👀",
-        bg: "info",
-      });
+      messageAntd(messageTypes.loading, "Adding ...");
+
       if (isAuthenticated) {
         const res = await cartApi.addToCart(_id, addedQuantity);
-        setToast({
-          toastShow: true,
-          title: "Adding successfully !!!",
-          content: "You can check it in your personal cart !!!",
-          icon: "✔",
-          bg: "success",
-        });
+        messageAntd(messageTypes.success, "Adding successfully !!!");
+
         dispatch(
           cartSlice.actions.setCart({
             cartLoading: false,
@@ -281,73 +222,15 @@ export default function ContextProvider({ children }) {
           })
         );
       } else {
-        // const addedProduct = {
-        //   product: {
-        //     _id,
-        //     prodName,
-        //     prodPrice,
-        //     prodThumbnail,
-        //     prodCategory: {
-        //       cateName: {
-        //         cateName: prodCategory.cateName.cateName,
-        //       },
-        //       cateFilter: {
-        //         filterName: prodCategory.cateFilter.filterName,
-        //       },
-        //     },
-        //   },
-        //   quantity: addedQuantity,
-        // };
-        // let newCart = [];
-        // let userCart = localStorage.getItem("USER_CART");
-        // if (!userCart) {
-        //   newCart.push(addedProduct);
-        //   localStorage.setItem("USER_CART", JSON.stringify(newCart));
-        // } else {
-        //   userCart = JSON.parse(userCart);
-        //   const updatedProduct = checkExist(userCart, _id);
-        //   if (updatedProduct) {
-        //     updatedProduct.quantity += addedQuantity;
-        //     newCart = [...userCart];
-        //   } else newCart = [...userCart, addedProduct];
-        //   localStorage.setItem("USER_CART", JSON.stringify(newCart));
-        //   setToast({
-        //     toastShow: true,
-        //     title: "Adding successfully !!!",
-        //     content: "You can check it in your personal cart !!!",
-        //     icon: "✔",
-        //     bg: "success",
-        //   });
-        // }
+        messageAntd(messageTypes.error, "Failed to add to cart !!!");
 
-        // INFORM USER LOGIN TO ADD TO CART
-        setToast({
-          toastShow: true,
-          title: "Failed to add to cart !!!",
-          content: "Please login to do this!!!",
-          icon: "❌",
-          bg: "danger",
-        });
         return setAuthForm({ ...authForm, isShown: true });
       }
     } catch (error) {
       console.log(error);
       if (error.response.status === 403)
-        return setToast({
-          toastShow: true,
-          title: "Failed to add to cart !!!",
-          content: error.response.data.message,
-          icon: "❌",
-          bg: "danger",
-        });
-
-      setToast({
-        toastShow: true,
-        title: "Failed to add to cart !!!",
-        content: "Please try again later !!!",
-        icon: "❌",
-        bg: "danger",
-      });
+        return messageAntd(messageTypes.error, "Failed to add to cart !!!");
+      messageAntd(messageTypes.error, "Failed to add to cart !!!");
     }
   };
   const contextData = {
@@ -364,6 +247,7 @@ export default function ContextProvider({ children }) {
     setFoodName,
     handleRemoveFavorite,
     handleAddFavorite,
+    getProducts,
   };
   return <Context.Provider value={contextData}>{children}</Context.Provider>;
 }

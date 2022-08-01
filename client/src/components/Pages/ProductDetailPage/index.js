@@ -1,19 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Button, Spinner } from "react-bootstrap";
-import "./style.scss";
-import { useParams, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useContext, useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
+import { Helmet } from "react-helmet";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import { PROD_IMAGE_BASE_URL } from "../../../assets/constants";
-import { formatCurrency } from "../../../utils/formatCurrency";
 import { Context } from "../../../contexts";
 import { getReview } from "../../../redux/slices/reviewSlice";
+import { formatCurrency } from "../../../utils/formatCurrency";
 import ReviewSection from "../../Review/ReviewSection";
-import { Helmet } from "react-helmet";
+import "./style.scss";
 function ProductDetailPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const listReview = useSelector((state) => state.reviewReducer.listReview);
-  const { addToCart } = useContext(Context);
+  const { addToCart, getProducts } = useContext(Context);
 
   const [quantity, setQuantity] = useState(1);
   const { id: prodID } = useParams();
@@ -23,6 +23,7 @@ function ProductDetailPage() {
   //
   useEffect(() => {
     (async () => {
+      if (!chosenProd) getProducts();
       await dispatch(getReview(prodID));
     })();
   }, [prodID, dispatch]);
@@ -54,12 +55,7 @@ function ProductDetailPage() {
         difference -= minutesDifference * 1000 * 60;
 
         let secondsDifference = Math.floor(difference / 1000);
-        // console.log({
-        //   daysDifference,
-        //   hoursDifference,
-        //   minutesDifference,
-        //   secondsDifference,
-        // });
+
         setCountingClock({
           daysDifference,
           hoursDifference,
@@ -76,8 +72,8 @@ function ProductDetailPage() {
   const relatedProds = listProducts.reduce((acc, prod) => {
     if (
       prod._id !== prodID &&
-      prod.prodCategory.cateFilter.filterName ===
-        chosenProd.prodCategory.cateFilter.filterName &&
+      prod?.prodCategory?.cateFilter?.filterName ===
+        chosenProd.prodCategory?.cateFilter?.filterName &&
       acc.length < 3
     ) {
       return [...acc, prod];
@@ -200,8 +196,8 @@ function ProductDetailPage() {
                 )}
 
                 <div className="product_info_cate">
-                  {chosenProd.prodCategory.cateName.cateName} |{" "}
-                  {chosenProd.prodCategory.cateFilter.filterName}{" "}
+                  {chosenProd.prodCategory?.cateName?.cateName} |{" "}
+                  {chosenProd.prodCategory?.cateFilter?.filterName}{" "}
                 </div>
                 {/* <div className="product_info_weight">
                   {chosenProd.prodWeight}g
@@ -210,7 +206,10 @@ function ProductDetailPage() {
                   {chosenProd.prodDescription}
                 </div>
                 <div className="product_info_action">
-                  <button onClick={handleAddToCart} className="common-outline-button common-outline-button-green">
+                  <button
+                    onClick={handleAddToCart}
+                    className="common-outline-button common-outline-button-green"
+                  >
                     Add to cart
                   </button>
                   <button className="common-button">
@@ -253,8 +252,8 @@ function ProductDetailPage() {
                       {formatCurrency(prod.prodPrice)}
                     </div>
                     <div className="product_related_info_cate">
-                      {prod.prodCategory.cateName.cateName} |{" "}
-                      {prod.prodCategory.cateFilter.filterName}
+                      {prod.prodCategory?.cateName?.cateName} |{" "}
+                      {prod.prodCategory?.cateFilter?.filterName}
                     </div>
                     <div className="product_related_info_weight">
                       {prod.prodWeight}g

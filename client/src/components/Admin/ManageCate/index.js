@@ -1,14 +1,14 @@
 import { unwrapResult } from "@reduxjs/toolkit";
-import React, { useState, useRef } from "react";
-import { Button, Container } from "react-bootstrap";
+import { useRef, useState } from "react";
+import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import CateTable from "./CateTable";
-import CateModalForm from "./CateModal";
 import {
   addCate,
   deleteCate,
   updateCate,
 } from "../../../redux/slices/cateSlice";
+import CateModalForm from "./CateModal";
+import CateTable from "./CateTable";
 
 export default function CateSide() {
   const dispatch = useDispatch();

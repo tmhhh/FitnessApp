@@ -27,7 +27,7 @@ function Register() {
   //   e.preventDefault();
   // };
   // const [err, setError] = useState(null);
-  const err = null;
+  let err = null;
   const handleRegisterUser = async (values) => {
     try {
       const res = await authApi.userRegister(values);
@@ -70,7 +70,7 @@ function Register() {
           .string()
           .required("Please Enter your password")
           .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
             "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
           ),
         userPasswordConfirm: yup

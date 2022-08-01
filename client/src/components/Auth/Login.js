@@ -1,6 +1,6 @@
 import messageAntd, { messageTypes } from "components/Common/Toast/message";
 import { FastField, Formik } from "formik";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Form from "react-bootstrap/Form";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
@@ -15,22 +15,21 @@ import "./style.scss";
 function Login() {
   const dispatch = useDispatch();
   // TOAST
-  const { setToast } = useContext(Context);
 
   //AUTH FORM
   const { authForm, setAuthForm } = useContext(Context);
   const { isShown } = authForm;
 
   //INPUT
-  const [input, setInput] = useState({
-    userNameID: "",
-    userPassword: "",
-  });
+  // const [input, setInput] = useState({
+  //   userNameID: "",
+  //   userPassword: "",
+  // });
 
   //INPUT CHANGE
-  const handleInputOnChange = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value });
-  };
+  // const handleInputOnChange = (e) => {
+  //   setInput({ ...input, [e.target.name]: e.target.value });
+  // };
 
   //LOGIN
   const handleOnSubmit = async (values, event) => {
