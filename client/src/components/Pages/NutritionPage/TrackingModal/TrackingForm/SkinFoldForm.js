@@ -54,9 +54,20 @@ function SkinFoldForm({ formData, formRef }) {
           },
           ...formData.current,
           ...e,
-          healthData: convertDataToHealthData({ ...e }),
+          averageUserData:
+            ((e.subscapular1 + e.subscapular2 + e.subscapular3) / 3 +
+              (e.biceps1 + e.biceps2 + e.biceps3) / 3 +
+              (e.triceps1 + e.triceps2 + e.triceps1) / 3 +
+              (e.suprailiac1 + e.suprailiac2 + e.suprailiac3) / 3) /
+            12,
         };
         // setActiveStep(activeStep + 1);
+        console.log(
+          convertDataToHealthData({
+            averageUserData: formData.current.averageUserData,
+            ...e,
+          })
+        );
       }}
     >
       {({ errors }) => {
@@ -71,9 +82,9 @@ function SkinFoldForm({ formData, formRef }) {
               </a>
             </Paragraph>
 
-            {listInputFieldsForSkinFold.map(({ group, data }) => (
-              <Collapse style={{ width: "100%" }}>
-                <Panel header={group}>
+            <Collapse defaultActiveKey={["0"]} style={{ width: "100%" }}>
+              {listInputFieldsForSkinFold.map(({ group, data }, index) => (
+                <Panel key={index} header={group}>
                   <Row gutter={10}>
                     {data.map((item) => {
                       return item.src ? (
@@ -110,8 +121,8 @@ function SkinFoldForm({ formData, formRef }) {
                     })}
                   </Row>
                 </Panel>
-              </Collapse>
-            ))}
+              ))}
+            </Collapse>
           </Form>
         );
       }}
