@@ -132,9 +132,9 @@ function PredictForm({
             <Paragraph>
               Before we proceed, we need some key information:
             </Paragraph>
-            {listInputFieldsForPredict.map(({ group, data }) => (
-              <Collapse style={{ width: "100%" }}>
-                <Panel header={group}>
+            <Collapse defaultActiveKey={["0"]} style={{ width: "100%" }}>
+              {listInputFieldsForPredict.map(({ group, data }, index) => (
+                <Panel key={index} header={group}>
                   <Row gutter={10}>
                     {data.map((item) => {
                       return item.src ? (
@@ -189,8 +189,8 @@ function PredictForm({
                     })}
                   </Row>
                 </Panel>
-              </Collapse>
-            ))}
+              ))}
+            </Collapse>
           </>
         );
       }}

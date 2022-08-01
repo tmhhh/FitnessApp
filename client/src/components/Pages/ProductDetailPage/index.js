@@ -13,7 +13,7 @@ function ProductDetailPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const listReview = useSelector((state) => state.reviewReducer.listReview);
-  const { addToCart } = useContext(Context);
+  const { addToCart, getProducts } = useContext(Context);
 
   const [quantity, setQuantity] = useState(1);
   const { id: prodID } = useParams();
@@ -23,6 +23,7 @@ function ProductDetailPage() {
   //
   useEffect(() => {
     (async () => {
+      if (!chosenProd) getProducts();
       await dispatch(getReview(prodID));
     })();
   }, [prodID, dispatch]);
@@ -71,7 +72,7 @@ function ProductDetailPage() {
   const relatedProds = listProducts.reduce((acc, prod) => {
     if (
       prod._id !== prodID &&
-      prod.prodCategory?.cateFilter?.filterName ===
+      prod?.prodCategory?.cateFilter?.filterName ===
         chosenProd.prodCategory?.cateFilter?.filterName &&
       acc.length < 3
     ) {

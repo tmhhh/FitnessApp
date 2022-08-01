@@ -5,13 +5,15 @@ import {
   Popover,
   Row,
   Select,
+  Space,
   Timeline,
+  Tooltip,
   Typography,
 } from "antd";
 import { Option } from "antd/lib/mentions";
 import { colors } from "assets/color";
 import { FastField, Form } from "formik";
-import { covertHealStatus } from "utils/calculate";
+import { covertHealthStatus } from "utils/calculate";
 import BodyFatTableMale from "../../assets/img/Body-Fat-Caliper-Chart-men.png";
 import BodyFatTableFemale from "../../assets/img/Body-Fat-Caliper-Chart-women.png";
 const { Paragraph, Text } = Typography;
@@ -27,7 +29,7 @@ const GoalDataForm = ({
       id: 1,
       // isClicked: false,
       title: "Not Very Active",
-      img: "https://w7.pngwing.com/pngs/498/948/png-transparent-person-sitting-on-chair-in-front-desk-writing-computer-icons-stick-figure-man-working-desk-miscellaneous-angle-furniture.png",
+      img: "https://static.thenounproject.com/png/27461-200.png",
       desc: "Spend most of the day sitting (e.g., bankteller, desk job)",
       value: 1.2,
     },
@@ -62,7 +64,7 @@ const GoalDataForm = ({
     { name: "Gain Weight", value: 2 },
   ];
 
-  const healStatus = covertHealStatus(
+  const healStatus = covertHealthStatus(
     formData.current.gender,
     formData.current.bodyFat
   );
@@ -151,7 +153,18 @@ const GoalDataForm = ({
                 style={{ width: "100%" }}
               >
                 {groupBtn.map((item) => (
-                  <Option value={item.value}>{item.desc}</Option>
+                  <Option value={item.value}>
+                    <Tooltip title={item.desc}>
+                      <Space>
+                        <Image
+                          preview={false}
+                          style={{ width: 30, aspectRatio: 1 }}
+                          src={item.img}
+                        />
+                        <Text strong>{item.title}</Text>
+                      </Space>
+                    </Tooltip>
+                  </Option>
                 ))}
               </Select>
             )}

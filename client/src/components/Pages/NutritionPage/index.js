@@ -1,13 +1,14 @@
-import { Badge, Image, Segmented } from "antd";
+import { Badge, Divider, Image, Segmented } from "antd";
+import Lottie from "lottie-react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
 import userApi from "../../../api/userApi";
-import { BASE_IMAGE_BASE_URL } from "../../../assets/constants";
+import dishesPlaceholder from "../../../assets/img/dishes-default.png";
+import nutritionLottie from "../../../assets/lottie/salad-diet.json";
 import { Context } from "../../../contexts";
 import authSlice from "../../../redux/slices/authSlice";
-import CustomLoading from "../../Common/Placeholders/CustomLoading";
 import NoResults from "../../Common/Placeholders/NoResults";
 import SearchBar from "../../Common/SearchBar";
 import NutritionContainer from "../../Containers/NutritionContainer";
@@ -16,7 +17,6 @@ import FoodModal from "./FoodModal";
 import TrackingSidebar from "./NutriSidebar";
 import "./style.scss";
 import TrackingModal from "./TrackingModal";
-
 export default function NutritionPage() {
   const [searchType, setSearchType] = useState("food");
 
@@ -129,11 +129,11 @@ export default function NutritionPage() {
   };
 
   //
-  useEffect(() => {
-    if (!authLoading && isAuthenticated && !userInfo.trackingInfo.isFilled) {
-      handleShowTrackingModal();
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (!authLoading && isAuthenticated && !userInfo.trackingInfo.userH) {
+  //     handleShowTrackingModal();
+  //   }
+  // }, [userInfo]);
   return (
     <>
       <NutritionContainer>
@@ -179,7 +179,17 @@ export default function NutritionPage() {
           <SearchBar searchType={searchType} ref={searchBarRef} />
 
           {nutriState.isLoading ? (
-            <CustomLoading />
+            <Lottie
+              style={{
+                height: "300px",
+                width: "300px",
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%,-50%)",
+              }}
+              animationData={nutritionLottie}
+            />
           ) : nutriState.listFoods ? (
             nutriState.listFoods.length <= 0 ? (
               <NoResults />
@@ -199,90 +209,91 @@ export default function NutritionPage() {
                     const item = e.recipe || e.food;
                     const nutrients = item.totalNutrients || item.nutrients;
                     return (
-                      <div key={index} className="p-3">
-                        <div
-                          className="p-3 w-100 d-flex justify-content-between common-hover"
-                          onClick={() => handleShowModal(index)}
-                        >
-                          <div className="d-flex">
-                            <Image
-                              width={120}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                              src={
-                                item.image
-                                  ? item.image
-                                  : BASE_IMAGE_BASE_URL + "/dishes-default.png"
-                              }
-                            ></Image>
-                            <div className="d-flex align-items-start flex-column ms-4">
-                              <h2>{item.label}</h2>
-                              <p style={{ fontSize: 14, color: "#949494" }}>
-                                <b>
-                                  Energy{" "}
-                                  <i
-                                    className="fas fa-fire"
-                                    style={{ color: "#ff7302" }}
-                                  ></i>
-                                  :
-                                </b>{" "}
-                                {Math.trunc(
-                                  (nutrients.ENERC_KCAL?.quantity * 100) /
-                                    item.totalWeight || nutrients.ENERC_KCAL
-                                )}
-                              </p>
+                      <>
+                        <div key={index} className="p-3">
+                          <div
+                            className="p-3 w-100 d-flex justify-content-between common-hover"
+                            onClick={() => handleShowModal(index)}
+                          >
+                            <div className="d-flex">
+                              <Image
+                                width={120}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                                src={
+                                  item.image ? item.image : dishesPlaceholder
+                                }
+                              ></Image>
+                              <div className="d-flex align-items-start flex-column ms-4">
+                                <h2>{item.label}</h2>
+                                <p style={{ fontSize: 14, color: "#949494" }}>
+                                  <b>
+                                    Energy{" "}
+                                    <i
+                                      className="fas fa-fire"
+                                      style={{ color: "#ff7302" }}
+                                    ></i>
+                                    :
+                                  </b>{" "}
+                                  {Math.trunc(
+                                    (nutrients.ENERC_KCAL?.quantity * 100) /
+                                      item.totalWeight || nutrients.ENERC_KCAL
+                                  )}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="d-flex flex-column align-items-start">
+                              <Badge
+                                className="p-3"
+                                color="volcano"
+                                text={
+                                  <span style={{ fontSize: "1.8rem" }}>
+                                    {" "}
+                                    <b>Protein:</b>{" "}
+                                    {Math.trunc(
+                                      (nutrients.PROCNT?.quantity * 100) /
+                                        item.totalWeight || nutrients.PROCNT
+                                    )}
+                                    g
+                                  </span>
+                                }
+                              />
+                              <Badge
+                                className="p-3"
+                                color="yellow"
+                                text={
+                                  <span style={{ fontSize: "1.8rem" }}>
+                                    {" "}
+                                    <b>Fat:</b>{" "}
+                                    {Math.trunc(
+                                      (nutrients.FAT?.quantity * 100) /
+                                        item.totalWeight || nutrients.FAT
+                                    )}
+                                    g
+                                  </span>
+                                }
+                              />
+                              <Badge
+                                className="p-3"
+                                color="lime"
+                                text={
+                                  <span style={{ fontSize: "1.8rem" }}>
+                                    {" "}
+                                    <b>Carbs:</b>{" "}
+                                    {Math.trunc(
+                                      (nutrients.FIBTG?.quantity * 100) /
+                                        item.totalWeight || nutrients.FIBTG
+                                    )}
+                                    g
+                                  </span>
+                                }
+                              />
                             </div>
                           </div>
-                          <div className="d-flex flex-column align-items-start">
-                            <Badge
-                              className="p-3"
-                              color="volcano"
-                              text={
-                                <span>
-                                  {" "}
-                                  <b>Protein:</b>{" "}
-                                  {Math.trunc(
-                                    (nutrients.PROCNT?.quantity * 100) /
-                                      item.totalWeight || nutrients.PROCNT
-                                  )}
-                                  g
-                                </span>
-                              }
-                            />
-                            <Badge
-                              className="p-3"
-                              color="yellow"
-                              text={
-                                <span>
-                                  {" "}
-                                  <b>Fat:</b>{" "}
-                                  {Math.trunc(
-                                    (nutrients.FAT?.quantity * 100) /
-                                      item.totalWeight || nutrients.FAT
-                                  )}
-                                  g
-                                </span>
-                              }
-                            />
-                            <Badge
-                              className="p-3"
-                              color="lime"
-                              text={
-                                <span>
-                                  {" "}
-                                  <b>Carbs:</b>{" "}
-                                  {Math.trunc(
-                                    (nutrients.FIBTG?.quantity * 100) /
-                                      item.totalWeight || nutrients.FIBTG
-                                  )}
-                                  g
-                                </span>
-                              }
-                            />
-                          </div>
                         </div>
-                      </div>
+                        <Divider />
+                      </>
                     );
                   })}
                 </div>
@@ -301,6 +312,7 @@ export default function NutritionPage() {
           <TrackingModal
             showTrackingModal={showTrackingModal}
             handleCloseTrackingModal={handleCloseTrackingModal}
+            setShowTrackingModal={setShowTrackingModal}
           />
           <FilterModal
             visible={filterModal.isShown}

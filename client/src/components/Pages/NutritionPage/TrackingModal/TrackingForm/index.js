@@ -6,7 +6,9 @@ import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
 import { useState } from "react";
 
+import { covertHealthStatus } from "utils/calculate";
 import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
+import { filterNutrition } from "../../constants";
 import PredictForm from "./PredictForm";
 import SkinFoldForm from "./SkinFoldForm";
 import "./style.scss";
@@ -52,6 +54,7 @@ export default function TrackingForm({
       </>
     );
   } else if (activeStep === 1) {
+    console.log(formData.current);
     content = (
       <Formik
         validationSchema={yup.object().shape({
@@ -59,7 +62,12 @@ export default function TrackingForm({
           activityLevel: yup.number().nullable().min(0).required(),
         })}
         initialValues={{
-          goal: null,
+          goal: filterNutrition.goal[
+            covertHealthStatus(
+              formData.current.gender,
+              formData.current.bodyFat
+            )?.message.split(" ")[0]
+          ],
           activityLevel: null,
         }}
         onSubmit={(e) => {

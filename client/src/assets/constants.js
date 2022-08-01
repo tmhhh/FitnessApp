@@ -1,10 +1,12 @@
-// export const BASE_API_URL = `http://localhost:4000/api`;
-// const PUBLIC_URL = `http://localhost:4000`;
+export const BASE_API_URL = `http://localhost:4000/api`;
+const PUBLIC_URL = `http://localhost:4000`;
+
 export const CLIENT_PUBLIC_URL = `http://localhost:3000`;
 
 // export const CLIENT_PUBLIC_URL = `https://hht-fitness-app.netlify.app/`;
-export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
-const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
+// export const BASE_API_URL = `https://apiserver-fitnessapp.herokuapp.com/api`;
+// const PUBLIC_URL = `https://apiserver-fitnessapp.herokuapp.com`;
+
 //DJANGO SERVER
 export const PREDICT_BODY_FAT_API_URL = `http://127.0.0.1:8000/api/body-fat-predict/`;
 // export const PREDICT_BODY_FAT_API_URL =

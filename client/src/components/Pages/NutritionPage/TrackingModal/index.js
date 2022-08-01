@@ -1,9 +1,9 @@
 import { useRef, useState } from "react";
 // import { Modal, Button } from "react-bootstrap";
 import { Modal, Steps } from "antd";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import authSlice from "redux/slices/authSlice";
 import userApi from "../../../../api/userApi";
-import authSlice from "../../../../redux/slices/authSlice";
 import "./style.scss";
 import TrackingForm from "./TrackingForm";
 const { Step } = Steps;
@@ -13,6 +13,7 @@ export default function TrackingModal({
   handleCloseTrackingModal,
 }) {
   const dispatch = useDispatch();
+  const { userInfo } = useSelector((state) => state.authReducer);
   const [activeStep, setActiveStep] = useState(0);
   const [confirmLoading, setConfirmLoading] = useState(false);
   // const [isModalVisible, setIsModalVisible] = useState(true);
@@ -29,15 +30,25 @@ export default function TrackingModal({
   };
 
   const handleCancel = () => {
-    if (activeStep !== 0) setActiveStep(activeStep - 1);
+    if (activeStep > 0) setActiveStep(activeStep - 1);
     else setShowTrackingModal(false);
   };
 
   //
   const handleUpdateTrackingInfo = async () => {
     try {
-      const res = await userApi.updateTrackingIno(formData.current);
+      const updateFormData = { ...formData.current };
+      updateFormData.bodyFat = [
+        ...(userInfo.trackingInfo.userBodyFat || []),
+        {
+          data: updateFormData.bodyFat,
+        },
+      ];
+
+      const res = await userApi.updateTrackingIno(updateFormData);
+      console.log({ res });
       if (res.data.isSuccess) {
+        handleCloseTrackingModal();
         dispatch(
           authSlice.actions.setAuth({
             authLoading: false,
@@ -45,7 +56,6 @@ export default function TrackingModal({
             userInfo: res.data.updatedUser,
           })
         );
-        handleCloseTrackingModal();
       }
     } catch (error) {
       console.log(error);
@@ -63,7 +73,7 @@ export default function TrackingModal({
       okText={activeStep !== 2 ? "Next" : "Done"}
       cancelText={activeStep > 0 ? "Back" : "Cancel"}
     >
-      <Steps className="steps-container" current={1}>
+      <Steps className="steps-container" current={activeStep}>
         <Step title="Body Measurements" />
         <Step title="Setup Your Goal" />
         <Step title="Finish" />

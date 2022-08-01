@@ -2333,13 +2333,13 @@ export const convertDataToHealthData = ({ gender, age, averageUserData }) => {
 
   return healthData;
 };
-export const covertHealStatus = (gender, bodyFat) => {
+export const covertHealthStatus = (gender, bodyFat) => {
   let result;
   if (gender === 0) {
     if (bodyFat < 2) {
       result = {
         status: "Above Average Zone",
-        message: "gain Weight",
+        message: "gain weight",
         type: 3,
       };
     } else if (bodyFat >= 2 && bodyFat <= 6) {
@@ -2371,7 +2371,7 @@ export const covertHealStatus = (gender, bodyFat) => {
     if (bodyFat < 2) {
       result = {
         status: "Above Average Zone",
-        message: "Gain Weight",
+        message: "gain weight",
         type: 3,
       };
     } else if (bodyFat >= 2 && bodyFat <= 8) {

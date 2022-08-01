@@ -45,7 +45,7 @@ const Users = new Schema({
     isFilled: { type: Boolean, default: false },
     userHeight: { type: Number, default: null },
     userAge: { type: Number, default: null },
-    userGender: { type: Number, default: null },
+    userGender: { type: Number, default: 0 },
     userWeight: { type: Number, default: null },
     userGoal: { type: Number, default: null },
     userActivityLevel: { type: String, default: null },
@@ -63,6 +63,12 @@ const Users = new Schema({
             foodKCAL: { type: String, default: null },
           },
         ],
+      },
+    ],
+    userBodyFat: [
+      {
+        data: { type: Number, default: null },
+        addedDate: { type: String, default: new Date().toLocaleDateString() },
       },
     ],
   },

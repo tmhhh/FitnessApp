@@ -30,7 +30,7 @@ export default function ContextProvider({ children }) {
     bg: "",
   });
 
-  const [foodName, setFoodName] = useState('');
+  const [foodName, setFoodName] = useState("");
 
   //
   const { isAuthenticated } = useSelector((state) => state.authReducer);
@@ -42,7 +42,7 @@ export default function ContextProvider({ children }) {
   });
 
   //SEARCHING NUTRITION
-  const nutriSearching = async (params, searchType = 'food') => {
+  const nutriSearching = async (params, searchType = "food") => {
     try {
       nutriDispatch({
         type: "SET_NUTRI",
@@ -53,7 +53,10 @@ export default function ContextProvider({ children }) {
       // console.log(res.data);
       nutriDispatch({
         type: "SET_NUTRI",
-        payload: { isLoading: false, listFoods: searchType === 'dish' ? res.data.hits : res.data.hints },
+        payload: {
+          isLoading: false,
+          listFoods: searchType === "dish" ? res.data.hits : res.data.hints,
+        },
       });
     } catch (error) {
       console.log({ error });
@@ -61,15 +64,17 @@ export default function ContextProvider({ children }) {
     }
   };
 
-  const nutriSearchById = async (id, searchType = 'food') => {
+  const nutriSearchById = async (id, searchType = "food") => {
     try {
-      const res = await axios.request(NUTRI_API_CONFIG({foodName: id}, searchType));
+      const res = await axios.request(
+        NUTRI_API_CONFIG({ foodName: id }, searchType)
+      );
 
-      return (searchType === 'dish' ? res.data.hits : res.data.hints)[0];
+      return (searchType === "dish" ? res.data.hits : res.data.hints)[0];
     } catch (error) {
       console.log({ error });
     }
-  }
+  };
 
   // LOAD USER DATA
   const loadUser = useCallback(async () => {
@@ -242,6 +247,7 @@ export default function ContextProvider({ children }) {
     setFoodName,
     handleRemoveFavorite,
     handleAddFavorite,
+    getProducts,
   };
   return <Context.Provider value={contextData}>{children}</Context.Provider>;
 }

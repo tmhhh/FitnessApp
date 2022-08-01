@@ -1,4 +1,5 @@
 import { Col, Collapse, Divider, Image, Popover, Row, Typography } from "antd";
+import { CLIENT_PUBLIC_URL } from "assets/constants";
 import { FastField, Form, Formik } from "formik";
 import { convertDataToHealthData } from "utils/calculate";
 import * as yup from "yup";
@@ -65,7 +66,7 @@ function SkinFoldForm({ formData, formRef }) {
             <Paragraph>
               Before we proceed, you need a skin fold caliper to estimate the
               following field. Don't have this tool? You can get it from{" "}
-              <a href="https://hht-fitness-app.netlify.app/product/62e563c1a57b0cb434f9921c">
+              <a href={CLIENT_PUBLIC_URL + `/product/62e563c1a57b0cb434f9921c`}>
                 here
               </a>
             </Paragraph>
