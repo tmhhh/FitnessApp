@@ -74,6 +74,7 @@ function Schedule({
                           <div
                               onClick={() => onClickExercise(workout.exercise._id)}
                               className="schedule__item__task"
+                              style={{cursor: 'pointer'}}
                           >
                             <p className="schedule__item__task-title">
                               {workout.exercise?.name}
