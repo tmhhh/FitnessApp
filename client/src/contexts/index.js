@@ -163,7 +163,7 @@ export default function ContextProvider({ children }) {
               addedFavorite: res.data.addedFavorite,
             })
           );
-          messageAntd(messageTypes.success, "Adding successfully !!!");
+          messageAntd(messageTypes.success, "Added !!!");
         }
       } else {
         setToast({
@@ -193,7 +193,7 @@ export default function ContextProvider({ children }) {
               removedFavorite: id,
             })
           );
-          messageAntd(messageTypes.success, "Removing successfully !!!");
+          messageAntd(messageTypes.success, "Removed !!!");
         }
       } else {
         messageAntd(messageTypes.error, "Failed to remove from cart!!!");
@@ -213,7 +213,7 @@ export default function ContextProvider({ children }) {
 
       if (isAuthenticated) {
         const res = await cartApi.addToCart(_id, addedQuantity);
-        messageAntd(messageTypes.success, "Adding successfully !!!");
+        messageAntd(messageTypes.success, "Added !!!");
 
         dispatch(
           cartSlice.actions.setCart({
