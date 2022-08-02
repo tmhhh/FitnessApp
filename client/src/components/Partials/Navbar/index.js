@@ -6,6 +6,10 @@ import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 import { Context } from "../../../contexts";
 import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
+import {Tooltip, Typography} from "antd";
+
+const { Link } = Typography;
+
 export default function Navbar() {
   const navRef = useRef(null);
   // const [showDropdown, setDropdown] = useState(false);
@@ -191,6 +195,11 @@ export default function Navbar() {
               )}
             </div>
           )}
+          <Tooltip placement="bottomRight" title={'See more information about us'}>
+            <Link style={{color: 'white', fontSize: 18}} href="https://fitnesswhitepaper.gitbook.io/untitled/about-us" target="_blank">
+              <i className="far fa-question-circle"></i>
+            </Link>
+          </Tooltip>
         </div>
 
         <AuthForm />
