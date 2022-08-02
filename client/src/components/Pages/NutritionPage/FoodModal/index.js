@@ -1,4 +1,4 @@
-import { Button, Image, Select, Tabs, Tag, Typography } from "antd";
+import {Button, Image, InputNumber, Select, Tabs, Tag, Typography} from "antd";
 import { forwardRef, useContext, useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
@@ -230,17 +230,18 @@ export default function FoodModal({
                             {100 * servingSize}g
                           </div>
                         </div>
-                        <div className="calories_serving_item">
+                        <div className="calories_serving_item d-flex justify-content-between">
                           <div className="calories_serving_item_label">
                             Number of Servings
                           </div>
-                          <input
+                          <InputNumber
                             type="number"
                             min={1}
                             max={5}
                             value={servingSize}
                             onChange={handleServingChange}
                             className="calories_serving_item_value"
+                            style={{ width: '5rem'}}
                           />
                         </div>
                       </div>{" "}
@@ -252,7 +253,7 @@ export default function FoodModal({
                         className="d-flex justify-content-end align-items-start"
                       >
                         <button
-                          className="common-outline-button common-outline-button-blue"
+                          className="common-outline-button common-outline-button-blue py-1"
                           style={{ fontSize: "16px" }}
                           onClick={() =>
                             handleOnViewDishClick(entityData.food.label)
