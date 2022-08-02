@@ -30,7 +30,7 @@ export default function TrainingModal(props) {
           <div className="exercise-name">{selectedExercise.name}</div>
           <div className="exercise-category">
             {selectedExercise.category} ({selectedExercise.calories}kcal{" "}
-            <i class="fas fa-fire"></i> / 4 sets)
+            <i style={{ color: "orange" }} class="fas fa-fire"></i> / 4 sets)
           </div>
           <div className="exercise-description">
             {selectedExercise.description}

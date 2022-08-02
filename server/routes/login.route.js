@@ -10,6 +10,7 @@ router.post("/", userController.userLogin);
 //GET FB LOGIN DATA
 router.get("/data", (req, res) => {
   try {
+    console.log(req.user);
     if (req.user) {
       const accessToken = jwt.sign(
         { userID: req.user._id },
@@ -17,7 +18,6 @@ router.get("/data", (req, res) => {
       );
       const loginUser = req.user;
       // req.logOut();
-      // req.session.destroy();
       return res.status(200).json({ isSuccess: true, accessToken, loginUser });
     }
     return res.status(401).json({ isSuccess: false, error: "User not found" });
@@ -35,27 +35,14 @@ router.get(
   })
 );
 
-// router.get("/google/callback", function (req, res, next) {
-//   passport.authenticate("google", function (err, user) {
-//     console.log({ err, user });
-//     // if (err) return res.status(500).json({ isSuccess: false, err });
-//     // if (!user)
-//     //   return res.status(401).json({ isSuccess: false, err: "Unauthorized" });
-//     // // return res.redirect("/api/auth/login/data");
-//     return res.send("<script>window.close()</script>");
-//     // return res.status(200).json({ isSuccess: true, loginUser: user });
-//   })(req, res, next);
-// });
-
 passport.use(
   new GoogleStrategy(
     {
       clientID:
         "276022586484-2s9ui1rmhqvc8a6csc05nn2vcnva453d.apps.googleusercontent.com",
       clientSecret: "VoKthWq43LJJ6mSd4jTU8pzO",
-      callbackURL:
-        // "https://apiserver-fitnessapp.herokuapp.com/api/auth/login/google/callback",
-        process.env.server_URL + "/auth/login/google/callback",
+      callbackURL: process.env.server_URL + "/auth/login/google/callback",
+      // "http://localhost:4000/api" + "/auth/login/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
@@ -92,15 +79,20 @@ router.get(
 );
 
 passport.serializeUser((user, done) => {
+  console.log("serialize");
   done(null, user._id);
 });
 
 passport.deserializeUser(async (userID, done) => {
   try {
+    console.log("derialized1");
+
     const deserializedUser = await userModel
       .findById(userID)
       .select("-userPassword");
     if (deserializedUser) {
+      console.log("derialized");
+
       return done(null, deserializedUser);
     } else {
       return done(null, false);
@@ -123,19 +115,6 @@ router.get(
   }
 );
 
-// router.get(
-//   "/fb/callback",
-//   passport.authenticate("facebook", function (req, res, next) {
-//     passport.authenticate("facebook", function (err, user) {
-//       return res.send("<script>window.close();</script > ");
-
-//       // if (user) {
-//       //   return res.send("<script>window.close();</script > ");
-//       // }
-//       // return res.redirect("http://localhost:4000/api/auth/login/fb");
-//     });
-//   })
-// );
 passport.use(
   new FacebookStrategy(
     {
@@ -143,11 +122,11 @@ passport.use(
       clientSecret: "1518fc9d11dd2986c0d9d35febed8164",
       callbackURL: process.env.server_URL + "/auth/login/fb/callback",
 
-      // "https://df65-116-108-254-50.ngrok.io/api/auth/login/fb/callback",
       profileFields: ["email", "displayName"],
     },
     async function (accessToken, refreshToken, profile, cb) {
       try {
+        console.log(process.env.server_URL + "/auth/login/fb/callback");
         const { name, picture, email } = profile._json;
         const foundUser = await userModel.findOne({
           userNameID: profile._json.email,

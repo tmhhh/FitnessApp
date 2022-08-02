@@ -8,6 +8,7 @@ const authMdw = require("../middlewares/verifyToken.mdw");
 const verifyToken = require("../middlewares/verifyToken.mdw");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 //@@ GET ALL PRODUCTS
+router.get("/:id", productCtl.getById);
 router.get("/", productCtl.getAllProducts);
 router.post(
   "/",

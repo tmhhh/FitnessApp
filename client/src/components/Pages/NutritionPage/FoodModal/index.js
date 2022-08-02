@@ -2,6 +2,7 @@ import {
   Button,
   Dropdown,
   Image,
+  InputNumber,
   Menu,
   Select,
   Tabs,
@@ -304,17 +305,18 @@ export default function FoodModal({
                             {100 * servingSize}g
                           </div>
                         </div>
-                        <div className="calories_serving_item">
+                        <div className="calories_serving_item d-flex justify-content-between">
                           <div className="calories_serving_item_label">
                             Number of Servings
                           </div>
-                          <input
+                          <InputNumber
                             type="number"
                             min={1}
                             max={5}
                             value={servingSize}
                             onChange={handleServingChange}
                             className="calories_serving_item_value"
+                            style={{ width: "5rem" }}
                           />
                         </div>
                       </div>{" "}

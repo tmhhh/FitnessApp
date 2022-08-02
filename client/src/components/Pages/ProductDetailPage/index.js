@@ -9,21 +9,33 @@ import { getReview } from "../../../redux/slices/reviewSlice";
 import { formatCurrency } from "../../../utils/formatCurrency";
 import ReviewSection from "../../Review/ReviewSection";
 import "./style.scss";
+import {getProductById} from "../../../redux/slices/prodSlice";
+import {unwrapResult} from "@reduxjs/toolkit";
 function ProductDetailPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const listReview = useSelector((state) => state.reviewReducer.listReview);
-  const { addToCart, getProducts } = useContext(Context);
+  const { addToCart } = useContext(Context);
+
+  const [chosenProd, setChosenProd] = useState({});
 
   const [quantity, setQuantity] = useState(1);
   const { id: prodID } = useParams();
   let { listProducts, prodLoading } = useSelector((state) => state.prodReducer);
-  const chosenProd = listProducts.find((prod) => prod._id === prodID);
   const [countingClock, setCountingClock] = useState(null);
   //
   useEffect(() => {
     (async () => {
-      if (!chosenProd) getProducts();
+      let chosenProd = listProducts.find((prod) => prod._id === prodID);
+
+      if (!chosenProd) {
+        const res = await dispatch(getProductById({id: prodID}));
+        const {data} = unwrapResult(res);
+        chosenProd = data?.product;
+      }
+
+      setChosenProd(chosenProd);
+
       await dispatch(getReview(prodID));
     })();
   }, [prodID, dispatch]);
@@ -135,7 +147,7 @@ function ProductDetailPage() {
             <div className="product_info">
               <div className="product_info_image">
                 <img
-                  src={`${PROD_IMAGE_BASE_URL}${chosenProd.prodThumbnail}`}
+                  src={`${PROD_IMAGE_BASE_URL}${chosenProd.prodThumbnail || 'default.png'}`}
                   alt={chosenProd.prodName}
                 />
               </div>
@@ -172,15 +184,15 @@ function ProductDetailPage() {
                   0 ? (
                   <>
                     <div className="line-through">
-                      {formatCurrency(chosenProd.prodPrice)}
+                      {formatCurrency(chosenProd.prodPrice || 0)}
                     </div>
                     <div className="product_info_price d-flex align-items-center">
-                      {formatCurrency(
+                      {formatCurrency((
                         chosenProd.prodPrice *
                           (1 -
                             (chosenProd.prodDiscount?.discountPercent / 100 ||
                               0))
-                      )}
+                      ) || 0)}
                       <span className=" product_info_weight">
                         / {chosenProd.prodWeight}g
                       </span>
@@ -188,7 +200,7 @@ function ProductDetailPage() {
                   </>
                 ) : (
                   <div className="product_info_price d-flex align-items-center">
-                    {formatCurrency(chosenProd.prodPrice)}{" "}
+                    {formatCurrency(chosenProd.prodPrice || 0)}{" "}
                     <span className=" product_info_weight">
                       / {chosenProd.prodWeight}g
                     </span>
@@ -249,7 +261,7 @@ function ProductDetailPage() {
                       <i className="far fa-heart"></i>
                     </div>
                     <div className="product_related_info_price">
-                      {formatCurrency(prod.prodPrice)}
+                      {formatCurrency(prod.prodPrice || 0)}
                     </div>
                     <div className="product_related_info_cate">
                       {prod.prodCategory?.cateName?.cateName} |{" "}

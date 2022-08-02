@@ -1,3 +1,4 @@
+import { Skeleton, Tooltip, Typography } from "antd";
 import { useContext, useRef } from "react";
 import { Dropdown, DropdownButton, Nav } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -6,6 +7,9 @@ import { USER_IMAGE_BASE_URL } from "../../../assets/constants";
 import { Context } from "../../../contexts";
 import AuthForm from "../../Auth/AuthForm";
 import "./style.scss";
+
+const { Link } = Typography;
+
 export default function Navbar() {
   const navRef = useRef(null);
   // const [showDropdown, setDropdown] = useState(false);
@@ -104,13 +108,25 @@ export default function Navbar() {
             <div className="nav_bar_item-title">SHOP</div>
           </NavLink>
 
-          {authLoading ? null : isAuthenticated ? (
+          {authLoading ? (
+            <div
+              style={{
+                minWidth: 140,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <Skeleton.Avatar active={true} size="large" shape={"circle"} />
+              <Skeleton.Button style={{ height: 20 }} active={true} />
+            </div>
+          ) : isAuthenticated ? (
             <div className="nav_bar_item">
               <img
                 className="user_image"
                 alt={userInfo.userImage}
                 src={
-                  userInfo.userImage.includes("http")
+                  userInfo.userImage?.includes("http")
                     ? userInfo.userImage
                     : `${USER_IMAGE_BASE_URL}/${userInfo.userImage}`
                 }
@@ -191,6 +207,18 @@ export default function Navbar() {
               )}
             </div>
           )}
+          <Tooltip
+            placement="bottomRight"
+            title={"See more information about us"}
+          >
+            <Link
+              style={{ color: "white", fontSize: 18, marginLeft: 10 }}
+              href="https://fitnesswhitepaper.gitbook.io/untitled/about-us"
+              target="_blank"
+            >
+              <i className="far fa-question-circle"></i>
+            </Link>
+          </Tooltip>
         </div>
 
         <AuthForm />

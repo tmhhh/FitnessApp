@@ -11,6 +11,13 @@ export const getProduct = createAsyncThunk(
     return { data: res.data, options };
   }
 );
+export const getProductById = createAsyncThunk(
+    "product/getProductById",
+    async (params) => {
+      const res = await prodApi.getProductById(params.id);
+      return res.data;
+    }
+);
 export const addProduct = createAsyncThunk(
   "product/addProduct",
   async (params, { dispatch }) => {
@@ -95,6 +102,15 @@ const prodSlice = createSlice({
       state.listProducts = payload.data.listProducts;
       state.totalPages = payload.data.totalPages;
       state.options = payload.options;
+    },
+    [getProductById.pending]: (state) => {
+      state.prodLoading = true;
+    },
+    [getProductById.rejected]: (state) => {
+      state.prodLoading = false;
+    },
+    [getProductById.fulfilled]: (state, action) => {
+      state.prodLoading = false;
     },
     [addProduct.pending]: (state) => {
       state.prodLoading = true;

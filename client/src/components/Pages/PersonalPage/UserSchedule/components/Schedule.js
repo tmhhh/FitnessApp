@@ -9,6 +9,7 @@ function Schedule({
   onRemoveFromTrainingSchedule,
   workoutSchedule,
   trackingInfo,
+  viewType,
 }) {
   const goalTagColor = "#87d068";
   const badTagColor = "#f50";
@@ -23,54 +24,8 @@ function Schedule({
       <div className={"schedule__item-top "}>{days[date.getDay()]}</div>
       <div className={`schedule__item-body`}>{date.getDate()}</div>
       <div className="schedule__item-bottom">
-        <Tabs defaultActiveKey="2">
-          <TabPane tab="Training" key="1">
-            {workoutSchedule.find(
-              (item) => item.createdDate === date.toLocaleDateString()
-            ) ? (
-              workoutSchedule
-                .filter(
-                  (schedule) =>
-                    schedule.createdDate === date.toLocaleDateString()
-                )
-                .map((workout, index) => (
-                  <div
-                    key={index}
-                    onClick={() => onClickExercise(workout.exercise._id)}
-                    className="schedule__item__task"
-                  >
-                    <p className="schedule__item__task-title">
-                      {workout.exercise?.name}
-                    </p>
-
-                    {workout.exercise?.muscleActivate.map((muscle, index) =>
-                      index < workout.exercise.muscleActivate.length - 1 ? (
-                        <span key={index} className="schedule__item__task-time">
-                          {muscle} -
-                        </span>
-                      ) : (
-                        <span key={index} className="schedule__item__task-time">
-                          {muscle}
-                          <i
-                            onClick={(event) =>
-                              onRemoveFromTrainingSchedule(
-                                event,
-                                workout.exercise._id,
-                                date.toLocaleDateString()
-                              )
-                            }
-                            className="far fa-trash-alt"
-                          ></i>
-                        </span>
-                      )
-                    )}
-                  </div>
-                ))
-            ) : (
-              <></>
-            )}
-          </TabPane>
-          <TabPane tab="Diet" key="2">
+        {viewType === "diet" ? (
+          <>
             <Title level={5}>Goal:</Title>
             <Tag color={goalTagColor}>
               {trackingInfo.trackingFood.find(
@@ -105,8 +60,55 @@ function Schedule({
             ) : (
               <></>
             )}
-          </TabPane>
-        </Tabs>
+          </>
+        ) : (
+          <>
+            {workoutSchedule.find(
+              (item) => item.createdDate === date.toLocaleDateString()
+            ) ? (
+              workoutSchedule
+                .filter(
+                  (schedule) =>
+                    schedule.createdDate === date.toLocaleDateString()
+                )
+                .map((workout) => (
+                  <div
+                    onClick={() => onClickExercise(workout.exercise._id)}
+                    className="schedule__item__task"
+                    style={{ cursor: "pointer" }}
+                  >
+                    <p className="schedule__item__task-title">
+                      {workout.exercise?.name}
+                    </p>
+
+                    {workout.exercise?.muscleActivate.map((muscle, index) =>
+                      index < workout.exercise.muscleActivate.length - 1 ? (
+                        <span className="schedule__item__task-time">
+                          {muscle} -
+                        </span>
+                      ) : (
+                        <span className="schedule__item__task-time">
+                          {muscle}
+                          <i
+                            onClick={(event) =>
+                              onRemoveFromTrainingSchedule(
+                                event,
+                                workout.exercise._id,
+                                date.toLocaleDateString()
+                              )
+                            }
+                            className="far fa-trash-alt"
+                          ></i>
+                        </span>
+                      )
+                    )}
+                  </div>
+                ))
+            ) : (
+              <></>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

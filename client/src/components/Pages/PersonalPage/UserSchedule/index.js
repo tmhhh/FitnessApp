@@ -7,6 +7,7 @@ import authSlice from "../../../../redux/slices/authSlice";
 import "./style.scss";
 
 import Schedule from "./components/Schedule";
+import {Segmented} from "antd";
 export default function UserSchedule({
   isAuthenticated,
   workoutSchedule,
@@ -38,6 +39,7 @@ export default function UserSchedule({
     "December",
   ];
   const [page, setPage] = useState(0);
+  const [viewType, setViewType] = useState('diet');
 
   //
   useEffect(() => {
@@ -127,7 +129,7 @@ export default function UserSchedule({
 
   return (
     <div className="schedule__container">
-      <div className="schedule__header">
+      <div className="schedule__header w-100">
         <h3 className="schedule__header-title">
           {new Date().getDate() + ", " + monthNames[new Date().getMonth()]}
         </h3>
@@ -146,6 +148,26 @@ export default function UserSchedule({
           Here all your planned events. You will find information for each event
           as well you can planned new one
         </p>
+        <div className='d-flex justify-content-end'>
+          <Segmented
+              className="ms-3"
+              defaultValue="food"
+              value={viewType}
+              onChange={(value) => setViewType(value)}
+              options={[
+                {
+                  icon: <i className="fas fa-running"></i>,
+                  label: "Training",
+                  value: "training",
+                },
+                {
+                  icon: <i className="fas fa-utensils"></i>,
+                  label: "Diet",
+                  value: "diet",
+                },
+              ]}
+          />
+        </div>
       </div>
       <div className="schedule__items">
         {date.map((item, index) => (
@@ -157,6 +179,7 @@ export default function UserSchedule({
             onRemoveFromTrainingSchedule={handleRemoveFromTrainingSchedule}
             workoutSchedule={workoutSchedule}
             trackingInfo={trackingInfo}
+            viewType={viewType}
           />
         ))}
       </div>
