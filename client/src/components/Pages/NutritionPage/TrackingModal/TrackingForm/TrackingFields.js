@@ -103,19 +103,19 @@ export const listInputFieldsForSkinFold = [
     group: "Overall",
     data: [
       {
-        name: "userHeight",
-        label: "Height (inch)",
+        name: "height",
+        label: "Height (cm)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userWeight",
-        label: "Weight (lb)",
+        name: "weight",
+        label: "Weight (kg)",
         component: () => InputField,
         required: true,
       },
       {
-        name: "userAge",
+        name: "age",
         label: "Age",
         component: () => InputField,
         required: true,
@@ -126,7 +126,7 @@ export const listInputFieldsForSkinFold = [
     group: "Measurement 1",
     data: [
       {
-        name: "userBiceps",
+        name: "biceps1",
         label: "Biceps (cm)",
         component: () => InputField,
         required: true,
@@ -134,7 +134,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Mid point on the muscle (generally this will be opposite the nipple). Mark the point halfway between the FLEXED bicepmuscle. When taking the measurement, the muscle (arm) should be RELAXED and in a perpendicular position",
       },
       {
-        name: "userTriceps",
+        name: "triceps1",
         label: "Triceps (cm)",
         component: () => InputField,
         required: true,
@@ -142,7 +142,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Between the tip of the olecranon process of the ulna (elbow)   and the acromium of the scapula (shoulder).Mark the point on the back of the arm halfway between the tip of the elbow and the shoulder mark should be 1/2 way between caliper jaws.",
       },
       {
-        name: "userSubscapular",
+        name: "subscapular1",
         label: "Subscapular (cm)",
         component: () => InputField,
         required: true,
@@ -150,7 +150,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Below the tip of the inferior angle of the scapular, at anangle of 45 degrees to vertical (back, just under the shoulder blade). Mark the point just under the shoulder blade halfway between the spine and side. When taking the measurement, the skinfold caliper should be orientated at 45",
       },
       {
-        name: "userSuprailiac",
+        name: "suprailiac1",
         label: "Suprailiac (cm)",
         component: () => InputField,
         required: true,
@@ -163,7 +163,7 @@ export const listInputFieldsForSkinFold = [
     group: "Measurement 2",
     data: [
       {
-        name: "userBiceps2",
+        name: "biceps2",
         label: "Biceps (cm)",
         component: () => InputField,
         required: true,
@@ -171,7 +171,7 @@ export const listInputFieldsForSkinFold = [
         tips: " Mid point on the muscle (generally this will be opposite the nipple). Mark the point halfway between the FLEXED bicepmuscle. When taking the measurement, the muscle (arm) should be RELAXED and in a perpendicular position",
       },
       {
-        name: "userTriceps2",
+        name: "triceps2",
         label: "Triceps (cm)",
         component: () => InputField,
         required: true,
@@ -179,7 +179,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Between the tip of the olecranon process of the ulna (elbow)   and the acromium of the scapula (shoulder).Mark the point on the back of the arm halfway between the tip of the elbow and the shoulder mark should be 1/2 way between caliper jaws.",
       },
       {
-        name: "userSubscapular2",
+        name: "subscapular2",
         label: "Subscapular (cm)",
         component: () => InputField,
         required: true,
@@ -187,7 +187,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Below the tip of the inferior angle of the scapular, at anangle of 45 degrees to vertical (back, just under the shoulder blade). Mark the point just under the shoulder blade halfway between the spine and side. When taking the measurement, the skinfold caliper should be orientated at 45",
       },
       {
-        name: "userSuprailiac2",
+        name: "suprailiac2",
         label: "Suprailiac (cm)",
         component: () => InputField,
         required: true,
@@ -200,7 +200,7 @@ export const listInputFieldsForSkinFold = [
     group: "Measurement 3",
     data: [
       {
-        name: "userBiceps3",
+        name: "biceps3",
         label: "Biceps (cm)",
         component: () => InputField,
         required: true,
@@ -208,7 +208,7 @@ export const listInputFieldsForSkinFold = [
         tips: " Mid point on the muscle (generally this will be opposite the nipple). Mark the point halfway between the FLEXED bicepmuscle. When taking the measurement, the muscle (arm) should be RELAXED and in a perpendicular position",
       },
       {
-        name: "userTriceps3",
+        name: "triceps3",
         label: "Triceps (cm)",
         component: () => InputField,
         required: true,
@@ -216,7 +216,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Between the tip of the olecranon process of the ulna (elbow)   and the acromium of the scapula (shoulder).Mark the point on the back of the arm halfway between the tip of the elbow and the shoulder mark should be 1/2 way between caliper jaws.",
       },
       {
-        name: "userSubscapular3",
+        name: "subscapular3",
         label: "Subscapular (cm)",
         component: () => InputField,
         required: true,
@@ -224,7 +224,7 @@ export const listInputFieldsForSkinFold = [
         tips: "Below the tip of the inferior angle of the scapular, at anangle of 45 degrees to vertical (back, just under the shoulder blade). Mark the point just under the shoulder blade halfway between the spine and side. When taking the measurement, the skinfold caliper should be orientated at 45",
       },
       {
-        name: "userSuprailiac3",
+        name: "suprailiac3",
         label: "Suprailiac (cm)",
         component: () => InputField,
         required: true,

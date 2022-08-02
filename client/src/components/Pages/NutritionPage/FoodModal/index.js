@@ -1,6 +1,15 @@
-import {Button, Image, InputNumber, Select, Tabs, Tag, Typography} from "antd";
+import {
+  Button,
+  Dropdown,
+  Image,
+  InputNumber,
+  Menu,
+  Select,
+  Tabs,
+  Tag,
+  Typography,
+} from "antd";
 import { forwardRef, useContext, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
@@ -19,18 +28,21 @@ const { Text } = Typography;
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-const addFoodButton = forwardRef(({ children, onClick }, ref) => (
-  <button
-    type="button"
-    className="common-button common-button-green"
-    ref={ref}
-    onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
-    }}
+const AddFoodButton = forwardRef(({ children, onClick, menu }, ref) => (
+  <Dropdown
+    overlayStyle={{ zIndex: 10000000 }}
+    overlay={menu}
+    trigger={["click"]}
   >
-    {children}
-  </button>
+    <button
+      style={{ padding: 10 }}
+      type="button"
+      className="common-button common-button-blue"
+      ref={ref}
+    >
+      {children}
+    </button>
+  </Dropdown>
 ));
 
 export default function FoodModal({
@@ -44,7 +56,60 @@ export default function FoodModal({
 }) {
   let nutrients = [];
   let entity = {};
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: "1",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(0)}
+            >
+              Breakfast
+            </a>
+          ),
+        },
+        {
+          key: "2",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(1)}
+            >
+              Lunch{" "}
+            </a>
+          ),
+        },
+        {
+          key: "3",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(2)}
+            >
+              Snack{" "}
+            </a>
+          ),
+        },
 
+        {
+          key: "4",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(3)}
+            >
+              Dinner{" "}
+            </a>
+          ),
+        },
+        {
+          key: "4",
+        },
+      ]}
+    />
+  );
   const dispatch = useDispatch();
 
   const { nutriState, nutriSearchById } = useContext(Context);
@@ -57,7 +122,6 @@ export default function FoodModal({
   }, [foodData]);
 
   //  ADD FOOD
-  const [mealType, setMealType] = useState(0);
 
   const handleAddMealPlan = () => {
     handleAddFood()
@@ -97,7 +161,7 @@ export default function FoodModal({
   }
 
   //ADD FOOD FOR TRACKING
-  const handleAddFood = async () => {
+  const handleAddFood = async (mealType) => {
     try {
       // alert(typeof servingSize);
       const date = new Date();
@@ -154,7 +218,9 @@ export default function FoodModal({
             <Modal.Title>
               <div className="d-flex">
                 <Image
+                  preview={false}
                   width={70}
+                  style={{ borderRadius: 10 }}
                   src={entity.image}
                   fallback={dishesPlaceholder}
                 />
@@ -177,17 +243,26 @@ export default function FoodModal({
               </div>
             )}
 
-            <Tabs defaultActiveKey="1">
+            <Tabs
+              defaultActiveKey="1"
+              onChange={(activeKey) => {
+                if (activeKey === "3") {
+                  handleOnViewDishClick(entityData.food.label);
+                }
+              }}
+            >
               <TabPane tab="Nutritional Ingredients" key="1">
                 <Container>
                   <Row className="justify-content-around align-items-center">
                     <div className="calories_items_summary">
                       <div className="calories_item_summary">
                         <CaloriesChart chartData={nutriPercent} />
-                      </div>
-                      <div className="chart_center_custom">
-                        <p>{Math.trunc(nutrients.ENERC_KCAL * servingSize)}</p>
-                        <span> cal</span>
+                        <div className="chart_center_custom">
+                          <p>
+                            {Math.trunc(nutrients.ENERC_KCAL * servingSize)}
+                          </p>
+                          <span> cal</span>
+                        </div>
                       </div>
                       <div className="calories_item_summary">
                         <div className="calories_carbs_percent">
@@ -241,29 +316,11 @@ export default function FoodModal({
                             value={servingSize}
                             onChange={handleServingChange}
                             className="calories_serving_item_value"
-                            style={{ width: '5rem'}}
+                            style={{ width: "5rem" }}
                           />
                         </div>
                       </div>{" "}
                     </Col>
-                    {entityData.food && (
-                      <Col
-                        xs={6}
-                        md={6}
-                        className="d-flex justify-content-end align-items-start"
-                      >
-                        <button
-                          className="common-outline-button common-outline-button-blue py-1"
-                          style={{ fontSize: "16px" }}
-                          onClick={() =>
-                            handleOnViewDishClick(entityData.food.label)
-                          }
-                        >
-                          🍲 See dishes made from this ingredient{" "}
-                          <i className="far fa-hand-point-right"></i>
-                        </button>
-                      </Col>
-                    )}
                   </Row>
                   <Row>
                     <Col xs={12} md={6}>
@@ -288,7 +345,7 @@ export default function FoodModal({
                           Dietary Fiber
                         </div>
                         <div className="calories_detail_item_sub_value">
-                          {Math.trunc(nutrients.FIBTG * servingSize)}g
+                          {Math.trunc(nutrients.FIBTG * servingSize) || 0}g
                         </div>
                       </div>
 
@@ -384,6 +441,9 @@ export default function FoodModal({
                   </Row>
                 </Container>
               </TabPane>
+              {entityData.food && (
+                <TabPane tab="Dishes from this ingredient" key="3"></TabPane>
+              )}
               {entityData.recipe && (
                 <TabPane tab="Recipe" key="2">
                   <Container>
@@ -438,29 +498,16 @@ export default function FoodModal({
               )}
             </Tabs>
           </Modal.Body>
+
           <Modal.Footer>
             <button
+              style={{ padding: 10 }}
               className="common-button common-button-grey"
               onClick={() => handleCloseModal("close")}
             >
               Close
             </button>
-            <Dropdown>
-              <Dropdown.Toggle as={addFoodButton}>Add</Dropdown.Toggle>
-
-              <Dropdown.Menu
-                onClick={handleAddMealPlan}
-                onMouseDown={(e) =>
-                  setMealType(+e.target.getAttribute("value"))
-                }
-              >
-                <Dropdown.Header>Choose meal type</Dropdown.Header>
-                <Dropdown.Item value={0}>Breakfast 🍞</Dropdown.Item>
-                <Dropdown.Item value={1}>Lunch 🍱</Dropdown.Item>
-                <Dropdown.Item value={2}>Snacks 🍟</Dropdown.Item>
-                <Dropdown.Item value={3}>Dinner 🍜</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <AddFoodButton menu={menu}>Add</AddFoodButton>
           </Modal.Footer>
         </Modal>
       )}

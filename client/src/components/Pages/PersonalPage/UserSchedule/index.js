@@ -84,8 +84,9 @@ export default function UserSchedule({
 
   const handleOnClickExercise = (exerciseId) => {
     const selectedExercise = workoutSchedule.find(
-      (item) => item.exercise._id === exerciseId
+      (item) => item.exercise?._id === exerciseId
     ).exercise;
+    console.log({ selectedExercise });
     setShow({
       isShow: true,
       selectedExercise,
@@ -169,8 +170,9 @@ export default function UserSchedule({
         </div>
       </div>
       <div className="schedule__items">
-        {date.map((item) => (
+        {date.map((item, index) => (
           <Schedule
+            key={index}
             days={days}
             date={item}
             onClickExercise={handleOnClickExercise}

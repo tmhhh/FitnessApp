@@ -8,10 +8,10 @@
     text-align: center;
     position: relative;
     overflow-y: auto;
-    height: 70vh;
+    min-height: 70vh;
     background: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
-    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+      rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     margin-top: 100px;
     // scroll-padding-bottom: 20px;
   }
@@ -39,13 +39,13 @@
   background-image: url("../../../assets/img/spoon_fork_plate.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size:auto;
+  background-size: auto;
   opacity: 0.4;
-  @include respond-to(medium){
-    height:40%;
+  @include respond-to(medium) {
+    height: 40%;
   }
-  @include respond-to(small){
-    background-size:600px 300px;
+  @include respond-to(small) {
+    background-size: 600px 300px;
   }
 }
 .body {

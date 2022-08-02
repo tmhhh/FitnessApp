@@ -1,6 +1,6 @@
-import { Badge, Divider, Image, Segmented } from "antd";
+import { Badge, Image, Segmented, Table, Typography } from "antd";
 import Lottie from "lottie-react";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useDispatch, useSelector } from "react-redux";
 import { getTodayWorkoutCalories } from "redux/selectors/exerciseSelector";
@@ -17,6 +17,8 @@ import FoodModal from "./FoodModal";
 import TrackingSidebar from "./NutriSidebar";
 import "./style.scss";
 import TrackingModal from "./TrackingModal";
+const { Column } = Table;
+const { Text } = Typography;
 export default function NutritionPage() {
   const [searchType, setSearchType] = useState("food");
 
@@ -32,7 +34,39 @@ export default function NutritionPage() {
     isShown: false,
     foodData: {},
   });
-
+  const data = useMemo(() => {
+    return nutriState?.listFoods?.map((e, index) => {
+      const item = e.recipe || e.food;
+      const nutrients = item.totalNutrients || item.nutrients;
+      return {
+        key: index.toString(),
+        info: {
+          name: item.label,
+          image: item.image ? item.image : dishesPlaceholder,
+        },
+        label: item.label,
+        energy:
+          Math.trunc(
+            (nutrients.ENERC_KCAL?.quantity * 100) / item.totalWeight ||
+              nutrients.ENERC_KCAL
+          ) || 0,
+        protein:
+          Math.trunc(
+            (nutrients.PROCNT?.quantity * 100) / item.totalWeight ||
+              nutrients.PROCNT
+          ) || 0,
+        fat:
+          Math.trunc(
+            (nutrients.FAT?.quantity * 100) / item.totalWeight || nutrients.FAT
+          ) || 0,
+        carbs:
+          Math.trunc(
+            (nutrients.FIBTG?.quantity * 100) / item.totalWeight ||
+              nutrients.FIBTG
+          ) || 0,
+      };
+    });
+  }, [nutriState.listFoods]);
   //
   const [servingSize, setServingSize] = useState(1);
 
@@ -134,6 +168,7 @@ export default function NutritionPage() {
   //     handleShowTrackingModal();
   //   }
   // }, [userInfo]);
+
   return (
     <>
       <NutritionContainer>
@@ -194,7 +229,7 @@ export default function NutritionPage() {
             nutriState.listFoods.length <= 0 ? (
               <NoResults />
             ) : (
-              <>
+              <div className="h-100">
                 <div className="d-flex justify-content-start">
                   <button
                     className="common-outline-button common-outline-button-blue mb-3"
@@ -204,100 +239,91 @@ export default function NutritionPage() {
                     <i className="fas fa-filter"></i> Filter
                   </button>
                 </div>
-                <div className="overflow-auto h-100">
-                  {nutriState.listFoods.map((e, index) => {
-                    const item = e.recipe || e.food;
-                    const nutrients = item.totalNutrients || item.nutrients;
-                    return (
-                      <>
-                        <div key={index} className="p-3">
-                          <div
-                            className="p-3 w-100 d-flex justify-content-between common-hover"
-                            onClick={() => handleShowModal(index)}
-                          >
-                            <div className="d-flex">
-                              <Image
-                                width={120}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                }}
-                                src={
-                                  item.image ? item.image : dishesPlaceholder
-                                }
-                              ></Image>
-                              <div className="d-flex align-items-start flex-column ms-4">
-                                <h2>{item.label}</h2>
-                                <p style={{ fontSize: 14, color: "#949494" }}>
-                                  <b>
-                                    Energy{" "}
-                                    <i
-                                      className="fas fa-fire"
-                                      style={{ color: "#ff7302" }}
-                                    ></i>
-                                    :
-                                  </b>{" "}
-                                  {Math.trunc(
-                                    (nutrients.ENERC_KCAL?.quantity * 100) /
-                                      item.totalWeight || nutrients.ENERC_KCAL
-                                  )}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="d-flex flex-column align-items-start">
-                              <Badge
-                                className="p-3"
-                                color="volcano"
-                                text={
-                                  <span style={{ fontSize: "1.8rem" }}>
-                                    {" "}
-                                    <b>Protein:</b>{" "}
-                                    {Math.trunc(
-                                      (nutrients.PROCNT?.quantity * 100) /
-                                        item.totalWeight || nutrients.PROCNT
-                                    )}
-                                    g
-                                  </span>
-                                }
-                              />
-                              <Badge
-                                className="p-3"
-                                color="yellow"
-                                text={
-                                  <span style={{ fontSize: "1.8rem" }}>
-                                    {" "}
-                                    <b>Fat:</b>{" "}
-                                    {Math.trunc(
-                                      (nutrients.FAT?.quantity * 100) /
-                                        item.totalWeight || nutrients.FAT
-                                    )}
-                                    g
-                                  </span>
-                                }
-                              />
-                              <Badge
-                                className="p-3"
-                                color="lime"
-                                text={
-                                  <span style={{ fontSize: "1.8rem" }}>
-                                    {" "}
-                                    <b>Carbs:</b>{" "}
-                                    {Math.trunc(
-                                      (nutrients.FIBTG?.quantity * 100) /
-                                        item.totalWeight || nutrients.FIBTG
-                                    )}
-                                    g
-                                  </span>
-                                }
-                              />
-                            </div>
-                          </div>
+                <div className="overflow-auto h-100 ">
+                  <Table
+                    pagination={false}
+                    // rowSelection={}
+                    style={{ cursor: "pointer", marginBottom: 200 }}
+                    dataSource={data}
+                    onRow={(_, rowIndex) => {
+                      return {
+                        onClick: () => {
+                          handleShowModal(rowIndex);
+                        },
+                      };
+                    }}
+                  >
+                    <Column
+                      style={{ cursor: "pointer" }}
+                      title="Name"
+                      key="info"
+                      dataIndex="info"
+                      render={(info) => (
+                        <div>
+                          <Image
+                            preview={false}
+                            style={{
+                              width: 80,
+                              aspectRatio: 1,
+                              borderRadius: 10,
+                              marginRight: 15,
+                            }}
+                            src={info.image}
+                          />
+                          <Text strong>{info.name}</Text>
                         </div>
-                        <Divider />
-                      </>
-                    );
-                  })}
+                      )}
+                    />
+                    <Column
+                      title="Energy"
+                      key="energy"
+                      dataIndex="energy"
+                      render={(value) => (
+                        <Text strong>
+                          {" "}
+                          <Badge status="success" /> {value} kcal
+                        </Text>
+                      )}
+                    />
+                    <Column
+                      title="Protein"
+                      key="protein"
+                      dataIndex="protein"
+                      render={(value) => (
+                        <Text strong>
+                          {" "}
+                          <Badge status="error" />
+                          {value}g
+                        </Text>
+                      )}
+                    />
+                    <Column
+                      title="Fat"
+                      key="fat"
+                      dataIndex="fat"
+                      render={(value) => (
+                        <Text strong>
+                          {" "}
+                          <Badge status="processing" />
+                          {value}g
+                        </Text>
+                      )}
+                    />
+                    <Column
+                      title="Carbs"
+                      key="carbs"
+                      dataIndex="carbs"
+                      render={(value) => (
+                        <Text strong>
+                          {" "}
+                          <Badge status="warning" />
+                          {value}g
+                        </Text>
+                      )}
+                    />
+                  </Table>
                 </div>
-              </>
+              </div>
             )
           ) : (
             <div className="none_active"></div>

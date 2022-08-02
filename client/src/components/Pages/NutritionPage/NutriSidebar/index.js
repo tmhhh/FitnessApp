@@ -27,7 +27,7 @@ export default function TrackingSidebar({
       </h3>
     );
   } else if (!authLoading && isAuthenticated) {
-    if (!userInfo.trackingInfo) {
+    if (!userInfo.trackingInfo.userHeight) {
       body = (
         <div className="position-absolute top-50 start-50 translate-middle px-3 mt-4">
           <Tooltip
@@ -75,7 +75,6 @@ export default function TrackingSidebar({
       const caloriesRemaining =
         caloriesGoal - caloriesFood + todayCaloriesWorkout;
 
-      console.log({ todayListFoods });
       body = (
         <div>
           {/*TODO: what is this, Hoang??*/}

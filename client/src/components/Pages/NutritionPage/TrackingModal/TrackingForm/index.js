@@ -6,7 +6,10 @@ import { GoalDataForm } from "components/Form";
 import Lottie from "lottie-react";
 import { useState } from "react";
 
-import { covertHealthStatus } from "utils/calculate";
+import {
+  calculateTotalCaloriesNeeded,
+  covertHealthStatus,
+} from "utils/calculate";
 import doneLottie from "../../../../../assets/lottie/check-okey-done.json";
 import { filterNutrition } from "../../constants";
 import PredictForm from "./PredictForm";
@@ -29,10 +32,13 @@ export default function TrackingForm({
     content = (
       <>
         <Radio.Group
+          style={{ display: "flex", flexDirection: "column" }}
           onChange={(e) => setPredictMethod(e.target.value)}
           value={predictMethod}
         >
-          <Radio value={1}>Using AI</Radio>
+          <Radio style={{ marginBottom: 5 }} value={1}>
+            Using AI
+          </Radio>
           <Radio value={2}>Using skin fold measurement method</Radio>
         </Radio.Group>
         {predictMethod === 1 ? (
@@ -86,13 +92,15 @@ export default function TrackingForm({
       </Formik>
     );
   } else if (activeStep === 2) {
+    console.log(formData.current);
     const bodyFatMask = (
       ((formData.current.weight / 2.2) * formData.current.bodyFat) /
       100
     ).toFixed(1);
-    const leanMask = formData.current.weight / 2.2 - bodyFatMask;
+    const leanMask = (formData.current.weight / 2.2 - bodyFatMask).toFixed(1);
     let ideaBodyFat;
     let goalAction;
+    let targetMask;
     if (formData.current.goal === 0) {
       ideaBodyFat = formData.current.bodyFat - 2;
       goalAction = "loose";
@@ -103,7 +111,7 @@ export default function TrackingForm({
       ideaBodyFat = formData.current.bodyFat + 2;
       goalAction = "gain";
     }
-    const targetMask = Math.abs((leanMask / (1 - ideaBodyFat)).toFixed(1));
+    targetMask = Math.abs(leanMask / (1 - ideaBodyFat)).toFixed(1);
     const targetWeek = Math.abs(Math.round(targetMask / 0.5));
     content = (
       <>
@@ -116,22 +124,58 @@ export default function TrackingForm({
             Your lean mask is<Text strong> {leanMask}kg </Text>(including
             muscle, bone and organs)
           </Timeline.Item>
-          <Timeline.Item>
-            {/* Target mass = lean mass / (1- desired body fat %) */}
-            We assume that you idea body fat is {ideaBodyFat.toFixed(1)}%. So
-            you have a target body mass of{" "}
-            {Math.abs(formData.current.weight / 2.2 - targetMask)}kg
-          </Timeline.Item>
-          <Timeline.Item>
-            {/* 7.8 /0.5 */}
-            The goal of this plan is to help you {goalAction}
-            <Text strong> {targetMask}kg</Text> in approximately
-            <Text strong bold>
-              {" "}
-              {targetWeek} week(s)
-            </Text>
-            .
-          </Timeline.Item>
+          {formData.current.goal !== 1 ? (
+            <>
+              <Timeline.Item>
+                {/* Target mass = lean mass / (1- desired body fat %) */}
+                We assume that you idea body fat is {ideaBodyFat.toFixed(1)}%.
+                So you have a target body mass of{" "}
+                {Math.abs(formData.current.weight / 2.2 - targetMask).toFixed()}
+                kg
+              </Timeline.Item>
+              <Timeline.Item>
+                {/* 7.8 /0.5 */}
+                The goal of this plan is to help you {goalAction}
+                <Text strong> {targetMask}kg</Text> in approximately
+                <Text strong bold>
+                  {" "}
+                  {targetWeek} week(s)
+                </Text>
+                .
+              </Timeline.Item>
+              <Timeline.Item>
+                Consuming{" "}
+                <Text strong>
+                  {calculateTotalCaloriesNeeded(
+                    formData.current.gender,
+                    formData.current.age,
+                    formData.current.height,
+                    formData.current.weight,
+                    formData.current.activityLevel,
+                    formData.current.goal
+                  )}{" "}
+                  calories
+                </Text>{" "}
+                daily to reach your target
+              </Timeline.Item>
+            </>
+          ) : (
+            <Timeline.Item>
+              Consuming
+              <Text strong>
+                {calculateTotalCaloriesNeeded(
+                  formData.current.gender,
+                  formData.current.age,
+                  formData.current.height,
+                  formData.current.weight,
+                  formData.current.activityLevel,
+                  formData.current.goal
+                )}{" "}
+                calories
+              </Text>{" "}
+              per day to maintain your current physique
+            </Timeline.Item>
+          )}
         </Timeline>
         <Lottie
           loop={false}

@@ -220,7 +220,7 @@ function ProductDetailPage() {
                 <div className="product_info_action">
                   <button
                     onClick={handleAddToCart}
-                    className="common-outline-button common-outline-button-green"
+                    className="common-outline-button common-outline-button-blue"
                   >
                     Add to cart
                   </button>
