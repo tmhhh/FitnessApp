@@ -5,7 +5,6 @@ export default function TrainingModal(props) {
   const { show, handleClose, onOk, handleShowDatePicker, showDatePicker } =
     props;
   const { selectedExercise, isShow } = show;
-
   const embeddedLink = `https://www.youtube.com/embed/${
     selectedExercise.videoURL?.split("?v=")[1]
   }?autoplay=1`;
@@ -29,7 +28,10 @@ export default function TrainingModal(props) {
         </div>
         <div className="training__modal-description">
           <div className="exercise-name">{selectedExercise.name}</div>
-          <div className="exercise-category">{selectedExercise.category}</div>
+          <div className="exercise-category">
+            {selectedExercise.category} ({selectedExercise.calories}kcal{" "}
+            <i class="fas fa-fire"></i> / 4 sets)
+          </div>
           <div className="exercise-description">
             {selectedExercise.description}
           </div>

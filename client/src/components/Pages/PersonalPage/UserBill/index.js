@@ -1,22 +1,41 @@
+import Lottie from "lottie-react";
 import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import billApi from "../../../../api/billApi";
+import billLottie from "../../../../assets/lottie/billing.json";
 import { formatCurrency } from "../../../../utils/formatCurrency";
 import "./style.scss";
+
 export default function UserBill() {
   const [listBills, setListBills] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
       try {
+        setIsLoading(true);
+
         const res = await billApi.getIncompleteBill();
         if (res.data.isSuccess) setListBills(res.data.foundBills);
+        setIsLoading(false);
       } catch (error) {
+        setIsLoading(false);
+
         console.log(error);
       }
     })();
   }, []);
-  return (
+  return isLoading ? (
+    <Lottie
+      style={{
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translateY(-50%)",
+      }}
+      animationData={billLottie}
+    />
+  ) : (
     <div className="w-100">
       {listBills.length > 0 &&
         listBills.map((bill, index) => (

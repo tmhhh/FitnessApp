@@ -1,6 +1,14 @@
-import { Button, Image, Select, Tabs, Tag, Typography } from "antd";
+import {
+  Button,
+  Dropdown,
+  Image,
+  Menu,
+  Select,
+  Tabs,
+  Tag,
+  Typography,
+} from "antd";
 import { forwardRef, useContext, useEffect, useState } from "react";
-import { Dropdown } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
@@ -19,18 +27,21 @@ const { Text } = Typography;
 const { TabPane } = Tabs;
 const { Option } = Select;
 
-const addFoodButton = forwardRef(({ children, onClick }, ref) => (
-  <button
-    type="button"
-    className="common-button common-button-green"
-    ref={ref}
-    onClick={(e) => {
-      e.preventDefault();
-      onClick(e);
-    }}
+const AddFoodButton = forwardRef(({ children, onClick, menu }, ref) => (
+  <Dropdown
+    overlayStyle={{ zIndex: 10000000 }}
+    overlay={menu}
+    trigger={["click"]}
   >
-    {children}
-  </button>
+    <button
+      style={{ padding: 10 }}
+      type="button"
+      className="common-button common-button-blue"
+      ref={ref}
+    >
+      {children}
+    </button>
+  </Dropdown>
 ));
 
 export default function FoodModal({
@@ -44,7 +55,60 @@ export default function FoodModal({
 }) {
   let nutrients = [];
   let entity = {};
+  const menu = (
+    <Menu
+      items={[
+        {
+          key: "1",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(0)}
+            >
+              Breakfast
+            </a>
+          ),
+        },
+        {
+          key: "2",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(1)}
+            >
+              Lunch{" "}
+            </a>
+          ),
+        },
+        {
+          key: "3",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(2)}
+            >
+              Snack{" "}
+            </a>
+          ),
+        },
 
+        {
+          key: "4",
+          label: (
+            <a
+              style={{ textDecoration: "none" }}
+              onClick={() => handleAddFood(3)}
+            >
+              Dinner{" "}
+            </a>
+          ),
+        },
+        {
+          key: "4",
+        },
+      ]}
+    />
+  );
   const dispatch = useDispatch();
 
   const { nutriState, nutriSearchById } = useContext(Context);
@@ -57,7 +121,6 @@ export default function FoodModal({
   }, [foodData]);
 
   //  ADD FOOD
-  const [mealType, setMealType] = useState(0);
 
   const handleAddMealPlan = () => {
     handleAddFood()
@@ -97,7 +160,7 @@ export default function FoodModal({
   }
 
   //ADD FOOD FOR TRACKING
-  const handleAddFood = async () => {
+  const handleAddFood = async (mealType) => {
     try {
       // alert(typeof servingSize);
       const date = new Date();
@@ -436,27 +499,13 @@ export default function FoodModal({
 
           <Modal.Footer>
             <button
+              style={{ padding: 10 }}
               className="common-button common-button-grey"
               onClick={() => handleCloseModal("close")}
             >
               Close
             </button>
-            <Dropdown>
-              <Dropdown.Toggle as={addFoodButton}>Add</Dropdown.Toggle>
-
-              <Dropdown.Menu
-                onClick={handleAddMealPlan}
-                onMouseDown={(e) =>
-                  setMealType(+e.target.getAttribute("value"))
-                }
-              >
-                <Dropdown.Header>Choose meal type</Dropdown.Header>
-                <Dropdown.Item value={0}>Breakfast 🍞</Dropdown.Item>
-                <Dropdown.Item value={1}>Lunch 🍱</Dropdown.Item>
-                <Dropdown.Item value={2}>Snacks 🍟</Dropdown.Item>
-                <Dropdown.Item value={3}>Dinner 🍜</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            <AddFoodButton menu={menu}>Add</AddFoodButton>
           </Modal.Footer>
         </Modal>
       )}

@@ -33,8 +33,9 @@ function Schedule({
                   (schedule) =>
                     schedule.createdDate === date.toLocaleDateString()
                 )
-                .map((workout) => (
+                .map((workout, index) => (
                   <div
+                    key={index}
                     onClick={() => onClickExercise(workout.exercise._id)}
                     className="schedule__item__task"
                   >
@@ -44,11 +45,11 @@ function Schedule({
 
                     {workout.exercise?.muscleActivate.map((muscle, index) =>
                       index < workout.exercise.muscleActivate.length - 1 ? (
-                        <span className="schedule__item__task-time">
+                        <span key={index} className="schedule__item__task-time">
                           {muscle} -
                         </span>
                       ) : (
-                        <span className="schedule__item__task-time">
+                        <span key={index} className="schedule__item__task-time">
                           {muscle}
                           <i
                             onClick={(event) =>
