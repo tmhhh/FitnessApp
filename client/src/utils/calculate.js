@@ -40,7 +40,7 @@ export const calculateTotalCaloriesNeeded = (
   Math.trunc(
     (10 * weight + 6.25 * height - 5 * age + (gender === 0 ? 5 : -161)) *
       parseFloat(activityLevel) +
-      (goal === 0 ? -150 : goal === 1 ? 0 : +150)
+      (goal === 0 ? -500 : goal === 1 ? 0 : +500)
   );
 export const calculateFoodTotalKCAL = (listFoods = []) => {
   return Math.trunc(

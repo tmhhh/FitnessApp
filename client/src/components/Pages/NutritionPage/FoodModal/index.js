@@ -154,7 +154,9 @@ export default function FoodModal({
             <Modal.Title>
               <div className="d-flex">
                 <Image
+                  preview={false}
                   width={70}
+                  style={{ borderRadius: 10 }}
                   src={entity.image}
                   fallback={dishesPlaceholder}
                 />
@@ -177,17 +179,26 @@ export default function FoodModal({
               </div>
             )}
 
-            <Tabs defaultActiveKey="1">
+            <Tabs
+              defaultActiveKey="1"
+              onChange={(activeKey) => {
+                if (activeKey === "3") {
+                  handleOnViewDishClick(entityData.food.label);
+                }
+              }}
+            >
               <TabPane tab="Nutritional Ingredients" key="1">
                 <Container>
                   <Row className="justify-content-around align-items-center">
                     <div className="calories_items_summary">
                       <div className="calories_item_summary">
                         <CaloriesChart chartData={nutriPercent} />
-                      </div>
-                      <div className="chart_center_custom">
-                        <p>{Math.trunc(nutrients.ENERC_KCAL * servingSize)}</p>
-                        <span> cal</span>
+                        <div className="chart_center_custom">
+                          <p>
+                            {Math.trunc(nutrients.ENERC_KCAL * servingSize)}
+                          </p>
+                          <span> cal</span>
+                        </div>
                       </div>
                       <div className="calories_item_summary">
                         <div className="calories_carbs_percent">
@@ -245,24 +256,6 @@ export default function FoodModal({
                         </div>
                       </div>{" "}
                     </Col>
-                    {entityData.food && (
-                      <Col
-                        xs={6}
-                        md={6}
-                        className="d-flex justify-content-end align-items-start"
-                      >
-                        <button
-                          className="common-outline-button common-outline-button-blue"
-                          style={{ fontSize: "16px" }}
-                          onClick={() =>
-                            handleOnViewDishClick(entityData.food.label)
-                          }
-                        >
-                          🍲 See dishes made from this ingredient{" "}
-                          <i className="far fa-hand-point-right"></i>
-                        </button>
-                      </Col>
-                    )}
                   </Row>
                   <Row>
                     <Col xs={12} md={6}>
@@ -287,7 +280,7 @@ export default function FoodModal({
                           Dietary Fiber
                         </div>
                         <div className="calories_detail_item_sub_value">
-                          {Math.trunc(nutrients.FIBTG * servingSize)}g
+                          {Math.trunc(nutrients.FIBTG * servingSize) || 0}g
                         </div>
                       </div>
 
@@ -383,6 +376,9 @@ export default function FoodModal({
                   </Row>
                 </Container>
               </TabPane>
+              {entityData.food && (
+                <TabPane tab="Dishes from this ingredient" key="3"></TabPane>
+              )}
               {entityData.recipe && (
                 <TabPane tab="Recipe" key="2">
                   <Container>
@@ -437,6 +433,7 @@ export default function FoodModal({
               )}
             </Tabs>
           </Modal.Body>
+
           <Modal.Footer>
             <button
               className="common-button common-button-grey"

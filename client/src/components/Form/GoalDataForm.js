@@ -5,7 +5,6 @@ import {
   Popover,
   Row,
   Select,
-  Space,
   Timeline,
   Tooltip,
   Typography,
@@ -29,7 +28,7 @@ const GoalDataForm = ({
       id: 1,
       // isClicked: false,
       title: "Not Very Active",
-      img: "https://static.thenounproject.com/png/27461-200.png",
+      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1LROfHegquMo1RgjpTkcg3p5W8Esko7OI8dOfCHCnGObT_PCd03-rEUU2KFxV7IEWLoY&usqp=CAU",
       desc: "Spend most of the day sitting (e.g., bankteller, desk job)",
       value: 1.2,
     },
@@ -59,9 +58,36 @@ const GoalDataForm = ({
     },
   ];
   const dietGoals = [
-    { name: "Lose Weight", value: 0 },
-    { name: "Maintain Weight", value: 1 },
-    { name: "Gain Weight", value: 2 },
+    {
+      name: "Lose Weight",
+      value: 0,
+      icon: (
+        <ion-icon
+          style={{ fontSize: "1.5rem", marginRight: 5 }}
+          name="arrow-down-outline"
+        ></ion-icon>
+      ),
+    },
+    {
+      name: "Maintain Weight",
+      value: 1,
+      icon: (
+        <ion-icon
+          style={{ fontSize: "1.5rem", marginRight: 5 }}
+          name="swap-horizontal-outline"
+        ></ion-icon>
+      ),
+    },
+    {
+      name: "Gain Weight",
+      value: 2,
+      icon: (
+        <ion-icon
+          style={{ fontSize: "1.5rem", marginRight: 5 }}
+          name="arrow-up-outline"
+        ></ion-icon>
+      ),
+    },
   ];
 
   const healStatus = covertHealthStatus(
@@ -131,7 +157,15 @@ const GoalDataForm = ({
                 status={form.errors["goal"] && "error"}
               >
                 {dietGoals.map((item) => (
-                  <Option value={item.value}>{item.name}</Option>
+                  <Option
+                    style={{ display: "flex", alignItems: "center" }}
+                    value={item.value}
+                  >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {item.icon}
+                      <Text>{item.name}</Text>
+                    </div>
+                  </Option>
                 ))}
               </Select>
             )}
@@ -155,14 +189,14 @@ const GoalDataForm = ({
                 {groupBtn.map((item) => (
                   <Option value={item.value}>
                     <Tooltip title={item.desc}>
-                      <Space>
+                      <div style={{ display: "flex", alignItems: "center" }}>
                         <Image
                           preview={false}
-                          style={{ width: 30, aspectRatio: 1 }}
+                          style={{ marginRight: 5, width: 30, aspectRatio: 1 }}
                           src={item.img}
                         />
                         <Text strong>{item.title}</Text>
-                      </Space>
+                      </div>
                     </Tooltip>
                   </Option>
                 ))}

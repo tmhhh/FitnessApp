@@ -66,6 +66,8 @@ function SkinFoldForm({ formData, formRef, setActiveStep, activeStep }) {
           },
           ...formData.current,
           ...e,
+          height: e.height * 0.393701,
+          weight: e.weight * 2.2,
           averageUserData,
           bodyFat: +healthData.bodyFat.split("-")[0],
         };
@@ -79,7 +81,7 @@ function SkinFoldForm({ formData, formRef, setActiveStep, activeStep }) {
             <Paragraph>
               Before we proceed, you need a skin fold caliper to estimate the
               following field. Don't have this tool? You can get it from{" "}
-              <a href={CLIENT_PUBLIC_URL + `/product/62e563c1a57b0cb434f9921c`}>
+              <a href={CLIENT_PUBLIC_URL + `product/62e563c1a57b0cb434f9921c`}>
                 here
               </a>
             </Paragraph>

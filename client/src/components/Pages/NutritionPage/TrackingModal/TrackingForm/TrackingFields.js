@@ -104,13 +104,13 @@ export const listInputFieldsForSkinFold = [
     data: [
       {
         name: "height",
-        label: "Height (inch)",
+        label: "Height (cm)",
         component: () => InputField,
         required: true,
       },
       {
         name: "weight",
-        label: "Weight (lb)",
+        label: "Weight (kg)",
         component: () => InputField,
         required: true,
       },
