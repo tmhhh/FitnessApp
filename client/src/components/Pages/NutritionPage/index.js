@@ -104,7 +104,7 @@ export default function NutritionPage() {
 
   //
   const handleServingChange = (e) => {
-    setServingSize(e.target.value);
+    setServingSize(e);
   };
   //HANDLE FOOD DETAIL MODAL
   const handleCloseModal = (action) => {

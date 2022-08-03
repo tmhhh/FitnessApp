@@ -4,11 +4,11 @@ import {
   Image,
   InputNumber,
   Menu,
-  Select,
   Tabs,
   Tag,
   Typography,
 } from "antd";
+import { colors } from "assets/color";
 import { forwardRef, useContext, useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
@@ -26,7 +26,6 @@ import CaloriesChart from "./CaloriesChart";
 import "./style.scss";
 const { Text } = Typography;
 const { TabPane } = Tabs;
-const { Option } = Select;
 
 const AddFoodButton = forwardRef(({ children, onClick, menu }, ref) => (
   <Dropdown
@@ -165,6 +164,7 @@ export default function FoodModal({
     try {
       // alert(typeof servingSize);
       const date = new Date();
+      console.log(date);
       const addedFood = {
         addedDate: date.toLocaleDateString(),
         foodName: entity.label,
@@ -203,7 +203,6 @@ export default function FoodModal({
     setEntityData(previousDish);
     setPreviousDish(null);
   };
-
   return (
     <>
       {Object.keys(foodData).length > 0 && (
@@ -243,15 +242,27 @@ export default function FoodModal({
               </div>
             )}
 
-            <Tabs
-              defaultActiveKey="1"
-              onChange={(activeKey) => {
-                if (activeKey === "3") {
-                  handleOnViewDishClick(entityData.food.label);
-                }
-              }}
-            >
-              <TabPane tab="Nutritional Ingredients" key="1">
+            <Tabs defaultActiveKey="1">
+              <TabPane
+                style={{ position: "relative" }}
+                tab="Nutritional Ingredients"
+                key="1"
+              >
+                {entityData.food && (
+                  // <TabPane tab="Dishes from this ingredient" key="3"></TabPane>
+                  <span
+                    onClick={() => handleOnViewDishClick(entityData.food.label)}
+                    style={{
+                      position: "absolute",
+                      top: -50,
+                      left: 180,
+                      cursor: "pointer",
+                      color: colors.black,
+                    }}
+                  >
+                    Dishes from this ingredient
+                  </span>
+                )}
                 <Container>
                   <Row className="justify-content-around align-items-center">
                     <div className="calories_items_summary">
@@ -441,9 +452,7 @@ export default function FoodModal({
                   </Row>
                 </Container>
               </TabPane>
-              {entityData.food && (
-                <TabPane tab="Dishes from this ingredient" key="3"></TabPane>
-              )}
+
               {entityData.recipe && (
                 <TabPane tab="Recipe" key="2">
                   <Container>

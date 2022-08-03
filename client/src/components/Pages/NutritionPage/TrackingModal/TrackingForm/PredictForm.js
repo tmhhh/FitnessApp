@@ -116,10 +116,8 @@ function PredictForm({
             ...formData.current,
             bodyFat: response.data.data[0],
           };
-          setTimeout(() => {
-            setActiveStep(activeStep + 1);
-            setConfirmLoading(false);
-          }, 3000);
+          setActiveStep(activeStep + 1);
+          setConfirmLoading(false);
         } catch (error) {
           console.log({ error });
         }

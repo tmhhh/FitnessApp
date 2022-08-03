@@ -1,10 +1,10 @@
-import axiosClient from "./axiosClient";
 import { BASE_API_URL } from "../assets/constants";
+import axiosClient from "./axiosClient";
 const billApi = {
   getTotalNumbBills: () => {
     return axiosClient.get(BASE_API_URL + "/bill/totalNumb");
   },
-  getRevenueByYear: (year = 2021) => {
+  getRevenueByYear: (year = 2022) => {
     return axiosClient.get(BASE_API_URL + "/bill/revenue-by-year", {
       params: { year },
     });

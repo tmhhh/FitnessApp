@@ -172,17 +172,17 @@ td {
 
 .common-rank-items-1 {
   @extend .common-float;
-  background-color: $gold-medal;
+  // background-color: #fff9ba;
 }
 
 .common-rank-items-2 {
   @extend .common-float;
-  background-color: silver;
+  // background-color: #999;
 }
 
 .common-rank-items-3 {
   @extend .common-float;
-  background-color: $bronze-medal;
+  // background-color: $bronze-medal;
 }
 /* ANTD */
 .ant-message-custom-content {

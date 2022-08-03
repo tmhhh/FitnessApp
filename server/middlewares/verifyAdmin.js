@@ -6,6 +6,7 @@ module.exports = async (req, res, next) => {
       return res
         .status(403)
         .json({ isSuccess: false, message: "Permission required" });
+
     next();
   } catch (error) {
     console.log(error);

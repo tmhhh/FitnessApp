@@ -161,7 +161,7 @@ export default function TrackingForm({
             </>
           ) : (
             <Timeline.Item>
-              Consuming
+              Consuming{" "}
               <Text strong>
                 {calculateTotalCaloriesNeeded(
                   formData.current.gender,

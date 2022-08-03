@@ -49,22 +49,18 @@ export default function Dashboard() {
         postApi.getTotalNumbPosts(),
         billApi.getRevenueByYear(),
       ]);
-      console.log(res[2].data);
-      setTimeout(
-        () =>
-          setStatisticalData({
-            dataLoading: false,
-            totalNumbCustomers: res[0].data.totalNumbCustomers,
-            totalNumbProds: res[1].data.totalNumbProds,
-            favoriteProds: res[1].data.favoriteProds,
-            prodPercentByCate: res[1].data.prodPercentByCate,
-            totalNumbPosts: res[2].data.totalNumbPosts,
-            yearRevenue: res[3].data.yearRevenue,
-            topCustomers: res[3].data.topCustomers,
-            topProds: res[3].data.topProds,
-          }),
-        1000
-      );
+
+      setStatisticalData({
+        dataLoading: false,
+        totalNumbCustomers: res[0].data.totalNumbCustomers,
+        totalNumbProds: res[1].data.totalNumbProds,
+        favoriteProds: res[1].data.favoriteProds,
+        prodPercentByCate: res[1].data.prodPercentByCate,
+        totalNumbPosts: res[2].data.totalNumbPosts,
+        yearRevenue: res[3].data.yearRevenue,
+        topCustomers: res[3].data.topCustomers,
+        topProds: res[3].data.topProds,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -140,7 +136,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="dashboard__right">
-        <div className="dashboard__right__item">
+        <div style={{ marginTop: 40 }} className="dashboard__right__item">
           <h3 className="dashboard__right__item-title common-float">
             🛍 Top buyers this month
           </h3>
@@ -177,7 +173,7 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="dashboard__right__item">
+        <div style={{ marginTop: 120 }} className="dashboard__right__item">
           <h3 className="dashboard__right__item-title common-float">
             💰 Best seller
           </h3>

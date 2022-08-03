@@ -8,7 +8,6 @@ const authMdw = require("../middlewares/verifyToken.mdw");
 const verifyToken = require("../middlewares/verifyToken.mdw");
 const verifyAdmin = require("../middlewares/verifyAdmin");
 //@@ GET ALL PRODUCTS
-router.get("/:id", productCtl.getById);
 router.get("/", productCtl.getAllProducts);
 router.post(
   "/",
@@ -31,9 +30,9 @@ router.put(
   productCtl.update
 );
 router.delete("/:id", verifyToken, verifyAdmin, productCtl.delete);
+router.get("/total", verifyToken, verifyAdmin, productCtl.getTotalNumbProds);
 
 router.get("/search", productCtl.searchProducts);
-router.get("/total", verifyToken, verifyAdmin, productCtl.getTotalNumbProds);
 // router.post("/search", productCtl.searchProducts);
 // router.put("/search", productCtl.searchProducts);
 // router.delete("/search", productCtl.searchProducts);
@@ -65,4 +64,6 @@ router
     },
     wishlistController.delete
   );
+router.get("/:id", productCtl.getById);
+
 module.exports = router;

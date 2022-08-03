@@ -70,16 +70,6 @@ export default function Navbar() {
           <NavLink
             className="nav_bar_item"
             activeClassName="nav_bar_item_active"
-            to="/training"
-          >
-            <div className="nav_bar_item-icon">
-              <i className="fas fa-dumbbell"></i>
-            </div>
-            <div className="nav_bar_item-title">TRAINING</div>
-          </NavLink>
-          <NavLink
-            className="nav_bar_item"
-            activeClassName="nav_bar_item_active"
             to="/nutrition"
           >
             <div className="nav_bar_item-icon">
@@ -87,6 +77,17 @@ export default function Navbar() {
             </div>
             <div className="nav_bar_item-title">NUTRITION</div>
           </NavLink>
+          <NavLink
+            className="nav_bar_item"
+            activeClassName="nav_bar_item_active"
+            to="/training"
+          >
+            <div className="nav_bar_item-icon">
+              <i className="fas fa-dumbbell"></i>
+            </div>
+            <div className="nav_bar_item-title">TRAINING</div>
+          </NavLink>
+
           <NavLink
             className="nav_bar_item"
             activeClassName="nav_bar_item_active"
