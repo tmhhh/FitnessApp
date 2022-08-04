@@ -51,7 +51,6 @@ export default function ContextProvider({ children }) {
         payload: { isLoading: true, listFoods: [] },
       });
       setFoodName(params.foodName);
-      console.log(2222, filter, params)
       if (filter) {
         params = {
           ...filter,

@@ -64,9 +64,8 @@ export default function PostCrud({ postId }) {
           )}
           <div
             className="approve-section common-float"
-            style={{ backgroundColor: "black" }}
           >
-            <h2 style={{ fontWeight: "bold", color: "white" }}>
+            <h2 style={{ fontWeight: "bold" }}>
               Publish your post{" "}
               <i
                 className="fas fa-check-circle"

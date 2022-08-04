@@ -25,7 +25,6 @@ export default function CateSide() {
       setNewModal({ ...newModal, action: "add", isShown: true });
     else {
       updatedCateRef.current = listCate.find((cate) => cate._id === _id);
-      console.log({ updatedCateRef });
       setNewModal({ ...newModal, action: "update", isShown: true });
     }
   };
@@ -34,7 +33,6 @@ export default function CateSide() {
   };
 
   const handleAddCate = async (formData) => {
-    console.log({ formData });
     const cateFilterName = formData.cateFilter.split(",");
     const newCate = {
       cateName: formData.cateName,

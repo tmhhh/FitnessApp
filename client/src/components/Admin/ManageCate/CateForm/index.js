@@ -21,7 +21,6 @@ export default function CateForm(props) {
         return (cateFilter += e.filterName + ", ");
       return (cateFilter += e.filterName);
     });
-    console.log({ cateFilter });
     initialValues.cateName = updatedCateRef.cateName;
     initialValues.cateFilter = cateFilter;
   }

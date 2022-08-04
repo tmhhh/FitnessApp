@@ -14,7 +14,7 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import userApi from "../../../../api/userApi";
 import dishesPlaceholder from "../../../../assets/img/dishes-default.png";
 import { Context } from "../../../../contexts";
@@ -27,22 +27,25 @@ import "./style.scss";
 const { Text } = Typography;
 const { TabPane } = Tabs;
 
-const AddFoodButton = forwardRef(({ children, onClick, menu }, ref) => (
-  <Dropdown
-    overlayStyle={{ zIndex: 10000000 }}
-    overlay={menu}
-    trigger={["click"]}
-  >
-    <button
-      style={{ padding: 10 }}
-      type="button"
-      className="common-button common-button-blue"
-      ref={ref}
-    >
-      {children}
-    </button>
-  </Dropdown>
-));
+const AddFoodButton = forwardRef(({ children, onClick, menu, hidden }, ref) =>{
+  return (
+      <Dropdown
+          overlayStyle={{ zIndex: 10000000 }}
+          overlay={menu}
+          trigger={["click"]}
+      >
+        <button
+            style={{ padding: 10 }}
+            type="button"
+            className="common-button common-button-blue"
+            ref={ref}
+            hidden={hidden}
+        >
+          {children}
+        </button>
+      </Dropdown>
+  )
+});
 
 export default function FoodModal({
   handleCloseModal,
@@ -112,6 +115,8 @@ export default function FoodModal({
   const dispatch = useDispatch();
 
   const { nutriState, nutriSearchById } = useContext(Context);
+
+  const { userInfo } = useSelector((state) => state.authReducer);
 
   const [previousDish, setPreviousDish] = useState(null);
   const [entityData, setEntityData] = useState(foodData);
@@ -260,7 +265,7 @@ export default function FoodModal({
                       color: colors.black,
                     }}
                   >
-                    Dishes from this ingredient
+                    Dishes from this ingredient 🍱
                   </span>
                 )}
                 <Container>
@@ -516,7 +521,7 @@ export default function FoodModal({
             >
               Close
             </button>
-            <AddFoodButton menu={menu}>Add</AddFoodButton>
+            <AddFoodButton hidden={!userInfo._id} menu={menu}>Add</AddFoodButton>
           </Modal.Footer>
         </Modal>
       )}
