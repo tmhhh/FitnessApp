@@ -241,7 +241,7 @@ module.exports = {
         ...listUpdateProds,
       ]);
 
-      res.redirect(process.env.client_URL + "/checkout/success");
+      res.redirect("https://hht-fitness-app.netlify.app" + "/checkout/success");
     } catch (error) {
       console.log(error);
       return res

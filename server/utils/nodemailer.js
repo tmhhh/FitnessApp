@@ -14,8 +14,6 @@ const transporter = nodemailer.createTransport({
 module.exports = {
   testSendMail: async () => {
     try {
-      console.log(transporter);
-      console.log(process.env.SERVICE_EMAIL_ID);
       let info = await transporter.sendMail({
         from: "Fitness Shop", // sender address
         to: "tmhoangs1206@gmail.com", // list of receivers

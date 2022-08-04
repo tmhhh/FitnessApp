@@ -26,7 +26,7 @@ module.exports = {
       const deletedBill = await billModel.findOneAndDelete({
         "payment.id": id,
       });
-      res.redirect(process.env.client_URL + "/checkout/fail");
+      res.redirect("https://hht-fitness-app.netlify.app" + "/checkout/fail");
     } catch (error) {
       console.log(error);
     }
@@ -50,8 +50,12 @@ module.exports = {
       request.requestBody({
         intent: "CAPTURE",
         application_context: {
-          return_url: process.env.server_URL + "/checkout/paypal/capture",
-          cancel_url: process.env.server_URL + "/checkout/paypal/cancel",
+          return_url:
+            "https://apiserver-fitnessapp.herokuapp.com/api" +
+            "/checkout/paypal/capture",
+          cancel_url:
+            "https://apiserver-fitnessapp.herokuapp.com/api" +
+            "/checkout/paypal/cancel",
         },
         purchase_units: [
           {
@@ -225,7 +229,7 @@ module.exports = {
         ...listUpdateProds,
       ]);
 
-      res.redirect(process.env.client_URL + "/checkout/success");
+      res.redirect("https://hht-fitness-app.netlify.app" + "/checkout/success");
     } catch (error) {
       console.log(error);
       return res

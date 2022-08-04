@@ -14,7 +14,7 @@ router.get("/data", (req, res) => {
     if (req.user) {
       const accessToken = jwt.sign(
         { userID: req.user._id },
-        process.env.ACCESS_TOKEN_SECRET_KEY
+        "ASDASDASDADADAKLADSMKM"
       );
       const loginUser = req.user;
       // req.logOut();
@@ -41,7 +41,9 @@ passport.use(
       clientID:
         "276022586484-2s9ui1rmhqvc8a6csc05nn2vcnva453d.apps.googleusercontent.com",
       clientSecret: "VoKthWq43LJJ6mSd4jTU8pzO",
-      callbackURL: process.env.server_URL + "/auth/login/google/callback",
+      callbackURL:
+        "https://apiserver-fitnessapp.herokuapp.com/api" +
+        "/auth/login/google/callback",
       // "http://localhost:4000/api" + "/auth/login/google/callback",
     },
     async (accessToken, refreshToken, profile, cb) => {
@@ -120,13 +122,14 @@ passport.use(
     {
       clientID: "1061366784392713",
       clientSecret: "1518fc9d11dd2986c0d9d35febed8164",
-      callbackURL: process.env.server_URL + "/auth/login/fb/callback",
+      callbackURL:
+        "https://apiserver-fitnessapp.herokuapp.com/api" +
+        "/auth/login/fb/callback",
 
       profileFields: ["email", "displayName"],
     },
     async function (accessToken, refreshToken, profile, cb) {
       try {
-        console.log(process.env.server_URL + "/auth/login/fb/callback");
         const { name, picture, email } = profile._json;
         const foundUser = await userModel.findOne({
           userNameID: profile._json.email,

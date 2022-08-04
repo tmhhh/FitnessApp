@@ -103,7 +103,6 @@ export default function CheckoutModal({
           },
         }
       );
-      // console.log(shippingRes.data.data.total);
 
       formData.current = {
         ...formData.current,
