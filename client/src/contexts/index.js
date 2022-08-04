@@ -16,6 +16,8 @@ import NutritionReducer from "./reducers/NutritionReducer";
 export const Context = React.createContext();
 export default function ContextProvider({ children }) {
   const dispatch = useDispatch();
+  const [filter, setFilter] = useState(null);
+
 
   const [authForm, setAuthForm] = useState({
     type: "login",
@@ -49,6 +51,13 @@ export default function ContextProvider({ children }) {
         payload: { isLoading: true, listFoods: [] },
       });
       setFoodName(params.foodName);
+      console.log(2222, filter, params)
+      if (filter) {
+        params = {
+          ...filter,
+          ...params,
+        };
+      }
       const res = await axios.request(NUTRI_API_CONFIG(params, searchType));
       // console.log(res.data);
       nutriDispatch({
@@ -248,6 +257,7 @@ export default function ContextProvider({ children }) {
     handleRemoveFavorite,
     handleAddFavorite,
     getProducts,
+    setFilter,
   };
   return <Context.Provider value={contextData}>{children}</Context.Provider>;
 }

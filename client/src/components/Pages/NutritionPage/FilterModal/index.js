@@ -5,7 +5,7 @@ import SelectField from "../../../Common/SelectField";
 import {filterNutrition} from "../constants";
 import RangeField from "../../../Common/RangeField";
 
-export const FilterModal = ({visible, handleCancel, handleSaveFilter, searchType}) => {
+export const FilterModal = ({visible, handleCancel, handleSaveFilter, handleClearFilter, searchType}) => {
     const formRef = useRef();
 
     const handleSubmit = () => {
@@ -27,7 +27,7 @@ export const FilterModal = ({visible, handleCancel, handleSaveFilter, searchType
                         Cancel
                     </Button>,
                     <Button key="submit" type="primary" onClick={handleSubmit}>
-                        Save
+                        Filter
                     </Button>,
                 ]}
             >

@@ -112,6 +112,7 @@ export default function SelectField(props) {
         }}
         isMulti={isMulti}
         options={options}
+        isClearable={true}
       />
     );
   }

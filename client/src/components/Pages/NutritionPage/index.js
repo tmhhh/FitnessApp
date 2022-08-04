@@ -24,7 +24,7 @@ export default function NutritionPage() {
 
   const searchBarRef = useRef(null);
   const dispatch = useDispatch();
-  const { nutriState, nutriSearching, foodName, setFoodName } =
+  const { nutriState, nutriSearching, foodName, setFoodName, setFilter } =
     useContext(Context);
   const { userInfo, isAuthenticated, authLoading } = useSelector(
     (state) => state.authReducer
@@ -139,18 +139,31 @@ export default function NutritionPage() {
    * Handle Save Filter
    */
   const handleSaveFilter = (values) => {
-    nutriSearching(
-      {
-        health: values.health?.value,
-        category: values.category?.value,
-        calories: `${values.calories[0]}-${values.calories[1]}`,
-        diet: values.diet?.value,
-        cuisineType: values.cuisineType?.value,
-        foodName,
-      },
-      searchType
-    );
+    const filter = {
+      health: values.health?.value,
+      category: values.category?.value,
+      dishCalories: searchType === 'dish' ? `${values.calories[0]}-${values.calories[1]}` : null,
+      ingrCalories: searchType === 'dish' ? null :`${values.calories[0]}-${values.calories[1]}`,
+      diet: values.diet?.value,
+      cuisineType: values.cuisineType?.value,
+    };
+
+    setFilter(filter);
+
+    if (foodName) {
+      nutriSearching(
+        {
+          ...filter,
+          foodName,
+        },
+        searchType
+      );
+    }
   };
+
+  const handleClearFilter = () => {
+    setFilter(null);
+  }
 
   /**
    * Handle view dishes from ingredient
@@ -344,6 +357,7 @@ export default function NutritionPage() {
             visible={filterModal.isShown}
             handleCancel={handleCloseFilterModal}
             handleSaveFilter={handleSaveFilter}
+            handleClearFilter={handleClearFilter}
             searchType={searchType}
           />
         </div>
