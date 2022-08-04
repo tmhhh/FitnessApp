@@ -75,10 +75,12 @@ function PredictForm({
           .nullable()
           .min(0)
           .required("This field is required"),
+        gender: yup.number().nullable().required(),
       })}
       initialValues={{
         height: 186,
         weight: 75,
+        gender: 0,
         age: 22,
         neck: 40,
         biceps: 38,
@@ -123,7 +125,8 @@ function PredictForm({
         }
       }}
     >
-      {({ errors }) => {
+      {(formikProps) => {
+        console.log({ formikProps });
         return (
           <>
             <Divider type="horizontal" />
@@ -160,9 +163,24 @@ function PredictForm({
                           <Col span={12}>
                             <FastField {...item} component={item.component()} />
                           </Col>
-                          {item.name === "userAge" && (
-                            <Col span={12}>
-                              <Radio.Group name="userGender" defaultValue={0}>
+                          {item.name === "age" && (
+                            <Col
+                              span={12}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Radio.Group
+                                onChange={(e) =>
+                                  formikProps.setFieldValue(
+                                    "gender",
+                                    e.target.value
+                                  )
+                                }
+                                name="gender"
+                                defaultValue={0}
+                              >
                                 <Radio value={0}>Male</Radio>
                                 <Radio value={1}>Female</Radio>
                               </Radio.Group>
@@ -171,12 +189,27 @@ function PredictForm({
                         </Popover>
                       ) : (
                         <>
-                          <Col span={12}>
+                          <Col
+                            span={12}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
                             <FastField {...item} component={item.component()} />
                           </Col>
-                          {item.name === "userAge" && (
+                          {item.name === "age" && (
                             <Col span={12}>
-                              <Radio.Group name="userGender" defaultValue={0}>
+                              <Radio.Group
+                                onChange={(e) =>
+                                  formikProps.setFieldValue(
+                                    "gender",
+                                    e.target.value
+                                  )
+                                }
+                                name="gender"
+                                defaultValue={0}
+                              >
                                 <Radio value={0}>Male</Radio>
                                 <Radio value={1}>Female</Radio>
                               </Radio.Group>

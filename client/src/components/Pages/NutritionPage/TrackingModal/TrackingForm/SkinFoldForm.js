@@ -1,4 +1,13 @@
-import { Col, Collapse, Divider, Image, Popover, Row, Typography } from "antd";
+import {
+  Col,
+  Collapse,
+  Divider,
+  Image,
+  Popover,
+  Radio,
+  Row,
+  Typography,
+} from "antd";
 import { CLIENT_PUBLIC_URL } from "assets/constants";
 import { FastField, Form, Formik } from "formik";
 import { convertDataToHealthData } from "utils/calculate";
@@ -74,7 +83,7 @@ function SkinFoldForm({ formData, formRef, setActiveStep, activeStep }) {
         setActiveStep(activeStep + 1);
       }}
     >
-      {({ errors }) => {
+      {(formikProps) => {
         return (
           <Form>
             <Divider type="horizontal" />
@@ -120,11 +129,60 @@ function SkinFoldForm({ formData, formRef, setActiveStep, activeStep }) {
                           <Col span={12}>
                             <FastField {...item} component={item.component()} />
                           </Col>
+                          {item.name === "age" && (
+                            <Col
+                              span={12}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Radio.Group
+                                onChange={(e) =>
+                                  formikProps.setFieldValue(
+                                    "gender",
+                                    e.target.value
+                                  )
+                                }
+                                name="gender"
+                                defaultValue={0}
+                              >
+                                <Radio value={0}>Male</Radio>
+                                <Radio value={1}>Female</Radio>
+                              </Radio.Group>
+                            </Col>
+                          )}
                         </Popover>
                       ) : (
-                        <Col span={12}>
-                          <FastField {...item} component={item.component()} />
-                        </Col>
+                        <>
+                          <Col span={12}>
+                            <FastField {...item} component={item.component()} />
+                          </Col>
+                          {item.name === "age" && (
+                            <Col
+                              span={12}
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Radio.Group
+                                onChange={(e) =>
+                                  formikProps.setFieldValue(
+                                    "gender",
+                                    e.target.value
+                                  )
+                                }
+                                name="gender"
+                                defaultValue={0}
+                              >
+                                <Radio value={0}>Male</Radio>
+                                <Radio value={1}>Female</Radio>
+                              </Radio.Group>
+                            </Col>
+                          )}
+                        </>
                       );
                     })}
                   </Row>

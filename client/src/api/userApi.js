@@ -14,7 +14,6 @@ const userApi = {
     });
   },
   updateTrackingIno: (trackingInfo) => {
-    console.log({ trackingInfo });
     trackingInfo = {
       ...trackingInfo,
       isFilled: true,
