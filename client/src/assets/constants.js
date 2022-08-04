@@ -26,7 +26,7 @@ export const NUTRI_API_CONFIG = (params, searchType = null) => {
           health: params.health,
           cuisineType: params.cuisineType,
           mealType: params.mealType,
-          calories: params.calories,
+          calories: params.dishCalories,
           imageSize: "THUMBNAIL",
         },
       }
@@ -39,7 +39,7 @@ export const NUTRI_API_CONFIG = (params, searchType = null) => {
           ingr: params.foodName?.toString(),
           health: params.health,
           category: params.category,
-          calories: params.calories,
+          calories: params.ingrCalories,
         },
       };
 };
